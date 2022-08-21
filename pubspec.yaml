@@ -1,5 +1,11 @@
 name: expansion
-description: The game Expansion
+description: Space expansion
+
+# Bazium, OOO - 4PDR6LGKV9
+# com.bazium.app
+# space expansion
+# Apple ID 1640497483
+# flutter: 3.0.5
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -22,6 +28,7 @@ dependencies:
   shared_preferences: ^2.0.15  #https://pub.dev/packages/shared_preferences/install
   ocarina: ^0.1.2 #https://pub.dev/packages/ocarina
   flutter_launcher_icons: ^0.9.3 #https://pub.dev/packages/flutter_launcher_icons
+  
 
 dev_dependencies:
   flutter_test:
