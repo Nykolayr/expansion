@@ -5,7 +5,7 @@ description: Space expansion
 # com.bazium.app
 # space expansion
 # Apple ID 1640497483
-# flutter: 3.0.5
+# flutter: 3.3.0
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -13,22 +13,22 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: '>=2.18.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
   
   cupertino_icons: ^1.0.5 #https://pub.dev/packages/cupertino_icons
-  flutter_bloc: ^8.0.1 #https://pub.dev/packages/flutter_bloc
-  equatable: ^2.0.3 #https://pub.dev/packages/equatable
-  flutter_svg: ^1.1.0 #https://pub.dev/packages/flutter_svg
+  flutter_bloc: ^8.1.1 #https://pub.dev/packages/flutter_bloc
+  equatable: ^2.0.5 #https://pub.dev/packages/equatable
+  flutter_svg: ^1.1.4 #https://pub.dev/packages/flutter_svg
   easy_localization: ^3.0.1 #https://pub.dev/packages/easy_localization
-  flutter_native_splash: ^2.0.15 #https://pub.dev/packages/flutter_native_splash
+  flutter_native_splash: ^2.2.8 #https://pub.dev/packages/flutter_native_splash
   shared_preferences: ^2.0.15  #https://pub.dev/packages/shared_preferences/install
   ocarina: ^0.1.2 #https://pub.dev/packages/ocarina
-  flutter_launcher_icons: ^0.9.3 #https://pub.dev/packages/flutter_launcher_icons
-  routemaster: ^1.0.1 # https://pub.dev/packages/routemaster
+  flutter_launcher_icons: ^0.10.0 #https://pub.dev/packages/flutter_launcher_icons
+  go_router: ^4.3.0  #https://pub.dev/packages/go_router
   freezed_annotation: ^2.1.0
 
 
@@ -58,20 +58,15 @@ flutter_native_splash:
   background_image: "assets/splash.png"
   # color: "0D2D54"
 
-
 flutter:
-
   uses-material-design: true
-
-
-assets:
-  - assets
-  - assets/svg/
-  - assets/images/
-  - assets/fonts/
-  - assets/icons/
-  - assets/translations/
-  
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+    - assets/svg/
+    - assets/fonts/
+    - assets/translations/
 
 fonts:
   - family: KellySlab

@@ -1,12 +1,23 @@
 import 'package:expansion/ui/home/home_page.dart';
 import 'package:expansion/ui/settings/settings_page.dart';
 import 'package:flutter/material.dart';
-import 'package:routemaster/routemaster.dart';
+import 'package:go_router/go_router.dart';
 
-final routes = RouteMap(routes: {
-  '/': (_) => const CupertinoTabPage(
-        child: HomePage(),
-        paths: ['/settings'],
-      ),
-  '/settings': (_) => const MaterialPage(child: SettingsPage()),
-});
+final GoRouter router = GoRouter(
+  routes: <GoRoute>[
+    GoRoute(
+      name: 'home',
+      path: '/',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HomePage();
+      },
+      routes: [],
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SettingsPage();
+      },
+    ),
+  ],
+);

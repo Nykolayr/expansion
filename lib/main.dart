@@ -4,7 +4,6 @@ import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:routemaster/routemaster.dart';
 import 'dart:io';
 
 import 'utils/value.dart';
@@ -49,8 +48,9 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         theme: ThemeData(fontFamily: 'KellySlab'),
         home: MaterialApp.router(
-          routerDelegate: RoutemasterDelegate(routesBuilder: (_) => routes),
-          routeInformationParser: const RoutemasterParser(),
+          routeInformationProvider: router.routeInformationProvider,
+          routeInformationParser: router.routeInformationParser,
+          routerDelegate: router.routerDelegate,
         ));
   }
 }
