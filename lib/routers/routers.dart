@@ -1,6 +1,7 @@
 import 'package:expansion/ui/home/bloc/home_bloc.dart';
 import 'package:expansion/ui/home/home_page.dart';
 import 'package:expansion/ui/settings/settings_page.dart';
+import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ final GoRouter router = GoRouter(
         return RepositoryProvider(
           create: (context) => userRepository,
           child: BlocProvider(
-            create: (_) => HomeBloc(),
+            create: (_) => SplashBloc(),
             child: const SplashPage(),
           ),
         );
@@ -28,7 +29,10 @@ final GoRouter router = GoRouter(
       name: 'home',
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
-        return const HomePage();
+        return BlocProvider(
+          create: (_) => HomeBloc(),
+          child: const HomePage(),
+        );
       },
       routes: [],
     ),

@@ -4,7 +4,7 @@ import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
   User user = const User(
-    name: 'Новичек',
+    name: 'Гость',
   );
 
   UserRepository._();

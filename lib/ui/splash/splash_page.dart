@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/ui/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/text.dart';
+import 'bloc/splash_bloc.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -27,7 +27,8 @@ class _SplashPageState extends State<SplashPage> {
       //   preferredSize: Size.fromHeight(60.0),
       //   child: AppBarWithIcon(),
       // ),
-      body: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) async {
+      body: BlocConsumer<SplashBloc, SplashState>(
+          listener: (context, state) async {
         // if (state is SuccessHome) {
         //   Navigator.of(context).push(MaterialPageRoute(
         //       builder: (BuildContext context) => BlocProvider(
@@ -67,14 +68,28 @@ class _SplashPageState extends State<SplashPage> {
                 ],
               ),
             ),
-            // Center(
-            //   child: state.isLoading
-            //       ? const CircularProgressIndicator()
-            //       : const SizedBox.shrink(),
-            // ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Loader(state),
+            ),
           ],
         );
       }),
     );
+  }
+}
+
+class Loader extends StatefulWidget {
+  final SplashState state;
+  const Loader(this.state, {super.key});
+
+  @override
+  State<Loader> createState() => _LoaderState();
+}
+
+class _LoaderState extends State<Loader> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(height: 30, width: 120, color: Colors.yellow);
   }
 }
