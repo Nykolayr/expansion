@@ -1,6 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:expansion/ui/settings/bloc/settings_bloc.dart';
+import 'package:expansion/ui/settings/bloc/setting_bloc.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<SettingsBloc>();
+    context.watch<SettingBloc>();
     return Scaffold(
       // appBar: PreferredSize(
       //   preferredSize: const Size.fromHeight(60.0),
@@ -29,7 +29,7 @@ class _SettingsPageState extends State<SettingsPage> {
       //     isBack: true,
       //   ),
       // ),
-      body: BlocConsumer<SettingsBloc, SettingsState>(
+      body: BlocConsumer<SettingBloc, SettingState>(
           listener: (context, state) async {},
           builder: (context, state) {
             return Stack(

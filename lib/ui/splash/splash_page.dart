@@ -1,42 +1,29 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/text.dart';
 import 'bloc/splash_bloc.dart';
 
-class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
-
-  @override
-  State<SplashPage> createState() => _SplashPageState();
-}
-
-class _SplashPageState extends State<SplashPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class SplashPage extends StatelessWidget {
+  const SplashPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: const PreferredSize(
-      //   preferredSize: Size.fromHeight(60.0),
-      //   child: AppBarWithIcon(),
-      // ),
       body: BlocConsumer<SplashBloc, SplashState>(
           listener: (context, state) async {
-        // if (state is SuccessHome) {
-        //   Navigator.of(context).push(MaterialPageRoute(
-        //       builder: (BuildContext context) => BlocProvider(
-        //             create: (_) => ProjectBloc(),
-        //             child: const ProjectPage(),
-        //           )));
-        // }
+        if (state is SplashLoadSucsess) {}
+        if (state is SplashInitial) {
+          context.read<SplashBloc>().add(const LoadBegin());
+        }
       }, builder: (context, state) {
+        if (state is SplashInitial) {
+          context.read<SplashBloc>().add(const LoadBegin());
+        }
         return Stack(
           children: [
             SizedBox(
@@ -79,17 +66,48 @@ class _SplashPageState extends State<SplashPage> {
   }
 }
 
-class Loader extends StatefulWidget {
+class Loader extends StatelessWidget {
   final SplashState state;
-  const Loader(this.state, {super.key});
+  const Loader(this.state, {Key? key}) : super(key: key);
 
-  @override
-  State<Loader> createState() => _LoaderState();
-}
-
-class _LoaderState extends State<Loader> {
   @override
   Widget build(BuildContext context) {
-    return Container(height: 30, width: 120, color: Colors.yellow);
+    return SizedBox(
+      height: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            tr('load'),
+            style: AppText.baseText.copyWith(color: AppColor.white),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          Stack(
+            children: [
+              Container(
+                width: 220,
+                height: 18,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 2,
+                    color: AppColor.darkYeloow,
+                  ),
+                ),
+              ),
+              Container(
+                width: 220 - 220 * (state.count) / 100,
+                height: 18,
+                color: AppColor.darkYeloow,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 35,
+          ),
+        ],
+      ),
+    );
   }
 }

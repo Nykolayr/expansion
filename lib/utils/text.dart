@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppText {
   static const TextStyle baseText = TextStyle(
     color: AppColor.darkYeloow,
-    fontWeight: FontWeight.normal,
-    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    fontSize: 21,
   );
 }

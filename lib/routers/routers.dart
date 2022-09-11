@@ -1,5 +1,5 @@
-import 'package:expansion/ui/home/bloc/home_bloc.dart';
-import 'package:expansion/ui/home/home_page.dart';
+import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
+import 'package:expansion/ui/begin/home_page.dart';
 import 'package:expansion/ui/settings/settings_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
@@ -26,12 +26,12 @@ final GoRouter router = GoRouter(
       routes: [],
     ),
     GoRoute(
-      name: 'home',
-      path: '/home',
+      name: 'begin',
+      path: '/begin',
       builder: (BuildContext context, GoRouterState state) {
         return BlocProvider(
-          create: (_) => HomeBloc(),
-          child: const HomePage(),
+          create: (_) => BeginBloc(),
+          child: const BeginPage(),
         );
       },
       routes: [],

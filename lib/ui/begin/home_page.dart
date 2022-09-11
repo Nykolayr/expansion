@@ -1,17 +1,17 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'package:expansion/ui/home/bloc/home_bloc.dart';
+import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class BeginPage extends StatefulWidget {
+  const BeginPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<BeginPage> createState() => _BeginPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BeginPageState extends State<BeginPage> {
   @override
   void initState() {
     super.initState();
@@ -24,7 +24,8 @@ class _HomePageState extends State<HomePage> {
       //   preferredSize: Size.fromHeight(60.0),
       //   child: AppBarWithIcon(),
       // ),
-      body: BlocConsumer<HomeBloc, HomeState>(listener: (context, state) async {
+      body:
+          BlocConsumer<BeginBloc, BeginState>(listener: (context, state) async {
         // if (state is SuccessHome) {
         //   Navigator.of(context).push(MaterialPageRoute(
         //       builder: (BuildContext context) => BlocProvider(

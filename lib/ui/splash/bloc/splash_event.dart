@@ -1,6 +1,12 @@
 part of 'splash_bloc.dart';
 
-@freezed
-class SplashEvent with _$SplashEvent {
-  const factory SplashEvent.started() = _Started;
+abstract class SplashEvent extends Equatable {
+  const SplashEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class LoadBegin extends SplashEvent {
+  const LoadBegin();
 }
