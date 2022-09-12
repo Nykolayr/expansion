@@ -7,19 +7,19 @@ part 'splash_event.dart';
 part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
-  static const int _count = 100;
+  static const int _count = 98;
 
   SplashBloc() : super(const SplashInitial()) {
     on<LoadBegin>(_onStarted);
   }
 
   void _onStarted(LoadBegin event, Emitter<SplashState> emit) async {
-    for (int k = _count; k > 0; k -= 2) {
-      emit(SplashIsLoad(k));
+    for (int k = _count; k > 0; k--) {
+      // emit(SplashIsLoad(k));
+      emit(SplashIsLoad.copyWith(k));
       await Future.delayed(const Duration(
-        milliseconds: 100,
+        milliseconds: 250,
       ));
-      emit(SplashIsLoad2(k));
     }
     emit(const SplashLoadSucsess());
   }

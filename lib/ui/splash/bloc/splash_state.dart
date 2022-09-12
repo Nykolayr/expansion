@@ -5,7 +5,7 @@ abstract class SplashState extends Equatable {
   final int count;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [count];
 }
 
 class SplashInitial extends SplashState {
@@ -14,10 +14,9 @@ class SplashInitial extends SplashState {
 
 class SplashIsLoad extends SplashState {
   const SplashIsLoad(super.count);
-}
-
-class SplashIsLoad2 extends SplashState {
-  const SplashIsLoad2(super.count);
+  factory SplashIsLoad.copyWith(int count) {
+    return SplashIsLoad(count);
+  }
 }
 
 class SplashLoadSucsess extends SplashState {

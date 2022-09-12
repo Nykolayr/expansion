@@ -1,11 +1,11 @@
 name: expansion
 description: Space expansion
 
-# Bazium, OOO - 4PDR6LGKV9
-# com.bazium.app
+# 
+# 
 # space expansion
-# Apple ID 1640497483
-# flutter: 3.3.0
+# Apple ID 
+# flutter: 3.3.1
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
@@ -30,6 +30,7 @@ dependencies:
   go_router: ^4.3.0 #https://pub.dev/packages/go_router
   google_fonts: ^3.0.1 #https://pub.dev/packages/google_fonts
   freezed_annotation: ^2.1.0
+  animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
 
 dev_dependencies:
   flutter_test:

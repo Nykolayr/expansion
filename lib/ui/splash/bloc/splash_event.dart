@@ -10,3 +10,7 @@ abstract class SplashEvent extends Equatable {
 class LoadBegin extends SplashEvent {
   const LoadBegin();
 }
+
+class SplashEnd extends SplashEvent {
+  const SplashEnd();
+}

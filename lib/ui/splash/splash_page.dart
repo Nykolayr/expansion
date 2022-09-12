@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -21,9 +22,6 @@ class SplashPage extends StatelessWidget {
           context.read<SplashBloc>().add(const LoadBegin());
         }
       }, builder: (context, state) {
-        if (state is SplashInitial) {
-          context.read<SplashBloc>().add(const LoadBegin());
-        }
         return Stack(
           children: [
             SizedBox(
@@ -73,10 +71,38 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 1000,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          AnimatedContainer(
+            curve: Curves.fastOutSlowIn,
+            width:
+                (state.count > 96) ? 0 : MediaQuery.of(context).size.width - 20,
+            duration: const Duration(seconds: 2),
+            child: Card(
+              elevation: 10,
+              color: AppColor.darkBlue,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(color: AppColor.darkYeloow, width: 2),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
+              child: Container(
+                  height: (state.count > 83) ? 55 : null,
+                  padding: const EdgeInsets.all(15),
+                  child: (state.count > 83)
+                      ? const SizedBox.shrink()
+                      : AnimatedTextKit(
+                          totalRepeatCount: 1,
+                          animatedTexts: [
+                            TyperAnimatedText(tr('pretext'),
+                                textStyle: AppText.baseText.copyWith(
+                                    fontSize: 20, color: AppColor.white)),
+                          ],
+                        )),
+            ),
+          ),
           Text(
             tr('load'),
             style: AppText.baseText.copyWith(color: AppColor.white),

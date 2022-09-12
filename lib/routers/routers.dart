@@ -18,7 +18,7 @@ final GoRouter router = GoRouter(
         return RepositoryProvider(
           create: (context) => userRepository,
           child: BlocProvider(
-            create: (_) => SplashBloc(),
+            create: (_) => SplashBloc()..add(const LoadBegin()),
             child: const SplashPage(),
           ),
         );
