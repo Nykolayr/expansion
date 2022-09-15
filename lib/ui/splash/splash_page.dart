@@ -17,9 +17,8 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       body: BlocConsumer<SplashBloc, SplashState>(
           listener: (context, state) async {
-        if (state is SplashLoadSucsess) {}
-        if (state is SplashInitial) {
-          context.read<SplashBloc>().add(const LoadBegin());
+        if (state is SplashLoadSucsess) {
+          context.read<SplashBloc>().add(const SplashEnd());
         }
       }, builder: (context, state) {
         return Stack(
@@ -77,8 +76,9 @@ class Loader extends StatelessWidget {
         children: [
           AnimatedContainer(
             curve: Curves.fastOutSlowIn,
-            width:
-                (state.count > 96) ? 0 : MediaQuery.of(context).size.width - 20,
+            width: (state.count > 96 || state is SplashLoadSucsess)
+                ? 0
+                : MediaQuery.of(context).size.width - 20,
             duration: const Duration(seconds: 2),
             child: Card(
               elevation: 10,
@@ -89,9 +89,13 @@ class Loader extends StatelessWidget {
               ),
               margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
               child: Container(
-                  height: (state.count > 83) ? 55 : null,
+                  height: (state.count > 83)
+                      ? 55
+                      : (state is SplashLoadSucsess)
+                          ? MediaQuery.of(context).size.height / 2
+                          : null,
                   padding: const EdgeInsets.all(15),
-                  child: (state.count > 83)
+                  child: (state.count > 83 || (state is SplashLoadSucsess))
                       ? const SizedBox.shrink()
                       : AnimatedTextKit(
                           totalRepeatCount: 1,

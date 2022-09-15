@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
@@ -11,6 +13,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
 
   SplashBloc() : super(const SplashInitial()) {
     on<LoadBegin>(_onStarted);
+    on<SplashEnd>(onEndSplash);
   }
 
   void _onStarted(LoadBegin event, Emitter<SplashState> emit) async {
@@ -22,5 +25,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       ));
     }
     emit(const SplashLoadSucsess());
+  }
+
+  void onEndSplash(SplashEnd event, Emitter<SplashState> emit) async {
+
+    
   }
 }
