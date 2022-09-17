@@ -27,8 +27,5 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     emit(const SplashLoadSucsess());
   }
 
-  void onEndSplash(SplashEnd event, Emitter<SplashState> emit) async {
-
-    
-  }
+  void onEndSplash(SplashEnd event, Emitter<SplashState> emit) async {}
 }
