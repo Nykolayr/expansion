@@ -9,8 +9,8 @@ class LineButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = MediaQuery.of(context).size.width / 3;
-    double height = widht / 4;
+    double widht = MediaQuery.of(context).size.width / 3 - 6;
+    double height = widht / 3 + 10;
     return Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,

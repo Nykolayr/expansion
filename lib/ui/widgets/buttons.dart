@@ -3,7 +3,6 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'dart:math' as math;
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;
@@ -13,56 +12,43 @@ class ButtonSide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double widht = MediaQuery.of(context).size.width / 3;
-    double height = widht / 4;
+    double height = widht / 3 ;
     String text = title;
     if (text.isEmpty) text = direct.title;
     return GestureDetector(
       onTap: direct.pressButton,
-      child: Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.rotationY(direct.isLeft ? 0 : math.pi),
-        child: SizedBox(
-          width: widht,
-          height: height,
-          child: Center(
-            child: Stack(
-              children: [
-                SvgPicture.asset(
-                  direct.puthOut,
-                  width: widht,
-                  height: height,
+      child: SizedBox(
+        width: widht,
+        height: height,
+        child: Center(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: SvgPicture.asset(
+                  direct.puthIn,
+                  fit: BoxFit.fill,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: direct.paddingLeft / 2,
-                    vertical: 7,
-                  ),
-                  child: SvgPicture.asset(
-                    direct.puthIn,
-                    width: widht - 20,
-                    fit: BoxFit.fitWidth,
-                  ),
+              ),
+              Container(
+                width: widht,
+                height: height,
+                padding: EdgeInsets.only(
+                  left: direct.paddingText,
+                  right: direct.isLeft ? 8 : 0,
                 ),
-                Transform(
+                child: Align(
                   alignment: Alignment.center,
-                  transform: Matrix4.rotationY(direct.isLeft ? 0 : math.pi),
-                  child: Container(
-                    width: widht - 20,
-                    padding: EdgeInsets.only(
-                      left: direct.paddingText,
-                      top: 8,
-                    ),
-                    child: Text(
-                      text,
-                      style: AppText.baseText.copyWith(
-                        fontSize: 15,
-                        color: direct.colorText,
-                      ),
+                  child: Text(
+                    text,
+                    style: AppText.baseText.copyWith(
+                      fontSize: 15,
+                      color: direct.colorText,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -94,11 +80,13 @@ extension DirectExtention on Direct {
   String get puthIn {
     switch (this) {
       case Direct.leftBottom:
-      case Direct.rightBottom:
         return 'assets/svg/bottom_in.svg';
+      case Direct.rightBottom:
+        return 'assets/svg/bottom_right_in.svg';
       case Direct.leftTop:
-      case Direct.rightTop:
         return 'assets/svg/top_in.svg';
+      case Direct.rightTop:
+        return 'assets/svg/top_right_in.svg';
       case Direct.meddleBottom:
         return 'assets/svg/bottom_middle_in.svg';
       case Direct.meddleTop:
@@ -108,44 +96,16 @@ extension DirectExtention on Direct {
     }
   }
 
-  double get paddingLeft {
-    switch (this) {
-      case Direct.leftBottom:
-      case Direct.leftTop:
-      case Direct.rightTop:
-      case Direct.rightBottom:
-        return 12;
-      default:
-        return 24;
-    }
-  }
-
   double get paddingText {
     switch (this) {
       case Direct.leftBottom:
       case Direct.leftTop:
+        return 2;
       case Direct.rightTop:
       case Direct.rightBottom:
-        return 14;
+        return 4;
       default:
-        return 8;
-    }
-  }
-
-  String get puthOut {
-    switch (this) {
-      case Direct.leftBottom:
-      case Direct.rightBottom:
-        return 'assets/svg/bottom_out.svg';
-      case Direct.leftTop:
-      case Direct.rightTop:
-        return 'assets/svg/top_out.svg';
-      case Direct.meddleBottom:
-        return 'assets/svg/bottom_middle_out.svg';
-      case Direct.meddleTop:
-        return 'assets/svg/top_middle_out.svg';
-      default:
-        return '';
+        return 0;
     }
   }
 

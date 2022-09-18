@@ -41,8 +41,14 @@ class SplashPage extends StatelessWidget {
                     height: 100,
                   ),
                   const LineButtons(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const LineButtons(
                     isTop: false,
+                  ),
+                  const SizedBox(
+                    height: 20,
                   ),
                   Text(
                     tr("space"),
