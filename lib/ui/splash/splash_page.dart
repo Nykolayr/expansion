@@ -3,6 +3,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
+import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,20 +38,11 @@ class SplashPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 10,
-                  ),
-                  ButtonSide(tr("profile")),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ButtonSide(
-                    tr(
-                      "profile",
-                    ),
-                    isUp: false,
-                  ),
-                  const SizedBox(
                     height: 100,
+                  ),
+                  const LineButtons(),
+                  const LineButtons(
+                    isTop: false,
                   ),
                   Text(
                     tr("space"),
