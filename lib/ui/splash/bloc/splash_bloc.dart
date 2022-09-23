@@ -21,7 +21,8 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       // emit(SplashIsLoad(k));
       emit(SplashIsLoad.copyWith(k));
       await Future.delayed(const Duration(
-        milliseconds: 250,
+        // milliseconds: 250,
+        milliseconds: 20,
       ));
     }
     emit(const SplashLoadSucsess());

@@ -6,6 +6,7 @@ import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:ui' as ui;
 
 import 'utils/value.dart';
 
@@ -45,6 +46,17 @@ class MyApp extends StatelessWidget {
         canvasColor: AppColor.darkBlue,
         textTheme: GoogleFonts.kellySlabTextTheme(),
       ),
+      builder: (context, child) {
+        final mq = MediaQuery.of(context);
+        double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
+        return Directionality(
+          textDirection: ui.TextDirection.ltr,
+          child: MediaQuery(
+            data: mq.copyWith(textScaleFactor: fontScale),
+            child: child!,
+          ),
+        );
+      },
     );
   }
 }

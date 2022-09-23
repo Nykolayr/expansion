@@ -14,10 +14,10 @@ class LineButtons extends StatelessWidget {
     return Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
-          vertical: 30,
+          vertical: 20,
         ),
         height: height,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width - 30,
         child: Stack(
           children: isTop
               ? [

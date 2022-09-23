@@ -1,29 +1,49 @@
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/home_page.dart';
-import 'package:expansion/ui/settings/settings_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
+import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
+import 'package:expansion/ui/splash/sub/settings/settings_page.dart';
+import 'package:expansion/utils/function.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/',
+  // initialLocation: '/',
   routes: <GoRoute>[
     GoRoute(
       name: 'splash',
       path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return RepositoryProvider(
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        type: PageTransitionType.topToBottom,
+        context: context,
+        state: state,
+        child: RepositoryProvider(
           create: (context) => userRepository,
           child: BlocProvider(
             create: (_) => SplashBloc()..add(const LoadBegin()),
             child: const SplashPage(),
           ),
-        );
-      },
-      routes: [],
+        ),
+      ),
+      routes: [
+        GoRoute(
+          name: 'settings',
+          path: 'settings',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.topToBottom,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => SettingBloc(),
+              child: const SettingsPage(),
+            ),
+          ),
+        ),
+      ],
     ),
     GoRoute(
       name: 'begin',
@@ -35,12 +55,6 @@ final GoRouter router = GoRouter(
         );
       },
       routes: [],
-    ),
-    GoRoute(
-      path: '/settings',
-      builder: (BuildContext context, GoRouterState state) {
-        return const SettingsPage();
-      },
     ),
   ],
 );

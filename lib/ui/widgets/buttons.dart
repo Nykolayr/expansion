@@ -3,20 +3,23 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;
-  final String title;
-  const ButtonSide(this.direct, {this.title = '', Key? key}) : super(key: key);
+  final String? title;
+  final Function()? function;
+  const ButtonSide(this.direct, {this.function, this.title, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double widht = MediaQuery.of(context).size.width / 3;
-    double height = widht / 3 ;
-    String text = title;
-    if (text.isEmpty) text = direct.title;
+    double height = widht / 3;
+    String text = title ?? direct.title;
+    Function()? fun = function ?? () => context.go(direct.router);
     return GestureDetector(
-      onTap: direct.pressButton,
+      onTap: fun,
       child: SizedBox(
         width: widht,
         height: height,
@@ -119,36 +122,22 @@ extension DirectExtention on Direct {
     }
   }
 
-  Function() get pressButton {
+  String get router {
     switch (this) {
       case Direct.leftBottom:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       case Direct.rightBottom:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       case Direct.leftTop:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       case Direct.rightTop:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       case Direct.meddleBottom:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       case Direct.meddleTop:
-        return () {
-          print('object == $name');
-        };
+        return '/settings';
       default:
-        return () {
-          print('object == default');
-        };
+        return '/settings';
     }
   }
 

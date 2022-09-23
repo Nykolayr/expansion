@@ -2,7 +2,6 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -20,55 +19,76 @@ class SplashPage extends StatelessWidget {
       body: BlocConsumer<SplashBloc, SplashState>(
           listener: (context, state) async {
         if (state is SplashLoadSucsess) {
-          context.read<SplashBloc>().add(const SplashEnd());
+          // context.read<SplashBloc>().add(const SplashEnd());
         }
       }, builder: (context, state) {
-        return Stack(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                'assets/splash.png',
-                fit: BoxFit
-                    .fill, // I thought this would fill up my Container but it doesn't
+        double widht = MediaQuery.of(context).size.width / 3 - 6;
+        double height = widht / 3 + 10;
+        return Scaffold(
+          body: Stack(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height,
+                child: Image.asset(
+                  'assets/splash.png',
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 100,
-                  ),
-                  const LineButtons(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const LineButtons(
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                      duration: const Duration(seconds: 2),
+                      child: const LineButtons(),
+                    ),
+                    AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      height: (state is SplashLoadSucsess) ? 0 : height + 40,
+                      duration: const Duration(seconds: 2),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      tr("space"),
+                      style: AppText.baseText.copyWith(fontSize: 42),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      tr("EXPANSION"),
+                      style: AppText.baseText.copyWith(fontSize: 52),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: (state is SplashLoadSucsess)
+                    ? const SizedBox.shrink()
+                    : Loader(state),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                  width: MediaQuery.of(context).size.width,
+                  duration: const Duration(seconds: 2),
+                  child: const LineButtons(
                     isTop: false,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    tr("space"),
-                    style: AppText.baseText.copyWith(fontSize: 42),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    tr("EXPANSION"),
-                    style: AppText.baseText.copyWith(fontSize: 52),
-                  ),
-                ],
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Loader(state),
-            ),
-          ],
+            ],
+          ),
         );
       }),
     );
