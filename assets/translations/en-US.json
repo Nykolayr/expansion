@@ -8,5 +8,21 @@
     "progress": "Progress",
     "new_game": "New game",
     "upgrades": "Upgrades",
-    "сontinue": "Continue"
+    "сontinue": "Continue",
+    "politica": "Privacy policy",
+    "music": "Music",
+    "sound": "Sound",
+    "un_turn": "turned off",
+    "un_turn2": "turned off",
+    "turn": "turned on",
+    "turn2": "turned on",
+    "what_data": "How does your data make the game better?",
+    "part1": "Let us better understand what to do next for the game so that everyone can get the best experience",
+    "part2": "Detects when a specific user encounters problems in our game and allows us to quickly solve their problems",
+    "part3": "Provide more relevant advertising",
+    "if_use": "Terms of Use of the Privacy Policy",
+    "good": "Good",
+    "lang": "Language",
+    "russian": "Russian",
+    "english": "English"
     }

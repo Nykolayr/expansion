@@ -9,8 +9,8 @@ class LineButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = MediaQuery.of(context).size.width / 3 - 6;
-    double height = widht / 3 + 10;
+    final double widht = MediaQuery.of(context).size.width / 3 - 6;
+    final double height = widht / 3 + 10;
     return Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
@@ -61,5 +61,47 @@ class LineButtons extends StatelessWidget {
                   ),
                 ],
         ));
+  }
+}
+
+class LineMenu extends StatelessWidget {
+  final String title1;
+  final String title2;
+
+  const LineMenu(this.title1, this.title2, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double widht = (MediaQuery.of(context).size.width - 45) / 2 - 12;
+    return Stack(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            width: widht,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: ButtonSide(
+                Direct.leftTop,
+                title: title1,
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
+            width: widht,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: ButtonSide(
+                Direct.rightBottom,
+                title: title2,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

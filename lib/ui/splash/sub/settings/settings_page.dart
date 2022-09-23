@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.symmetric(
                     vertical: 75,
-                    horizontal: 15,
+                    horizontal: 45,
                   ),
                   child: Column(
                     children: [
@@ -54,8 +55,17 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 50,
+                        height: 70,
                       ),
+                      LineMenu(tr('music'), tr('turn')),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      LineMenu(tr('sound'), tr('turn')),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      LineMenu(tr('lang'), tr('Русский')),
                     ],
                   ),
                 );
