@@ -67,8 +67,10 @@ class LineButtons extends StatelessWidget {
 class LineMenu extends StatelessWidget {
   final String title1;
   final String title2;
+  final Function() click;
 
-  const LineMenu(this.title1, this.title2, {Key? key}) : super(key: key);
+  const LineMenu(this.title1, this.title2, this.click, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +85,7 @@ class LineMenu extends StatelessWidget {
               fit: BoxFit.fill,
               child: ButtonSide(
                 Direct.leftTop,
+                function: () {},
                 title: title1,
               ),
             ),
@@ -96,6 +99,7 @@ class LineMenu extends StatelessWidget {
               fit: BoxFit.fill,
               child: ButtonSide(
                 Direct.rightBottom,
+                function: click,
                 title: title2,
               ),
             ),

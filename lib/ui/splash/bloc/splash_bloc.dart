@@ -16,12 +16,10 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     on<SplashEnd>(onEndSplash);
   }
 
-  void _onStarted(LoadBegin event, Emitter<SplashState> emit) async {
+  _onStarted(LoadBegin event, Emitter<SplashState> emit) async {
     for (int k = _count; k > 0; k--) {
-      // emit(SplashIsLoad(k));
       emit(SplashIsLoad.copyWith(k));
       await Future.delayed(const Duration(
-        // milliseconds: 250,
         milliseconds: 20,
       ));
     }

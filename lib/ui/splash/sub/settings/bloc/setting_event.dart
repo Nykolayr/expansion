@@ -6,3 +6,5 @@ abstract class SettingEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ChangeSound extends SettingEvent {}

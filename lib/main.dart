@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/models/user/setting/settings.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
@@ -14,13 +15,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   userRepository = await UserRepository.create();
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en', 'US'),
-      startLocale: Locale(
-          Platform.localeName.split('_')[0], Platform.localeName.split('_')[1]),
+      startLocale: userRepository.settings.lang.locale,
       child: const MyApp(),
     ),
   );
