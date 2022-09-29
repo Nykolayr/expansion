@@ -22,6 +22,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get name => throw _privateConstructorUsedError;
   int get step => throw _privateConstructorUsedError;
+  bool get isBegin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -32,7 +33,7 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
-  $Res call({String name, int step});
+  $Res call({String name, int step, bool isBegin});
 }
 
 /// @nodoc
@@ -47,6 +48,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   $Res call({
     Object? name = freezed,
     Object? step = freezed,
+    Object? isBegin = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -57,6 +59,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
               as int,
+      isBegin: isBegin == freezed
+          ? _value.isBegin
+          : isBegin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -66,7 +72,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$_UserCopyWith(_$_User value, $Res Function(_$_User) then) =
       __$$_UserCopyWithImpl<$Res>;
   @override
-  $Res call({String name, int step});
+  $Res call({String name, int step, bool isBegin});
 }
 
 /// @nodoc
@@ -82,6 +88,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? step = freezed,
+    Object? isBegin = freezed,
   }) {
     return _then(_$_User(
       name: name == freezed
@@ -92,6 +99,10 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
               as int,
+      isBegin: isBegin == freezed
+          ? _value.isBegin
+          : isBegin // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -99,7 +110,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_User implements _User {
-  const _$_User({required this.name, this.step = 0});
+  const _$_User({required this.name, this.step = 0, this.isBegin = true});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -108,10 +119,13 @@ class _$_User implements _User {
   @override
   @JsonKey()
   final int step;
+  @override
+  @JsonKey()
+  final bool isBegin;
 
   @override
   String toString() {
-    return 'User(name: $name, step: $step)';
+    return 'User(name: $name, step: $step, isBegin: $isBegin)';
   }
 
   @override
@@ -120,7 +134,8 @@ class _$_User implements _User {
         (other.runtimeType == runtimeType &&
             other is _$_User &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.step, step));
+            const DeepCollectionEquality().equals(other.step, step) &&
+            const DeepCollectionEquality().equals(other.isBegin, isBegin));
   }
 
   @JsonKey(ignore: true)
@@ -128,7 +143,8 @@ class _$_User implements _User {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(step));
+      const DeepCollectionEquality().hash(step),
+      const DeepCollectionEquality().hash(isBegin));
 
   @JsonKey(ignore: true)
   @override
@@ -144,7 +160,10 @@ class _$_User implements _User {
 }
 
 abstract class _User implements User {
-  const factory _User({required final String name, final int step}) = _$_User;
+  const factory _User(
+      {required final String name,
+      final int step,
+      final bool isBegin}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -152,6 +171,8 @@ abstract class _User implements User {
   String get name;
   @override
   int get step;
+  @override
+  bool get isBegin;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

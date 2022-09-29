@@ -7,6 +7,7 @@ class User with _$User {
   const factory User({
     required String name,
     @Default(0) int step,
+    @Default(true) bool isBegin,
   }) = _User;
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

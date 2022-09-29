@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:expansion/data/local_data.dart';
-import 'package:expansion/domain/models/user/setting/settings.dart';
+import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
@@ -14,7 +14,6 @@ class UserRepository {
   static Future<UserRepository> create() async {
     late UserRepository userRepository;
     String? data = await LocalData().loadJson();
-    print('object - $data');
     if (data != '{}' && data != '') {
       userRepository = UserRepository.fromJson(jsonDecode(data!));
     } else {

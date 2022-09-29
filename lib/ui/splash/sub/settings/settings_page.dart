@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/models/user/setting/settings.dart';
+import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';

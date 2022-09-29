@@ -1,4 +1,4 @@
-import 'package:expansion/domain/repository/user_repository.dart';
+import 'package:expansion/domain/models/repository/user_repository.dart';
 
 late UserRepository userRepository;
 
