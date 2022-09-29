@@ -2,7 +2,9 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/user/setting/settings.dart';
+import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
+import 'package:expansion/ui/widgets/messages.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -75,14 +77,66 @@ class SettingsPage extends StatelessWidget {
                       const SizedBox(
                         height: 40,
                       ),
-                      LineMenu(tr('lang'),
-                          userRepository.settings.lang.nameMenu, () {}),
+                      LineMenu(
+                          tr('lang'), userRepository.settings.lang.nameMenu,
+                          () {
+                        showModalBottom(
+                          context,
+                          ChooseLang(context),
+                        );
+                      }),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      ButtonLong(
+                        title: tr('politica'),
+                        function: () => showPolitic(context),
+                      ),
                     ],
                   ),
                 );
               }),
         ],
       ),
+    );
+  }
+}
+
+class ChooseLang extends StatelessWidget {
+  final BuildContext context;
+  const ChooseLang(this.context, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context2) {
+    return Column(
+      children: [
+        Text(
+          tr('choose_lang'),
+          style: AppText.baseTitle,
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        ButtonLong(
+          title: userRepository.settings.lang.nameSelectRu,
+          function: () {
+            Navigator.of(context).pop();
+            context.setLocale(Lang.ru.locale);
+            context.read<SettingBloc>().add(const ChangeLang(Lang.ru));
+          },
+        ),
+        const SizedBox(
+          height: 25,
+        ),
+        ButtonLong(
+          title: userRepository.settings.lang.nameSelectEng,
+          function: () {
+            Navigator.of(context).pop();
+            context.setLocale(Lang.en.locale);
+            context.read<SettingBloc>().add(const ChangeLang(Lang.en));
+          },
+        ),
+      ],
     );
   }
 }

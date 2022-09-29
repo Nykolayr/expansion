@@ -59,6 +59,56 @@ class ButtonSide extends StatelessWidget {
   }
 }
 
+class ButtonLong extends StatelessWidget {
+  final String title;
+  final Function() function;
+  const ButtonLong({required this.function, required this.title, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double widht = MediaQuery.of(context).size.width - 90;
+    // double height = widht / 3;
+    return GestureDetector(
+      onTap: function,
+      child: SizedBox(
+        width: widht,
+        // height: height,
+        child: Center(
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: SvgPicture.asset(
+                  'assets/svg/bottom_long.svg',
+                  width: widht,
+                ),
+              ),
+              Container(
+                width: widht,
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  right: 8,
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: AppText.baseText.copyWith(
+                      fontSize: 16,
+                      color: AppColor.darkYeloow,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 enum Direct {
   leftTop,
   leftBottom,

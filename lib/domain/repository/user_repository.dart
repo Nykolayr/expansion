@@ -50,4 +50,9 @@ class UserRepository {
   saveUser() {
     LocalData().saveJson(toJson());
   }
+
+  setLang(Lang lang) {
+    settings = settings.copyWith(lang: lang);
+    saveUser();
+  }
 }

@@ -8,3 +8,8 @@ abstract class SettingEvent extends Equatable {
 }
 
 class ChangeSound extends SettingEvent {}
+
+class ChangeLang extends SettingEvent {
+  final Lang lang;
+  const ChangeLang(this.lang);
+}

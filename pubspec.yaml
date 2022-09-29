@@ -32,6 +32,7 @@ dependencies:
   freezed_annotation: ^2.1.0
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
   page_transition: ^2.0.9 #https://pub.dev/packages/page_transition
+  url_launcher: ^6.1.5 #https://pub.dev/packages/url_launcher
 
 
 dev_dependencies:

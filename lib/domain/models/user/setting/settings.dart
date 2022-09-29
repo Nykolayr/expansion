@@ -25,7 +25,7 @@ extension LangExtention on Lang {
       case Lang.ru:
         return const Locale('ru', 'RU');
       case Lang.en:
-        return const Locale('ru', 'RU');
+        return const Locale('en', 'US');
     }
   }
 
