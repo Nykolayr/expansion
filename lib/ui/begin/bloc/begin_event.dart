@@ -6,3 +6,15 @@ abstract class BeginEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ChangeLevel extends BeginEvent {
+  final Level level;
+  const ChangeLevel(this.level);
+}
+
+class ChangeUniver extends BeginEvent {
+  final Univer univer;
+  const ChangeUniver(this.univer);
+}
+
+class ChangeHint extends BeginEvent {}

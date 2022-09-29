@@ -26,5 +26,17 @@
     "russian": "Русский",
     "english": "Английский",
     "english_ru": "English",
-    "choose_lang": "Выберите язык"
-         }
+    "choose_lang": "Выберите язык",
+    "choose_level": "Выберите уровень",
+    "choose_univer": "Выберите вселенную",
+    "begin_game": "Начать новую игру",
+    "level": "Уровень",
+    "easy": "Легкий",
+    "average": "Средний",
+    "difficult": "Сложный",
+    "hint": "Подсказка",
+    "universe": "Вселенная",
+    "classic": "Классическая",
+    "generated": "Генерируемая",
+    "save_humanity": "Спасти человечество!"
+   }

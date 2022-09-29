@@ -62,18 +62,24 @@ class ButtonSide extends StatelessWidget {
 class ButtonLong extends StatelessWidget {
   final String title;
   final Function() function;
-  const ButtonLong({required this.function, required this.title, Key? key})
+  final bool isWidth;
+  const ButtonLong(
+      {required this.function,
+      required this.title,
+      this.isWidth = false,
+      Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double widht = MediaQuery.of(context).size.width - 90;
-    // double height = widht / 3;
+    double widht = MediaQuery.of(context).size.width - 90;
+    if (isWidth) {
+      widht = widht + 60;
+    }
     return GestureDetector(
       onTap: function,
       child: SizedBox(
         width: widht,
-        // height: height,
         child: Center(
           child: Stack(
             children: [
@@ -82,20 +88,21 @@ class ButtonLong extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/svg/bottom_long.svg',
                   width: widht,
+                  fit: BoxFit.fitWidth,
                 ),
               ),
               Container(
                 width: widht,
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  right: 8,
+                padding: EdgeInsets.only(
+                  top: isWidth ? 0 : 10,
+                  right: isWidth ? 0 : 8,
                 ),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
                     title,
                     style: AppText.baseText.copyWith(
-                      fontSize: 16,
+                      fontSize: isWidth ? 20 : 16,
                       color: AppColor.darkYeloow,
                     ),
                   ),

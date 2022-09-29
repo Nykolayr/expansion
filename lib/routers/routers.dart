@@ -1,12 +1,11 @@
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
-import 'package:expansion/ui/begin/home_page.dart';
+import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
 import 'package:expansion/ui/splash/sub/settings/settings_page.dart';
 import 'package:expansion/utils/function.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
@@ -46,15 +45,30 @@ final GoRouter router = GoRouter(
       ],
     ),
     GoRoute(
-      name: 'begin',
-      path: '/begin',
-      builder: (BuildContext context, GoRouterState state) {
-        return BlocProvider(
+      name: 'new game',
+      path: '/new_game',
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        type: PageTransitionType.rightToLeft,
+        context: context,
+        state: state,
+        child: BlocProvider(
           create: (_) => BeginBloc(),
           child: const BeginPage(),
-        );
-      },
-      routes: [],
+        ),
+      ),
+    ),
+    GoRoute(
+      name: 'game',
+      path: '/game',
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        type: PageTransitionType.rightToLeft,
+        context: context,
+        state: state,
+        child: BlocProvider(
+          create: (_) => BeginBloc(),
+          child: const BeginPage(),
+        ),
+      ),
     ),
   ],
 );

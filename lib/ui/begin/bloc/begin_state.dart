@@ -8,3 +8,5 @@ abstract class BeginState extends Equatable {
 }
 
 class BeginInitial extends BeginState {}
+
+class BeginChange extends BeginState {}

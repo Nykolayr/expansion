@@ -26,5 +26,18 @@
     "russian": "Russian",
     "english": "English",
     "russian_en": "Русский",
-    "choose_lang": "Select a language"
+    "choose_lang": "Select language",
+    "choose_level": "Select level",
+    "choose_univer": "Choose universe",
+    "begin_game": "Start a new game",
+    "level": "Level",
+    "easy": "Easy",
+    "average": "Average",
+    "difficult": "Difficult",
+    "hint": "Hint",
+    "universe": "Universe",
+    "classic": "Classic",
+    "generated": "Generated",
+    "save_humanity": "Save humanity!"
+
     }

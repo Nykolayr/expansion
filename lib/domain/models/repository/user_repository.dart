@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:expansion/data/local_data.dart';
+import 'package:expansion/domain/models/game/game.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
@@ -9,6 +10,7 @@ class UserRepository {
     name: 'Гость',
   );
   Settings settings = const Settings();
+  Game game = const Game();
   UserRepository._();
 
   static Future<UserRepository> create() async {
@@ -39,11 +41,13 @@ class UserRepository {
 
   UserRepository.fromJson(Map<String, dynamic> json)
       : user = User.fromJson(json['user']),
-        settings = Settings.fromJson(json['settings']);
+        settings = Settings.fromJson(json['settings']),
+        game = Game.fromJson(json['game']);
 
   Map<String, dynamic> toJson() => {
         'user': user,
         'settings': settings,
+        'game': game,
       };
 
   saveUser() {
@@ -52,6 +56,16 @@ class UserRepository {
 
   setLang(Lang lang) {
     settings = settings.copyWith(lang: lang);
+    saveUser();
+  }
+
+  setLevel(Level level) {
+    game = game.copyWith(level: level);
+    saveUser();
+  }
+
+  setUniver(Univer univer) {
+    game = game.copyWith(univer: univer);
     saveUser();
   }
 }

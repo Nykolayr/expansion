@@ -2,10 +2,13 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../utils/text.dart';
 import 'bloc/splash_bloc.dart';
@@ -82,9 +85,17 @@ class SplashPage extends StatelessWidget {
                   height: (state is SplashLoadSucsess) ? height + 40 : 0,
                   width: MediaQuery.of(context).size.width,
                   duration: const Duration(seconds: 2),
-                  child: const LineButtons(
-                    isTop: false,
-                  ),
+                  child: userRepository.user.isBegin
+                      ? ButtonLong(
+                          title: tr('begin_game'),
+                          function: () {
+                            context.go('/new_game');
+                          },
+                          isWidth: true,
+                        )
+                      : const LineButtons(
+                          isTop: false,
+                        ),
                 ),
               ),
             ],
@@ -106,39 +117,45 @@ class Loader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          AnimatedContainer(
-            curve: Curves.fastOutSlowIn,
-            width: (state.count > 96 || state is SplashLoadSucsess)
-                ? 0
-                : MediaQuery.of(context).size.width - 20,
-            duration: const Duration(seconds: 2),
-            child: Card(
-              elevation: 10,
-              color: AppColor.darkBlue,
-              shape: RoundedRectangleBorder(
-                side: const BorderSide(color: AppColor.darkYeloow, width: 2),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
-              child: Container(
-                  height: (state.count > 83)
-                      ? 55
-                      : (state is SplashLoadSucsess)
-                          ? MediaQuery.of(context).size.height / 2
-                          : null,
-                  padding: const EdgeInsets.all(15),
-                  child: (state.count > 83 || (state is SplashLoadSucsess))
-                      ? const SizedBox.shrink()
-                      : AnimatedTextKit(
-                          totalRepeatCount: 1,
-                          animatedTexts: [
-                            TyperAnimatedText(tr('pretext'),
-                                textStyle: AppText.baseText.copyWith(
-                                    fontSize: 20, color: AppColor.white)),
-                          ],
-                        )),
-            ),
-          ),
+          userRepository.user.isBegin
+              ? AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  width: (state.count > 96 || state is SplashLoadSucsess)
+                      ? 0
+                      : MediaQuery.of(context).size.width - 20,
+                  duration: const Duration(seconds: 2),
+                  child: Card(
+                    elevation: 10,
+                    color: AppColor.darkBlue,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                          color: AppColor.darkYeloow, width: 2),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 25, horizontal: 10),
+                    child: Container(
+                        height: (state.count > 83)
+                            ? 55
+                            : (state is SplashLoadSucsess)
+                                ? MediaQuery.of(context).size.height / 2
+                                : null,
+                        padding: const EdgeInsets.all(15),
+                        child:
+                            (state.count > 83 || (state is SplashLoadSucsess))
+                                ? const SizedBox.shrink()
+                                : AnimatedTextKit(
+                                    totalRepeatCount: 1,
+                                    animatedTexts: [
+                                      TyperAnimatedText(tr('pretext'),
+                                          textStyle: AppText.baseText.copyWith(
+                                              fontSize: 20,
+                                              color: AppColor.white)),
+                                    ],
+                                  )),
+                  ),
+                )
+              : const SizedBox.shrink(),
           Text(
             tr('load'),
             style: AppText.baseText.copyWith(color: AppColor.white),

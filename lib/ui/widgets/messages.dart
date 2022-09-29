@@ -4,7 +4,6 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Простой показ сообщения c title, body, необязательным
