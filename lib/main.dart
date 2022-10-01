@@ -4,6 +4,7 @@ import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 
@@ -12,17 +13,23 @@ import 'utils/value.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  userRepository = await UserRepository.create();
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeLeft, DeviceOrientation.portraitUp])
+      .whenComplete(() async {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.bottom]);
+    userRepository = await UserRepository.create();
 
-  runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],
-      path: 'assets/translations',
-      fallbackLocale: const Locale('en', 'US'),
-      startLocale: userRepository.settings.lang.locale,
-      child: const MyApp(),
-    ),
-  );
+    runApp(
+      EasyLocalization(
+        supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],
+        path: 'assets/translations',
+        fallbackLocale: const Locale('en', 'US'),
+        startLocale: userRepository.settings.lang.locale,
+        child: const MyApp(),
+      ),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {

@@ -12,7 +12,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.1 <3.0.0"
+  sdk: ">=2.18.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -33,7 +33,8 @@ dependencies:
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
   page_transition: ^2.0.9 #https://pub.dev/packages/page_transition
   url_launcher: ^6.1.5 #https://pub.dev/packages/url_launcher
-
+  # flame: ^1.3.0 #https://pub.dev/packages/flame
+  # flame_audio: ^1.3.1 #https://pub.dev/packages/flame_audio
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
     - assets/svg/
     - assets/fonts/
     - assets/translations/
+    - assets/audio/
 
   fonts:
     - family: KellySlab

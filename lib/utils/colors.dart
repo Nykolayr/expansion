@@ -8,4 +8,7 @@ class AppColor {
   static const Color grey = Color(0xFF3C4345);
   static const Color red = Color(0xFFA42208);
   static const Color blue = Color(0xFF6CCFF9);
+  static const Color redPlanet = Color(0xFFF74D2E);
+  static const Color greenPlanet = Color(0xFF40DE8F);
+  static const Color greyPlanet = Color(0xFFBAB6B6);
 }
