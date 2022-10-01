@@ -25,13 +25,13 @@ class SplashPage extends StatelessWidget {
           // context.read<SplashBloc>().add(const SplashEnd());
         }
       }, builder: (context, state) {
-        double widht = MediaQuery.of(context).size.width / 3 - 6;
+        double widht = size.width / 3 - 6;
         double height = widht / 3 + 10;
         return Scaffold(
           body: Stack(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height,
+                height: size.height,
                 child: Image.asset(
                   'assets/splash.png',
                   fit: BoxFit.fill,
@@ -83,14 +83,12 @@ class SplashPage extends StatelessWidget {
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
                   height: (state is SplashLoadSucsess) ? height + 40 : 0,
-                  width: MediaQuery.of(context).size.width,
+                  width: size.width,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
                       ? ButtonLong(
                           title: tr('begin_game'),
-                          function: () {
-                            context.go('/new_game');
-                          },
+                          function: () => context.go('/new_game'),
                           isWidth: true,
                         )
                       : const LineButtons(
@@ -122,7 +120,7 @@ class Loader extends StatelessWidget {
                   curve: Curves.fastOutSlowIn,
                   width: (state.count > 96 || state is SplashLoadSucsess)
                       ? 0
-                      : MediaQuery.of(context).size.width - 20,
+                      : size.width - 20,
                   duration: const Duration(seconds: 2),
                   child: Card(
                     elevation: 10,
@@ -138,7 +136,7 @@ class Loader extends StatelessWidget {
                         height: (state.count > 83)
                             ? 55
                             : (state is SplashLoadSucsess)
-                                ? MediaQuery.of(context).size.height / 2
+                                ? size.height / 2
                                 : null,
                         padding: const EdgeInsets.all(15),
                         child:

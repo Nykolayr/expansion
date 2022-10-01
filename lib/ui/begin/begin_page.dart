@@ -2,7 +2,6 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/game/game.dart';
-import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
@@ -11,6 +10,7 @@ import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class BeginPage extends StatelessWidget {
   const BeginPage({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class BeginPage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: size.height,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
@@ -32,7 +32,7 @@ class BeginPage extends StatelessWidget {
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: size.width,
                   padding: const EdgeInsets.symmetric(
                     vertical: 75,
                     horizontal: 45,
@@ -86,7 +86,7 @@ class BeginPage extends StatelessWidget {
                       ),
                       ButtonLong(
                         title: tr('save_humanity'),
-                        function: () => showPolitic(context),
+                        function: () => context.go('/battle'),
                       ),
                     ],
                   ),

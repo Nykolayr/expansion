@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -14,7 +15,7 @@ class ButtonSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = MediaQuery.of(context).size.width / 3;
+    double widht = size.width / 3;
     double height = widht / 3;
     String text = title ?? direct.title;
     Function()? fun = function ?? () => context.go(direct.router);
@@ -72,7 +73,7 @@ class ButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = MediaQuery.of(context).size.width - 90;
+    double widht = size.width - 90;
     if (isWidth) {
       widht = widht + 60;
     }

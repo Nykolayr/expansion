@@ -1,3 +1,5 @@
+import 'package:expansion/ui/battle/battle_page.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
@@ -67,6 +69,19 @@ final GoRouter router = GoRouter(
         child: BlocProvider(
           create: (_) => BeginBloc(),
           child: const BeginPage(),
+        ),
+      ),
+    ),
+    GoRoute(
+      name: 'battle',
+      path: '/battle',
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        type: PageTransitionType.rightToLeft,
+        context: context,
+        state: state,
+        child: BlocProvider(
+          create: (_) => BattleBloc()..add(InitEvent()),
+          child: const BattlePage(),
         ),
       ),
     ),

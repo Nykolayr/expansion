@@ -13,8 +13,7 @@ import 'utils/value.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.landscapeLeft, DeviceOrientation.portraitUp])
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .whenComplete(() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
@@ -53,6 +52,10 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.kellySlabTextTheme(),
       ),
       builder: (context, child) {
+        center = Size(MediaQuery.of(context).size.width / 2,
+            MediaQuery.of(context).size.height / 2);
+        size = Size(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height);
         final mq = MediaQuery.of(context);
         double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
         return Directionality(

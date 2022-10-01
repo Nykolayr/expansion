@@ -22,7 +22,7 @@ class SettingsPage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
+            height: size.height,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
@@ -32,7 +32,7 @@ class SettingsPage extends StatelessWidget {
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: size.width,
                   padding: const EdgeInsets.symmetric(
                     vertical: 75,
                     horizontal: 45,
