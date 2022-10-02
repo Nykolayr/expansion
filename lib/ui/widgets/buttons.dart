@@ -187,11 +187,11 @@ extension DirectExtention on Direct {
       case Direct.rightBottom:
         return '/settings';
       case Direct.leftTop:
-        return '/settings';
+        return '/profile';
       case Direct.rightTop:
-        return '/settings';
+        return '/progress';
       case Direct.meddleBottom:
-        return '/settings';
+        return '/update';
       case Direct.meddleTop:
         return '/settings';
       default:
