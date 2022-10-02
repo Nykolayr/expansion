@@ -4,6 +4,8 @@ import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
+import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
+import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
 import 'package:expansion/ui/splash/sub/settings/settings_page.dart';
 import 'package:expansion/utils/function.dart';
@@ -41,6 +43,19 @@ final GoRouter router = GoRouter(
             child: BlocProvider(
               create: (_) => SettingBloc(),
               child: const SettingsPage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          name: 'profile',
+          path: 'profile',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.topToBottom,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => ProfileBloc(),
+              child: const ProfilePage(),
             ),
           ),
         ),
