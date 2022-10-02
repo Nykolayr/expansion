@@ -6,8 +6,12 @@ import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
 import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
+import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
+import 'package:expansion/ui/splash/sub/progress/progress_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
 import 'package:expansion/ui/splash/sub/settings/settings_page.dart';
+import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
+import 'package:expansion/ui/splash/sub/update/update_page.dart';
 import 'package:expansion/utils/function.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +60,32 @@ final GoRouter router = GoRouter(
             child: BlocProvider(
               create: (_) => ProfileBloc(),
               child: const ProfilePage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          name: 'progress',
+          path: 'progress',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.topToBottom,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => ProgressBloc(),
+              child: const ProgressPage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          name: 'update',
+          path: 'update',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.topToBottom,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => UpdateBloc(),
+              child: const UpdatePage(),
             ),
           ),
         ),
