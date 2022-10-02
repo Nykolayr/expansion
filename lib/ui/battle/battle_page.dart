@@ -40,11 +40,17 @@ class BattlePage extends StatelessWidget {
                   top: state.y,
                   left: state.x,
                   child: Container(
-                    width: 40,
-                    height: 40,
                     decoration: const BoxDecoration(
-                      color: Colors.green,
-                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Colors.green,
+                          Colors.blue,
+                          Colors.orange,
+                          Colors.pink
+                        ],
+                        stops: [0.2, 0.5, 0.7, 1],
+                        center: Alignment(0.1, 0.3),
+                      ),
                     ),
                   ),
                 );
