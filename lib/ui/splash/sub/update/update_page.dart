@@ -37,7 +37,7 @@ class UpdatePage extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          tr("update"),
+                          tr("upgrades"),
                           style: AppText.baseText.copyWith(
                             fontSize: 30,
                           ),
