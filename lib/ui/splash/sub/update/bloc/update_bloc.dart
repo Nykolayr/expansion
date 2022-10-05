@@ -5,5 +5,5 @@ part 'update_event.dart';
 part 'update_state.dart';
 
 class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
-  UpdateBloc() : super(UpdateInitial()) {}
+  UpdateBloc() : super(UpdateInitial());
 }

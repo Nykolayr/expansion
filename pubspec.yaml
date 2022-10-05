@@ -41,8 +41,9 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   freezed: ^2.1.1 #https://pub.dev/packages/freezed
-  build_runner: ^2.2.0 #https://pub.flutter-io.cn/packages/build_runner
-  json_serializable: ^6.3.1 #https://pub.dev/packages/json_serializable
+  build_runner: ^2.2.1 #https://pub.flutter-io.cn/packages/build_runner
+  json_serializable: ^6.4.1 #https://pub.dev/packages/json_serializable
+  json_annotation: ^4.7.0  # https://pub.flutter-io.cn/packages/json_annotation/install
   # flutter pub run build_runner build
   # flutter pub run build_runner clean
   # flutter pub run build_runner build --delete-conflicting-outputs.

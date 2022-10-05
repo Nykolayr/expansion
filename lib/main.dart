@@ -25,7 +25,11 @@ void main() async {
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         startLocale: userRepository.settings.lang.locale,
-        child: const MyApp(),
+        child: const SafeArea(
+          child: Scaffold(
+            body: MyApp(),
+          ),
+        ),
       ),
     );
   });

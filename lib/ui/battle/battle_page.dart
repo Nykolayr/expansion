@@ -28,7 +28,12 @@ class BattlePage extends StatelessWidget {
               width: 70,
               height: 70,
               decoration: const BoxDecoration(
-                color: Colors.yellow,
+                gradient: RadialGradient(
+                  colors: [Colors.redAccent, Colors.yellow],
+                  radius: 0.75,
+                  focal: Alignment(0.7, -0.7),
+                  tileMode: TileMode.clamp,
+                ),
                 shape: BoxShape.circle,
               ),
             ),
@@ -44,16 +49,10 @@ class BattlePage extends StatelessWidget {
                     height: 40,
                     decoration: const BoxDecoration(
                       gradient: RadialGradient(
-                        colors: [
-                          Color(0xFF5cabff),
-                          Color(0xFFFFFFFF),
-                        ],
-                        stops: [
-                          0.5,
-                          0.5,
-                        ],
-                        center: Alignment(0.1, 0.3),
-                        focal: Alignment(-0.1, 0.6),
+                        colors: [Colors.green, Colors.blue],
+                        radius: 0.75,
+                        focal: Alignment(0.7, -0.7),
+                        tileMode: TileMode.clamp,
                       ),
                       shape: BoxShape.circle,
                     ),
