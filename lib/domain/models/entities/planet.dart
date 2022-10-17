@@ -19,14 +19,16 @@ part 'planet.g.dart';
 @JsonSerializable()
 class Planet extends EntitySpace {
   PlanetType planetType;
+  PlanetStatus planetStatus;
   String description;
   double distanceSolar;
   double diameter;
   double period;
   int shild;
-  int maxShips;
   double speedBuild;
   double speedResources;
+  int ships;
+  int maxShips;
 
   Planet({
     required super.name,
@@ -41,6 +43,8 @@ class Planet extends EntitySpace {
     required this.maxShips,
     required this.speedBuild,
     required this.speedResources,
+    required this.planetStatus,
+    required this.ships,
   });
 
   factory Planet.fromJson(Map<String, dynamic> json) => _$PlanetFromJson(json);
@@ -58,19 +62,38 @@ class Planet extends EntitySpace {
   }
 }
 
-enum PlanetType { our, enemy, neutral, agressive }
+enum PlanetStatus { our, enemy, neutral, agressive }
+
+extension PlanetStatusExtention on PlanetStatus {
+  String get nameMenu {
+    switch (this) {
+      case PlanetStatus.our:
+        return tr('our');
+      case PlanetStatus.enemy:
+        return tr('enemy');
+      case PlanetStatus.neutral:
+        return tr('neutral');
+      case PlanetStatus.agressive:
+        return tr('agressive');
+    }
+  }
+}
+
+enum PlanetType { earthType, gasGiant, iceGiant, mesoplanet, ironPlanet }
 
 extension PlanetTypeExtention on PlanetType {
   String get nameMenu {
     switch (this) {
-      case PlanetType.our:
-        return tr('easy');
-      case PlanetType.enemy:
-        return tr('easy');
-      case PlanetType.neutral:
-        return tr('easy');
-      case PlanetType.agressive:
-        return tr('easy');
+      case PlanetType.earthType:
+        return tr('earth_Type');
+      case PlanetType.gasGiant:
+        return tr('gas_Giant');
+      case PlanetType.iceGiant:
+        return tr('ice_Giant');
+      case PlanetType.mesoplanet:
+        return tr('mesoplanet');
+      case PlanetType.ironPlanet:
+        return tr('iron_Planet');
     }
   }
 }

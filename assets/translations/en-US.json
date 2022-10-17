@@ -38,6 +38,24 @@
     "universe": "Universe",
     "classic": "Classic",
     "generated": "Generated",
-    "save_humanity": "Save humanity!"
-
+    "save_humanity": "Save humanity!",
+    "our": "our",
+    "enemy": "captured",
+    "neutral": "neutral",
+    "agressive": "agressive",
+    "earth_Type": "earth type",
+    "gas_Giant": "gas giant",
+    "ice_Giant": "ice giant",
+    "mesoplanet": "mesoplanet",
+    "iron_Planet": "iron giant",
+    "sun": "Sun",
+    "solar": "The solar system",
+    "Mercury": "Mercury",
+    "Venus": "Venus",
+    "Earth": "Earth",
+    "Mars": "Mars",
+    "Jupiter": "Jupiter",
+    "Saturn": "Saturn",
+    "Uranus": "Uranus",
+    "Neptune": "Neptune"
     }

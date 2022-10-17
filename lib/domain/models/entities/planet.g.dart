@@ -19,6 +19,8 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) => Planet(
       maxShips: json['maxShips'] as int,
       speedBuild: (json['speedBuild'] as num).toDouble(),
       speedResources: (json['speedResources'] as num).toDouble(),
+      planetStatus: $enumDecode(_$PlanetStatusEnumMap, json['planetStatus']),
+      ships: json['ships'] as int,
     );
 
 Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
@@ -26,19 +28,29 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'y': instance.y,
       'name': instance.name,
       'planetType': _$PlanetTypeEnumMap[instance.planetType]!,
+      'planetStatus': _$PlanetStatusEnumMap[instance.planetStatus]!,
       'description': instance.description,
       'distanceSolar': instance.distanceSolar,
       'diameter': instance.diameter,
       'period': instance.period,
       'shild': instance.shild,
-      'maxShips': instance.maxShips,
       'speedBuild': instance.speedBuild,
       'speedResources': instance.speedResources,
+      'ships': instance.ships,
+      'maxShips': instance.maxShips,
     };
 
 const _$PlanetTypeEnumMap = {
-  PlanetType.our: 'our',
-  PlanetType.enemy: 'enemy',
-  PlanetType.neutral: 'neutral',
-  PlanetType.agressive: 'agressive',
+  PlanetType.earthType: 'earthType',
+  PlanetType.gasGiant: 'gasGiant',
+  PlanetType.iceGiant: 'iceGiant',
+  PlanetType.mesoplanet: 'mesoplanet',
+  PlanetType.ironPlanet: 'ironPlanet',
+};
+
+const _$PlanetStatusEnumMap = {
+  PlanetStatus.our: 'our',
+  PlanetStatus.enemy: 'enemy',
+  PlanetStatus.neutral: 'neutral',
+  PlanetStatus.agressive: 'agressive',
 };

@@ -107,6 +107,7 @@ class ChooseLang extends StatelessWidget {
   const ChooseLang(this.context, {Key? key}) : super(key: key);
 
   @override
+  // ignore: avoid_renaming_method_parameters
   Widget build(BuildContext context2) {
     return Column(
       children: [

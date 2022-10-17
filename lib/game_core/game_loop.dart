@@ -6,6 +6,7 @@ void mainLoop(SendPort sendPort) async {
   const double fps = 50;
   const double second = 1000;
   const double updateTime = second / fps;
+  // ignore: unused_local_variable
   double updates = 0;
 
   Stopwatch loopWatch = Stopwatch();

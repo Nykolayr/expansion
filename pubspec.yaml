@@ -76,6 +76,7 @@ flutter:
     - assets/fonts/
     - assets/translations/
     - assets/audio/
+    - assets/scenes/
 
   fonts:
     - family: KellySlab

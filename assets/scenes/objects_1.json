@@ -1,0 +1,96 @@
+{
+  "system": {
+"name": "solar",
+"starName": "sun"
+  },
+  "planets": [
+   { 
+    "name": "Mercury",
+    "x": -80,
+    "y": -80,
+    "planetType": "earthType",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 58,
+    "diameter": 5,
+    "period": 3
+      },
+   { 
+    "name": "Venus",
+    "x": -100,
+    "y": -100,
+    "planetType": "earthType",
+    "planetStatus": "our",
+    "description": "",
+    "distanceSolar": 108,
+    "diameter": 12,
+    "period": 7
+      },
+   { 
+    "name": "Earth",
+    "x": -120,
+    "y": -120,
+    "planetType": "earthType",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 150,
+    "diameter": 12,
+    "period": 12
+    },
+     { 
+    "name": "Mars",
+    "x": -140,
+    "y": -140,
+    "planetType": "earthType",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 228,
+    "diameter": 7,
+    "period": 24
+    },
+    { 
+    "name": "Jupiter",
+    "x": -160,
+    "y": -160,
+    "planetType": "gasGiant",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 400,
+    "diameter": 42,
+    "period": 80
+    },
+     { 
+    "name": "Saturn",
+    "x": -160,
+    "y": -160,
+    "planetType": "gasGiant",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 500,
+    "diameter": 30,
+    "period": 100
+    },
+     { 
+    "name": "Uranus",
+    "x": -180,
+    "y": -180,
+    "planetType": "gasGiant",
+    "planetStatus": "neutral",
+    "description": "",
+    "distanceSolar": 600,
+    "diameter": 22,
+    "period": 130
+    }, 
+    { 
+        "name": "Neptune",
+        "x": -200,
+        "y": -200,
+        "planetType": "gasGiant",
+        "planetStatus": "enemy",
+        "description": "",
+        "distanceSolar": 700,
+        "diameter": 18,
+        "period": 150
+        } 
+]
+ }
