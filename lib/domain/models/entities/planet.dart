@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:json_annotation/json_annotation.dart';
 
 part 'planet.g.dart';
@@ -22,6 +23,10 @@ class Planet extends EntitySpace {
   double distanceSolar;
   double diameter;
   double period;
+  int shild;
+  int maxShips;
+  double speedBuild;
+  double speedResources;
 
   Planet({
     required super.name,
@@ -32,6 +37,10 @@ class Planet extends EntitySpace {
     required this.distanceSolar,
     required this.diameter,
     required this.period,
+    required this.shild,
+    required this.maxShips,
+    required this.speedBuild,
+    required this.speedResources,
   });
 
   factory Planet.fromJson(Map<String, dynamic> json) => _$PlanetFromJson(json);

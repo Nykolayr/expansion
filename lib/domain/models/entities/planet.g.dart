@@ -15,6 +15,10 @@ Planet _$PlanetFromJson(Map<String, dynamic> json) => Planet(
       distanceSolar: (json['distanceSolar'] as num).toDouble(),
       diameter: (json['diameter'] as num).toDouble(),
       period: (json['period'] as num).toDouble(),
+      shild: json['shild'] as int,
+      maxShips: json['maxShips'] as int,
+      speedBuild: (json['speedBuild'] as num).toDouble(),
+      speedResources: (json['speedResources'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
@@ -26,6 +30,10 @@ Map<String, dynamic> _$PlanetToJson(Planet instance) => <String, dynamic>{
       'distanceSolar': instance.distanceSolar,
       'diameter': instance.diameter,
       'period': instance.period,
+      'shild': instance.shild,
+      'maxShips': instance.maxShips,
+      'speedBuild': instance.speedBuild,
+      'speedResources': instance.speedResources,
     };
 
 const _$PlanetTypeEnumMap = {

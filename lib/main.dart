@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+import 'package:computer/computer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/repository/user_repository.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
@@ -18,7 +20,9 @@ void main() async {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom]);
     userRepository = await UserRepository.create();
-
+    // Добавляем два isolate
+    computer = Computer.create();
+    await computer.turnOn();
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],

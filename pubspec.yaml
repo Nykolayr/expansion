@@ -33,8 +33,10 @@ dependencies:
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
   page_transition: ^2.0.9 #https://pub.dev/packages/page_transition
   url_launcher: ^6.1.5 #https://pub.dev/packages/url_launcher
+  computer: ^3.2.1 #https://pub.dev/packages/computer
   # flame: ^1.3.0 #https://pub.dev/packages/flame
   # flame_audio: ^1.3.1 #https://pub.dev/packages/flame_audio
+
 
 dev_dependencies:
   flutter_test:
