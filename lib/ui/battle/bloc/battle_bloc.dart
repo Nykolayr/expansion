@@ -2,6 +2,7 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:expansion/data/game_data.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +16,12 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<InitEvent>(_onInit);
     on<TicEvent>(_onIic);
   }
+  GameData gameData = gameRepository.gameData;
   double x = size.width - 180;
   double y = size.height - 180;
   int gradus = 0;
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
+    await gameData.loadMap();
     ReceivePort receivePort = ReceivePort();
     await Isolate.spawn(mainLoop, receivePort.sendPort);
     emit(BattleChange(x, y));

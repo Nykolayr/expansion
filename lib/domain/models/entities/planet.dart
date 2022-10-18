@@ -47,7 +47,15 @@ class Planet extends EntitySpace {
     required this.ships,
   });
 
-  factory Planet.fromJson(Map<String, dynamic> json) => _$PlanetFromJson(json);
+  factory Planet.fromJson(Map<String, dynamic> json) {
+    json["name"] = tr(json["name"]);
+    json["shild"] = 100;
+    json["maxShips"] = 100;
+    json["speedBuild"] = 100.0;
+    json["speedResources"] = 100.0;
+    json["ships"] = 100;
+    return _$PlanetFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$PlanetToJson(this);
 
   @override

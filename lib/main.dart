@@ -29,11 +29,7 @@ void main() async {
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
         startLocale: userRepository.settings.lang.locale,
-        child: const SafeArea(
-          child: Scaffold(
-            body: MyApp(),
-          ),
-        ),
+        child: const MyApp(),
       ),
     );
   });
@@ -70,7 +66,9 @@ class MyApp extends StatelessWidget {
           textDirection: ui.TextDirection.ltr,
           child: MediaQuery(
             data: mq.copyWith(textScaleFactor: fontScale),
-            child: child!,
+            child: Scaffold(
+              body: child!,
+            ),
           ),
         );
       },

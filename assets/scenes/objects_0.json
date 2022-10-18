@@ -1,7 +1,8 @@
 {
   "system": {
 "name": "solar",
-"starName": "sun"
+"starName": "sun",
+"size": 1.0
   },
   "planets": [
    { 
