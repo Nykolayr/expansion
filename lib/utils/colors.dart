@@ -11,22 +11,52 @@ class AppColor {
   static const Color green = Color(0xFF40DE8F);
   static const Color grey = Color(0xFFBAB6B6);
 
-  static const RadialGradient enemyPlanet = RadialGradient(
-    colors: [red, darkYeloow],
-    radius: 0.75,
-    focal: Alignment(0.7, -0.7),
-    tileMode: TileMode.clamp,
+  static const BoxDecoration ourPlanet = BoxDecoration(
+    gradient: RadialGradient(
+      colors: [Colors.green, Colors.blue],
+      radius: 0.75,
+      focal: Alignment(0.7, -0.7),
+      tileMode: TileMode.clamp,
+    ),
+    shape: BoxShape.circle,
   );
-  static const RadialGradient ourPlanet = RadialGradient(
-    colors: [green, blue],
-    radius: 0.75,
-    focal: Alignment(0.7, -0.7),
-    tileMode: TileMode.clamp,
+  static const BoxDecoration neutralPlanet = BoxDecoration(
+    gradient: RadialGradient(
+      colors: [grey, black],
+      radius: 0.75,
+      focal: Alignment(0.7, -0.7),
+      tileMode: TileMode.clamp,
+    ),
+    shape: BoxShape.circle,
   );
-  static const RadialGradient neutralPlanet = RadialGradient(
-    colors: [grey, black],
-    radius: 0.75,
-    focal: Alignment(0.7, -0.7),
-    tileMode: TileMode.clamp,
+
+  static const BoxDecoration enemyPlanet = BoxDecoration(
+    gradient: RadialGradient(
+      colors: [red, darkYeloow],
+      radius: 0.75,
+      focal: Alignment(0.7, -0.7),
+      tileMode: TileMode.clamp,
+    ),
+    shape: BoxShape.circle,
+  );
+
+  static const BoxDecoration agressivePlanet = BoxDecoration(
+    gradient: RadialGradient(
+      colors: [red, grey],
+      radius: 0.75,
+      focal: Alignment(0.7, -0.7),
+      tileMode: TileMode.clamp,
+    ),
+    shape: BoxShape.circle,
+  );
+
+  static const BoxDecoration sun = BoxDecoration(
+    gradient: RadialGradient(
+      colors: [Colors.redAccent, Colors.yellow],
+      radius: 0.75,
+      focal: Alignment(0.7, -0.7),
+      tileMode: TileMode.clamp,
+    ),
+    shape: BoxShape.circle,
   );
 }

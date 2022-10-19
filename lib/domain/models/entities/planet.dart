@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
-import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:json_annotation/json_annotation.dart';
+import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/utils.dart';
 
-part 'planet.g.dart';
+import 'package:flutter/material.dart';
 
 /// Класс Планета  у каждой планеты  есть 4 фактора
 /// (скорость изготовление кораблей - повышается постройкой техники)
@@ -16,7 +15,6 @@ part 'planet.g.dart';
 ///   distanceSolar  - дистанция до звезды
 /// diameter - диаметр планеты
 ///  period -  период обращения вокруг звезды
-@JsonSerializable()
 class Planet extends EntitySpace {
   PlanetType planetType;
   PlanetStatus planetStatus;
@@ -29,11 +27,11 @@ class Planet extends EntitySpace {
   double speedResources;
   int ships;
   int maxShips;
+  int gradus;
 
   Planet({
     required super.name,
-    required super.x,
-    required super.y,
+    required super.size,
     required this.planetType,
     required this.description,
     required this.distanceSolar,
@@ -45,28 +43,63 @@ class Planet extends EntitySpace {
     required this.speedResources,
     required this.planetStatus,
     required this.ships,
+    required this.gradus,
   });
 
   factory Planet.fromJson(Map<String, dynamic> json) {
-    json["name"] = tr(json["name"]);
-    json["shild"] = 100;
-    json["maxShips"] = 100;
-    json["speedBuild"] = 100.0;
-    json["speedResources"] = 100.0;
-    json["ships"] = 100;
-    return _$PlanetFromJson(json);
+    return Planet(
+      name: tr(json["name"]),
+      planetType: PlanetType.values.firstWhere(
+          (e) => e.toString() == 'PlanetType.${json["planetType"]}'),
+      planetStatus: PlanetStatus.values.firstWhere(
+          (e) => e.toString() == 'PlanetStatus.${json["planetStatus"]}'),
+      description: json["description"],
+      distanceSolar: json["distanceSolar"].toDouble(),
+      diameter: json["diameter"].toDouble(),
+      period: json["period"].toDouble(),
+      gradus: json["gradus"],
+      size: getcoordinates(json["gradus"], json["distanceSolar"].toDouble()),
+      shild: 100,
+      maxShips: 100,
+      speedBuild: 100.0,
+      speedResources: 100.0,
+      ships: 0,
+    );
   }
-  Map<String, dynamic> toJson() => _$PlanetToJson(this);
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "planetType": planetType.name,
+        "planetStatus": planetStatus.name,
+        "description": description,
+        "distanceSolar": distanceSolar,
+        "diameter": diameter,
+        "period": period,
+        "shgradusild": gradus,
+        "size": size,
+        "shild": shild,
+        "ships": ships,
+        "maxShips": maxShips,
+        "speedBuild": speedBuild,
+        "speedResources": speedResources,
+      };
 
   @override
   Widget build() {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Positioned(
+      top: size.width,
+      left: size.height,
+      child: Container(
+        width: diameter * 5,
+        height: diameter * 5,
+        decoration: planetStatus.boxDecoration,
+      ),
+    );
   }
 
   @override
   void update() {
-    // TODO: implement update
+    gradus += 5 ~/ (period + 2);
+    size = getcoordinates(gradus, distanceSolar);
   }
 }
 
@@ -83,6 +116,19 @@ extension PlanetStatusExtention on PlanetStatus {
         return tr('neutral');
       case PlanetStatus.agressive:
         return tr('agressive');
+    }
+  }
+
+  BoxDecoration get boxDecoration {
+    switch (this) {
+      case PlanetStatus.our:
+        return AppColor.ourPlanet;
+      case PlanetStatus.enemy:
+        return AppColor.enemyPlanet;
+      case PlanetStatus.neutral:
+        return AppColor.neutralPlanet;
+      case PlanetStatus.agressive:
+        return AppColor.agressivePlanet;
     }
   }
 }

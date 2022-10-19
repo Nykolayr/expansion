@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 /// 2 метода апдэйт и виджет
 
 abstract class EntitySpace {
-  double x;
-  double y;
   String name;
+  Size size;
 
-  EntitySpace({required this.name, required this.x, required this.y});
+  EntitySpace({required this.name, required this.size});
 
   void update();
   Widget build();

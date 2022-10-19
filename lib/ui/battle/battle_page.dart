@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_renaming_method_parameters
 
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,38 +28,23 @@ class BattlePage extends StatelessWidget {
             child: Container(
               width: 70,
               height: 70,
-              decoration: const BoxDecoration(
-                gradient: RadialGradient(
-                  colors: [Colors.redAccent, Colors.yellow],
-                  radius: 0.75,
-                  focal: Alignment(0.7, -0.7),
-                  tileMode: TileMode.clamp,
-                ),
-                shape: BoxShape.circle,
-              ),
+              decoration: AppColor.sun,
             ),
           ),
-          BlocConsumer<BattleBloc, BattleState>(
-              listener: (context, state) async {},
-              builder: (context, state) {
-                return Positioned(
-                  top: state.y,
-                  left: state.x,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      gradient: RadialGradient(
-                        colors: [Colors.green, Colors.blue],
-                        radius: 0.75,
-                        focal: Alignment(0.7, -0.7),
-                        tileMode: TileMode.clamp,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                );
-              }),
+          Center(
+            child: BlocConsumer<BattleBloc, BattleState>(
+                listener: (context, state) async {},
+                builder: (context, state) {
+                  if (state is BattleChange) {
+                    return Stack(
+                      children: [
+                        ...state.planets.map((item) => item.build()).toList()
+                      ],
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+          ),
         ],
       ),
     );

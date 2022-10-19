@@ -9,6 +9,7 @@ GameRepository gameRepository = GameRepository();
 
 const politicUrl = 'https://flutter.dev';
 const pathAssetScenes = 'assets/scenes';
+const multiplierMaxShips = 20;
 
 late Size center;
 late Size size;
