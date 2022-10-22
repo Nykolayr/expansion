@@ -25,13 +25,13 @@ class SplashPage extends StatelessWidget {
           // context.read<SplashBloc>().add(const SplashEnd());
         }
       }, builder: (context, state) {
-        double widht = size.width / 3 - 6;
+        double widht = deviceSize.width / 3 - 6;
         double height = widht / 3 + 10;
         return Scaffold(
           body: Stack(
             children: [
               SizedBox(
-                height: size.height,
+                height: deviceSize.height,
                 child: Image.asset(
                   'assets/splash.png',
                   fit: BoxFit.fill,
@@ -83,7 +83,7 @@ class SplashPage extends StatelessWidget {
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
                   height: (state is SplashLoadSucsess) ? height + 40 : 0,
-                  width: size.width,
+                  width: deviceSize.width,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
                       ? ButtonLong(
@@ -120,7 +120,7 @@ class Loader extends StatelessWidget {
                   curve: Curves.fastOutSlowIn,
                   width: (state.count > 96 || state is SplashLoadSucsess)
                       ? 0
-                      : size.width - 20,
+                      : deviceSize.width - 20,
                   duration: const Duration(seconds: 2),
                   child: Card(
                     elevation: 10,
@@ -136,7 +136,7 @@ class Loader extends StatelessWidget {
                         height: (state.count > 83)
                             ? 55
                             : (state is SplashLoadSucsess)
-                                ? size.height / 2
+                                ? deviceSize.height / 2
                                 : null,
                         padding: const EdgeInsets.all(15),
                         child:

@@ -10,11 +10,12 @@ class AppColor {
   static const Color blue = Color(0xFF6CCFF9);
   static const Color green = Color(0xFF40DE8F);
   static const Color grey = Color(0xFFBAB6B6);
+  static const Color darkGreen = Color(0xFF02874D);
 
   static const BoxDecoration ourPlanet = BoxDecoration(
     gradient: RadialGradient(
-      colors: [Colors.green, Colors.blue],
-      radius: 0.75,
+      colors: [white, darkGreen],
+      radius: 0.5,
       focal: Alignment(0.7, -0.7),
       tileMode: TileMode.clamp,
     ),
@@ -32,8 +33,8 @@ class AppColor {
 
   static const BoxDecoration enemyPlanet = BoxDecoration(
     gradient: RadialGradient(
-      colors: [red, darkYeloow],
-      radius: 0.75,
+      colors: [white, red],
+      radius: 0.5,
       focal: Alignment(0.7, -0.7),
       tileMode: TileMode.clamp,
     ),

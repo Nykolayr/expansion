@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/utils.dart';
 
 import 'package:flutter/material.dart';
@@ -22,12 +23,12 @@ class Planet extends EntitySpace {
   double distanceSolar;
   double diameter;
   double period;
-  int shild;
+  double shild;
   double speedBuild;
   double speedResources;
   int ships;
   int maxShips;
-  int gradus;
+  double gradus;
 
   Planet({
     required super.name,
@@ -54,11 +55,12 @@ class Planet extends EntitySpace {
       planetStatus: PlanetStatus.values.firstWhere(
           (e) => e.toString() == 'PlanetStatus.${json["planetStatus"]}'),
       description: json["description"],
-      distanceSolar: json["distanceSolar"].toDouble(),
-      diameter: json["diameter"].toDouble(),
-      period: json["period"].toDouble(),
+      distanceSolar: json["distanceSolar"],
+      diameter: json["diameter"],
+      period: json["period"],
       gradus: json["gradus"],
-      size: getcoordinates(json["gradus"], json["distanceSolar"].toDouble()),
+      size: getcoordinates(
+          json["gradus"], json["distanceSolar"], json["distanceSolar"]),
       shild: 100,
       maxShips: 100,
       speedBuild: 100.0,
@@ -88,18 +90,29 @@ class Planet extends EntitySpace {
     return Positioned(
       top: size.width,
       left: size.height,
-      child: Container(
-        width: diameter * 5,
-        height: diameter * 5,
-        decoration: planetStatus.boxDecoration,
+      child: Column(
+        children: [
+          Container(
+            width: diameter,
+            height: diameter,
+            decoration: planetStatus.boxDecoration,
+          ),
+          Text(
+            name,
+            style: AppText.baseBody.copyWith(
+              fontSize: 8,
+            ),
+          ),
+        ],
       ),
     );
   }
 
   @override
   void update() {
-    gradus += 5 ~/ (period + 2);
-    size = getcoordinates(gradus, distanceSolar);
+    gradus += 3 / period;
+    if (gradus > 360) gradus = 0;
+    size = getcoordinates(gradus, distanceSolar, diameter);
   }
 }
 

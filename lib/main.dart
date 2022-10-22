@@ -5,6 +5,7 @@ import 'package:expansion/domain/models/repository/user_repository.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -56,10 +57,16 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.kellySlabTextTheme(),
       ),
       builder: (context, child) {
-        center = Size(MediaQuery.of(context).size.width / 2,
-            MediaQuery.of(context).size.height / 2);
-        size = Size(MediaQuery.of(context).size.width,
+        deviceSize = Size(MediaQuery.of(context).size.width,
             MediaQuery.of(context).size.height);
+        ratioXY = Size(standardDeviceSize.width / deviceSize.width,
+            standardDeviceSize.height / deviceSize.height);
+        centerStar = Size(
+            deviceSize.width / 2, deviceSize.height / 2 + 130 * ratioXY.height);
+        if (kDebugMode) {
+          print(
+              'object =$deviceSize == $standardDeviceSize == $ratioXY == $centerStar');
+        }
         final mq = MediaQuery.of(context);
         double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
         return Directionality(

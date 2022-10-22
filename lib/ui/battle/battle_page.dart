@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_renaming_method_parameters
 
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,19 +15,10 @@ class BattlePage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: size.height,
+            height: deviceSize.height,
             child: Image.asset(
               'assets/images/fon2.png',
               fit: BoxFit.fill,
-            ),
-          ),
-          Positioned(
-            top: center.height - 35,
-            left: center.width - 35,
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: AppColor.sun,
             ),
           ),
           Center(
@@ -38,6 +28,7 @@ class BattlePage extends StatelessWidget {
                   if (state is BattleChange) {
                     return Stack(
                       children: [
+                        gameRepository.gameData.system.build(),
                         ...state.planets.map((item) => item.build()).toList()
                       ],
                     );

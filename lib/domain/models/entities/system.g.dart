@@ -9,9 +9,11 @@ part of 'system.dart';
 System _$SystemFromJson(Map<String, dynamic> json) => System(
       name: json['name'] as String,
       starName: json['starName'] as String,
+      diametr: (json['diametr'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$SystemToJson(System instance) => <String, dynamic>{
       'name': instance.name,
       'starName': instance.starName,
+      'diametr': instance.diametr,
     };

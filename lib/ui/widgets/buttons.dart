@@ -15,7 +15,7 @@ class ButtonSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = size.width / 3;
+    double widht = deviceSize.width / 3;
     double height = widht / 3;
     String text = title ?? direct.title;
     Function()? fun = function ?? () => context.go(direct.router);
@@ -73,7 +73,7 @@ class ButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = size.width - 90;
+    double widht = deviceSize.width - 90;
     if (isWidth) {
       widht = widht + 60;
     }

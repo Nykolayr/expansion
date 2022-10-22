@@ -1,5 +1,4 @@
 import 'dart:isolate';
-import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';

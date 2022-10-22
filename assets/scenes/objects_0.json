@@ -1,8 +1,10 @@
 {
-  "system": {
+"system": {
 "name": "solar",
 "starName": "sun",
-"size": 1.0
+"StarType": "classG",
+"diametr": 50.0
+
   },
   "planets": [
    { 
@@ -10,81 +12,80 @@
     "planetType": "earthType",
     "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 60,
-    "diameter": 5,
-    "period": 3,
-    "gradus": 10
+    "distanceSolar": 50.0,
+    "diameter": 30.0,
+    "period": 3.0,
+    "gradus": -20.0
       },
    { 
     "name": "Venus",
     "planetType": "earthType",
-    "planetStatus": "our",
+    "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 80,
-    "diameter": 8,
-    "period": 5,
-    "gradus": -30
+    "distanceSolar": 90.0,
+    "diameter": 35.0,
+    "period": 5.0,
+    "gradus": -30.0
       },
    { 
     "name": "Earth",
         "planetType": "earthType",
-    "planetStatus": "neutral",
+    "planetStatus": "our",
     "description": "",
-    "distanceSolar": 100,
-    "diameter": 9,
-    "period": 7,
-    "gradus": 90
+    "distanceSolar": 135.0,
+    "diameter": 40.0,
+    "period": 7.0,
+    "gradus": 90.0
     },
      { 
     "name": "Mars",
     "planetType": "earthType",
     "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 120,
-    "diameter": 7,
-    "period": 9,
-    "gradus": 140
+    "distanceSolar": 175.0,
+    "diameter": 30.0,
+    "period": 9.0,
+    "gradus": 140.0
     },
     { 
     "name": "Jupiter",
     "planetType": "gasGiant",
     "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 140,
-    "diameter": 9,
-    "period": 12,
-    "gradus": 210
+    "distanceSolar": 245.0,
+    "diameter": 55.0,
+    "period": 11.0,
+    "gradus": 210.0
     },
      { 
     "name": "Saturn",
-   
-    "planetType": "gasGiant",
+       "planetType": "gasGiant",
     "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 160,
-    "diameter": 11,
-    "period": 14,
-        "gradus": 250
+    "distanceSolar":320.0,
+    "diameter": 50.0,
+    "period": 13.0,
+        "gradus": 250.0
     },
      { 
     "name": "Uranus",
     "planetType": "gasGiant",
     "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 180,
-    "diameter": 14,
-    "period": 16,
-    "gradus": 280
+    "distanceSolar": 363.0,
+    "diameter": 40.0,
+    "period": 15.0,
+    "gradus": 280.0
     }, 
     { 
         "name": "Neptune",
         "planetType": "gasGiant",
         "planetStatus": "enemy",
         "description": "",
-        "distanceSolar": 200,
-        "diameter": 11,
-        "period": 18,
-        "gradus": 310
+        "distanceSolar": 420.0,
+        "diameter": 35.0,
+        "period": 17.0,
+        "gradus": 310.0
         } 
 ]
  }

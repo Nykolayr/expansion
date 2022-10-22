@@ -125,7 +125,9 @@ final GoRouter router = GoRouter(
         context: context,
         state: state,
         child: BlocProvider(
-          create: (_) => BattleBloc()..add(InitEvent()),
+          create: (_) {
+            return BattleBloc()..add(InitEvent());
+          },
           child: const BattlePage(),
         ),
       ),

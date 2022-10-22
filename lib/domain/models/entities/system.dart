@@ -7,9 +7,11 @@ part 'system.g.dart';
 class System {
   String name;
   String starName;
+  double diametr;
   System({
     required this.name,
     required this.starName,
+    required this.diametr,
   });
   factory System.fromJson(Map<String, dynamic> json) => _$SystemFromJson(json);
   Map<String, dynamic> toJson() => _$SystemToJson(this);

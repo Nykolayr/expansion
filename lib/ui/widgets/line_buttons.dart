@@ -10,7 +10,7 @@ class LineButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double widht = size.width / 3 - 6;
+    final double widht = deviceSize.width / 3 - 6;
     final double height = widht / 3 + 10;
     return Container(
         margin: const EdgeInsets.symmetric(
@@ -18,7 +18,7 @@ class LineButtons extends StatelessWidget {
           vertical: 20,
         ),
         height: height,
-        width: size.width - 30,
+        width: deviceSize.width - 30,
         child: Stack(
           children: isTop
               ? [
@@ -75,7 +75,7 @@ class LineMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double widht = (size.width - 45) / 2 - 12;
+    final double widht = (deviceSize.width - 45) / 2 - 12;
     return Stack(
       children: [
         Align(
