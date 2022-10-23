@@ -2,7 +2,6 @@ import 'dart:isolate';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
-import 'package:expansion/domain/models/entities/planet.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/value.dart';
 
