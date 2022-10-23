@@ -46,14 +46,14 @@ abstract class EntityObject {
 enum TypeObject { ourObject, enemyObject, baseObject }
 
 extension TypeObjectExtention on TypeObject {
-  String get nameMenu {
+  String get picture {
     switch (this) {
       case TypeObject.ourObject:
-        return tr('our');
+        return 'assets/images/our.png';
       case TypeObject.enemyObject:
-        return tr('enemy');
+        return 'assets/images/enemy.png';
       case TypeObject.baseObject:
-        return tr('neutral');
+        return 'assets/images/neutral.png';
     }
   }
 }

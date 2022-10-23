@@ -9,14 +9,87 @@
   "objects": [
    { 
     "coordinates": {"x": 100, "y": 100},
-    "planetType": "earthType",
-    "planetStatus": "neutral",
     "description": "",
-    "distanceSolar": 50.0,
-    "diameter": 30.0,
-    "period": 10.0,
-    "gradus": -20.0
-      },
-   
+    "inicialShips": 100,
+    "maxShips": 100,
+    "shild": 0.0,
+    "speedBuild": 1.0,
+    "speedResources": 1.0,
+    "resources": 0.0,
+    "planetType": "ourObject",
+    "planetStatus": "our"
+  },
+    { 
+  "coordinates": {"x": 500, "y": 500},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "enemyObject",
+  "planetStatus": "enemy"
+  },
+  { 
+  "coordinates": {"x": 200, "y": 200},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "baseObject",
+  "planetStatus": "neutral"
+  },
+  { 
+  "coordinates": {"x": 200, "y": 300},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "baseObject",
+  "planetStatus": "neutral"
+  },
+  { 
+  "coordinates": {"x": 400, "y": 200},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "baseObject",
+  "planetStatus": "neutral"
+  },
+  { 
+  "coordinates": {"x": 400, "y": 300},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "baseObject",
+  "planetStatus": "neutral"
+  },       
+  { 
+  "coordinates": {"x": 250, "y": 500},
+  "description": "",
+  "inicialShips": 100,
+  "maxShips": 100,
+  "shild": 0.0,
+  "speedBuild": 1.0,
+  "speedResources": 1.0,
+  "resources": 0.0,
+  "planetType": "baseObject",
+  "planetStatus": "neutral"
+  }
 ]
  }

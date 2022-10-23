@@ -1,4 +1,5 @@
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 
 class NeutralBase extends EntityObject {
@@ -11,24 +12,27 @@ class NeutralBase extends EntityObject {
     required super.ships,
     required super.speedBuild,
     required super.speedResources,
-    required super.typeObject,
     required super.resources,
+    required super.typeObject,
     required super.typeStatus,
   });
 
   factory NeutralBase.fromJson(Map<String, dynamic> json) {
     return NeutralBase(
-      coordinates: json['coordinates'],
+      coordinates: Size(json['coordinates']['x'] * ratioXY.width,
+          json['coordinates']['y'] * ratioXY.height),
       description: json['description'],
       inicialShips: json['inicialShips'],
       maxShips: json['maxShips'],
       shild: json['shild'],
-      ships: json['ships'],
+      ships: json['inicialShips'],
       speedBuild: json['speedBuild'],
       speedResources: json['speedResources'],
-      typeObject: json['typeObject'],
+      typeObject: TypeObject.values.firstWhere(
+          (e) => e.toString() == 'TypeObject.${json["typeObject"]}'),
       resources: json['resources'],
-      typeStatus: json['typeStatus'],
+      typeStatus: TypeStatus.values.firstWhere(
+          (e) => e.toString() == 'TypeStatus.${json["TypeStatus"]}'),
     );
   }
   Map<String, dynamic> toJson() => {
@@ -47,8 +51,7 @@ class NeutralBase extends EntityObject {
 
   @override
   Widget build() {
-    // TODO: implement build
-    throw UnimplementedError();
+    retrun 
   }
 
   @override
