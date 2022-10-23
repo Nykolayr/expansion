@@ -110,7 +110,7 @@ class Planet extends EntitySpace {
 
   @override
   void update() {
-    gradus += 3 / period;
+    gradus += 0.3 / period;
     if (gradus > 360) gradus = 0;
     size = getcoordinates(gradus, distanceSolar, diameter);
   }
