@@ -18,8 +18,11 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .whenComplete(() async {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
     userRepository = await UserRepository.create();
     // Добавляем два isolate
     computer = Computer.create();
@@ -61,11 +64,13 @@ class MyApp extends StatelessWidget {
             MediaQuery.of(context).size.height);
         ratioXY = Size(standardDeviceSize.width / deviceSize.width,
             standardDeviceSize.height / deviceSize.height);
-        centerStar = Size(
-            deviceSize.width / 2, deviceSize.height / 2 + 130 * ratioXY.height);
+        centerTop = Size(
+            deviceSize.width / 2, deviceSize.height / 2 - 300 * ratioXY.height);
+        centerDown = Size(
+            deviceSize.width / 2, deviceSize.height / 2 + 300 * ratioXY.height);
         if (kDebugMode) {
           print(
-              'object =$deviceSize == $standardDeviceSize == $ratioXY == $centerStar');
+              'object =$deviceSize == $standardDeviceSize == $ratioXY == $centerTop');
         }
         final mq = MediaQuery.of(context);
         double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);

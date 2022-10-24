@@ -28,8 +28,7 @@ class BattlePage extends StatelessWidget {
                   if (state is BattleChange) {
                     return Stack(
                       children: [
-                        gameRepository.gameData.system.build(),
-                        ...state.planets.map((item) => item.build()).toList()
+                        ...state.objects.map((item) => item.build()).toList()
                       ],
                     );
                   }

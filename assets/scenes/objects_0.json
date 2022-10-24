@@ -2,94 +2,66 @@
 "system": {
 "name": "solar",
 "starName": "sun",
-"StarType": "classG",
-"diametr": 50.0
-
-  },
-  "objects": [
+"StarType": "classG"
+},
+"mainShipEnemy": 
+  { 
+  "coordinates": {"x": 100, "y": 100},
+   "shild": 0.0,
+   "speedBuild": 1.0,
+   "speedResources": 1.0,
+   "inicialShips": 100,
+   "size": 60
+ },
+ "mainShipOur":   { 
+ "coordinates": {"x": 100, "y": 500},
+ "description": "",
+ "inicialShips": 100,
+ "maxShips": 100,
+ "shild": 0.0,
+ "speedBuild": 1.0,
+ "speedResources": 1.0,
+ "resources": 0.0,
+ "typeObject": "enemyObject",
+ "typeStatus": "enemy",
+ "size": 60
+ },
+   "neutral": [
    { 
-    "coordinates": {"x": 100, "y": 100},
-    "description": "",
-    "inicialShips": 100,
-    "maxShips": 100,
-    "shild": 0.0,
-    "speedBuild": 1.0,
-    "speedResources": 1.0,
-    "resources": 0.0,
-    "planetType": "ourObject",
-    "planetStatus": "our"
-  },
-    { 
-  "coordinates": {"x": 500, "y": 500},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "enemyObject",
-  "planetStatus": "enemy"
+    "coordinates": {"x": 1, "y": 0},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
   },
   { 
-  "coordinates": {"x": 200, "y": 200},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "baseObject",
-  "planetStatus": "neutral"
+    "coordinates": {"x": 3, "y": 0},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
   },
   { 
-  "coordinates": {"x": 200, "y": 300},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "baseObject",
-  "planetStatus": "neutral"
+    "coordinates": {"x": 0, "y": 2},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
   },
   { 
-  "coordinates": {"x": 400, "y": 200},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "baseObject",
-  "planetStatus": "neutral"
+    "coordinates": {"x": 2, "y": 3},
+     "typeNeutral": "midleBase",
+     "typeStatus": "neutral"
   },
   { 
-  "coordinates": {"x": 400, "y": 300},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "baseObject",
-  "planetStatus": "neutral"
-  },       
+    "coordinates": {"x": 4, "y": 4},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
+  },
   { 
-  "coordinates": {"x": 250, "y": 500},
-  "description": "",
-  "inicialShips": 100,
-  "maxShips": 100,
-  "shild": 0.0,
-  "speedBuild": 1.0,
-  "speedResources": 1.0,
-  "resources": 0.0,
-  "planetType": "baseObject",
-  "planetStatus": "neutral"
+    "coordinates": {"x": 1, "y": 6},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
+  },
+  { 
+    "coordinates": {"x": 3, "y": 6},
+     "typeNeutral": "base",
+     "typeStatus": "neutral"
   }
+  
 ]
  }

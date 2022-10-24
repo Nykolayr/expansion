@@ -5,13 +5,11 @@ class OurMainShip extends EntityObject {
   OurMainShip({
     required super.coordinates,
     required super.description,
-    required super.inicialShips,
     required super.maxShips,
     required super.shild,
     required super.ships,
     required super.speedBuild,
     required super.speedResources,
-    required super.typeObject,
     required super.resources,
     required super.typeStatus,
   });
@@ -20,13 +18,11 @@ class OurMainShip extends EntityObject {
     return OurMainShip(
       coordinates: json['coordinates'],
       description: json['description'],
-      inicialShips: json['inicialShips'],
       maxShips: json['maxShips'],
       shild: json['shild'],
       ships: json['ships'],
       speedBuild: json['speedBuild'],
       speedResources: json['speedResources'],
-      typeObject: json['typeObject'],
       resources: json['resources'],
       typeStatus: json['typeStatus'],
     );
@@ -34,13 +30,11 @@ class OurMainShip extends EntityObject {
   Map<String, dynamic> toJson() => {
         "coordinates": coordinates,
         "description": description,
-        "inicialShips": inicialShips,
         "maxShips": maxShips,
         "shild": shild,
         "ships": ships,
         "speedBuild": speedBuild,
         "speedResources": speedResources,
-        "typeObject": typeObject,
         "resources": resources,
         "typeStatus": typeStatus,
       };

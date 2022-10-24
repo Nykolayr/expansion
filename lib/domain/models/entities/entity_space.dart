@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 /// Абстрактный класс объект,  есть 4 фактора
@@ -11,30 +11,27 @@ import 'package:flutter/material.dart';
 /// typeObject - изначальный тип объекта,   наш, врага, нейтральная
 ///   inicialShips  - начальное значение кораблей на объекте
 /// typeStatus - статус объекта, захвачен нами, врагами, или нейтральный
+/// size - размер объекта
 
 abstract class EntityObject {
   Size coordinates;
-  TypeObject typeObject;
   TypeStatus typeStatus;
   String description;
   double shild;
-  double maxShips;
+  int maxShips;
   double speedBuild;
   double speedResources;
-  int inicialShips;
   int ships;
   double resources;
 
   EntityObject({
     required this.coordinates,
-    required this.typeObject,
     required this.description,
     required this.shild,
     required this.maxShips,
     required this.speedBuild,
     required this.speedResources,
     required this.ships,
-    required this.inicialShips,
     required this.typeStatus,
     required this.resources,
   });
@@ -43,32 +40,17 @@ abstract class EntityObject {
   Widget build();
 }
 
-enum TypeObject { ourObject, enemyObject, baseObject }
-
-extension TypeObjectExtention on TypeObject {
-  String get picture {
-    switch (this) {
-      case TypeObject.ourObject:
-        return 'assets/images/our.png';
-      case TypeObject.enemyObject:
-        return 'assets/images/enemy.png';
-      case TypeObject.baseObject:
-        return 'assets/images/neutral.png';
-    }
-  }
-}
-
 enum TypeStatus { our, enemy, neutral }
 
 extension TypeStatusExtention on TypeStatus {
-  String get nameMenu {
+  Color get colorBorder {
     switch (this) {
       case TypeStatus.our:
-        return tr('our');
+        return AppColor.green;
       case TypeStatus.enemy:
-        return tr('enemy');
+        return AppColor.red;
       case TypeStatus.neutral:
-        return tr('neutral');
+        return AppColor.white;
     }
   }
 }
