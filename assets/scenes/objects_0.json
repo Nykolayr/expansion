@@ -7,15 +7,17 @@
 "mainShipEnemy": 
   { 
   "coordinates": {"x": 100, "y": 100},
+  "description": "Это вражеский корабль",
    "shild": 0.0,
    "speedBuild": 1.0,
    "speedResources": 1.0,
    "inicialShips": 100,
+   "maxShips": 200,
    "size": 60
  },
  "mainShipOur":   { 
  "coordinates": {"x": 100, "y": 500},
- "description": "",
+ "description": "Это наш корабль",
  "inicialShips": 100,
  "maxShips": 100,
  "shild": 0.0,

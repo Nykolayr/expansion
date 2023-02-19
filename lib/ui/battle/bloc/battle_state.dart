@@ -8,9 +8,9 @@ abstract class BattleState extends Equatable {
 class Battleinit extends BattleState {}
 
 class BattleChange extends BattleState {
-  final List<NeutralBase> objects;
+  final List<Base> objects;
   BattleChange(this.objects);
-  factory BattleChange.copyWith(List<NeutralBase> objects) {
+  factory BattleChange.copyWith(List<Base> objects) {
     return BattleChange(objects);
   }
 }

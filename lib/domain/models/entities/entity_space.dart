@@ -1,4 +1,3 @@
-import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 /// Абстрактный класс объект,  есть 4 фактора
@@ -42,15 +41,15 @@ abstract class EntityObject {
 
 enum TypeStatus { our, enemy, neutral }
 
-extension TypeStatusExtention on TypeStatus {
-  Color get colorBorder {
-    switch (this) {
-      case TypeStatus.our:
-        return AppColor.green;
-      case TypeStatus.enemy:
-        return AppColor.red;
-      case TypeStatus.neutral:
-        return AppColor.white;
-    }
-  }
-}
+// extension TypeStatusExtention on TypeStatus {
+//   String get path {
+//     switch (this) {
+//       case TypeStatus.our:
+//         return 'our.png';
+//       case TypeStatus.enemy:
+//         return 'enemy.png';
+//       case TypeStatus.neutral:
+//         return 'neutral.png';
+//     }
+//   }
+// }
