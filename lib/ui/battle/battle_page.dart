@@ -4,12 +4,16 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BattlePage extends StatelessWidget {
   const BattlePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> accepted = [];
+    List<dynamic> rejected = [];
+
     context.watch<BattleBloc>();
     return Scaffold(
       body: Stack(
@@ -28,7 +32,44 @@ class BattlePage extends StatelessWidget {
                   if (state is BattleChange) {
                     return Stack(
                       children: [
-                        ...state.objects.map((item) => item.build()).toList()
+                        ...state.objects.map((item) {
+                          int index = state.objects.indexOf(item);
+                          return item.build(
+                              state.index == index,
+                              () => context
+                                  .read<BattleBloc>()
+                                  .add(PressEvent(index)));
+                        }).toList(),
+                        Positioned(
+                          bottom: 0,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 80,
+                            color: Colors.yellow,
+                            child: Center(
+                              child: (state.index == -1)
+                                  ? const Text(
+                                      'Выберите объект на карте, чтобы узнать подробности')
+                                  : state.objects[state.index].getText(),
+                            ),
+                          ),
+                        ),
+                        // Positioned(
+                        //   bottom: 0,
+                        //   child: DragTarget<String>(
+                        //     builder: (
+                        //       BuildContext context,
+                        //       List<dynamic> accepted,
+                        //       List<dynamic> rejected,
+                        //     ) {
+                        //       return Container(
+                        //         height: 300,
+                        //         width: 300,
+                        //         color: Colors.black,
+                        //       );
+                        //     },
+                        //   ),
+                        // ),
                       ],
                     );
                   }

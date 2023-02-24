@@ -2,7 +2,7 @@ import 'dart:isolate';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
-import 'package:expansion/domain/models/entities/base.dart';
+import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/value.dart';
 
@@ -15,8 +15,20 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   BattleBloc() : super(Battleinit()) {
     on<InitEvent>(_onInit);
     on<TicEvent>(_onIic);
+    on<PressEvent>(_onPress);
   }
   GameData gameData = gameRepository.gameData;
+  int selectObject = -1;
+
+  _onPress(PressEvent event, Emitter<BattleState> emit) async {
+    emit(Battleinit());
+    if (selectObject == event.index) {
+      selectObject = -1;
+    } else {
+      selectObject = event.index;
+    }
+    emit(BattleChange.copyWith(gameData.objects, selectObject));
+  }
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
     await gameData.loadMap();
@@ -29,9 +41,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onIic(TicEvent event, Emitter<BattleState> emit) async {
     emit(Battleinit());
-    for (var item in gameData.planets) {
+    for (var item in gameData.objects) {
       item.update();
     }
-    emit(BattleChange.copyWith(gameData.planets));
+    emit(BattleChange.copyWith(gameData.objects, selectObject));
   }
 }

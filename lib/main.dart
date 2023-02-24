@@ -64,14 +64,6 @@ class MyApp extends StatelessWidget {
             MediaQuery.of(context).size.height);
         ratioXY = Size(standardDeviceSize.width / deviceSize.width,
             standardDeviceSize.height / deviceSize.height);
-        centerTop = Size(
-            deviceSize.width / 2, deviceSize.height / 2 - 300 * ratioXY.height);
-        centerDown = Size(
-            deviceSize.width / 2, deviceSize.height / 2 + 300 * ratioXY.height);
-        if (kDebugMode) {
-          print(
-              'object =$deviceSize == $standardDeviceSize == $ratioXY == $centerTop');
-        }
         final mq = MediaQuery.of(context);
         double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
         return Directionality(

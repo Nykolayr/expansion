@@ -1,3 +1,4 @@
+import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 /// Абстрактный класс объект,  есть 4 фактора
@@ -36,20 +37,43 @@ abstract class EntityObject {
   });
 
   void update();
-  Widget build();
+  Widget build(bool isTap, Function() click);
+  Widget getText();
 }
 
 enum TypeStatus { our, enemy, neutral }
 
-// extension TypeStatusExtention on TypeStatus {
-//   String get path {
-//     switch (this) {
-//       case TypeStatus.our:
-//         return 'our.png';
-//       case TypeStatus.enemy:
-//         return 'enemy.png';
-//       case TypeStatus.neutral:
-//         return 'neutral.png';
-//     }
-//   }
-// }
+extension TypeStatusExtention on TypeStatus {
+  String get desc {
+    switch (this) {
+      case TypeStatus.our:
+        return 'Этот объект наш';
+      case TypeStatus.enemy:
+        return 'Этот объект вражеский';
+      case TypeStatus.neutral:
+        return 'Этот объект нейтральный';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case TypeStatus.our:
+        return AppColor.green;
+      case TypeStatus.enemy:
+        return AppColor.red;
+      case TypeStatus.neutral:
+        return AppColor.white;
+    }
+  }
+
+  Color get colorText {
+    switch (this) {
+      case TypeStatus.our:
+        return AppColor.white;
+      case TypeStatus.enemy:
+        return AppColor.white;
+      case TypeStatus.neutral:
+        return AppColor.black;
+    }
+  }
+}

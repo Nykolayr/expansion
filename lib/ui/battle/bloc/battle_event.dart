@@ -10,3 +10,8 @@ abstract class BattleEvent extends Equatable {
 class InitEvent extends BattleEvent {}
 
 class TicEvent extends BattleEvent {}
+
+class PressEvent extends BattleEvent {
+  final int index;
+  const PressEvent(this.index);
+}

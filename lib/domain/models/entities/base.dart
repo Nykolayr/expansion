@@ -1,33 +1,35 @@
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Base extends EntityObject {
   SizeBase sizeBase;
   int timeCapture;
-  Base({
-    required super.coordinates,
-    required super.description,
-    required super.maxShips,
-    required super.shild,
-    required super.ships,
-    required super.speedBuild,
-    required super.speedResources,
-    required super.resources,
-    required super.typeStatus,
-    required this.sizeBase,
-    required this.timeCapture,
-  });
+  double speedBuildShips;
+  Base(
+      {required super.coordinates,
+      required super.description,
+      required super.maxShips,
+      required super.shild,
+      required super.ships,
+      required super.speedBuild,
+      required super.speedResources,
+      required super.resources,
+      required super.typeStatus,
+      required this.sizeBase,
+      required this.timeCapture,
+      required this.speedBuildShips});
 
   factory Base.fromJson(Map<String, dynamic> json) {
     final int x = json['coordinates']['x'];
     final int y = json['coordinates']['y'];
-
     SizeBase sizeBase = SizeBase.values
-        .firstWhere((e) => e.toString() == 'SizeBase.${json["sizeBase"]}');
+        .firstWhere((e) => e.toString() == 'SizeBase.${json["typeNeutral"]}');
+    final size = sizeBase.add.size;
     return Base(
-      coordinates: Size(coordinatListX[x] * ratioXY.width,
-          coordinatListY[y] * ratioXY.height),
+      coordinates: Size((stepX * x - size / 2) * ratioXY.width,
+          (stepY * y - size / 2) * ratioXY.height),
       ships: sizeBase.add.maxShips,
       description: sizeBase.add.description,
       sizeBase: sizeBase,
@@ -39,6 +41,7 @@ class Base extends EntityObject {
       resources: 0.0,
       typeStatus: TypeStatus.values.firstWhere(
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
+      speedBuildShips: 0,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -55,23 +58,77 @@ class Base extends EntityObject {
       };
 
   @override
-  Widget build() {
+  Widget build(bool isTap, Function() click) {
     return Positioned(
       top: coordinates.height,
       left: coordinates.width,
-      child: Container(
-        padding: const EdgeInsets.all(7),
-        height: sizeBase.add.size,
-        width: sizeBase.add.size,
-        child:
-            Image.asset('${sizeBase.add.pictire}${typeStatus.name}_base.png'),
+      child: GestureDetector(
+        onTap: click,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(7),
+              height: sizeBase.add.size,
+              width: sizeBase.add.size,
+              child: Image.asset(
+                  '${sizeBase.add.pictire}${typeStatus.name}_base.png'),
+            ),
+            Positioned(
+              bottom: 5,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+                color: typeStatus.color,
+                child: Text(
+                  ships.toString(),
+                  style: TextStyle(
+                    color: typeStatus.colorText,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            isTap
+                ? Container(
+                    height: sizeBase.add.size,
+                    width: sizeBase.add.size,
+                    padding: const EdgeInsets.all(15),
+                    child: SvgPicture.asset(
+                      'assets/svg/cursor.svg',
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
+        ),
       ),
     );
   }
 
   @override
   void update() {
-    // TODO: implement update
+    if (typeStatus == TypeStatus.neutral) return;
+    speedBuildShips += speedBuild / 2;
+    if (speedBuildShips > maxbuildShips) {
+      if (ships < maxShips) {
+        ships++;
+        speedBuildShips = 0;
+      }
+    }
+  }
+
+  @override
+  Widget getText() {
+    return Container(
+      padding: const EdgeInsets.all(5),
+      child: Text('''
+Описание: $description. 
+Статус: ${typeStatus.desc}.  Имеет щит: $shild. 
+Кораблей: $ships. Максимальное количество кораблей: $maxShips. 
+Скорость производства: $speedBuild.   
+''', textAlign: TextAlign.center),
+    );
   }
 }
 
