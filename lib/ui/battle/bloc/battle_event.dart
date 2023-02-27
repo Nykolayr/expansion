@@ -15,3 +15,9 @@ class PressEvent extends BattleEvent {
   final int index;
   const PressEvent(this.index);
 }
+
+class SendEvent extends BattleEvent {
+  final int index;
+  final int send;
+  const SendEvent(this.index, this.send);
+}

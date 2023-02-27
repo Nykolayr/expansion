@@ -1,4 +1,5 @@
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,7 +20,8 @@ class Base extends EntityObject {
       required super.typeStatus,
       required this.sizeBase,
       required this.timeCapture,
-      required this.speedBuildShips});
+      required this.speedBuildShips,
+      required super.actionObject});
 
   factory Base.fromJson(Map<String, dynamic> json) {
     final int x = json['coordinates']['x'];
@@ -42,6 +44,7 @@ class Base extends EntityObject {
       typeStatus: TypeStatus.values.firstWhere(
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
       speedBuildShips: 0,
+      actionObject: ActionObject.no,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -58,7 +61,12 @@ class Base extends EntityObject {
       };
 
   @override
-  Widget build(bool isTap, Function() click) {
+  Widget build({
+    required int index,
+    // required ActionObject actionObject,
+    required Function() click,
+    required Function(int sender) onAccept,
+  }) {
     return Positioned(
       top: coordinates.height,
       left: coordinates.width,
@@ -67,12 +75,21 @@ class Base extends EntityObject {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(7),
-              height: sizeBase.add.size,
-              width: sizeBase.add.size,
-              child: Image.asset(
-                  '${sizeBase.add.pictire}${typeStatus.name}_base.png'),
+            DragTarget<int>(
+              builder: (
+                BuildContext context,
+                List<dynamic> accepted,
+                List<dynamic> rejected,
+              ) {
+                return Container(
+                  padding: const EdgeInsets.all(7),
+                  height: sizeBase.add.size,
+                  width: sizeBase.add.size,
+                  child: Image.asset(
+                      '${sizeBase.add.pictire}${typeStatus.name}_base.png'),
+                );
+              },
+              onAccept: (int sender) => onAccept(sender),
             ),
             Positioned(
               bottom: 5,
@@ -90,16 +107,16 @@ class Base extends EntityObject {
                 ),
               ),
             ),
-            isTap
-                ? Container(
+            (actionObject == ActionObject.no)
+                ? const SizedBox.shrink()
+                : Container(
                     height: sizeBase.add.size,
                     width: sizeBase.add.size,
                     padding: const EdgeInsets.all(15),
                     child: SvgPicture.asset(
                       'assets/svg/cursor.svg',
                     ),
-                  )
-                : const SizedBox.shrink(),
+                  ),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,6 +21,7 @@ class Ship extends EntityObject {
     required this.size,
     required this.path,
     required this.speedBuildShips,
+    required super.actionObject,
   });
   factory Ship.fromJson(Map<String, dynamic> json) {
     final int x = json['coordinates']['x'];
@@ -43,6 +45,7 @@ class Ship extends EntityObject {
       size: size,
       path: json['path'],
       speedBuildShips: 0,
+      actionObject: ActionObject.no,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -60,7 +63,12 @@ class Ship extends EntityObject {
       };
 
   @override
-  Widget build(bool isTap, Function() click) {
+  Widget build({
+    required int index,
+    // required ActionObject actionObject,
+    required Function() click,
+    required Function(int sender) onAccept,
+  }) {
     return Positioned(
       top: coordinates.height,
       left: coordinates.width,
@@ -70,14 +78,10 @@ class Ship extends EntityObject {
           alignment: Alignment.center,
           children: [
             Draggable<int>(
-              data: 100,
-              feedback: Container(
-                height: size.toDouble(),
-                width: size.toDouble(),
-                padding: const EdgeInsets.all(17),
-                child: SvgPicture.asset(
-                  'assets/svg/cursor.svg',
-                ),
+              data: index,
+              feedback: const SizedBox(
+                width: 60,
+                height: 60,
               ),
               child: Container(
                 padding: const EdgeInsets.all(7),
@@ -102,16 +106,18 @@ class Ship extends EntityObject {
                 ),
               ),
             ),
-            isTap
-                ? Container(
+            (actionObject == ActionObject.no)
+                ? const SizedBox.shrink()
+                : Container(
                     height: size.toDouble(),
                     width: size.toDouble(),
                     padding: const EdgeInsets.all(17),
                     child: SvgPicture.asset(
                       'assets/svg/cursor.svg',
+                      colorFilter: ColorFilter.mode(
+                          actionObject.colorCrossFire, BlendMode.clear),
                     ),
-                  )
-                : const SizedBox.shrink(),
+                  ),
           ],
         ),
       ),
@@ -120,7 +126,7 @@ class Ship extends EntityObject {
 
   @override
   void update() {
-    speedBuildShips += speedBuild / 2;
+    speedBuildShips += speedBuild / 3;
     if (speedBuildShips > maxbuildShips) {
       if (ships < maxShips) {
         ships++;

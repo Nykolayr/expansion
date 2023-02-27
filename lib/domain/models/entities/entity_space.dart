@@ -1,3 +1,4 @@
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +24,7 @@ abstract class EntityObject {
   double speedResources;
   int ships;
   double resources;
+  ActionObject actionObject;
 
   EntityObject({
     required this.coordinates,
@@ -34,10 +36,16 @@ abstract class EntityObject {
     required this.ships,
     required this.typeStatus,
     required this.resources,
+    required this.actionObject,
   });
 
   void update();
-  Widget build(bool isTap, Function() click);
+  Widget build({
+    required int index,
+    // required ActionObject actionObject,
+    required Function() click,
+    required Function(int sender) onAccept,
+  });
   Widget getText();
 }
 

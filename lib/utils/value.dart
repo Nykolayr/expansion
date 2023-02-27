@@ -35,3 +35,5 @@ double stepX = standardDeviceSize.width / 6;
 double stepY = (standardDeviceSize.height - 80) / 8;
 // максимальная скорость постройки кораблей
 double maxbuildShips = 20;
+// количество тиков которые нужно пропустить для рендеринга
+int maxHoldTic = 2;

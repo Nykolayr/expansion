@@ -4,16 +4,12 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BattlePage extends StatelessWidget {
   const BattlePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> accepted = [];
-    List<dynamic> rejected = [];
-
     context.watch<BattleBloc>();
     return Scaffold(
       body: Stack(
@@ -35,10 +31,14 @@ class BattlePage extends StatelessWidget {
                         ...state.objects.map((item) {
                           int index = state.objects.indexOf(item);
                           return item.build(
-                              state.index == index,
-                              () => context
-                                  .read<BattleBloc>()
-                                  .add(PressEvent(index)));
+                            index: index,
+                            click: () => context
+                                .read<BattleBloc>()
+                                .add(PressEvent(index)),
+                            onAccept: (sender) => context
+                                .read<BattleBloc>()
+                                .add(SendEvent(index, sender)),
+                          );
                         }).toList(),
                         Positioned(
                           bottom: 0,
@@ -54,22 +54,6 @@ class BattlePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Positioned(
-                        //   bottom: 0,
-                        //   child: DragTarget<String>(
-                        //     builder: (
-                        //       BuildContext context,
-                        //       List<dynamic> accepted,
-                        //       List<dynamic> rejected,
-                        //     ) {
-                        //       return Container(
-                        //         height: 300,
-                        //         width: 300,
-                        //         color: Colors.black,
-                        //       );
-                        //     },
-                        //   ),
-                        // ),
                       ],
                     );
                   }
