@@ -7,6 +7,8 @@ import 'package:computer/computer.dart';
 late UserRepository userRepository;
 GameRepository gameRepository = GameRepository();
 
+///
+
 /// адресс где находится политика безопасности
 const politicUrl = 'https://flutter.dev';
 
@@ -37,3 +39,8 @@ double stepY = (standardDeviceSize.height - 80) / 8;
 double maxbuildShips = 20;
 // количество тиков которые нужно пропустить для рендеринга
 int maxHoldTic = 2;
+
+// скорость наших кораблей
+double ourSpeed = 1;
+// скорость чужих кораблей
+double enemySpeed = 1;

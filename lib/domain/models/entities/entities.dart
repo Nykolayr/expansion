@@ -19,6 +19,7 @@ abstract class EntitesObject {
     Function() click,
     Function(int sender) onAccept,
   });
+  Widget getText();
 }
 
 enum TypeStatus {

@@ -1,6 +1,5 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
-import 'package:flutter/material.dart';
 
 /// Абстрактный класс объект база(наша, враг и нейтралы),  есть 4 фактора
 /// speedBuild скорость изготовление кораблей - повышается постройкой
@@ -36,5 +35,4 @@ abstract class BaseObject extends EntitesObject {
     required this.resources,
     required this.actionObject,
   });
-  Widget getText();
 }

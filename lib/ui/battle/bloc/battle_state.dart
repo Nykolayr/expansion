@@ -1,7 +1,7 @@
 part of 'battle_bloc.dart';
 
 class BattleState {
-  final List<BaseObject> objects;
+  final List<EntitesObject> objects;
   final int index;
   final int toIndex;
   final ActionObject action;
@@ -15,7 +15,7 @@ class BattleState {
   factory BattleState.initial() =>
       BattleState(objects: [], index: -1, toIndex: -1, action: ActionObject.no);
   BattleState copyWith({
-    List<BaseObject>? objects,
+    List<EntitesObject>? objects,
     int? index,
     int? toIndex,
     ActionObject? action,

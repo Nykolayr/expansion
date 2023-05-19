@@ -21,3 +21,9 @@ class SendEvent extends BattleEvent {
   final int send;
   const SendEvent(this.index, this.send);
 }
+
+class ArriveShipsEvent extends BattleEvent {
+  final int index;
+  final int toIndex;
+  const ArriveShipsEvent(this.index, this.toIndex);
+}

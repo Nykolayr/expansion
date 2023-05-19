@@ -1,12 +1,12 @@
 import 'package:expansion/Api/api.dart';
 import 'package:expansion/domain/models/entities/base.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/base_ships.dart';
 
 /// класс игровых сущностей которые загружаются из апи или ассета
 ///  List<Planet> - список планет, system - название системы и звезды
 class GameData {
-  List<BaseObject> objects = [];
+  List<EntitesObject> objects = [];
   int countScene = 0;
   loadMap() async {
     Map<String, dynamic> json = await Api.loadJson(countScene);

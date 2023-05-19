@@ -49,7 +49,7 @@ class BattlePage extends StatelessWidget {
                             child: (state.index == -1)
                                 ? const Text(
                                     'Выберите объект на карте, чтобы узнать подробности')
-                                : state.objects[state.index].getText(),
+                                : state.objects[state.index].getText() ,
                           ),
                         ),
                       ),
