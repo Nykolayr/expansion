@@ -23,12 +23,12 @@ class UserRepository {
       userRepository = UserRepository._();
       switch (locale[0]) {
         case 'ru':
-          userRepository.settings.copyWith(
+          userRepository.settings = userRepository.settings.copyWith(
             lang: Lang.ru,
           );
           break;
         case 'en':
-          userRepository.settings.copyWith(
+          userRepository.settings = userRepository.settings.copyWith(
             lang: Lang.en,
           );
           break;

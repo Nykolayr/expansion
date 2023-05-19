@@ -1,17 +1,29 @@
 part of 'battle_bloc.dart';
 
-abstract class BattleState extends Equatable {
-  @override
-  List<EntityObject> get props => [];
-}
-
-class Battleinit extends BattleState {}
-
-class BattleChange extends BattleState {
-  final List<EntityObject> objects;
+class BattleState {
+  final List<BaseObject> objects;
   final int index;
-  BattleChange(this.objects, this.index);
-  factory BattleChange.copyWith(List<EntityObject> objects, int index) {
-    return BattleChange(objects, index);
-  }
+  final int toIndex;
+  final ActionObject action;
+
+  BattleState({
+    required this.objects,
+    required this.index,
+    required this.toIndex,
+    required this.action,
+  });
+  factory BattleState.initial() =>
+      BattleState(objects: [], index: -1, toIndex: -1, action: ActionObject.no);
+  BattleState copyWith({
+    List<BaseObject>? objects,
+    int? index,
+    int? toIndex,
+    ActionObject? action,
+  }) =>
+      BattleState(
+        objects: objects ?? this.objects,
+        index: index ?? this.index,
+        toIndex: toIndex ?? this.toIndex,
+        action: action ?? this.action,
+      );
 }

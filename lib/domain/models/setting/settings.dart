@@ -17,9 +17,10 @@ class Settings with _$Settings {
       _$SettingsFromJson(json);
 }
 
-enum Lang { ru, en }
+enum Lang {
+  ru,
+  en;
 
-extension LangExtention on Lang {
   Locale get locale {
     switch (this) {
       case Lang.ru:

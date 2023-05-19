@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'game.dart';
 
@@ -32,38 +32,42 @@ mixin _$Game {
 /// @nodoc
 abstract class $GameCopyWith<$Res> {
   factory $GameCopyWith(Game value, $Res Function(Game) then) =
-      _$GameCopyWithImpl<$Res>;
+      _$GameCopyWithImpl<$Res, Game>;
+  @useResult
   $Res call({Univer univer, Level level, bool isHint});
 }
 
 /// @nodoc
-class _$GameCopyWithImpl<$Res> implements $GameCopyWith<$Res> {
+class _$GameCopyWithImpl<$Res, $Val extends Game>
+    implements $GameCopyWith<$Res> {
   _$GameCopyWithImpl(this._value, this._then);
 
-  final Game _value;
   // ignore: unused_field
-  final $Res Function(Game) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? univer = freezed,
-    Object? level = freezed,
-    Object? isHint = freezed,
+    Object? univer = null,
+    Object? level = null,
+    Object? isHint = null,
   }) {
     return _then(_value.copyWith(
-      univer: univer == freezed
+      univer: null == univer
           ? _value.univer
           : univer // ignore: cast_nullable_to_non_nullable
               as Univer,
-      level: level == freezed
+      level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as Level,
-      isHint: isHint == freezed
+      isHint: null == isHint
           ? _value.isHint
           : isHint // ignore: cast_nullable_to_non_nullable
               as bool,
-    ));
+    ) as $Val);
   }
 }
 
@@ -72,34 +76,33 @@ abstract class _$$_GameCopyWith<$Res> implements $GameCopyWith<$Res> {
   factory _$$_GameCopyWith(_$_Game value, $Res Function(_$_Game) then) =
       __$$_GameCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({Univer univer, Level level, bool isHint});
 }
 
 /// @nodoc
-class __$$_GameCopyWithImpl<$Res> extends _$GameCopyWithImpl<$Res>
+class __$$_GameCopyWithImpl<$Res> extends _$GameCopyWithImpl<$Res, _$_Game>
     implements _$$_GameCopyWith<$Res> {
   __$$_GameCopyWithImpl(_$_Game _value, $Res Function(_$_Game) _then)
-      : super(_value, (v) => _then(v as _$_Game));
+      : super(_value, _then);
 
-  @override
-  _$_Game get _value => super._value as _$_Game;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? univer = freezed,
-    Object? level = freezed,
-    Object? isHint = freezed,
+    Object? univer = null,
+    Object? level = null,
+    Object? isHint = null,
   }) {
     return _then(_$_Game(
-      univer: univer == freezed
+      univer: null == univer
           ? _value.univer
           : univer // ignore: cast_nullable_to_non_nullable
               as Univer,
-      level: level == freezed
+      level: null == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as Level,
-      isHint: isHint == freezed
+      isHint: null == isHint
           ? _value.isHint
           : isHint // ignore: cast_nullable_to_non_nullable
               as bool,
@@ -137,21 +140,18 @@ class _$_Game implements _Game {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Game &&
-            const DeepCollectionEquality().equals(other.univer, univer) &&
-            const DeepCollectionEquality().equals(other.level, level) &&
-            const DeepCollectionEquality().equals(other.isHint, isHint));
+            (identical(other.univer, univer) || other.univer == univer) &&
+            (identical(other.level, level) || other.level == level) &&
+            (identical(other.isHint, isHint) || other.isHint == isHint));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(univer),
-      const DeepCollectionEquality().hash(level),
-      const DeepCollectionEquality().hash(isHint));
+  int get hashCode => Object.hash(runtimeType, univer, level, isHint);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_GameCopyWith<_$_Game> get copyWith =>
       __$$_GameCopyWithImpl<_$_Game>(this, _$identity);
 

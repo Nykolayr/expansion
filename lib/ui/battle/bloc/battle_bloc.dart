@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/colors.dart';
@@ -14,34 +15,37 @@ part 'battle_event.dart';
 part 'battle_state.dart';
 
 class BattleBloc extends Bloc<BattleEvent, BattleState> {
-  BattleBloc() : super(Battleinit()) {
+  BattleBloc() : super(BattleState.initial()) {
     on<InitEvent>(_onInit);
     on<TicEvent>(_onIic);
     on<PressEvent>(_onPress);
     on<SendEvent>(_onSend);
   }
   GameData gameData = gameRepository.gameData;
-  int selectObject = -1;
   int ticHold = 0;
   bool isSend = false;
 
   _onSend(SendEvent event, Emitter<BattleState> emit) async {
-    emit(Battleinit());
-    if (selectObject != event.index) {
-      selectObject = event.index;
+    int toIndex = event.index;
+    ActionObject action = ActionObject.attack;
+    if (state.toIndex == event.index) {
+      toIndex = -1;
     }
-
-    emit(BattleChange.copyWith(gameData.objects, selectObject));
+    if (state.objects[toIndex].typeStatus == TypeStatus.our) {
+      action = ActionObject.support;
+    }
+    emit(state.copyWith(
+      index: toIndex,
+      action: action,
+    ));
   }
 
   _onPress(PressEvent event, Emitter<BattleState> emit) async {
-    emit(Battleinit());
-    if (selectObject == event.index) {
-      selectObject = -1;
-    } else {
-      selectObject = event.index;
+    int index = event.index;
+    if (state.index == event.index) {
+      index = -1;
     }
-    emit(BattleChange.copyWith(gameData.objects, selectObject));
+    emit(state.copyWith(index: index, action: ActionObject.tap));
   }
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
@@ -58,22 +62,25 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       ticHold = 0;
       return;
     }
-    emit(Battleinit());
+
     ticHold++;
     for (var item in gameData.objects) {
       item.update();
     }
-    emit(BattleChange.copyWith(gameData.objects, selectObject));
+    emit(state.copyWith(objects: gameData.objects));
   }
 }
 
-enum ActionObject { tap, attack, support, no }
+enum ActionObject {
+  tap,
+  attack,
+  support,
+  no;
 
-extension Actionextension on ActionObject {
   Color get colorCrossFire {
     switch (this) {
       case ActionObject.no:
-        return AppColor.darkYeloow;
+        return Colors.transparent;
       case ActionObject.tap:
         return AppColor.darkYeloow;
       case ActionObject.attack:

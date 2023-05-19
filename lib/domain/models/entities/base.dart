@@ -1,10 +1,12 @@
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Base extends EntityObject {
+class Base extends BaseObject {
   SizeBase sizeBase;
   int timeCapture;
   double speedBuildShips;
@@ -63,10 +65,11 @@ class Base extends EntityObject {
   @override
   Widget build({
     required int index,
-    // required ActionObject actionObject,
-    required Function() click,
-    required Function(int sender) onAccept,
+    required BuildContext context,
+    Function()? click,
+    Function(int sender)? onAccept,
   }) {
+    BattleBloc battleBloc = context.read<BattleBloc>();
     return Positioned(
       top: coordinates.height,
       left: coordinates.width,
@@ -89,7 +92,7 @@ class Base extends EntityObject {
                       '${sizeBase.add.pictire}${typeStatus.name}_base.png'),
                 );
               },
-              onAccept: (int sender) => onAccept(sender),
+              onAccept: (int sender) => onAccept!(sender),
             ),
             Positioned(
               bottom: 5,
@@ -107,16 +110,17 @@ class Base extends EntityObject {
                 ),
               ),
             ),
-            (actionObject == ActionObject.no)
-                ? const SizedBox.shrink()
-                : Container(
-                    height: sizeBase.add.size,
-                    width: sizeBase.add.size,
+            (index == battleBloc.state.index)
+                ? Container(
+                    height: sizeBase.add.size * 0.8,
+                    width: sizeBase.add.size * 0.8,
                     padding: const EdgeInsets.all(15),
-                    child: SvgPicture.asset(
-                      'assets/svg/cursor.svg',
-                    ),
-                  ),
+                    child: SvgPicture.asset('assets/svg/cursor.svg',
+                        colorFilter: ColorFilter.mode(
+                            battleBloc.state.action.colorCrossFire,
+                            BlendMode.srcIn)),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),

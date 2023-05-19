@@ -1,8 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
 import 'package:computer/computer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/repository/user_repository.dart';
-import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';

@@ -25,39 +25,36 @@ class BattlePage extends StatelessWidget {
             child: BlocConsumer<BattleBloc, BattleState>(
                 listener: (context, state) async {},
                 builder: (context, state) {
-                  if (state is BattleChange) {
-                    return Stack(
-                      children: [
-                        ...state.objects.map((item) {
-                          int index = state.objects.indexOf(item);
-                          return item.build(
-                            index: index,
-                            click: () => context
-                                .read<BattleBloc>()
-                                .add(PressEvent(index)),
-                            onAccept: (sender) => context
-                                .read<BattleBloc>()
-                                .add(SendEvent(index, sender)),
-                          );
-                        }).toList(),
-                        Positioned(
-                          bottom: 0,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 80,
-                            color: Colors.yellow,
-                            child: Center(
-                              child: (state.index == -1)
-                                  ? const Text(
-                                      'Выберите объект на карте, чтобы узнать подробности')
-                                  : state.objects[state.index].getText(),
-                            ),
+                  return Stack(
+                    children: [
+                      ...state.objects.map((item) {
+                        int index = state.objects.indexOf(item);
+                        return item.build(
+                          index: index,
+                          context: context,
+                          click: () =>
+                              context.read<BattleBloc>().add(PressEvent(index)),
+                          onAccept: (sender) => context
+                              .read<BattleBloc>()
+                              .add(SendEvent(index, sender)),
+                        );
+                      }).toList(),
+                      Positioned(
+                        bottom: 0,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 80,
+                          color: Colors.yellow,
+                          child: Center(
+                            child: (state.index == -1)
+                                ? const Text(
+                                    'Выберите объект на карте, чтобы узнать подробности')
+                                : state.objects[state.index].getText(),
                           ),
                         ),
-                      ],
-                    );
-                  }
-                  return const SizedBox.shrink();
+                      ),
+                    ],
+                  );
                 }),
           ),
         ],

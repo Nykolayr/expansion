@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'settings.dart';
 
@@ -33,38 +33,42 @@ mixin _$Settings {
 /// @nodoc
 abstract class $SettingsCopyWith<$Res> {
   factory $SettingsCopyWith(Settings value, $Res Function(Settings) then) =
-      _$SettingsCopyWithImpl<$Res>;
+      _$SettingsCopyWithImpl<$Res, Settings>;
+  @useResult
   $Res call({bool isMusic, bool isSound, Lang lang});
 }
 
 /// @nodoc
-class _$SettingsCopyWithImpl<$Res> implements $SettingsCopyWith<$Res> {
+class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
+    implements $SettingsCopyWith<$Res> {
   _$SettingsCopyWithImpl(this._value, this._then);
 
-  final Settings _value;
   // ignore: unused_field
-  final $Res Function(Settings) _then;
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
 
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isMusic = freezed,
-    Object? isSound = freezed,
-    Object? lang = freezed,
+    Object? isMusic = null,
+    Object? isSound = null,
+    Object? lang = null,
   }) {
     return _then(_value.copyWith(
-      isMusic: isMusic == freezed
+      isMusic: null == isMusic
           ? _value.isMusic
           : isMusic // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSound: isSound == freezed
+      isSound: null == isSound
           ? _value.isSound
           : isSound // ignore: cast_nullable_to_non_nullable
               as bool,
-      lang: lang == freezed
+      lang: null == lang
           ? _value.lang
           : lang // ignore: cast_nullable_to_non_nullable
               as Lang,
-    ));
+    ) as $Val);
   }
 }
 
@@ -74,35 +78,35 @@ abstract class _$$_SettingsCopyWith<$Res> implements $SettingsCopyWith<$Res> {
           _$_Settings value, $Res Function(_$_Settings) then) =
       __$$_SettingsCopyWithImpl<$Res>;
   @override
+  @useResult
   $Res call({bool isMusic, bool isSound, Lang lang});
 }
 
 /// @nodoc
-class __$$_SettingsCopyWithImpl<$Res> extends _$SettingsCopyWithImpl<$Res>
+class __$$_SettingsCopyWithImpl<$Res>
+    extends _$SettingsCopyWithImpl<$Res, _$_Settings>
     implements _$$_SettingsCopyWith<$Res> {
   __$$_SettingsCopyWithImpl(
       _$_Settings _value, $Res Function(_$_Settings) _then)
-      : super(_value, (v) => _then(v as _$_Settings));
+      : super(_value, _then);
 
-  @override
-  _$_Settings get _value => super._value as _$_Settings;
-
+  @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isMusic = freezed,
-    Object? isSound = freezed,
-    Object? lang = freezed,
+    Object? isMusic = null,
+    Object? isSound = null,
+    Object? lang = null,
   }) {
     return _then(_$_Settings(
-      isMusic: isMusic == freezed
+      isMusic: null == isMusic
           ? _value.isMusic
           : isMusic // ignore: cast_nullable_to_non_nullable
               as bool,
-      isSound: isSound == freezed
+      isSound: null == isSound
           ? _value.isSound
           : isSound // ignore: cast_nullable_to_non_nullable
               as bool,
-      lang: lang == freezed
+      lang: null == lang
           ? _value.lang
           : lang // ignore: cast_nullable_to_non_nullable
               as Lang,
@@ -140,21 +144,18 @@ class _$_Settings extends _Settings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Settings &&
-            const DeepCollectionEquality().equals(other.isMusic, isMusic) &&
-            const DeepCollectionEquality().equals(other.isSound, isSound) &&
-            const DeepCollectionEquality().equals(other.lang, lang));
+            (identical(other.isMusic, isMusic) || other.isMusic == isMusic) &&
+            (identical(other.isSound, isSound) || other.isSound == isSound) &&
+            (identical(other.lang, lang) || other.lang == lang));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(isMusic),
-      const DeepCollectionEquality().hash(isSound),
-      const DeepCollectionEquality().hash(lang));
+  int get hashCode => Object.hash(runtimeType, isMusic, isSound, lang);
 
   @JsonKey(ignore: true)
   @override
+  @pragma('vm:prefer-inline')
   _$$_SettingsCopyWith<_$_Settings> get copyWith =>
       __$$_SettingsCopyWithImpl<_$_Settings>(this, _$identity);
 
