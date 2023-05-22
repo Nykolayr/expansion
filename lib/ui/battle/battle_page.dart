@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_renaming_method_parameters
 
+import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,8 @@ class BattlePage extends StatelessWidget {
                 builder: (context, state) {
                   return Stack(
                     children: [
-                      ...state.objects.map((item) {
-                        int index = state.objects.indexOf(item);
+                      ...state.bases.map((item) {
+                        int index = state.bases.indexOf(item);
                         return item.build(
                           index: index,
                           context: context,
@@ -37,6 +38,15 @@ class BattlePage extends StatelessWidget {
                           onAccept: (sender) => context
                               .read<BattleBloc>()
                               .add(SendEvent(index, sender)),
+                        );
+                      }).toList(),
+                      ...state.ships.map((item) {
+                        int index = state.ships.indexOf(item);
+                        return item.build(
+                          index: index,
+                          context: context,
+                          click: null,
+                          onAccept: (sender) => null,
                         );
                       }).toList(),
                       Positioned(
@@ -49,7 +59,8 @@ class BattlePage extends StatelessWidget {
                             child: (state.index == -1)
                                 ? const Text(
                                     'Выберите объект на карте, чтобы узнать подробности')
-                                : state.objects[state.index].getText() ,
+                                : (state.bases[state.index] as BaseObject)
+                                    .getText(),
                           ),
                         ),
                       ),

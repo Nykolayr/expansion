@@ -1,8 +1,10 @@
 import 'dart:isolate';
+import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/colors.dart';
@@ -27,46 +29,78 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   bool isSend = false;
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
-    print('object ${event.index} == ${gameData.objects.length}');
-    gameData.objects.removeAt(event.index);
-    print('object2 ${event.index} == ${gameData.objects.length}');
+    BaseObject toBase = gameData.bases[event.toIndex] as BaseObject;
+    Ship ship = gameData.ships[event.index];
+    gameData.ships.removeAt(event.index);
+    if (toBase.typeStatus == ship.typeStatus) {
+      toBase.ships += ship.ships;
+    } else {
+      int shipCount = ship.ships;
+      toBase.isAttack = true;
+      emit(state.copyWith(
+        bases: gameData.bases,
+        index: -1,
+        toIndex: -1,
+      ));
+      Future.delayed(const Duration(seconds: 2), () {
+        toBase.isAttack = false;
+        if (toBase.shild > 0) {
+          if (toBase.shild < shipCount) {
+            toBase.shild = 0;
+            shipCount = shipCount - toBase.shild.toInt();
+          } else {
+            toBase.shild = toBase.shild - shipCount;
+            shipCount = 0;
+          }
+        }
+        if (toBase.ships > shipCount) {
+          toBase.ships = toBase.ships - shipCount;
+        } else {
+          toBase.ships = shipCount - toBase.ships;
+          toBase.typeStatus = TypeStatus.our;
+        }
+      });
+    }
     emit(state.copyWith(
-      objects: gameData.objects,
-      index: -1,
-      toIndex: -1,
+      bases: gameData.bases,
+      ships: gameData.ships,
     ));
-    print('object3  ${state.objects.length}');
   }
 
   _onSend(SendEvent event, Emitter<BattleState> emit) async {
     int toIndex = event.index;
     int index = event.send;
     ActionObject action = ActionObject.attack;
-    if (state.toIndex == toIndex) {
-      toIndex = -1;
-    }
-    if (state.objects[toIndex].typeStatus == TypeStatus.our) {
+    if (state.bases[toIndex].typeStatus == TypeStatus.our) {
       action = ActionObject.support;
     }
-    Size to = state.objects[toIndex].coordinates;
-    Size from = state.objects[index].coordinates;
-    int ships = state.objects[index].ships;
+    EntitesObject toBase = state.bases[toIndex];
+    EntitesObject fromBase = state.bases[index];
+    Point to = toBase.coordinates;
+    Point from = fromBase.coordinates;
+    int ships = fromBase.ships;
     if (ships > 0) {
-      gameData.objects.add(Ship(
-        index: state.objects.length,
+      gameData.ships.add(Ship(
+        index: gameData.ships.length,
+        fromIndex: index,
         toIndex: toIndex,
         speed: ourSpeed,
-        target: Point(to.height, to.width),
-        fly: Point(from.height, from.width),
+        target: PointFly(Point(to.y + toBase.size / 2, to.x + toBase.size / 2)),
+        fly: PointFly(
+            Point(from.y + fromBase.size / 2, from.x + fromBase.size / 2)),
         ships: ships,
-        coordinates: from,
+        coordinates: Point(from.y, from.x + fromBase.size / 2),
         typeStatus: TypeStatus.our,
         distance: 0,
+        distanceCurrent: 0,
+        size: (40),
       ));
     }
-
+    print('object ${gameData.ships.length}');
+    fromBase.ships = 0;
     emit(state.copyWith(
-      objects: gameData.objects,
+      bases: gameData.bases,
+      ships: gameData.ships,
       index: -1,
       toIndex: toIndex,
       action: action,
@@ -97,10 +131,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
 
     ticHold++;
-    for (var item in gameData.objects) {
+    for (var item in gameData.bases) {
       item.update();
     }
-    emit(state.copyWith(objects: gameData.objects));
+    emit(state.copyWith(bases: gameData.bases));
   }
 }
 

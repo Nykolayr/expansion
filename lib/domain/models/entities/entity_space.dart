@@ -1,5 +1,6 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:flutter/material.dart';
 
 /// Абстрактный класс объект база(наша, враг и нейтралы),  есть 4 фактора
 /// speedBuild скорость изготовление кораблей - повышается постройкой
@@ -14,18 +15,19 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 /// size - размер объекта
 
 abstract class BaseObject extends EntitesObject {
-  String description;
-  double shild;
-  int maxShips;
-  double speedBuild;
+  String description; // описание базы
+  double shild;  // щит базы max до 100
+  int maxShips;  // максимальное количество кораблей для постройки
+  double speedBuild;  
   double speedResources;
-
   double resources;
-  ActionObject actionObject;
+  ActionObject actionObject; 
+  bool isAttack;  // находится ли база под атакой
 
   BaseObject({
     required super.coordinates,
     required super.typeStatus,
+    required super.size,
     required super.ships,
     required this.description,
     required this.shild,
@@ -34,5 +36,7 @@ abstract class BaseObject extends EntitesObject {
     required this.speedResources,
     required this.resources,
     required this.actionObject,
+    required this.isAttack,
   });
+  Widget getText();
 }

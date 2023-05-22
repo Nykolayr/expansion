@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,29 +14,32 @@ class Base extends BaseObject {
   SizeBase sizeBase;
   int timeCapture;
   double speedBuildShips;
-  Base(
-      {required super.coordinates,
-      required super.description,
-      required super.maxShips,
-      required super.shild,
-      required super.ships,
-      required super.speedBuild,
-      required super.speedResources,
-      required super.resources,
-      required super.typeStatus,
-      required this.sizeBase,
-      required this.timeCapture,
-      required this.speedBuildShips,
-      required super.actionObject});
+  Base({
+    required super.coordinates,
+    required super.description,
+    required super.maxShips,
+    required super.shild,
+    required super.ships,
+    required super.speedBuild,
+    required super.speedResources,
+    required super.resources,
+    required super.typeStatus,
+    required this.sizeBase,
+    required this.timeCapture,
+    required this.speedBuildShips,
+    required super.actionObject,
+    required super.size,
+    required super.isAttack,
+  });
 
   factory Base.fromJson(Map<String, dynamic> json) {
     final int x = json['coordinates']['x'];
     final int y = json['coordinates']['y'];
     SizeBase sizeBase = SizeBase.values
         .firstWhere((e) => e.toString() == 'SizeBase.${json["typeNeutral"]}');
-    final size = sizeBase.add.size;
+    final double size = sizeBase.add.size;
     return Base(
-      coordinates: Size((stepX * x - size / 2) * ratioXY.width,
+      coordinates: Point((stepX * x - size / 2) * ratioXY.width,
           (stepY * y - size / 2) * ratioXY.height),
       ships: sizeBase.add.maxShips,
       description: sizeBase.add.description,
@@ -47,6 +54,8 @@ class Base extends BaseObject {
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
       speedBuildShips: 0,
       actionObject: ActionObject.no,
+      size: size,
+      isAttack: false,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -71,28 +80,42 @@ class Base extends BaseObject {
   }) {
     BattleBloc battleBloc = context.read<BattleBloc>();
     return Positioned(
-      top: coordinates.height,
-      left: coordinates.width,
+      top: coordinates.y.toDouble(),
+      left: coordinates.x.toDouble(),
       child: GestureDetector(
         onTap: click,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            DragTarget<int>(
-              builder: (
-                BuildContext context,
-                List<dynamic> accepted,
-                List<dynamic> rejected,
-              ) {
-                return Container(
-                  padding: const EdgeInsets.all(7),
-                  height: sizeBase.add.size,
-                  width: sizeBase.add.size,
-                  child: Image.asset(
-                      '${sizeBase.add.pictire}${typeStatus.name}_base.png'),
-                );
-              },
-              onAccept: (int sender) => onAccept!(sender),
+            Draggable<int>(
+              data: index,
+              feedback: const SizedBox(
+                width: 60,
+                height: 60,
+              ),
+              child: DragTarget<int>(
+                builder: (
+                  BuildContext context,
+                  List<dynamic> accepted,
+                  List<dynamic> rejected,
+                ) {
+                  return Container(
+                    padding: const EdgeInsets.all(2),
+                    height: sizeBase.add.size.toDouble(),
+                    width: sizeBase.add.size.toDouble(),
+                    decoration: typeStatus.boxDecor,
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: shild > 0 ? AppColor.shildBox : null,
+                      child: Image.asset('${sizeBase.add.pictire}base.png'),
+                    ),
+                  );
+                },
+                onAccept: (int sender) {
+                  if (gameRepository.gameData.bases[sender].typeStatus ==
+                      TypeStatus.our) onAccept!(sender);
+                },
+              ),
             ),
             Positioned(
               bottom: 5,
@@ -110,17 +133,17 @@ class Base extends BaseObject {
                 ),
               ),
             ),
-            (index == battleBloc.state.index)
-                ? Container(
-                    height: sizeBase.add.size * 0.8,
-                    width: sizeBase.add.size * 0.8,
-                    padding: const EdgeInsets.all(15),
-                    child: SvgPicture.asset('assets/svg/cursor.svg',
-                        colorFilter: ColorFilter.mode(
-                            battleBloc.state.action.colorCrossFire,
-                            BlendMode.srcIn)),
-                  )
-                : const SizedBox.shrink(),
+            if (index == battleBloc.state.index)
+              Container(
+                height: sizeBase.add.size * 0.8,
+                width: sizeBase.add.size * 0.8,
+                padding: const EdgeInsets.all(15),
+                child: SvgPicture.asset('assets/svg/cursor.svg',
+                    colorFilter: ColorFilter.mode(
+                        battleBloc.state.action.colorCrossFire,
+                        BlendMode.srcIn)),
+              ),
+            if (isAttack) IconRotate(size: size - 30),
           ],
         ),
       ),
@@ -153,9 +176,10 @@ class Base extends BaseObject {
   }
 }
 
-enum SizeBase { base, midleBase }
+enum SizeBase {
+  base,
+  midleBase;
 
-extension AddExtention on SizeBase {
   BaseAdd get add {
     switch (this) {
       case SizeBase.base:

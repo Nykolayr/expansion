@@ -12,52 +12,31 @@ class AppColor {
   static const Color grey = Color(0xFFBAB6B6);
   static const Color darkGreen = Color(0xFF02874D);
 
-  static const BoxDecoration ourPlanet = BoxDecoration(
-    gradient: RadialGradient(
-      colors: [white, darkGreen],
-      radius: 0.5,
-      focal: Alignment(0.7, -0.7),
-      tileMode: TileMode.clamp,
-    ),
-    shape: BoxShape.circle,
-  );
-  static const BoxDecoration neutralPlanet = BoxDecoration(
-    gradient: RadialGradient(
-      colors: [grey, black],
-      radius: 0.75,
-      focal: Alignment(0.7, -0.7),
-      tileMode: TileMode.clamp,
-    ),
-    shape: BoxShape.circle,
-  );
+  static BoxDecoration ourPlanet = BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        width: 2,
+        color: darkGreen,
+      ));
 
-  static const BoxDecoration enemyPlanet = BoxDecoration(
-    gradient: RadialGradient(
-      colors: [white, red],
-      radius: 0.5,
-      focal: Alignment(0.7, -0.7),
-      tileMode: TileMode.clamp,
-    ),
-    shape: BoxShape.circle,
-  );
+  static BoxDecoration neutralPlanet = BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        width: 2,
+        color: white,
+      ));
 
-  static const BoxDecoration agressivePlanet = BoxDecoration(
-    gradient: RadialGradient(
-      colors: [red, grey],
-      radius: 0.75,
-      focal: Alignment(0.7, -0.7),
-      tileMode: TileMode.clamp,
-    ),
-    shape: BoxShape.circle,
-  );
+  static BoxDecoration enemyPlanet = BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        width: 2,
+        color: red,
+      ));
 
-  static const BoxDecoration sun = BoxDecoration(
-    gradient: RadialGradient(
-      colors: [Colors.redAccent, Colors.yellow],
-      radius: 0.75,
-      focal: Alignment(0.7, -0.7),
-      tileMode: TileMode.clamp,
-    ),
-    shape: BoxShape.circle,
-  );
+  static BoxDecoration shildBox = BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        width: 2,
+        color: blue,
+      ));
 }

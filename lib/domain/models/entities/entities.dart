@@ -1,15 +1,19 @@
+import 'dart:math';
+
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 abstract class EntitesObject {
-  Size coordinates;
-  TypeStatus typeStatus;
-  int ships;
+  Point coordinates; // координаты базы
+  TypeStatus typeStatus; // статус базы enum TypeStatus {our, enemy, neutral}
+  int ships; // количество кораблей на базе
+  double size;
 
   EntitesObject({
     required this.coordinates,
     required this.typeStatus,
     required this.ships,
+    required this.size,
   });
 
   void update();
@@ -19,7 +23,6 @@ abstract class EntitesObject {
     Function() click,
     Function(int sender) onAccept,
   });
-  Widget getText();
 }
 
 enum TypeStatus {
@@ -35,6 +38,28 @@ enum TypeStatus {
         return 'Этот объект вражеский';
       case TypeStatus.neutral:
         return 'Этот объект нейтральный';
+    }
+  }
+
+  String get shipImage {
+    switch (this) {
+      case TypeStatus.our:
+        return 'assets/svg/our_ship.svg';
+      case TypeStatus.enemy:
+        return 'assets/svg/enemy_ship.svg';
+      case TypeStatus.neutral:
+        return 'assets/svg/enemy_ship.svg';
+    }
+  }
+
+  BoxDecoration get boxDecor {
+    switch (this) {
+      case TypeStatus.our:
+        return AppColor.ourPlanet;
+      case TypeStatus.enemy:
+        return AppColor.enemyPlanet;
+      case TypeStatus.neutral:
+        return AppColor.neutralPlanet;
     }
   }
 

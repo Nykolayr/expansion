@@ -1,13 +1,16 @@
+import 'dart:math';
+
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BaseShip extends BaseObject {
-  int size;
   String path;
   double speedBuildShips;
   BaseShip({
@@ -20,10 +23,11 @@ class BaseShip extends BaseObject {
     required super.speedResources,
     required super.resources,
     required super.typeStatus,
-    required this.size,
+    required super.size,
     required this.path,
     required this.speedBuildShips,
     required super.actionObject,
+    required super.isAttack,
   });
   factory BaseShip.fromJson(Map<String, dynamic> json) {
     final int x = json['coordinates']['x'];
@@ -34,7 +38,7 @@ class BaseShip extends BaseObject {
         : (standardDeviceSize.height - 130 - size / 2);
     return BaseShip(
       coordinates:
-          Size((stepX * x - size / 2) * ratioXY.width, pozY * ratioXY.height),
+          Point((stepX * x - size / 2) * ratioXY.width, pozY * ratioXY.height),
       description: json['description'],
       shild: json['shild'],
       ships: json['ships'],
@@ -44,10 +48,11 @@ class BaseShip extends BaseObject {
       maxShips: json['maxShips'],
       typeStatus: TypeStatus.values.firstWhere(
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
-      size: size,
+      size: size.toDouble(),
       path: json['path'],
       speedBuildShips: 0,
       actionObject: ActionObject.no,
+      isAttack: false,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -73,8 +78,8 @@ class BaseShip extends BaseObject {
   }) {
     BattleBloc battleBloc = context.read<BattleBloc>();
     return Positioned(
-      top: coordinates.height,
-      left: coordinates.width,
+      top: coordinates.y.toDouble(),
+      left: coordinates.x.toDouble(),
       child: GestureDetector(
         onTap: click,
         child: Stack(
@@ -93,13 +98,21 @@ class BaseShip extends BaseObject {
                   List<dynamic> rejected,
                 ) {
                   return Container(
-                    padding: const EdgeInsets.all(7),
-                    height: size.toDouble(),
-                    width: size.toDouble(),
-                    child: Image.asset(path),
+                    padding: const EdgeInsets.all(2),
+                    decoration: typeStatus.boxDecor,
+                    height: size,
+                    width: size,
+                    child: Container(
+                      padding: const EdgeInsets.all(7),
+                      decoration: shild > 0 ? AppColor.shildBox : null,
+                      child: Image.asset(path),
+                    ),
                   );
                 },
-                onAccept: (int sender) => onAccept!(sender),
+                onAccept: (int sender) {
+                  if (gameRepository.gameData.bases[sender].typeStatus ==
+                      TypeStatus.our) onAccept!(sender);
+                },
               ),
             ),
             Positioned(
@@ -118,19 +131,18 @@ class BaseShip extends BaseObject {
                 ),
               ),
             ),
-            (index == battleBloc.state.index)
-                ? Container(
-                    height: size.toDouble() * 0.8,
-                    width: size.toDouble() * 0.8,
-                    padding: const EdgeInsets.all(17),
-                    child: SvgPicture.asset(
-                      'assets/svg/cursor.svg',
-                      colorFilter: ColorFilter.mode(
-                          battleBloc.state.action.colorCrossFire,
-                          BlendMode.srcIn),
-                    ),
-                  )
-                : const SizedBox.shrink(),
+            if (index == battleBloc.state.index)
+              Container(
+                height: size.toDouble() * 0.8,
+                width: size.toDouble() * 0.8,
+                padding: const EdgeInsets.all(17),
+                child: SvgPicture.asset(
+                  'assets/svg/cursor.svg',
+                  colorFilter: ColorFilter.mode(
+                      battleBloc.state.action.colorCrossFire, BlendMode.srcIn),
+                ),
+              ),
+            if (isAttack) IconRotate(size: size - 30),
           ],
         ),
       ),
