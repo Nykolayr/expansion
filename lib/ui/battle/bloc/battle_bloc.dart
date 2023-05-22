@@ -71,7 +71,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     int toIndex = event.index;
     int index = event.send;
     ActionObject action = ActionObject.attack;
-    if (state.bases[toIndex].typeStatus == TypeStatus.our) {
+    if (state.bases[toIndex].typeStatus == state.bases[index].typeStatus) {
       action = ActionObject.support;
     }
     EntitesObject toBase = state.bases[toIndex];
@@ -96,7 +96,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         size: (40),
       ));
     }
-    print('object ${gameData.ships.length}');
     fromBase.ships = 0;
     emit(state.copyWith(
       bases: gameData.bases,
@@ -134,7 +133,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     for (var item in gameData.bases) {
       item.update();
     }
-    emit(state.copyWith(bases: gameData.bases));
+    for (var item in gameData.ships) {
+      item.update();
+    }
+    emit(state.copyWith(bases: gameData.bases, ships: gameData.ships));
   }
 }
 

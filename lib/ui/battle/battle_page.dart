@@ -31,7 +31,7 @@ class BattlePage extends StatelessWidget {
                       ...state.bases.map((item) {
                         int index = state.bases.indexOf(item);
                         return item.build(
-                          index: index,
+                          index: state.bases.indexOf(item),
                           context: context,
                           click: () =>
                               context.read<BattleBloc>().add(PressEvent(index)),
@@ -41,12 +41,11 @@ class BattlePage extends StatelessWidget {
                         );
                       }).toList(),
                       ...state.ships.map((item) {
-                        int index = state.ships.indexOf(item);
                         return item.build(
-                          index: index,
+                          index: state.ships.indexOf(item),
                           context: context,
                           click: null,
-                          onAccept: (sender) => null,
+                          onAccept: null,
                         );
                       }).toList(),
                       Positioned(

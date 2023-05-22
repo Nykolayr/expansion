@@ -43,13 +43,12 @@ class Ship extends EntitesObject {
       required BuildContext context,
       Function()? click,
       Function(int sender)? onAccept}) {
-    print('object == $index == ${target.coordinates} == $coordinates');
     if (coordinates == target.coordinates) {
       context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
     }
     return Positioned(
-      top: coordinates.y - size / 2,
-      left: coordinates.x - size / 2,
+      top: coordinates.x - size / 2,
+      left: coordinates.y - size / 2,
       child: Transform.rotate(
         angle: angle,
         child: Container(
