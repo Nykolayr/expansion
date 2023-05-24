@@ -54,7 +54,7 @@ class Ship extends EntitesObject {
         child: Container(
           height: size,
           width: size,
-          padding: const EdgeInsets.all(2),
+          padding: const EdgeInsets.all(4),
           decoration: typeStatus.boxDecor,
           child: SvgPicture.asset(
             typeStatus.shipImage,

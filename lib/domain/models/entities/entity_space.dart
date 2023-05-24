@@ -15,28 +15,29 @@ import 'package:flutter/material.dart';
 /// size - размер объекта
 
 abstract class BaseObject extends EntitesObject {
+  int index;
   String description; // описание базы
-  double shild;  // щит базы max до 100
-  int maxShips;  // максимальное количество кораблей для постройки
-  double speedBuild;  
+  double shild; // щит базы max до 100
+  int maxShips; // максимальное количество кораблей для постройки
+  double speedBuild;
   double speedResources;
   double resources;
-  ActionObject actionObject; 
-  bool isAttack;  // находится ли база под атакой
+  ActionObject actionObject;
+  bool isAttack; // находится ли база под атакой
 
-  BaseObject({
-    required super.coordinates,
-    required super.typeStatus,
-    required super.size,
-    required super.ships,
-    required this.description,
-    required this.shild,
-    required this.maxShips,
-    required this.speedBuild,
-    required this.speedResources,
-    required this.resources,
-    required this.actionObject,
-    required this.isAttack,
-  });
+  BaseObject(
+      {required super.coordinates,
+      required super.typeStatus,
+      required super.size,
+      required super.ships,
+      required this.description,
+      required this.shild,
+      required this.maxShips,
+      required this.speedBuild,
+      required this.speedResources,
+      required this.resources,
+      required this.actionObject,
+      required this.isAttack,
+      required this.index});
   Widget getText();
 }

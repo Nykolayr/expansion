@@ -39,4 +39,20 @@ class AppColor {
         width: 2,
         color: blue,
       ));
+  static BoxDecoration buttonCircleBox = const BoxDecoration(
+    color: AppColor.darkBlue,
+    shape: BoxShape.circle,
+    boxShadow: [
+      BoxShadow(
+        color: Colors.yellow,
+        spreadRadius: 3,
+        blurRadius: 3,
+        offset: Offset(0, 0),
+      ),
+    ],
+    // border: Border.all(
+    //   width: 2,
+    //   color: blue,
+    // ),
+  );
 }

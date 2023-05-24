@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
+import 'package:expansion/domain/models/enemy_intelect.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
@@ -23,13 +24,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<PressEvent>(_onPress);
     on<SendEvent>(_onSend);
     on<ArriveShipsEvent>(_onArriveShipsEvent);
+    on<WinEvent>(_onWin);
+    on<LostEvent>(_onLost);
+    on<PauseEvent>(_onPause);
+    on<PlayEvent>(_onPlay);
   }
   GameData gameData = gameRepository.gameData;
   int ticHold = 0;
   bool isSend = false;
+  int ticEnemy = 0;
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
-    BaseObject toBase = gameData.bases[event.toIndex] as BaseObject;
+    BaseObject toBase = gameData.bases[event.toIndex];
     Ship ship = gameData.ships[event.index];
     gameData.ships.removeAt(event.index);
     if (toBase.typeStatus == ship.typeStatus) {
@@ -42,7 +48,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         index: -1,
         toIndex: -1,
       ));
-      Future.delayed(const Duration(seconds: 2), () {
+      Future.delayed(const Duration(milliseconds: 500), () {
         toBase.isAttack = false;
         if (toBase.shild > 0) {
           if (toBase.shild < shipCount) {
@@ -57,7 +63,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           toBase.ships = toBase.ships - shipCount;
         } else {
           toBase.ships = shipCount - toBase.ships;
-          toBase.typeStatus = TypeStatus.our;
+          toBase.typeStatus = ship.typeStatus;
         }
       });
     }
@@ -68,6 +74,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onSend(SendEvent event, Emitter<BattleState> emit) async {
+    if (state.isLost || state.isWin || state.isPause) return;
     int toIndex = event.index;
     int index = event.send;
     ActionObject action = ActionObject.attack;
@@ -90,7 +97,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
             Point(from.y + fromBase.size / 2, from.x + fromBase.size / 2)),
         ships: ships,
         coordinates: Point(from.y, from.x + fromBase.size / 2),
-        typeStatus: TypeStatus.our,
+        typeStatus: fromBase.typeStatus,
         distance: 0,
         distanceCurrent: 0,
         size: (40),
@@ -124,12 +131,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onIic(TicEvent event, Emitter<BattleState> emit) async {
+    if (state.isLost || state.isWin || state.isPause) return;
     if (ticHold == maxHoldTic) {
       ticHold = 0;
       return;
     }
 
+    if (ticEnemy == maxEnemyTic) {
+      ticEnemy = 0;
+      setStateEnemy(this);
+    }
     ticHold++;
+    ticEnemy++;
     for (var item in gameData.bases) {
       item.update();
     }
@@ -138,6 +151,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
     emit(state.copyWith(bases: gameData.bases, ships: gameData.ships));
   }
+
+  _onLost(LostEvent event, Emitter<BattleState> emit) async =>
+      emit(state.copyWith(isLost: true));
+
+  _onWin(WinEvent event, Emitter<BattleState> emit) async =>
+      emit(state.copyWith(isWin: true));
+
+  _onPause(PauseEvent event, Emitter<BattleState> emit) async =>
+      emit(state.copyWith(isPause: false));
+
+  _onPlay(PlayEvent event, Emitter<BattleState> emit) async =>
+      emit(state.copyWith(isPause: true));
 }
 
 enum ActionObject {

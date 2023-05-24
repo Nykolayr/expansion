@@ -113,8 +113,8 @@ showModal(BuildContext context, Widget widget) {
       });
 }
 
-showModalBottom(BuildContext context, Widget widget) {
-  showModalBottomSheet(
+Future showModalBottom(BuildContext context, Widget widget) {
+  return showModalBottomSheet(
       context: context,
       backgroundColor: AppColor.darkBlue,
       builder: (BuildContext context) {

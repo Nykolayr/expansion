@@ -1,5 +1,6 @@
 import 'package:expansion/ui/battle/battle_page.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/battle/widgets/help.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
@@ -130,6 +131,16 @@ final GoRouter router = GoRouter(
           },
           child: const BattlePage(),
         ),
+      ),
+    ),
+    GoRoute(
+      name: 'help',
+      path: '/help',
+      pageBuilder: (context, state) => buildPageWithDefaultTransition(
+        type: PageTransitionType.topToBottom,
+        context: context,
+        state: state,
+        child: const Help(),
       ),
     ),
   ],

@@ -30,6 +30,7 @@ class Base extends BaseObject {
     required super.actionObject,
     required super.size,
     required super.isAttack,
+    required super.index,
   });
 
   factory Base.fromJson(Map<String, dynamic> json) {
@@ -56,6 +57,7 @@ class Base extends BaseObject {
       actionObject: ActionObject.no,
       size: size,
       isAttack: false,
+      index: 0,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -153,7 +155,7 @@ class Base extends BaseObject {
   @override
   void update() {
     if (typeStatus == TypeStatus.neutral) return;
-    speedBuildShips += speedBuild / 2;
+    speedBuildShips += speedBuild;
     if (speedBuildShips > maxbuildShips) {
       if (ships < maxShips) {
         ships++;
