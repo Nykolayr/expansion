@@ -9,6 +9,8 @@ abstract class BattleEvent extends Equatable {
 
 class InitEvent extends BattleEvent {}
 
+class CloseEvent extends BattleEvent {}
+
 class PauseEvent extends BattleEvent {}
 
 class PlayEvent extends BattleEvent {}

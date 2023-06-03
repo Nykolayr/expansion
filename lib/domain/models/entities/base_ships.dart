@@ -166,12 +166,7 @@ class BaseShip extends BaseObject {
   Widget getText() {
     return Container(
       padding: const EdgeInsets.all(5),
-      child: Text('''
-Описание: $description. Статус: ${typeStatus.desc}.  
-Имеет щит: $shild, кораблей: $ships. 
-Максимальное количество кораблей: $maxShips. 
-Скорость производства: $speedBuild.   
-''', textAlign: TextAlign.center),
+      child: Text('Описание: $description'),
     );
   }
 }

@@ -107,11 +107,14 @@ class BattlePage extends StatelessWidget {
                           iconPath: 'assets/svg/exit.svg',
                           click: () async {
                             context.read<BattleBloc>().add(PlayEvent());
-
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('exit_menu')}?'));
                             if (result!) {
-                              router.push('/');
+                              if (context.mounted) {
+                                context.read<BattleBloc>().add(CloseEvent());
+                              }
+                              router.pushReplacement('/');
+                              return;
                             }
                             if (context.mounted) {
                               context.read<BattleBloc>().add(PauseEvent());
@@ -128,7 +131,11 @@ class BattlePage extends StatelessWidget {
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('replay')}?'));
                             if (result!) {
-                              router.push('/battle');
+                              if (context.mounted) {
+                                context.read<BattleBloc>().add(CloseEvent());
+                              }
+                              router.pushReplacement('/battle');
+                              return;
                             }
                             if (context.mounted) {
                               context.read<BattleBloc>().add(PauseEvent());

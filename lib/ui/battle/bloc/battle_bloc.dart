@@ -28,11 +28,13 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<LostEvent>(_onLost);
     on<PauseEvent>(_onPause);
     on<PlayEvent>(_onPlay);
+    on<CloseEvent>(_onClose);
   }
   GameData gameData = gameRepository.gameData;
   int ticHold = 0;
   bool isSend = false;
   int ticEnemy = 0;
+  ReceivePort receivePort = ReceivePort();
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
     BaseObject toBase = gameData.bases[event.toIndex];
@@ -114,16 +116,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onPress(PressEvent event, Emitter<BattleState> emit) async {
-    int index = event.index;
-    if (state.index == event.index) {
-      index = -1;
-    }
-    emit(state.copyWith(index: index, action: ActionObject.tap));
+    emit(state.copyWith(index: event.index, action: ActionObject.tap));
   }
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
     await gameData.loadMap();
-    ReceivePort receivePort = ReceivePort();
     await Isolate.spawn(mainLoop, receivePort.sendPort);
     receivePort.listen((message) {
       add(TicEvent());
@@ -163,6 +160,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onPlay(PlayEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(isPause: true));
+
+  _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
+      receivePort.close();
 }
 
 enum ActionObject {
