@@ -1,5 +1,6 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,8 @@ class Ship extends EntitesObject {
   PointFly target; // координаты цели
   PointFly fly; // текущие координаты корабля
   double distanceCurrent; //текущиz дистанция до базы на которую летит корабль
-  double angle;
+  double angle; // угол наклона корабля
+  bool isAttack; // находится ли в атаке
   Ship({
     required this.index,
     required this.fromIndex,
@@ -28,6 +30,7 @@ class Ship extends EntitesObject {
     required super.typeStatus,
     required super.size,
     required this.distanceCurrent,
+    required this.isAttack,
   }) : angle = angleToPoint(fly.coordinates, target.coordinates);
 
   @override
@@ -49,19 +52,26 @@ class Ship extends EntitesObject {
     return Positioned(
       top: coordinates.x - size / 2,
       left: coordinates.y - size / 2,
-      child: Transform.rotate(
-        angle: angle,
-        child: Container(
-          height: size,
-          width: size,
-          padding: const EdgeInsets.all(4),
-          decoration: typeStatus.boxDecor,
-          child: SvgPicture.asset(
-            typeStatus.shipImage,
-            colorFilter: ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
-            width: 40,
-          ),
-        ),
+      child: Stack(
+        children: [
+          isAttack
+              ? IconRotate(size: size)
+              : Transform.rotate(
+                  angle: angle,
+                  child: Container(
+                    height: size,
+                    width: size,
+                    padding: const EdgeInsets.all(4),
+                    decoration: typeStatus.boxDecor,
+                    child: SvgPicture.asset(
+                      typeStatus.shipImage,
+                      colorFilter:
+                          ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
+                      width: 40,
+                    ),
+                  ),
+                ),
+        ],
       ),
     );
   }

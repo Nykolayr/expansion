@@ -65,8 +65,7 @@ class BattlePage extends StatelessWidget {
                       return item.build(
                         index: state.bases.indexOf(item),
                         context: context,
-                        click: () =>
-                            context.read<BattleBloc>().add(PressEvent(index)),
+                        click: () => null,
                         onAccept: (sender) => context
                             .read<BattleBloc>()
                             .add(SendEvent(index, sender)),

@@ -2,13 +2,10 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
-import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class BaseShip extends BaseObject {
   String path;
@@ -27,7 +24,6 @@ class BaseShip extends BaseObject {
     required this.path,
     required this.speedBuildShips,
     required super.actionObject,
-    required super.isAttack,
     required super.index,
   });
   factory BaseShip.fromJson(Map<String, dynamic> json) {
@@ -53,7 +49,6 @@ class BaseShip extends BaseObject {
       path: json['path'],
       speedBuildShips: 0,
       actionObject: ActionObject.no,
-      isAttack: false,
       index: 0,
     );
   }
@@ -78,7 +73,6 @@ class BaseShip extends BaseObject {
     Function()? click,
     Function(int sender)? onAccept,
   }) {
-    BattleBloc battleBloc = context.read<BattleBloc>();
     return Positioned(
       top: coordinates.y.toDouble(),
       left: coordinates.x.toDouble(),
@@ -133,18 +127,6 @@ class BaseShip extends BaseObject {
                 ),
               ),
             ),
-            if (index == battleBloc.state.index)
-              Container(
-                height: size.toDouble() * 0.8,
-                width: size.toDouble() * 0.8,
-                padding: const EdgeInsets.all(17),
-                child: SvgPicture.asset(
-                  'assets/svg/cursor.svg',
-                  colorFilter: ColorFilter.mode(
-                      battleBloc.state.action.colorCrossFire, BlendMode.srcIn),
-                ),
-              ),
-            if (isAttack) IconRotate(size: size - 30),
           ],
         ),
       ),
@@ -160,13 +142,5 @@ class BaseShip extends BaseObject {
         speedBuildShips = 0;
       }
     }
-  }
-
-  @override
-  Widget getText() {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      child: Text('Описание: $description'),
-    );
   }
 }

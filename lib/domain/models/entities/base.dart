@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
-import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
@@ -29,7 +28,6 @@ class Base extends BaseObject {
     required this.speedBuildShips,
     required super.actionObject,
     required super.size,
-    required super.isAttack,
     required super.index,
   });
 
@@ -56,7 +54,6 @@ class Base extends BaseObject {
       speedBuildShips: 0,
       actionObject: ActionObject.no,
       size: size,
-      isAttack: false,
       index: 0,
     );
   }
@@ -145,7 +142,6 @@ class Base extends BaseObject {
                         battleBloc.state.action.colorCrossFire,
                         BlendMode.srcIn)),
               ),
-            if (isAttack) IconRotate(size: size - 30),
           ],
         ),
       ),
@@ -162,19 +158,6 @@ class Base extends BaseObject {
         speedBuildShips = 0;
       }
     }
-  }
-
-  @override
-  Widget getText() {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      child: Text('''
-Описание: $description. 
-Статус: ${typeStatus.desc}.  Имеет щит: $shild. 
-Кораблей: $ships. Максимальное количество кораблей: $maxShips. 
-Скорость производства: $speedBuild.   
-''', textAlign: TextAlign.center),
-    );
   }
 }
 

@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
-import 'package:expansion/domain/models/enemy_intelect.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
@@ -39,19 +38,27 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
     BaseObject toBase = gameData.bases[event.toIndex];
     Ship ship = gameData.ships[event.index];
-    gameData.ships.removeAt(event.index);
+    print('object22');
     if (toBase.typeStatus == ship.typeStatus) {
       toBase.ships += ship.ships;
+      gameData.ships.removeAt(event.index);
     } else {
       int shipCount = ship.ships;
-      toBase.isAttack = true;
+      ship.isAttack = true;
       emit(state.copyWith(
+        ships: gameData.ships,
         bases: gameData.bases,
         index: -1,
         toIndex: -1,
       ));
+
       Future.delayed(const Duration(milliseconds: 500), () {
-        toBase.isAttack = false;
+        gameData.ships.removeAt(event.index);
+        emit(state.copyWith(
+          bases: gameData.bases,
+          ships: gameData.ships,
+        ));
+
         if (toBase.shild > 0) {
           if (toBase.shild < shipCount) {
             toBase.shild = 0;
@@ -94,6 +101,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         fromIndex: index,
         toIndex: toIndex,
         speed: ourSpeed,
+        isAttack: false,
         target: PointFly(Point(to.y + toBase.size / 2, to.x + toBase.size / 2)),
         fly: PointFly(
             Point(from.y + fromBase.size / 2, from.x + fromBase.size / 2)),
@@ -136,7 +144,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
     if (ticEnemy == maxEnemyTic) {
       ticEnemy = 0;
-      setStateEnemy(this);
+      // setStateEnemy(this);
     }
     ticHold++;
     ticEnemy++;
