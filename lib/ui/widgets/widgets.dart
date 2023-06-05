@@ -1,5 +1,72 @@
+import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+Widget getInfo(BaseObject base) {
+  return Container(
+    alignment: Alignment.center,
+    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
+    color: base.typeStatus.color,
+    child: Column(
+      children: [
+        Row(
+          children: [
+            SvgPicture.asset(
+              'assets/svg/rocket.svg',
+              colorFilter:
+                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
+              width: 10,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              base.ships.toString(),
+              style: TextStyle(
+                color: base.typeStatus.colorText,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(width: 4),
+            SvgPicture.asset(
+              'assets/svg/shield.svg',
+              colorFilter:
+                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
+              width: 10,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              base.shild.toStringAsFixed(0),
+              style: TextStyle(
+                color: base.typeStatus.colorText,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            SvgPicture.asset(
+              'assets/svg/hammers.svg',
+              colorFilter:
+                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
+              width: 10,
+            ),
+            const SizedBox(width: 2),
+            Text(
+              base.resources.toStringAsFixed(0),
+              style: TextStyle(
+                color: base.typeStatus.colorText,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 
 class IconRotate extends StatefulWidget {
   final double size;

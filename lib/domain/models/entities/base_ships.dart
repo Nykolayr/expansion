@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -113,19 +114,7 @@ class BaseShip extends BaseObject {
             ),
             Positioned(
               bottom: 5,
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                color: typeStatus.color,
-                child: Text(
-                  ships.toString(),
-                  style: TextStyle(
-                    color: typeStatus.colorText,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+              child: getInfo(this),
             ),
           ],
         ),

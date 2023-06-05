@@ -38,7 +38,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
     BaseObject toBase = gameData.bases[event.toIndex];
     Ship ship = gameData.ships[event.index];
-    print('object22');
     if (toBase.typeStatus == ship.typeStatus) {
       toBase.ships += ship.ships;
       gameData.ships.removeAt(event.index);
@@ -52,7 +51,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         toIndex: -1,
       ));
 
-      Future.delayed(const Duration(milliseconds: 500), () {
+      await Future.delayed(const Duration(milliseconds: 500), () {
         gameData.ships.removeAt(event.index);
         emit(state.copyWith(
           bases: gameData.bases,

@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Base extends BaseObject {
   SizeBase sizeBase;
@@ -77,7 +76,6 @@ class Base extends BaseObject {
     Function()? click,
     Function(int sender)? onAccept,
   }) {
-    BattleBloc battleBloc = context.read<BattleBloc>();
     return Positioned(
       top: coordinates.y.toDouble(),
       left: coordinates.x.toDouble(),
@@ -118,30 +116,8 @@ class Base extends BaseObject {
             ),
             Positioned(
               bottom: 5,
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                color: typeStatus.color,
-                child: Text(
-                  ships.toString(),
-                  style: TextStyle(
-                    color: typeStatus.colorText,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+              child: getInfo(this),
             ),
-            if (index == battleBloc.state.index)
-              Container(
-                height: sizeBase.add.size * 0.8,
-                width: sizeBase.add.size * 0.8,
-                padding: const EdgeInsets.all(15),
-                child: SvgPicture.asset('assets/svg/cursor.svg',
-                    colorFilter: ColorFilter.mode(
-                        battleBloc.state.action.colorCrossFire,
-                        BlendMode.srcIn)),
-              ),
           ],
         ),
       ),

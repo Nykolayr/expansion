@@ -47,7 +47,9 @@ class Ship extends EntitesObject {
       Function()? click,
       Function(int sender)? onAccept}) {
     if (coordinates == target.coordinates) {
-      context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
+      isAttack
+          ? null
+          : context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
     }
     return Positioned(
       top: coordinates.x - size / 2,
