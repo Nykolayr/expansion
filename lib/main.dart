@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 
 import 'utils/value.dart';
+// ignore: non_constant_identifier_names
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

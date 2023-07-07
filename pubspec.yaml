@@ -12,7 +12,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.18.2 <3.0.0"
+  sdk: '>=3.0.5 <4.0.0'
 
 dependencies:
   flutter:
@@ -28,12 +28,13 @@ dependencies:
   assets_audio_player: ^3.0.6 #https://pub.dev/packages/assets_audio_player
   flutter_launcher_icons: ^0.13.1 #https://pub.dev/packages/flutter_launcher_icons
   go_router: ^9.0.0 #https://pub.dev/packages/go_router
-  google_fonts: ^5.1.0 #https://pub.dev/packages/google_fonts
+  google_fonts: ^4.0.1 #https://pub.dev/packages/google_fonts
   freezed_annotation: ^2.2.0 #https://pub.dev/packages/freezed_annotation
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
   page_transition: ^2.0.9 #https://pub.dev/packages/page_transition
   url_launcher: ^6.1.11 #https://pub.dev/packages/url_launcher
   computer: ^3.2.1 #https://pub.dev/packages/computer
+  json_annotation: ^4.8.1 # https://pub.flutter-io.cn/packages/json_annotation/install
   
 dev_dependencies:
   flutter_test:
@@ -42,7 +43,6 @@ dev_dependencies:
   freezed: ^2.3.5 #https://pub.dev/packages/freezed
   build_runner: ^2.4.6 #https://pub.flutter-io.cn/packages/build_runner
   json_serializable: ^6.7.1 #https://pub.dev/packages/json_serializable
-  json_annotation: ^4.8.1  # https://pub.flutter-io.cn/packages/json_annotation/install
   # flutter pub run build_runner build
   # flutter pub run build_runner clean
   # flutter pub run build_runner build --delete-conflicting-outputs.
