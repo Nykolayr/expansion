@@ -1,71 +1,121 @@
+import 'package:expansion/domain/models/entities/base.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget getInfo(BaseObject base) {
-  return Container(
-    alignment: Alignment.center,
-    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-    color: base.typeStatus.color,
-    child: Column(
+  return SizedBox(
+    width: base.size,
+    height: base.size,
+    child: Stack(
+      alignment: Alignment.center,
       children: [
-        Row(
-          children: [
-            SvgPicture.asset(
-              'assets/svg/rocket.svg',
-              colorFilter:
-                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
-              width: 10,
+        if (base.typeStatus != TypeStatus.neutral)
+          Positioned(
+            top: (base is Base) ? 1 : 7,
+            child: CircleInfo(
+              base: base,
+              infoStatus: InfoStatus.resources,
             ),
-            const SizedBox(width: 2),
-            Text(
-              base.ships.toString(),
-              style: TextStyle(
-                color: base.typeStatus.colorText,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(width: 4),
-            SvgPicture.asset(
-              'assets/svg/shield.svg',
-              colorFilter:
-                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
-              width: 10,
-            ),
-            const SizedBox(width: 2),
-            Text(
-              base.shild.toStringAsFixed(0),
-              style: TextStyle(
-                color: base.typeStatus.colorText,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
+          ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: CircleInfo(
+            base: base,
+            infoStatus: InfoStatus.rocket,
+          ),
         ),
-        Row(
-          children: [
-            SvgPicture.asset(
-              'assets/svg/hammers.svg',
-              colorFilter:
-                  ColorFilter.mode(base.typeStatus.colorText, BlendMode.srcIn),
-              width: 10,
-            ),
-            const SizedBox(width: 2),
-            Text(
-              base.resources.toStringAsFixed(0),
-              style: TextStyle(
-                color: base.typeStatus.colorText,
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: CircleInfo(
+            base: base,
+            infoStatus: InfoStatus.shild,
+          ),
         ),
       ],
     ),
   );
+}
+
+class CircleInfo extends StatelessWidget {
+  final InfoStatus infoStatus;
+  final BaseObject base;
+  const CircleInfo({required this.base, required this.infoStatus, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 2.5,
+        vertical: 1,
+      ),
+      width: 32,
+      height: 16,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: (base.typeStatus == TypeStatus.neutral)
+            ? Colors.blue.withOpacity(0.6)
+            : base.typeStatus.color.withOpacity(0.6),
+      ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              infoStatus.pathImage,
+              width: 11,
+              colorFilter:
+                  const ColorFilter.mode(AppColor.white, BlendMode.srcIn),
+            ),
+            const SizedBox(
+              width: 1,
+            ),
+            Text(
+              infoStatus.infoText(base),
+              style: const TextStyle(
+                color: AppColor.white,
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+enum InfoStatus {
+  shild,
+  rocket,
+  resources;
+
+  String get pathImage {
+    switch (this) {
+      case InfoStatus.shild:
+        return 'assets/svg/shield.svg';
+      case InfoStatus.rocket:
+        return 'assets/svg/rocket.svg';
+      case InfoStatus.resources:
+        return 'assets/svg/hammers.svg';
+    }
+  }
+
+  String infoText(BaseObject base) {
+    switch (this) {
+      case InfoStatus.shild:
+        return base.shild.toStringAsFixed(0);
+      case InfoStatus.rocket:
+        return base.ships.toString();
+      case InfoStatus.resources:
+        return base.resources.toStringAsFixed(0);
+    }
+  }
 }
 
 class IconRotate extends StatefulWidget {

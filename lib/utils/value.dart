@@ -39,6 +39,8 @@ double stepY = (standardDeviceSize.height - 80) / 8;
 double maxbuildShips = 20;
 // количество тиков которые нужно пропустить для рендеринга
 int maxHoldTic = 2;
+// максимальное количество ресурсов на базах и кораблях
+double maxResources = 1600;
 
 // количество тиков для хода врагов
 int maxEnemyTic = 200;

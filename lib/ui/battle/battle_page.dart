@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_renaming_method_parameters
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
@@ -80,11 +79,11 @@ class BattlePage extends StatelessWidget {
                         onAccept: null,
                       );
                     }).toList(),
-                    const Positioned(
-                      top: 100,
-                      left: 50,
-                      child: AmorphousCircle(),
-                    ),
+                    // const Positioned(
+                    //   top: 100,
+                    //   left: 50,
+                    //   child: AmorphousCircle(),
+                    // ),
                     Positioned(
                       top: 10,
                       left: 30,

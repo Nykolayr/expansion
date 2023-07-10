@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 
 class BaseShip extends BaseObject {
   String path;
-  double speedBuildShips;
+  double roundShip = 0;
+  double roundResources = 0;
   BaseShip({
     required super.coordinates,
     required super.description,
@@ -23,7 +24,6 @@ class BaseShip extends BaseObject {
     required super.typeStatus,
     required super.size,
     required this.path,
-    required this.speedBuildShips,
     required super.actionObject,
     required super.index,
   });
@@ -48,7 +48,6 @@ class BaseShip extends BaseObject {
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
       size: size.toDouble(),
       path: json['path'],
-      speedBuildShips: 0,
       actionObject: ActionObject.no,
       index: 0,
     );
@@ -124,11 +123,18 @@ class BaseShip extends BaseObject {
 
   @override
   void update() {
-    speedBuildShips += speedBuild;
-    if (speedBuildShips > maxbuildShips) {
-      if (ships < maxShips) {
+    if (ships < maxShips) {
+      roundShip += speedBuild;
+      if (roundShip > 1) {
         ships++;
-        speedBuildShips = 0;
+        roundShip = 0;
+      }
+    }
+    if (resources < maxResources) {
+      roundResources += speedResources;
+      if (roundResources > 1) {
+        resources++;
+        roundResources = 0;
       }
     }
   }

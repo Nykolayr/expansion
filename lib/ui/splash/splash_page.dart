@@ -60,14 +60,14 @@ class SplashPage extends StatelessWidget {
                     ),
                     Text(
                       tr("space"),
-                      style: AppText.baseText.copyWith(fontSize: 42),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 42),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
                       tr("EXPANSION"),
-                      style: AppText.baseText.copyWith(fontSize: 52),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 52),
                     ),
                   ],
                 ),

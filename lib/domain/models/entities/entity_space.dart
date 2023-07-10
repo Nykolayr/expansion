@@ -17,23 +17,24 @@ abstract class BaseObject extends EntitesObject {
   int index;
   String description; // описание базы
   double shild; // щит базы max до 100
+  double resources; // количество ресурсов на базе
   int maxShips; // максимальное количество кораблей для постройки
-  double speedBuild;
+  double speedBuild; 
   double speedResources;
-  double resources;
   ActionObject actionObject;
 
-  BaseObject(
-      {required super.coordinates,
-      required super.typeStatus,
-      required super.size,
-      required super.ships,
-      required this.description,
-      required this.shild,
-      required this.maxShips,
-      required this.speedBuild,
-      required this.speedResources,
-      required this.resources,
-      required this.actionObject,
-      required this.index});
+  BaseObject({
+    required super.coordinates,
+    required super.typeStatus,
+    required super.size,
+    required super.ships,
+    required this.description,
+    required this.shild,
+    required this.maxShips,
+    required this.speedBuild,
+    required this.speedResources,
+    required this.resources,
+    required this.actionObject,
+    required this.index,
+  });
 }

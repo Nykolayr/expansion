@@ -143,7 +143,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
     if (ticEnemy == maxEnemyTic) {
       ticEnemy = 0;
-      // setStateEnemy(this);
     }
     ticHold++;
     ticEnemy++;

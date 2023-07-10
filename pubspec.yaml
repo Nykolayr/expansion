@@ -43,8 +43,6 @@ dev_dependencies:
   freezed: ^2.3.5 #https://pub.dev/packages/freezed
   build_runner: ^2.4.6 #https://pub.flutter-io.cn/packages/build_runner
   json_serializable: ^6.7.1 #https://pub.dev/packages/json_serializable
-  # flutter pub run build_runner build
-  # flutter pub run build_runner clean
   # flutter pub run build_runner build --delete-conflicting-outputs.
 
 
@@ -74,7 +72,9 @@ flutter:
     - assets/translations/
     - assets/audio/
     - assets/scenes/
-
+    - assets/images/asteroids/
+    - assets/images/bases/
+    
   fonts:
     - family: KellySlab
       fonts:
