@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Ship extends EntitesObject {
-  int index;
+  int index; // случайное число, для индетификации
   int fromIndex; // индекс базы с которой летит корабль
   int toIndex; // индекс базы на которую летит корабль
   double speed; // скорость корабля
@@ -46,10 +46,9 @@ class Ship extends EntitesObject {
       required BuildContext context,
       Function()? click,
       Function(int sender)? onAccept}) {
-    if (coordinates == target.coordinates) {
-      isAttack
-          ? null
-          : context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
+    if (coordinates == target.coordinates && !isAttack) {
+      isAttack = true;
+      context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
     }
     return Positioned(
       top: coordinates.x - size / 2,

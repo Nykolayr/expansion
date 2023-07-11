@@ -10,9 +10,7 @@ import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 part 'battle_event.dart';
 part 'battle_state.dart';
 
@@ -44,36 +42,28 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     } else {
       int shipCount = ship.ships;
       ship.isAttack = true;
-      emit(state.copyWith(
-        ships: gameData.ships,
-        bases: gameData.bases,
-        index: -1,
-        toIndex: -1,
-      ));
-
-      await Future.delayed(const Duration(milliseconds: 500), () {
-        gameData.ships.removeAt(event.index);
-        emit(state.copyWith(
-          bases: gameData.bases,
-          ships: gameData.ships,
-        ));
-
-        if (toBase.shild > 0) {
-          if (toBase.shild < shipCount) {
-            toBase.shild = 0;
-            shipCount = shipCount - toBase.shild.toInt();
-          } else {
-            toBase.shild = toBase.shild - shipCount;
-            shipCount = 0;
-          }
-        }
-        if (toBase.ships > shipCount) {
-          toBase.ships = toBase.ships - shipCount;
-        } else {
-          toBase.ships = shipCount - toBase.ships;
-          toBase.typeStatus = ship.typeStatus;
-        }
+      Future.delayed(const Duration(milliseconds: 200), () {
+        try {
+          gameData.ships.removeWhere((element) {
+            return element.index == ship.index;
+          });
+        } catch (e) {}
       });
+      if (toBase.shild > 0) {
+        if (toBase.shild < shipCount) {
+          toBase.shild = 0;
+          shipCount = shipCount - toBase.shild.toInt();
+        } else {
+          toBase.shild = toBase.shild - shipCount;
+          shipCount = 0;
+        }
+      }
+      if (toBase.ships > shipCount) {
+        toBase.ships = toBase.ships - shipCount;
+      } else {
+        toBase.ships = shipCount - toBase.ships;
+        toBase.typeStatus = ship.typeStatus;
+      }
     }
     emit(state.copyWith(
       bases: gameData.bases,
@@ -96,7 +86,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     int ships = fromBase.ships;
     if (ships > 0) {
       gameData.ships.add(Ship(
-        index: gameData.ships.length,
+        index: Random().nextInt(1000000),
         fromIndex: index,
         toIndex: toIndex,
         speed: ourSpeed,

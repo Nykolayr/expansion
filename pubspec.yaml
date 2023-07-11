@@ -35,6 +35,7 @@ dependencies:
   url_launcher: ^6.1.11 #https://pub.dev/packages/url_launcher
   computer: ^3.2.1 #https://pub.dev/packages/computer
   json_annotation: ^4.8.1 # https://pub.flutter-io.cn/packages/json_annotation/install
+  rxdart: ^0.27.7 # https://pub.dev/packages/rxdart
   
 dev_dependencies:
   flutter_test:
