@@ -4,11 +4,12 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 
-/// абстрактный объект ля всех объектов в битве, кроме астероидов
+/// абстрактный объект ля всех объектов в битве
 abstract class EntitesObject {
-  Point coordinates; // координаты базы
+  Point coordinates; // координаты объекта
   TypeStatus typeStatus; // статус базы enum TypeStatus {our, enemy, neutral}
   int ships; // количество кораблей на базе
+  int index; // случайное число, для индетификации
   double size;
 
   EntitesObject({
@@ -16,6 +17,7 @@ abstract class EntitesObject {
     required this.typeStatus,
     required this.ships,
     required this.size,
+    required this.index,
   });
 
   void update() {}
@@ -30,7 +32,8 @@ abstract class EntitesObject {
 enum TypeStatus {
   our,
   enemy,
-  neutral;
+  neutral,
+  asteroid;
 
   double get minShild {
     switch (this) {
@@ -40,6 +43,8 @@ enum TypeStatus {
         return minEnemyShild;
       case TypeStatus.neutral:
         return minOurShild;
+      case TypeStatus.asteroid:
+        return 0;
     }
   }
 
@@ -51,6 +56,8 @@ enum TypeStatus {
         return enemySpeedRocet;
       case TypeStatus.neutral:
         return ourSpeedRocet;
+      case TypeStatus.asteroid:
+        return 0;
     }
   }
 
@@ -62,21 +69,12 @@ enum TypeStatus {
         return enemySpeedResourse;
       case TypeStatus.neutral:
         return ourSpeedResourse;
+      case TypeStatus.asteroid:
+        return 0;
     }
   }
 
-  String get desc {
-    switch (this) {
-      case TypeStatus.our:
-        return 'Этот объект наш';
-      case TypeStatus.enemy:
-        return 'Этот объект вражеский';
-      case TypeStatus.neutral:
-        return 'Этот объект нейтральный';
-    }
-  }
-
-  String get shipImage {
+  String shipImage() {
     switch (this) {
       case TypeStatus.our:
         return 'assets/svg/our_ship.svg';
@@ -84,6 +82,8 @@ enum TypeStatus {
         return 'assets/svg/enemy_ship.svg';
       case TypeStatus.neutral:
         return 'assets/svg/enemy_ship.svg';
+      case TypeStatus.asteroid:
+        return '';
     }
   }
 
@@ -94,6 +94,8 @@ enum TypeStatus {
       case TypeStatus.enemy:
         return AppColor.enemyPlanet;
       case TypeStatus.neutral:
+        return AppColor.neutralPlanet;
+      case TypeStatus.asteroid:
         return AppColor.neutralPlanet;
     }
   }
@@ -106,6 +108,8 @@ enum TypeStatus {
         return AppColor.red;
       case TypeStatus.neutral:
         return AppColor.white;
+      case TypeStatus.asteroid:
+        return AppColor.red;
     }
   }
 
@@ -117,6 +121,8 @@ enum TypeStatus {
         return AppColor.white;
       case TypeStatus.neutral:
         return AppColor.black;
+      case TypeStatus.asteroid:
+        return AppColor.white;
     }
   }
 }

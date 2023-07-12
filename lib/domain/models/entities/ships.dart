@@ -8,18 +8,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Ship extends EntitesObject {
-  int index; // случайное число, для индетификации
   int fromIndex; // индекс базы с которой летит корабль
   int toIndex; // индекс базы на которую летит корабль
   double speed; // скорость корабля
   double distance; // дистанция от нашей базы до базы на которую летит корабль
   PointFly target; // координаты цели
   PointFly fly; // текущие координаты корабля
-  double distanceCurrent; //текущиz дистанция до базы на которую летит корабль
+  double distanceCurrent; //текущия дистанция до базы на которую летит корабль
   double angle; // угол наклона корабля
   bool isAttack; // находится ли в атаке
   Ship({
-    required this.index,
+    required super.index,
     required this.fromIndex,
     required this.toIndex,
     required this.distance,
@@ -66,7 +65,7 @@ class Ship extends EntitesObject {
                     padding: const EdgeInsets.all(4),
                     decoration: typeStatus.boxDecor,
                     child: SvgPicture.asset(
-                      typeStatus.shipImage,
+                      typeStatus.shipImage(),
                       colorFilter:
                           ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
                       width: 40,

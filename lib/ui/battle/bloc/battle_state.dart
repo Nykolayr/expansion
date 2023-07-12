@@ -2,7 +2,7 @@ part of 'battle_bloc.dart';
 
 class BattleState {
   final List<BaseObject> bases;
-  final List<Ship> ships;
+  final List<EntitesObject> ships;
   final int index;
   final int toIndex;
   final ActionObject action;
@@ -32,7 +32,7 @@ class BattleState {
       );
   BattleState copyWith({
     List<BaseObject>? bases,
-    List<Ship>? ships,
+    List<EntitesObject>? ships,
     int? index,
     int? toIndex,
     ActionObject? action,

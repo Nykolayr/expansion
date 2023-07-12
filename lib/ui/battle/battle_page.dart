@@ -72,10 +72,8 @@ class BattlePage extends StatelessWidget {
                     }).toList(),
                     ...state.ships.map((item) {
                       return item.build(
-                        index: state.ships.indexOf(item),
+                        index: item.index,
                         context: context,
-                        click: null,
-                        onAccept: null,
                       );
                     }).toList(),
                     // const Positioned(

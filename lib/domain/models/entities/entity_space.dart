@@ -14,7 +14,6 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 /// size - размер объекта
 
 abstract class BaseObject extends EntitesObject {
-  int index;
   String description; // описание базы
   double shild; // щит базы max до 100
   double resources; // количество ресурсов на базе
@@ -38,7 +37,7 @@ abstract class BaseObject extends EntitesObject {
     required this.speedResources,
     required this.resources,
     required this.actionObject,
-    required this.index,
+    required super.index,
   });
 
   Future showIsNotMove() async {

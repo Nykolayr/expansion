@@ -43,6 +43,9 @@ int maxHoldTic = 2;
 // количество тиков для хода врагов
 int maxEnemyTic = 200;
 
+// количество тиков для нового астероида
+int maxAsteroidTic = 500;
+
 // минимальный ап нашего щита
 double minOurShild = 20;
 // минимальный ап чужого щита
@@ -62,3 +65,5 @@ double enemySpeedResourse = 0.1;
 double ourSpeed = 0.5;
 // скорость чужих кораблей
 double enemySpeed = 0.5;
+// скорость астероидов
+double asteroidSpeed = 1;

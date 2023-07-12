@@ -1,77 +1,126 @@
 import 'dart:math';
+import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/domain/models/entities/ships.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AmorphousCircle extends StatefulWidget {
-  const AmorphousCircle({super.key});
+/// класс астероид, характеризуется точками откуда и куда,
+/// сколько сил
+class Asteroid extends EntitesObject {
+  PointFly target; // координаты цели
+  PointFly fly; // текущие координаты астероида
+  double angle; // угол наклона астероида
+  bool isAttack; // находится ли в столкновении
+  double speed; // скорость астероида
+  String imagePath; // картинка астероида
+  Asteroid({
+    required super.index,
+    required this.target,
+    required this.fly,
+    required super.ships,
+    required super.coordinates,
+    required super.typeStatus,
+    required super.size,
+    required this.isAttack,
+    required this.speed,
+    required this.imagePath,
+  }) : angle = angleToPoint(fly.coordinates, target.coordinates);
 
-  @override
-  AmorphousCircleState createState() => AmorphousCircleState();
-}
-
-class AmorphousCircleState extends State<AmorphousCircle> {
-  List<Offset> points = [];
-
-  @override
-  void initState() {
-    super.initState();
-    generatePoints();
+  factory Asteroid.fromRandom(int index) {
+    // Выбор случайного края поля
+    // 0 - верхний край, 1 - правый край, 2 - нижний край, 3 - левый край
+    int edge = Random().nextInt(4);
+    PointFly fly = spawnObjectOnEdge(edge);
+    int edgeAnother = 0;
+    do {
+      edgeAnother = Random().nextInt(4);
+    } while (edgeAnother == edge);
+    PointFly target = spawnObjectOnEdge(edgeAnother);
+    int size = Random().nextInt(35) + 20;
+    int imageIndex = Random().nextInt(6) + 1;
+    return Asteroid(
+      index: index,
+      target: target,
+      fly: fly,
+      ships: size + 20,
+      coordinates: fly.coordinates,
+      typeStatus: TypeStatus.asteroid,
+      size: size.toDouble(),
+      isAttack: false,
+      speed: asteroidSpeed,
+      imagePath: 'assets/images/asteroids/ast$imageIndex.png',
+    );
   }
 
-  void generatePoints() {
-    const double radius = 10.0; // Радиус окружности
-    const int numPoints = 500; // Количество точек
+  @override
+  void update() {
+    fly = fly.moveTowards(target, speed * 1);
+    coordinates = fly.coordinates;
+  }
 
-    points.clear();
-    final random = Random();
-
-    for (int i = 0; i < numPoints; i++) {
-      // Случайные координаты внутри окружности
-      final double angle = random.nextDouble() * pi * 2;
-      final double x = cos(angle) * radius;
-      final double y = sin(angle) * radius;
-
-      // Случайное смещение каждой точки
-      final double offsetX = random.nextDouble() * 20 - 10;
-      final double offsetY = random.nextDouble() * 20 - 10;
-
-      points.add(Offset(x + offsetX, y + offsetY));
+  @override
+  Widget build(
+      {required int index,
+      required BuildContext context,
+      Function(int index)? onAccept}) {
+    if (coordinates == target.coordinates && !isAttack) {
+      context.read<BattleBloc>().add(ArriveAsteroidEvent(index));
     }
-
-    setState(() {});
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Transform(
-      alignment: FractionalOffset.center,
-      transform: Matrix4.skewY(0.3)..rotateZ(-pi / 12.0),
-      child: CustomPaint(
-        painter: CirclePainter(points),
-        size: const Size(12, 12),
+    return Positioned(
+      top: coordinates.x - size / 2,
+      left: coordinates.y - size / 2,
+      child: Image.asset(
+        imagePath,
+        width: size,
       ),
     );
   }
 }
 
-class CirclePainter extends CustomPainter {
-  final List<Offset> points;
+class Field {
+  final Point topLeft;
+  final Point bottomRight;
 
-  CirclePainter(this.points);
+  Field(this.topLeft, this.bottomRight);
+}
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width / 2, size.height / 2);
-    final paint = Paint()
-      ..color = Colors.red
-      ..strokeWidth = 1.0
-      ..style = PaintingStyle.fill;
+PointFly spawnObjectOnEdge(int edge) {
+  Field field = Field(
+    const Point(0, 0),
+    Point(deviceSize.width, deviceSize.height),
+  );
+  final random = Random();
 
-    for (var point in points) {
-      final offset = center + point;
-      canvas.drawCircle(offset, 1.0, paint);
-    }
+  num x = 0;
+  num y = 0;
+
+  switch (edge) {
+    case 0: // Верхний край
+      x = field.topLeft.x +
+          random.nextDouble() * (field.bottomRight.x - field.topLeft.x);
+      y = field.topLeft.y;
+      break;
+
+    case 1: // Правый край
+      x = field.bottomRight.x;
+      y = field.topLeft.y +
+          random.nextDouble() * (field.bottomRight.y - field.topLeft.y);
+      break;
+
+    case 2: // Нижний край
+      x = field.topLeft.x +
+          random.nextDouble() * (field.bottomRight.x - field.topLeft.x);
+      y = field.bottomRight.y;
+      break;
+
+    case 3: // Левый край
+      x = field.topLeft.x;
+      y = field.topLeft.y +
+          random.nextDouble() * (field.bottomRight.y - field.topLeft.y);
+      break;
   }
 
-  @override
-  bool shouldRepaint(CirclePainter oldDelegate) => true;
+  return PointFly(Point(y, x));
 }

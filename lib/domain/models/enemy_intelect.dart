@@ -22,6 +22,9 @@ void setStateEnemy(BattleBloc block) async {
         break;
       case TypeStatus.neutral:
         basesNeutral.add(base);
+        break;
+      case TypeStatus.asteroid:
+        basesNeutral.add(base);
     }
   }
   if (basesOur.isEmpty) {

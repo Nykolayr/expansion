@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
+import 'package:expansion/domain/models/entities/asteroids.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
@@ -25,19 +27,35 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<PauseEvent>(_onPause);
     on<PlayEvent>(_onPlay);
     on<CloseEvent>(_onClose);
+    on<ArriveAsteroidEvent>(_onArriveAsteroidEvent);
   }
   GameData gameData = gameRepository.gameData;
   int ticHold = 0;
   bool isSend = false;
   int ticEnemy = 0;
+  int ticAsteroid = 0;
   ReceivePort receivePort = ReceivePort();
+
+  _onArriveAsteroidEvent(
+      ArriveAsteroidEvent event, Emitter<BattleState> emit) async {
+    Future.delayed(const Duration(milliseconds: 200), () {
+      gameData.ships.removeWhere((element) {
+        return element.index == event.index;
+      });
+    });
+  }
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
     BaseObject toBase = gameData.bases[event.toIndex];
-    Ship ship = gameData.ships[event.index];
+    Ship ship = gameData.ships.where((element) {
+      return element.index == event.index;
+    }).first as Ship;
+
     if (toBase.typeStatus == ship.typeStatus) {
       toBase.ships += ship.ships;
-      gameData.ships.removeAt(event.index);
+      gameData.ships.removeWhere((element) {
+        return element.index == ship.index;
+      });
     } else {
       int shipCount = ship.ships;
       ship.isAttack = true;
@@ -144,6 +162,18 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     if (ticEnemy == maxEnemyTic) {
       ticEnemy = 0;
     }
+    if (ticAsteroid == maxAsteroidTic) {
+      int st = Random().nextInt(1000000);
+
+      gameData.ships.add(Asteroid.fromRandom(
+        st,
+      ));
+      emit(state.copyWith(
+        ships: gameData.ships,
+      ));
+      ticAsteroid = 0;
+    }
+    ticAsteroid++;
     ticHold++;
     ticEnemy++;
     for (var item in gameData.bases) {
