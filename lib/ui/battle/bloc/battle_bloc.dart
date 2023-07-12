@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
-import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
@@ -43,11 +42,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       int shipCount = ship.ships;
       ship.isAttack = true;
       Future.delayed(const Duration(milliseconds: 200), () {
-        try {
-          gameData.ships.removeWhere((element) {
-            return element.index == ship.index;
-          });
-        } catch (e) {}
+        gameData.ships.removeWhere((element) {
+          return element.index == ship.index;
+        });
       });
       if (toBase.shild > 0) {
         if (toBase.shild < shipCount) {
@@ -63,6 +60,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       } else {
         toBase.ships = shipCount - toBase.ships;
         toBase.typeStatus = ship.typeStatus;
+        toBase.speedBuild = ship.typeStatus.speedRoket;
+        toBase.speedResources = ship.typeStatus.speedResources;
+        toBase.resources = 0;
       }
     }
     emit(state.copyWith(
@@ -72,18 +72,28 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onSend(SendEvent event, Emitter<BattleState> emit) async {
-    if (state.isLost || state.isWin || state.isPause) return;
+    if (state.isLost ||
+        state.isWin ||
+        state.isPause ||
+        event.index == event.send) return;
     int toIndex = event.index;
     int index = event.send;
+
     ActionObject action = ActionObject.attack;
     if (state.bases[toIndex].typeStatus == state.bases[index].typeStatus) {
       action = ActionObject.support;
     }
-    EntitesObject toBase = state.bases[toIndex];
-    EntitesObject fromBase = state.bases[index];
+    BaseObject toBase = state.bases[toIndex];
+    BaseObject fromBase = state.bases[index];
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
     int ships = fromBase.ships;
+    BaseObject? betweenBase =
+        getBase(state.bases, fromBase.coordinates, toBase.coordinates);
+    if (betweenBase != null) {
+      await betweenBase.showIsNotMove();
+      return;
+    }
     if (ships > 0) {
       gameData.ships.add(Ship(
         index: Random().nextInt(1000000),
@@ -179,4 +189,44 @@ enum ActionObject {
         return AppColor.darkGreen;
     }
   }
+}
+
+BaseObject? getBase(List<BaseObject> myList, Point point1, Point point2) {
+  double minDistance = double.infinity;
+  BaseObject? nearestObject;
+  List<BaseObject> filteredList = myList
+      .where((obj) => obj.coordinates != point1 && obj.coordinates != point2)
+      .toList();
+  for (BaseObject obj in filteredList) {
+    if (distance(obj.coordinates, point1) <= obj.size) {
+      return obj;
+    }
+
+    bool intersection = false;
+    double distanceToObj = distance(obj.coordinates, point1);
+
+    for (int t = 1; t <= 10; t++) {
+      // Проверяем точки на пути с шагом 0.1
+      double x = point1.x + (point2.x - point1.x) * t / 10;
+      double y = point1.y + (point2.y - point1.y) * t / 10;
+
+      if (distance(Point(x, y), obj.coordinates) <= obj.size) {
+        intersection = true;
+        break;
+      }
+    }
+
+    if (intersection && distanceToObj < minDistance) {
+      minDistance = distanceToObj;
+      nearestObject = obj;
+    }
+  }
+
+  return nearestObject;
+}
+
+double distance(Point p1, Point p2) {
+  num dx = p2.x - p1.x;
+  num dy = p2.y - p1.y;
+  return sqrt(dx * dx + dy * dy);
 }

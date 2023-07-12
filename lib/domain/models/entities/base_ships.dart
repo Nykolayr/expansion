@@ -7,11 +7,10 @@ import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BaseShip extends BaseObject {
   String path;
-  double roundShip = 0;
-  double roundResources = 0;
   BaseShip({
     required super.coordinates,
     required super.description,
@@ -28,6 +27,9 @@ class BaseShip extends BaseObject {
     required super.index,
   });
   factory BaseShip.fromJson(Map<String, dynamic> json) {
+    TypeStatus typeStatus = TypeStatus.values
+        .firstWhere((e) => e.toString() == 'TypeStatus.${json["typeStatus"]}');
+
     final int x = json['coordinates']['x'];
     final int y = json['coordinates']['y'];
     final size = json['size'];
@@ -40,12 +42,11 @@ class BaseShip extends BaseObject {
       description: json['description'],
       shild: json['shild'],
       ships: json['ships'],
-      speedBuild: json['speedBuild'],
-      speedResources: json['speedResources'],
+      speedBuild: typeStatus.speedRoket,
+      speedResources: typeStatus.speedResources,
       resources: 0.0,
       maxShips: json['maxShips'],
-      typeStatus: TypeStatus.values.firstWhere(
-          (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
+      typeStatus: typeStatus,
       size: size.toDouble(),
       path: json['path'],
       actionObject: ActionObject.no,
@@ -70,22 +71,20 @@ class BaseShip extends BaseObject {
   Widget build({
     required int index,
     required BuildContext context,
-    Function()? click,
     Function(int sender)? onAccept,
   }) {
     return Positioned(
       top: coordinates.y.toDouble(),
       left: coordinates.x.toDouble(),
       child: GestureDetector(
-        onTap: click,
         child: Stack(
           alignment: Alignment.center,
           children: [
             Draggable<int>(
               data: index,
-              feedback: const SizedBox(
-                width: 60,
-                height: 60,
+              feedback: SizedBox(
+                width: size,
+                height: size,
               ),
               child: DragTarget<int>(
                 builder: (
@@ -115,27 +114,18 @@ class BaseShip extends BaseObject {
               bottom: 5,
               child: getInfo(this),
             ),
+            if (isNotMove)
+              Positioned(
+                child: SvgPicture.asset(
+                  'assets/svg/cursor.svg',
+                  width: size * 0.6,
+                  colorFilter:
+                      const ColorFilter.mode(AppColor.red, BlendMode.srcIn),
+                ),
+              ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void update() {
-    if (ships < maxShips) {
-      roundShip += speedBuild;
-      if (roundShip > 1) {
-        ships++;
-        roundShip = 0;
-      }
-    }
-    if (resources < maxResources) {
-      roundResources += speedResources;
-      if (roundResources > 1) {
-        resources++;
-        roundResources = 0;
-      }
-    }
   }
 }

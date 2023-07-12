@@ -39,13 +39,26 @@ double stepY = (standardDeviceSize.height - 80) / 8;
 double maxbuildShips = 20;
 // количество тиков которые нужно пропустить для рендеринга
 int maxHoldTic = 2;
-// максимальное количество ресурсов на базах и кораблях
-double maxResources = 1600;
 
 // количество тиков для хода врагов
 int maxEnemyTic = 200;
 
+// минимальный ап нашего щита
+double minOurShild = 20;
+// минимальный ап чужого щита
+double minEnemyShild = 20;
+
+// скорость постройки наших кораблей
+double ourSpeedRocet = 0.1;
+// скорость постройки чужих кораблей
+double enemySpeedRocet = 0.1;
+
+// скорость постройки наших кораблей
+double ourSpeedResourse = 0.1;
+// скорость постройки чужих кораблей
+double enemySpeedResourse = 0.1;
+
 // скорость наших кораблей
-double ourSpeed = 1;
+double ourSpeed = 0.5;
 // скорость чужих кораблей
-double enemySpeed = 1;
+double enemySpeed = 0.5;

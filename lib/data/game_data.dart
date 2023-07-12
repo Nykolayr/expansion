@@ -14,7 +14,7 @@ class GameData {
     Map<String, dynamic> json = await Api.loadJson(countScene);
     List<Base> planets =
         List<Base>.from(json["neutral"].map((x) => Base.fromJson(x)));
-       
+
     BaseShip enemyMainShip = BaseShip.fromJson(json["mainShipEnemy"]);
     BaseShip ourMainShip = BaseShip.fromJson(json["mainShipOur"]);
     for (int k = 0; k < planets.length; k++) {

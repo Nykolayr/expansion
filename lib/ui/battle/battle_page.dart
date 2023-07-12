@@ -65,7 +65,6 @@ class BattlePage extends StatelessWidget {
                       return item.build(
                         index: state.bases.indexOf(item),
                         context: context,
-                        click: () => null,
                         onAccept: (sender) => context
                             .read<BattleBloc>()
                             .add(SendEvent(index, sender)),
@@ -138,6 +137,8 @@ class BattlePage extends StatelessWidget {
                               if (context.mounted) {
                                 context.read<BattleBloc>().add(CloseEvent());
                               }
+                              await Future.delayed(
+                                  const Duration(milliseconds: 15000));
                               router.pushReplacement('/battle');
                               return;
                             }

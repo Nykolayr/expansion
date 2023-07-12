@@ -1,6 +1,7 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,13 +48,13 @@ class Ship extends EntitesObject {
       Function()? click,
       Function(int sender)? onAccept}) {
     if (coordinates == target.coordinates && !isAttack) {
-      isAttack = true;
       context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
     }
     return Positioned(
       top: coordinates.x - size / 2,
       left: coordinates.y - size / 2,
       child: Stack(
+        alignment: Alignment.center,
         children: [
           isAttack
               ? IconRotate(size: size)
@@ -72,6 +73,24 @@ class Ship extends EntitesObject {
                     ),
                   ),
                 ),
+          Positioned(
+            bottom: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                color: typeStatus.color,
+              ),
+              child: Text(
+                ships.toString(),
+                style: const TextStyle(
+                  color: AppColor.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -7,12 +7,12 @@ import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Base extends BaseObject {
   SizeBase sizeBase;
   int timeCapture;
-  double roundShip = 0;
-  double roundResources = 0;
+
   Base({
     required super.coordinates,
     required super.description,
@@ -72,71 +72,57 @@ class Base extends BaseObject {
   Widget build({
     required int index,
     required BuildContext context,
-    Function()? click,
     Function(int sender)? onAccept,
   }) {
     return Positioned(
       top: coordinates.y.toDouble(),
       left: coordinates.x.toDouble(),
-      child: GestureDetector(
-        onTap: click,
-        child: Draggable<int>(
-          data: index,
-          feedback: const SizedBox(
-            width: 60,
-            height: 60,
-          ),
-          child: DragTarget<int>(
-            builder: (
-              BuildContext context,
-              List<dynamic> accepted,
-              List<dynamic> rejected,
-            ) {
-              return Stack(
-                alignment: Alignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(2),
-                    height: sizeBase.add.size.toDouble(),
-                    width: sizeBase.add.size.toDouble(),
-                    decoration: typeStatus.boxDecor,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: shild > 0 ? AppColor.shildBox : null,
-                      child: Image.asset(sizeBase.add.pictire),
+      child: Draggable<int>(
+        data: index,
+        feedback: SizedBox(
+          width: size,
+          height: size,
+        ),
+        child: DragTarget<int>(
+          builder: (
+            BuildContext context,
+            List<dynamic> accepted,
+            List<dynamic> rejected,
+          ) {
+            return Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(2),
+                  height: sizeBase.add.size.toDouble(),
+                  width: sizeBase.add.size.toDouble(),
+                  decoration: typeStatus.boxDecor,
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: shild > 0 ? AppColor.shildBox : null,
+                    child: Image.asset(sizeBase.add.pictire),
+                  ),
+                ),
+                getInfo(this),
+                if (isNotMove)
+                  Positioned(
+                    child: SvgPicture.asset(
+                      'assets/svg/cursor.svg',
+                      width: size * 0.6,
+                      colorFilter:
+                          const ColorFilter.mode(AppColor.red, BlendMode.srcIn),
                     ),
                   ),
-                  getInfo(this),
-                ],
-              );
-            },
-            onAccept: (int sender) {
-              if (gameRepository.gameData.bases[sender].typeStatus ==
-                  TypeStatus.our) onAccept!(sender);
-            },
-          ),
+              ],
+            );
+          },
+          onAccept: (int sender) {
+            if (gameRepository.gameData.bases[sender].typeStatus ==
+                TypeStatus.our) onAccept!(sender);
+          },
         ),
       ),
     );
-  }
-
-  @override
-  void update() {
-    if (typeStatus == TypeStatus.neutral) return;
-    if (ships < maxShips) {
-      roundShip += speedBuild;
-      if (roundShip > 1) {
-        ships++;
-        roundShip = 0;
-      }
-    }
-    if (resources < maxResources) {
-      roundResources += speedResources;
-      if (roundResources > 1) {
-        resources++;
-        roundResources = 0;
-      }
-    }
   }
 }
 
@@ -152,8 +138,8 @@ enum SizeBase {
           pictire: 'assets/images/bases/base1.png',
           maxShips: 100,
           shild: 0.0,
-          speedBuild: 0.1,
-          speedResources: 0.1,
+          speedBuild: ourSpeedRocet,
+          speedResources: ourSpeedResourse,
           size: 60,
           timeCapture: 100,
         );
@@ -163,8 +149,8 @@ enum SizeBase {
           pictire: 'assets/images/bases/base2.png',
           maxShips: 130,
           shild: 0.0,
-          speedBuild: 0.1,
-          speedResources: 0.1,
+          speedBuild: ourSpeedRocet,
+          speedResources: ourSpeedResourse,
           size: 80,
           timeCapture: 100,
         );

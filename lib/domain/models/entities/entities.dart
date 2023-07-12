@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 
+/// абстрактный объект ля всех объектов в битве, кроме астероидов
 abstract class EntitesObject {
   Point coordinates; // координаты базы
   TypeStatus typeStatus; // статус базы enum TypeStatus {our, enemy, neutral}
@@ -16,11 +18,11 @@ abstract class EntitesObject {
     required this.size,
   });
 
-  void update();
+  void update() {}
+
   Widget build({
     required int index,
     required BuildContext context,
-    Function() click,
     Function(int sender) onAccept,
   });
 }
@@ -29,6 +31,39 @@ enum TypeStatus {
   our,
   enemy,
   neutral;
+
+  double get minShild {
+    switch (this) {
+      case TypeStatus.our:
+        return minOurShild;
+      case TypeStatus.enemy:
+        return minEnemyShild;
+      case TypeStatus.neutral:
+        return minOurShild;
+    }
+  }
+
+  double get speedRoket {
+    switch (this) {
+      case TypeStatus.our:
+        return ourSpeedRocet;
+      case TypeStatus.enemy:
+        return enemySpeedRocet;
+      case TypeStatus.neutral:
+        return ourSpeedRocet;
+    }
+  }
+
+  double get speedResources {
+    switch (this) {
+      case TypeStatus.our:
+        return ourSpeedResourse;
+      case TypeStatus.enemy:
+        return enemySpeedResourse;
+      case TypeStatus.neutral:
+        return ourSpeedResourse;
+    }
+  }
 
   String get desc {
     switch (this) {
