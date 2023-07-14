@@ -31,6 +31,7 @@ class BattlePage extends StatelessWidget {
           children: [
             SizedBox(
               height: deviceSize.height,
+              width: deviceSize.width,
               child: Image.asset(
                 'assets/images/fon2.png',
                 fit: BoxFit.fill,

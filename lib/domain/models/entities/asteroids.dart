@@ -1,7 +1,10 @@
 import 'dart:math';
+import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/widgets/animations_sprites.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,9 +15,12 @@ class Asteroid extends EntitesObject {
   PointFly target; // координаты цели
   PointFly fly; // текущие координаты астероида
   double angle; // угол наклона астероида
-  bool isAttack; // находится ли в столкновении
+  bool isAttack = false; // находится ли в столкновении
+  bool isSend = false; // отослали ли в блок
   double speed; // скорость астероида
-  String imagePath; // картинка астероида
+  String imagePath; // картинка астероида'
+  int? indexBase; // индекс базы в которую врезался астероид
+  int? indexShip; // индекс кораблей в которую врезался астероид
   Asteroid({
     required super.index,
     required this.target,
@@ -38,13 +44,13 @@ class Asteroid extends EntitesObject {
       edgeAnother = Random().nextInt(4);
     } while (edgeAnother == edge);
     PointFly target = spawnObjectOnEdge(edgeAnother);
-    int size = Random().nextInt(35) + 20;
+    int size = Random().nextInt(15) + 20;
     int imageIndex = Random().nextInt(6) + 1;
     return Asteroid(
       index: index,
       target: target,
       fly: fly,
-      ships: size + 20,
+      ships: size,
       coordinates: fly.coordinates,
       typeStatus: TypeStatus.asteroid,
       size: size.toDouble(),
@@ -56,8 +62,13 @@ class Asteroid extends EntitesObject {
 
   @override
   void update() {
+    if (isAttack) return;
     fly = fly.moveTowards(target, speed * 1);
     coordinates = fly.coordinates;
+    indexBase = checkCollisionBase(this);
+    if (indexBase != null) {
+      isAttack = true;
+    }
   }
 
   @override
@@ -66,15 +77,34 @@ class Asteroid extends EntitesObject {
       required BuildContext context,
       Function(int index)? onAccept}) {
     if (coordinates == target.coordinates && !isAttack) {
-      context.read<BattleBloc>().add(ArriveAsteroidEvent(index));
+      context
+          .read<BattleBloc>()
+          .add(ArriveAsteroidEvent(index, indexBase, indexShip));
     }
+    if (isAttack && !isSend) {
+      isSend = true;
+      Future.delayed(const Duration(seconds: 1), () {
+        context
+            .read<BattleBloc>()
+            .add(ArriveAsteroidEvent(index, indexBase, indexShip));
+      });
+    }
+    ImageAnimation animation = ImageAnimation(
+      animationsGame: AnimationsGame.explosion,
+      numberOfImages: 9,
+      duration: 200,
+      size: size,
+    );
+
     return Positioned(
       top: coordinates.x - size / 2,
       left: coordinates.y - size / 2,
-      child: Image.asset(
-        imagePath,
-        width: size,
-      ),
+      child: isAttack
+          ? animation
+          : Image.asset(
+              imagePath,
+              width: size,
+            ),
     );
   }
 }
@@ -89,7 +119,7 @@ class Field {
 PointFly spawnObjectOnEdge(int edge) {
   Field field = Field(
     const Point(0, 0),
-    Point(deviceSize.width, deviceSize.height),
+    Point(deviceSize.height, deviceSize.width),
   );
   final random = Random();
 
@@ -99,28 +129,47 @@ PointFly spawnObjectOnEdge(int edge) {
   switch (edge) {
     case 0: // Верхний край
       x = field.topLeft.x +
-          random.nextDouble() * (field.bottomRight.x - field.topLeft.x);
+          random.nextDouble() * (field.bottomRight.x - field.topLeft.x) -
+          50;
       y = field.topLeft.y;
       break;
 
     case 1: // Правый край
       x = field.bottomRight.x;
       y = field.topLeft.y +
-          random.nextDouble() * (field.bottomRight.y - field.topLeft.y);
+          random.nextDouble() * (field.bottomRight.y - field.topLeft.y) -
+          50;
       break;
 
     case 2: // Нижний край
       x = field.topLeft.x +
-          random.nextDouble() * (field.bottomRight.x - field.topLeft.x);
+          random.nextDouble() * (field.bottomRight.x - field.topLeft.x) -
+          50;
       y = field.bottomRight.y;
       break;
 
     case 3: // Левый край
       x = field.topLeft.x;
       y = field.topLeft.y +
-          random.nextDouble() * (field.bottomRight.y - field.topLeft.y);
+          random.nextDouble() * (field.bottomRight.y - field.topLeft.y) -
+          50;
       break;
   }
+  return PointFly(Point(x, y));
+}
 
-  return PointFly(Point(y, x));
+int? checkCollisionBase(Asteroid ast) {
+  GameData gameData = gameRepository.gameData;
+
+  for (BaseObject base in gameData.bases) {
+    Point point = Point(
+        base.coordinates.y + base.size / 2, base.coordinates.x + base.size / 2);
+    PointFly baseFly = PointFly(point);
+    double distance = ast.fly.distanceTo(baseFly);
+    if (distance < ast.size / 2 + base.size / 2 - 1) {
+      return base.index; // Столкновение произошло
+    }
+  }
+
+  return null; // Столкновение не произошло
 }

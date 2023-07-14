@@ -38,11 +38,27 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onArriveAsteroidEvent(
       ArriveAsteroidEvent event, Emitter<BattleState> emit) async {
-    Future.delayed(const Duration(milliseconds: 200), () {
-      gameData.ships.removeWhere((element) {
-        return element.index == event.index;
-      });
+        if (event.indexBase != null) {
+      BaseObject base = gameData.bases[event.indexBase!];
+      EntitesObject ast =
+          gameData.ships.where((element) => element.index == event.index).first;
+      if (base.shild > ast.size) {
+        base.shild -= ast.size;
+      } else {
+        ast.size -= base.shild;
+        base.shild = 0;
+        base.ships =
+            (base.ships < ast.size.toInt()) ? 0 : base.ships - ast.size.toInt();
+      }
+    }
+
+    gameData.ships.removeWhere((element) {
+      return element.index == event.index;
     });
+    emit(state.copyWith(
+      bases: gameData.bases,
+      ships: gameData.ships,
+    ));
   }
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {

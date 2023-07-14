@@ -25,7 +25,8 @@ dependencies:
   easy_localization: ^3.0.2 #https://pub.dev/packages/easy_localization
   flutter_native_splash: ^2.3.1 #https://pub.dev/packages/flutter_native_splash
   shared_preferences: ^2.2.0 #https://pub.dev/packages/shared_preferences/install
-  assets_audio_player: ^3.0.6 #https://pub.dev/packages/assets_audio_player
+  # assets_audio_player: ^3.0.6 #https://pub.dev/packages/assets_audio_player
+  audioplayers: ^4.1.0 #https://pub.dev/packages/audioplayers
   flutter_launcher_icons: ^0.13.1 #https://pub.dev/packages/flutter_launcher_icons
   go_router: ^9.0.0 #https://pub.dev/packages/go_router
   google_fonts: ^4.0.1 #https://pub.dev/packages/google_fonts
@@ -75,6 +76,7 @@ flutter:
     - assets/scenes/
     - assets/images/asteroids/
     - assets/images/bases/
+    - assets/images/explosion/
     
   fonts:
     - family: KellySlab

@@ -28,7 +28,9 @@ class PressEvent extends BattleEvent {
 
 class ArriveAsteroidEvent extends BattleEvent {
   final int index;
-  const ArriveAsteroidEvent(this.index);
+  final int? indexBase;
+  final int? indexShip;
+  const ArriveAsteroidEvent(this.index, this.indexBase, this.indexShip);
 }
 
 class SendEvent extends BattleEvent {

@@ -65,7 +65,7 @@ class Ship extends EntitesObject {
                     padding: const EdgeInsets.all(4),
                     decoration: typeStatus.boxDecor,
                     child: SvgPicture.asset(
-                      typeStatus.shipImage(),
+                      typeStatus.shipImage,
                       colorFilter:
                           ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
                       width: 40,
@@ -101,7 +101,7 @@ double angleToPoint(Point p1, Point p2) {
 }
 
 class PointFly {
-  Point coordinates;
+  Point<num> coordinates;
 
   PointFly(this.coordinates);
 

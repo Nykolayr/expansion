@@ -35,7 +35,7 @@ class BaseShip extends BaseObject {
     final size = json['size'];
     final num pozY = (y == 1)
         ? (80 - size / 2)
-        : (standardDeviceSize.height - 130 - size / 2);
+        : (deviceSize.height - 80 - size / 2);
     return BaseShip(
       coordinates:
           Point((stepX * x - size / 2) * ratioXY.width, pozY * ratioXY.height),

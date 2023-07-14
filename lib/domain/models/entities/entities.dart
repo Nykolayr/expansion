@@ -74,7 +74,7 @@ enum TypeStatus {
     }
   }
 
-  String shipImage() {
+  String get shipImage {
     switch (this) {
       case TypeStatus.our:
         return 'assets/svg/our_ship.svg';
