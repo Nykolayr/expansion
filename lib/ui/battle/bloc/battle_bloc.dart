@@ -38,20 +38,32 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onArriveAsteroidEvent(
       ArriveAsteroidEvent event, Emitter<BattleState> emit) async {
-        if (event.indexBase != null) {
+    EntitesObject ast =
+        gameData.ships.where((element) => element.index == event.index).first;
+    if (event.indexBase != null) {
       BaseObject base = gameData.bases[event.indexBase!];
-      EntitesObject ast =
-          gameData.ships.where((element) => element.index == event.index).first;
-      if (base.shild > ast.size) {
-        base.shild -= ast.size;
+
+      if (base.shild > ast.ships) {
+        base.shild -= ast.ships;
       } else {
         ast.size -= base.shild;
         base.shild = 0;
         base.ships =
-            (base.ships < ast.size.toInt()) ? 0 : base.ships - ast.size.toInt();
+            (base.ships < ast.size.toInt()) ? 0 : base.ships - ast.ships;
       }
     }
-
+    if (event.indexShip != null) {
+      EntitesObject ship = gameData.ships
+          .where((element) => element.index == event.indexShip)
+          .first;
+      if (ship.ships < ast.ships) {
+        gameData.ships.removeWhere((element) {
+          return element.index == event.indexShip;
+        });
+      } else {
+        ship.ships -= ast.ships;
+      }
+    }
     gameData.ships.removeWhere((element) {
       return element.index == event.index;
     });

@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/animations_sprites.dart';
@@ -66,7 +65,9 @@ class Asteroid extends EntitesObject {
     fly = fly.moveTowards(target, speed * 1);
     coordinates = fly.coordinates;
     indexBase = checkCollisionBase(this);
-    if (indexBase != null) {
+    indexShip = checkCollisionBase(this, isBase: false);
+    print('indexShip == $indexShip');
+    if (indexBase != null || indexShip != null) {
       isAttack = true;
     }
   }
@@ -158,14 +159,23 @@ PointFly spawnObjectOnEdge(int edge) {
   return PointFly(Point(x, y));
 }
 
-int? checkCollisionBase(Asteroid ast) {
+int? checkCollisionBase(Asteroid ast, {isBase = true}) {
   GameData gameData = gameRepository.gameData;
+  for (EntitesObject base in isBase ? gameData.bases : gameData.ships) {
+    if (base.typeStatus == TypeStatus.asteroid) continue;
 
-  for (BaseObject base in gameData.bases) {
-    Point point = Point(
-        base.coordinates.y + base.size / 2, base.coordinates.x + base.size / 2);
+    Point point = isBase
+        ? Point(base.coordinates.y + base.size / 2,
+            base.coordinates.x + base.size / 2)
+        : base.coordinates;
+    // Point(base.coordinates.x + base.size / 2,
+    //     base.coordinates.y + base.size / 2);
     PointFly baseFly = PointFly(point);
     double distance = ast.fly.distanceTo(baseFly);
+    if (!isBase) {
+      print(
+          'object ${base.coordinates} == ${ast.coordinates} == $distance == ${ast.size / 2 + base.size / 2} ');
+    }
     if (distance < ast.size / 2 + base.size / 2 - 1) {
       return base.index; // Столкновение произошло
     }
