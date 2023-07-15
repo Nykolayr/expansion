@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:equatable/equatable.dart';
 import 'package:expansion/data/game_data.dart';
+import 'package:expansion/domain/models/enemy_intelect.dart';
 import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
@@ -74,11 +75,38 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
-    BaseObject toBase = gameData.bases[event.toIndex];
+    BaseObject toBase =
+        gameData.bases.where((element) => element.index == event.toIndex).first;
     Ship ship = gameData.ships.where((element) {
       return element.index == event.index;
     }).first as Ship;
 
+    if (event.indexShip != null) {
+      print('object ${event.indexShip} ${event.toIndex} ${event.index}');
+      Ship enemyShip = gameData.ships.where((element) {
+        return element.index == event.index;
+      }).first as Ship;
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (enemyShip.ships == ship.ships) {
+          gameData.ships.removeWhere((element) {
+            return element.index == ship.index;
+          });
+          gameData.ships.removeWhere((element) {
+            return element.index == enemyShip.index;
+          });
+        }
+        if (enemyShip.ships > ship.ships) {
+          gameData.ships.removeWhere((element) {
+            return element.index == ship.index;
+          });
+        } else {
+          gameData.ships.removeWhere((element) {
+            return element.index == enemyShip.index;
+          });
+        }
+      });
+      return;
+    }
     if (toBase.typeStatus == ship.typeStatus) {
       toBase.ships += ship.ships;
       gameData.ships.removeWhere((element) {
@@ -134,8 +162,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
     int ships = fromBase.ships;
-    BaseObject? betweenBase =
-        getBase(state.bases, fromBase.coordinates, toBase.coordinates);
+    BaseObject? betweenBase = getBase(fromBase.coordinates, toBase.coordinates);
     if (betweenBase != null) {
       await betweenBase.showIsNotMove();
       return;
@@ -155,7 +182,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         typeStatus: fromBase.typeStatus,
         distance: 0,
         distanceCurrent: 0,
-        size: (40),
+        size: 40,
       ));
     }
     fromBase.ships = 0;
@@ -188,6 +215,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
 
     if (ticEnemy == maxEnemyTic) {
+      setStateEnemy(this);
       ticEnemy = 0;
     }
     if (ticAsteroid == maxAsteroidTic) {
@@ -249,7 +277,11 @@ enum ActionObject {
   }
 }
 
-BaseObject? getBase(List<BaseObject> myList, Point point1, Point point2) {
+// проверяет есть ли база на пути между базой с point1 и базой point2
+// возращает базу которая на пути, если нет, то возращает null
+BaseObject? getBase(Point point1, Point point2) {
+  GameData gameData = gameRepository.gameData;
+  List<BaseObject> myList = gameData.bases;
   double minDistance = double.infinity;
   BaseObject? nearestObject;
   List<BaseObject> filteredList = myList

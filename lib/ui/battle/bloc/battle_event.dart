@@ -42,5 +42,6 @@ class SendEvent extends BattleEvent {
 class ArriveShipsEvent extends BattleEvent {
   final int index;
   final int toIndex;
-  const ArriveShipsEvent(this.index, this.toIndex);
+  final int? indexShip;
+  const ArriveShipsEvent(this.index, this.toIndex, this.indexShip);
 }

@@ -1,100 +1,102 @@
-import 'dart:math';
-
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 // import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/utils/value.dart';
 
 void setStateEnemy(BattleBloc block) async {
   List<BaseObject> bases = gameRepository.gameData.bases;
   // List<Ship> ships = gameRepository.gameData.ships;
+
   List<BaseObject> basesNeutral = [];
   List<BaseObject> basesEnemy = [];
   List<BaseObject> basesOur = [];
-  for (BaseObject base in bases) {
-    switch (base.typeStatus) {
-      case TypeStatus.enemy:
-        basesOur.add(base);
-        break;
-      case TypeStatus.our:
-        basesEnemy.add(base);
-        break;
-      case TypeStatus.neutral:
-        basesNeutral.add(base);
-        break;
-      case TypeStatus.asteroid:
-        basesNeutral.add(base);
-    }
-  }
-  if (basesOur.isEmpty) {
-    block.add(WinEvent());
-    return;
-  }
-  if (basesEnemy.isEmpty) {
-    block.add(LostEvent());
-    return;
-  }
   sort() {
+    for (BaseObject base in bases) {
+      switch (base.typeStatus) {
+        case TypeStatus.enemy:
+          basesOur.add(base);
+          break;
+        case TypeStatus.our:
+          basesEnemy.add(base);
+          break;
+        case TypeStatus.neutral:
+          basesNeutral.add(base);
+          break;
+        case TypeStatus.asteroid:
+      }
+    }
     sortBaseShips(basesNeutral);
     sortBaseShips(basesEnemy);
     sortBaseShips(basesOur);
   }
 
-  int getAllShips(int lengthShips) {
-    int allbaseShips = 0;
-    for (int k = 0; k < lengthShips; k++) {
-      allbaseShips += basesOur[basesOur.length - k - 1].ships;
-    }
-    return allbaseShips;
-  }
-
-  //сортируем наши и чужие базы по количеству кораблей
   sort();
-  int allbaseShips = 0;
-  int lengthShips = 1;
-  if (basesOur.length > 2) {
-    lengthShips = 3;
-  } else {
-    lengthShips = basesOur.length;
+  // проверяем апы и если хватает ресурсов поднимаем щит и скорость постройки кораблей
+  for (BaseObject base in basesOur) {
+    if (getIsUpShild(base)) base.upShild();
+    if (getIsUpSpeed(base)) base.upSpeedBuild();
   }
-  allbaseShips = getAllShips(lengthShips);
+//функция,  добавляем, сортируем наши, нейтральные и чужие базы по количеству кораблей, сначала с меньшим
+
   if (basesNeutral.isNotEmpty) {
-    if (basesNeutral.first.ships < allbaseShips - 1) {
-      sendShips(block, basesOur, basesNeutral.first.index, lengthShips);
+    for (BaseObject baseN in basesNeutral) {
+      List<int> listOur = isAttacCheck(basesOur, baseN);
+      if (listOur.isNotEmpty) {
+        if (listOur.length > 3) listOur = listOur.getRange(0, 2).toList();
+        sendShips(block, basesOur, listOur, baseN.index);
+      }
+      await Future.delayed(const Duration(milliseconds: 200));
     }
   }
-
-  await Future.delayed(const Duration(milliseconds: 100));
   sort();
-  allbaseShips = getAllShips(lengthShips);
+  await Future.delayed(const Duration(milliseconds: 200));
   if (basesEnemy.isNotEmpty) {
-    if (basesEnemy.first.ships < allbaseShips - 30) {
-      sendShips(block, basesOur, basesEnemy.first.index, lengthShips);
+    for (BaseObject base in basesEnemy) {
+      List<int> listOur = isAttacCheck(basesOur, base);
+      if (listOur.length > 3) listOur = listOur.getRange(0, 2).toList();
+      if (listOur.isNotEmpty) {
+        sendShips(block, basesOur, listOur, base.index);
+      }
+      await Future.delayed(const Duration(milliseconds: 200));
     }
   }
-  await Future.delayed(const Duration(milliseconds: 100));
   sort();
-  allbaseShips = getAllShips(lengthShips);
-  if (basesOur.first.ships < 50) {
-    sendShips(block, basesOur, basesOur.first.index, lengthShips);
+  await Future.delayed(const Duration(milliseconds: 200));
+  if (basesOur.isNotEmpty) {
+    for (BaseObject base in basesOur) {
+      List<int> listOur = isAttacCheck(basesOur, base);
+      if (listOur.length > 2) listOur = listOur.getRange(0, 2).toList();
+      if (listOur.isNotEmpty) {
+        sendShips(block, basesOur, listOur, base.index);
+      }
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
   }
 }
 
-double calculateDistance(Point point1, Point point2) {
-  double dx = point2.x.toDouble() - point1.x.toDouble();
-  double dy = point2.y.toDouble() - point1.y.toDouble();
-  double distance = sqrt(dx * dx + dy * dy);
-  return distance;
-}
-
-sendShips(BattleBloc block, List<BaseObject> basesOur, int toIndex, int count) {
-  for (int k = 0; k < count; k++) {
+sendShips(
+    BattleBloc block, List<BaseObject> bases, List<int> list, int toIndex) {
+  for (int index in list) {
     block.add(SendEvent(
       toIndex,
-      basesOur[basesOur.length - k - 1].index,
+      bases[index].index,
     ));
   }
+}
+
+List<int> isAttacCheck(List<BaseObject> bases, BaseObject enemyBase) {
+  List<int> attackBaseIndex = [];
+  double forceEnemy = enemyBase.ships + enemyBase.shild;
+  double forceOur = 0;
+  for (int k = 0; k < bases.length; k++) {
+    if (getBase(bases[k].coordinates, enemyBase.coordinates) == null) {
+      attackBaseIndex.add(k);
+      forceOur += bases[k].ships;
+    }
+  }
+  return (forceOur > forceEnemy) ? attackBaseIndex : [];
 }
 
 sortBaseShips(List<BaseObject> bases) {

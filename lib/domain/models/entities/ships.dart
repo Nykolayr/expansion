@@ -1,7 +1,9 @@
+import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +19,8 @@ class Ship extends EntitesObject {
   double distanceCurrent; //текущия дистанция до базы на которую летит корабль
   double angle; // угол наклона корабля
   bool isAttack; // находится ли в атаке
+  int?
+      indexShip; // индекс вражеского отряда кораблей с которым столкнулся  отряд
   Ship({
     required super.index,
     required this.fromIndex,
@@ -38,6 +42,11 @@ class Ship extends EntitesObject {
     fly = fly.moveTowards(target, speed * 3);
     distanceCurrent = fly.distanceTo(target);
     coordinates = fly.coordinates;
+    indexShip = checkCollisionShip(this);
+
+    if (indexShip != null) {
+      isAttack = true;
+    }
   }
 
   @override
@@ -47,7 +56,9 @@ class Ship extends EntitesObject {
       Function()? click,
       Function(int sender)? onAccept}) {
     if (coordinates == target.coordinates && !isAttack) {
-      context.read<BattleBloc>().add(ArriveShipsEvent(index!, toIndex));
+      context
+          .read<BattleBloc>()
+          .add(ArriveShipsEvent(index!, toIndex, indexShip));
     }
     return Positioned(
       top: coordinates.x - size / 2,
@@ -121,4 +132,24 @@ class PointFly {
     double dy = (target.coordinates.y - coordinates.y) * ratio;
     return PointFly(Point(coordinates.x + dx, coordinates.y + dy));
   }
+}
+
+/// проверяет, произошло ли столкновение с вражеским отрядом кораблей
+int? checkCollisionShip(Ship ship) {
+  GameData gameData = gameRepository.gameData;
+  for (EntitesObject base in gameData.ships) {
+    if (base.typeStatus == ship.typeStatus ||
+        base.typeStatus == TypeStatus.asteroid ||
+        base.index == ship.index) continue;
+    print('typeStatus ${base.typeStatus} ${ship.typeStatus}');
+    print('index ${base.index} ${ship.index}');
+    Point point = base.coordinates;
+    PointFly baseFly = PointFly(point);
+    double distance = ship.fly.distanceTo(baseFly);
+    if (distance < ship.size / 2 + base.size / 2 - 1) {
+      return base.index; // Столкновение произошло
+    }
+  }
+
+  return null; // Столкновение не произошло
 }

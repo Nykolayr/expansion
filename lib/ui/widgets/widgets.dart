@@ -5,12 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget getInfo(BaseObject base) {
-  int levelShild = (base.shild / base.typeStatus.minShild).round();
-  int levelSpeed = (base.speedBuild / base.typeStatus.speedRoket).round() - 1;
-  bool isUpShild = false;
-  bool isUpSpeed = false;
-  if (base.resources > 100 * (1 << (levelSpeed))) isUpSpeed = true;
-  if (base.resources > 100 * (1 << (levelShild))) isUpShild = true;
+  bool isUpShild = getIsUpShild(base);
+  bool isUpSpeed = getIsUpSpeed(base);
   return SizedBox(
     width: base.size,
     height: base.size,
@@ -132,8 +128,22 @@ class CircleInfo extends StatelessWidget {
   }
 }
 
-/// enum для постройки уровня щита или скорости производства ракет
-/// для каждого следующего уровня необходимо больше ресурсов
+/// проверяет, хватает ли ресурсов на следующий ап щита базы
+bool getIsUpShild(BaseObject base) {
+  int levelShild = (base.shild / base.typeStatus.minShild).round();
+  bool isUpShild = false;
+
+  if (base.resources > 100 * (1 << (levelShild))) isUpShild = true;
+  return isUpShild;
+}
+
+/// проверяет, хватает ли ресурсов на следующий ап ускорения постройки кораблей базы
+bool getIsUpSpeed(BaseObject base) {
+  int levelSpeed = (base.speedBuild / base.typeStatus.speedRoket).round() - 1;
+  bool isUpSpeed = false;
+  if (base.resources > 100 * (1 << (levelSpeed))) isUpSpeed = true;
+  return isUpSpeed;
+}
 
 /// enum для вывода информации о количестве ракет и щита
 enum InfoStatus {

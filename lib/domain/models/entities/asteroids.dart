@@ -19,7 +19,7 @@ class Asteroid extends EntitesObject {
   double speed; // скорость астероида
   String imagePath; // картинка астероида'
   int? indexBase; // индекс базы в которую врезался астероид
-  int? indexShip; // индекс кораблей в которую врезался астероид
+  int? indexShip; // индекс отряда кораблей в которую врезался астероид
   Asteroid({
     required super.index,
     required this.target,
@@ -66,7 +66,6 @@ class Asteroid extends EntitesObject {
     coordinates = fly.coordinates;
     indexBase = checkCollisionBase(this);
     indexShip = checkCollisionBase(this, isBase: false);
-    print('indexShip == $indexShip');
     if (indexBase != null || indexShip != null) {
       isAttack = true;
     }
@@ -159,6 +158,7 @@ PointFly spawnObjectOnEdge(int edge) {
   return PointFly(Point(x, y));
 }
 
+/// проверяет, произошло ли столкновение с отрядом кораблей
 int? checkCollisionBase(Asteroid ast, {isBase = true}) {
   GameData gameData = gameRepository.gameData;
   for (EntitesObject base in isBase ? gameData.bases : gameData.ships) {
@@ -168,14 +168,9 @@ int? checkCollisionBase(Asteroid ast, {isBase = true}) {
         ? Point(base.coordinates.y + base.size / 2,
             base.coordinates.x + base.size / 2)
         : base.coordinates;
-    // Point(base.coordinates.x + base.size / 2,
-    //     base.coordinates.y + base.size / 2);
     PointFly baseFly = PointFly(point);
     double distance = ast.fly.distanceTo(baseFly);
-    if (!isBase) {
-      print(
-          'object ${base.coordinates} == ${ast.coordinates} == $distance == ${ast.size / 2 + base.size / 2} ');
-    }
+
     if (distance < ast.size / 2 + base.size / 2 - 1) {
       return base.index; // Столкновение произошло
     }
