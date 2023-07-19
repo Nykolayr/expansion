@@ -29,6 +29,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<PlayEvent>(_onPlay);
     on<CloseEvent>(_onClose);
     on<ArriveAsteroidEvent>(_onArriveAsteroidEvent);
+    on<BattleShipsEvent>(_onBattleShipsEvent);
   }
   GameData gameData = gameRepository.gameData;
   int ticHold = 0;
@@ -36,6 +37,31 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   int ticEnemy = 0;
   int ticAsteroid = 0;
   ReceivePort receivePort = ReceivePort();
+  _onBattleShipsEvent(BattleShipsEvent event, Emitter<BattleState> emit) async {
+    try {
+      EntitesObject enemyShip = state.ships
+          .firstWhere((element) => element.index == event.enemyIndex);
+      EntitesObject ourShip =
+          state.ships.firstWhere((element) => element.index == event.indexShip);
+      if (enemyShip.ships > ourShip.ships) {
+        enemyShip.ships -= ourShip.ships;
+        (enemyShip as Ship).isAttack = false;
+        gameData.ships.removeWhere((element) {
+          return element.index == ourShip.index;
+        });
+      } else {
+        ourShip.ships -= enemyShip.ships;
+        (ourShip as Ship).isAttack = false;
+        gameData.ships.removeWhere((element) {
+          return element.index == enemyShip.index;
+        });
+      }
+      emit(state.copyWith(
+        bases: gameData.bases,
+        ships: gameData.ships,
+      ));
+    } catch (e) {}
+  }
 
   _onArriveAsteroidEvent(
       ArriveAsteroidEvent event, Emitter<BattleState> emit) async {
@@ -82,7 +108,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }).first as Ship;
 
     if (event.indexShip != null) {
-      print('object ${event.indexShip} ${event.toIndex} ${event.index}');
       Ship enemyShip = gameData.ships.where((element) {
         return element.index == event.index;
       }).first as Ship;
@@ -149,16 +174,15 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     if (state.isLost ||
         state.isWin ||
         state.isPause ||
-        event.index == event.send) return;
-    int toIndex = event.index;
-    int index = event.send;
-
+        event.toIndex == event.fromIndex) return;
+    int toIndex = event.toIndex;
+    int fromIndex = event.fromIndex;
     ActionObject action = ActionObject.attack;
-    if (state.bases[toIndex].typeStatus == state.bases[index].typeStatus) {
+    if (state.bases[toIndex].typeStatus == state.bases[fromIndex].typeStatus) {
       action = ActionObject.support;
     }
     BaseObject toBase = state.bases[toIndex];
-    BaseObject fromBase = state.bases[index];
+    BaseObject fromBase = state.bases[fromIndex];
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
     int ships = fromBase.ships;
@@ -167,10 +191,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       await betweenBase.showIsNotMove();
       return;
     }
-    if (ships > 0) {
+    if (ships > 1) {
       gameData.ships.add(Ship(
         index: Random().nextInt(1000000),
-        fromIndex: index,
+        fromIndex: fromIndex,
         toIndex: toIndex,
         speed: ourSpeed,
         isAttack: false,
@@ -219,11 +243,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       ticEnemy = 0;
     }
     if (ticAsteroid == maxAsteroidTic) {
-      int st = Random().nextInt(1000000);
+      int index = Random().nextInt(1000000);
 
-      gameData.ships.add(Asteroid.fromRandom(
-        st,
-      ));
+      gameData.ships.add(Asteroid.fromRandom(index));
       emit(state.copyWith(
         ships: gameData.ships,
       ));
@@ -277,8 +299,8 @@ enum ActionObject {
   }
 }
 
-// проверяет есть ли база на пути между базой с point1 и базой point2
-// возращает базу которая на пути, если нет, то возращает null
+/// проверяет есть ли база на пути между базой с point1 и базой point2
+/// возращает базу которая на пути, если нет, то возращает null
 BaseObject? getBase(Point point1, Point point2) {
   GameData gameData = gameRepository.gameData;
   List<BaseObject> myList = gameData.bases;

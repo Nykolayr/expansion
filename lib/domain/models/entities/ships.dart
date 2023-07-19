@@ -19,6 +19,7 @@ class Ship extends EntitesObject {
   double distanceCurrent; //текущия дистанция до базы на которую летит корабль
   double angle; // угол наклона корабля
   bool isAttack; // находится ли в атаке
+  bool isSend = false; // отослали ли в блок
   int?
       indexShip; // индекс вражеского отряда кораблей с которым столкнулся  отряд
   Ship({
@@ -43,7 +44,6 @@ class Ship extends EntitesObject {
     distanceCurrent = fly.distanceTo(target);
     coordinates = fly.coordinates;
     indexShip = checkCollisionShip(this);
-
     if (indexShip != null) {
       isAttack = true;
     }
@@ -59,6 +59,10 @@ class Ship extends EntitesObject {
       context
           .read<BattleBloc>()
           .add(ArriveShipsEvent(index!, toIndex, indexShip));
+    }
+    if (isAttack && !isSend && indexShip != null && index != null) {
+      isSend = true;
+      context.read<BattleBloc>().add(BattleShipsEvent(indexShip!, index));
     }
     return Positioned(
       top: coordinates.x - size / 2,
@@ -135,19 +139,19 @@ class PointFly {
 }
 
 /// проверяет, произошло ли столкновение с вражеским отрядом кораблей
-int? checkCollisionShip(Ship ship) {
+int? checkCollisionShip(Ship shipOur) {
   GameData gameData = gameRepository.gameData;
-  for (EntitesObject base in gameData.ships) {
-    if (base.typeStatus == ship.typeStatus ||
-        base.typeStatus == TypeStatus.asteroid ||
-        base.index == ship.index) continue;
-    print('typeStatus ${base.typeStatus} ${ship.typeStatus}');
-    print('index ${base.index} ${ship.index}');
-    Point point = base.coordinates;
+  for (EntitesObject ship in gameData.ships) {
+    if (ship.typeStatus == shipOur.typeStatus ||
+        ship.typeStatus == TypeStatus.asteroid ||
+        ship.index == shipOur.index) continue;
+    Point point = ship.coordinates;
     PointFly baseFly = PointFly(point);
-    double distance = ship.fly.distanceTo(baseFly);
-    if (distance < ship.size / 2 + base.size / 2 - 1) {
-      return base.index; // Столкновение произошло
+    double distance = shipOur.fly.distanceTo(baseFly);
+    if (distance < shipOur.size / 2 + ship.size / 2 - 1) {
+      // print('typeStatus1 ${ship.index} ${shipOur.index} == $distance');
+      // print('typeStatus2 ${ship.typeStatus} ${shipOur.typeStatus} == ');
+      return ship.index; // Столкновение произошло
     }
   }
 

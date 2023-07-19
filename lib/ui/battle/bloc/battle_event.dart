@@ -34,9 +34,9 @@ class ArriveAsteroidEvent extends BattleEvent {
 }
 
 class SendEvent extends BattleEvent {
-  final int index;
-  final int send;
-  const SendEvent(this.index, this.send);
+  final int toIndex;
+  final int fromIndex;
+  const SendEvent(this.toIndex, this.fromIndex);
 }
 
 class ArriveShipsEvent extends BattleEvent {
@@ -44,4 +44,10 @@ class ArriveShipsEvent extends BattleEvent {
   final int toIndex;
   final int? indexShip;
   const ArriveShipsEvent(this.index, this.toIndex, this.indexShip);
+}
+
+class BattleShipsEvent extends BattleEvent {
+  final int enemyIndex;
+  final int indexShip;
+  const BattleShipsEvent(this.enemyIndex, this.indexShip);
 }

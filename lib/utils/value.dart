@@ -41,7 +41,7 @@ double maxbuildShips = 20;
 int maxHoldTic = 2;
 
 // количество тиков для хода врагов
-int maxEnemyTic = 200;
+int maxEnemyTic = 400;
 
 // количество тиков для нового астероида
 int maxAsteroidTic = 500;
