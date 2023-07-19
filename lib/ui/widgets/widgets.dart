@@ -2,6 +2,7 @@ import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget getInfo(BaseObject base) {
@@ -117,9 +118,9 @@ class CircleInfo extends StatelessWidget {
         ),
         Text(
           infoStatus.infoText(base),
-          style: const TextStyle(
+          style: TextStyle(
             color: AppColor.white,
-            fontSize: 10,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w700,
           ),
         ),

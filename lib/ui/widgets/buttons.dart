@@ -3,6 +3,7 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -39,14 +40,14 @@ class ButtonSide extends StatelessWidget {
                 height: height,
                 padding: EdgeInsets.only(
                   left: direct.paddingText,
-                  right: direct.isLeft ? 8 : 0,
+                  right: direct.isLeft ? 8.w : 0,
                 ),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
                     text,
                     style: AppText.baseText.copyWith(
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       color: direct.colorText,
                     ),
                   ),
@@ -73,9 +74,9 @@ class ButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width - 90;
+    double widht = deviceSize.width - 90.h;
     if (isWidth) {
-      widht = widht + 60;
+      widht = widht + 60.w;
     }
     return GestureDetector(
       onTap: function,
@@ -95,15 +96,15 @@ class ButtonLong extends StatelessWidget {
               Container(
                 width: widht,
                 padding: EdgeInsets.only(
-                  top: isWidth ? 0 : 10,
-                  right: isWidth ? 0 : 8,
+                  top: isWidth ? 0 : 10.h,
+                  right: isWidth ? 0 : 8.w,
                 ),
                 child: Align(
                   alignment: Alignment.center,
                   child: Text(
                     title,
                     style: AppText.baseText.copyWith(
-                      fontSize: isWidth ? 20 : 16,
+                      fontSize: isWidth ? 20.sp : 16.sp,
                       color: AppColor.darkYeloow,
                     ),
                   ),

@@ -55,16 +55,8 @@
       },
       {
          "coordinates": {
-            "x": 5,
-            "y": 3
-         },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
-      },
-      {
-         "coordinates": {
             "x": 2,
-            "y": 4
+            "y": 3
          },
          "typeNeutral": "midleBase",
          "typeStatus": "neutral"
@@ -72,6 +64,22 @@
       {
          "coordinates": {
             "x": 4,
+            "y": 3
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 4
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
             "y": 5
          },
          "typeNeutral": "midleBase",
@@ -87,7 +95,7 @@
       },
       {
          "coordinates": {
-            "x": 1,
+            "x": 2,
             "y": 6
          },
          "typeNeutral": "base",
@@ -95,8 +103,24 @@
       },
       {
          "coordinates": {
-            "x": 5,
+            "x": 4,
             "y": 6
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 7
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 7
          },
          "typeNeutral": "base",
          "typeStatus": "neutral"

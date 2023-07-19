@@ -1,38 +1,39 @@
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppText {
-  static const TextStyle baseText = TextStyle(
+  static TextStyle baseText = TextStyle(
     color: AppColor.darkYeloow,
     fontWeight: FontWeight.w400,
-    fontSize: 21,
+    fontSize: 21.sp,
   );
 
-  static const TextStyle baseTextShadow = TextStyle(
+  static TextStyle baseTextShadow = TextStyle(
     color: AppColor.darkYeloow,
     fontWeight: FontWeight.w400,
-    fontSize: 21,
+    fontSize: 21.sp,
     shadows: <Shadow>[
       Shadow(
-        offset: Offset(2, 2),
-        blurRadius: 10.0,
+        offset: Offset(2.w, 2.w),
+        blurRadius: 10.0.r,
         color: AppColor.black,
       ),
     ],
   );
-  static const TextStyle baseTitle = TextStyle(
+  static TextStyle baseTitle = TextStyle(
     color: AppColor.darkYeloow,
     fontWeight: FontWeight.w400,
-    fontSize: 18,
+    fontSize: 18.sp,
   );
-  static const TextStyle baseBody = TextStyle(
+  static TextStyle baseBody = TextStyle(
     color: AppColor.white,
     fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontSize: 16.sp,
   );
-  static const TextStyle baseUrl = TextStyle(
+  static TextStyle baseUrl = TextStyle(
     color: AppColor.blue,
     fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontSize: 16.sp,
   );
 }

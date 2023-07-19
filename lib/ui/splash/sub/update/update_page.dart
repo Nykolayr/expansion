@@ -6,6 +6,7 @@ import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UpdatePage extends StatelessWidget {
   const UpdatePage({Key? key}) : super(key: key);
@@ -28,9 +29,9 @@ class UpdatePage extends StatelessWidget {
               builder: (context, state) {
                 return Container(
                   width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 75.h,
+                    horizontal: 45.w,
                   ),
                   child: Column(
                     children: [
@@ -39,7 +40,7 @@ class UpdatePage extends StatelessWidget {
                         child: Text(
                           tr("upgrades"),
                           style: AppText.baseText.copyWith(
-                            fontSize: 30,
+                            fontSize: 30.sp,
                           ),
                         ),
                       ),

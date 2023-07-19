@@ -30,7 +30,7 @@ late final Computer computer;
 // шаг по оси х (5 позиций)
 double stepX = standardDeviceSize.width / 6;
 // шаг по оси х (7 позиций)
-double stepY = (standardDeviceSize.height - 80) / 8;
+double stepY = (standardDeviceSize.height) / 9;
 // максимальная скорость постройки кораблей
 double maxbuildShips = 20;
 // количество тиков которые нужно пропустить для рендеринга

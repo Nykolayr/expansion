@@ -8,6 +8,7 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../utils/text.dart';
@@ -46,13 +47,13 @@ class SplashPage extends StatelessWidget {
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                      height: (state is SplashLoadSucsess) ? height + 40.h : 0,
                       duration: const Duration(seconds: 2),
                       child: const LineButtons(),
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: (state is SplashLoadSucsess) ? 0 : height + 40,
+                      height: (state is SplashLoadSucsess) ? 0 : height + 40.h,
                       duration: const Duration(seconds: 2),
                     ),
                     const SizedBox(
@@ -60,14 +61,14 @@ class SplashPage extends StatelessWidget {
                     ),
                     Text(
                       tr("space"),
-                      style: AppText.baseTextShadow.copyWith(fontSize: 42),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 42.sp),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
                       tr("EXPANSION"),
-                      style: AppText.baseTextShadow.copyWith(fontSize: 52),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 52.sp),
                     ),
                   ],
                 ),
@@ -82,7 +83,7 @@ class SplashPage extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
-                  height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                  height: (state is SplashLoadSucsess) ? height + 40.h : 0,
                   width: deviceSize.width,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
@@ -118,7 +119,7 @@ class Loader extends StatelessWidget {
           userRepository.user.isBegin
               ? AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
-                  width: (state.count > 96 || state is SplashLoadSucsess)
+                  width: (state.count > 96.w || state is SplashLoadSucsess)
                       ? 0
                       : deviceSize.width - 20,
                   duration: const Duration(seconds: 2),
@@ -130,11 +131,11 @@ class Loader extends StatelessWidget {
                           color: AppColor.darkYeloow, width: 2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 25, horizontal: 10),
+                    margin:
+                        EdgeInsets.symmetric(vertical: 25.h, horizontal: 10.w),
                     child: Container(
                         height: (state.count > 83)
-                            ? 55
+                            ? 55.h
                             : (state is SplashLoadSucsess)
                                 ? deviceSize.height / 2
                                 : null,
@@ -147,7 +148,7 @@ class Loader extends StatelessWidget {
                                     animatedTexts: [
                                       TyperAnimatedText(tr('pretext'),
                                           textStyle: AppText.baseText.copyWith(
-                                              fontSize: 20,
+                                              fontSize: 20.sp,
                                               color: AppColor.white)),
                                     ],
                                   )),
@@ -158,14 +159,14 @@ class Loader extends StatelessWidget {
             tr('load'),
             style: AppText.baseText.copyWith(color: AppColor.white),
           ),
-          const SizedBox(
-            height: 25,
+          SizedBox(
+            height: 25.h,
           ),
           Stack(
             children: [
               Container(
-                width: 220,
-                height: 18,
+                width: 220.w,
+                height: 18.h,
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 2,

@@ -10,6 +10,7 @@ import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class BeginPage extends StatelessWidget {
@@ -44,7 +45,7 @@ class BeginPage extends StatelessWidget {
                         child: Text(
                           tr("new_game"),
                           style: AppText.baseText.copyWith(
-                            fontSize: 30,
+                            fontSize: 30.sp,
                           ),
                         ),
                       ),

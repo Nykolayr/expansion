@@ -7,6 +7,7 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Ship extends EntitesObject {
@@ -83,7 +84,7 @@ class Ship extends EntitesObject {
                       typeStatus.shipImage,
                       colorFilter:
                           ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
-                      width: 40,
+                      width: 40.w,
                     ),
                   ),
                 ),
@@ -97,9 +98,9 @@ class Ship extends EntitesObject {
               ),
               child: Text(
                 ships.toString(),
-                style: const TextStyle(
+                style: TextStyle(
                   color: AppColor.white,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Help extends StatelessWidget {
   const Help({super.key});
@@ -25,7 +26,7 @@ class Help extends StatelessWidget {
                 child: Text(
                   tr("help"),
                   style: AppText.baseText.copyWith(
-                    fontSize: 30,
+                    fontSize: 30.sp,
                   ),
                 ),
               ),

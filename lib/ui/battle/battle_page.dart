@@ -77,11 +77,6 @@ class BattlePage extends StatelessWidget {
                         context: context,
                       );
                     }).toList(),
-                    // const Positioned(
-                    //   top: 100,
-                    //   left: 50,
-                    //   child: AmorphousCircle(),
-                    // ),
                     Positioned(
                       top: 10,
                       left: 30,
@@ -133,12 +128,13 @@ class BattlePage extends StatelessWidget {
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('replay')}?'));
                             if (result!) {
+                              print('object');
                               if (context.mounted) {
                                 context.read<BattleBloc>().add(CloseEvent());
                               }
                               await Future.delayed(
                                   const Duration(milliseconds: 15000));
-                              router.pushReplacement('/battle');
+                              router.pushReplacement('/new_game');
                               return;
                             }
                             if (context.mounted) {
