@@ -10,6 +10,7 @@ class Settings with _$Settings {
   const factory Settings({
     @Default(true) bool isMusic,
     @Default(true) bool isSound,
+    @Default(true) bool isIntroduction,
     @Default(Lang.ru) Lang lang,
   }) = _Settings;
 

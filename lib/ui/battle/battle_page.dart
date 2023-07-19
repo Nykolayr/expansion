@@ -107,10 +107,22 @@ class BattlePage extends StatelessWidget {
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('exit_menu')}?'));
                             if (result!) {
+                              print(
+                                  'object0 ${userRepository.settings.isIntroduction}');
+                              bool isNow =
+                                  userRepository.settings.isIntroduction;
+                              userRepository.settings = userRepository.settings
+                                  .copyWith(isIntroduction: false);
                               if (context.mounted) {
                                 context.read<BattleBloc>().add(CloseEvent());
                               }
                               router.pushReplacement('/');
+                              print(
+                                  'object1 ${userRepository.settings.isIntroduction}');
+                              userRepository.settings = userRepository.settings
+                                  .copyWith(isIntroduction: isNow);
+                              print(
+                                  'object2 ${userRepository.settings.isIntroduction}');
                               return;
                             }
                             if (context.mounted) {
