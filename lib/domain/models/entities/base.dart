@@ -7,6 +7,7 @@ import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Base extends BaseObject {
@@ -37,8 +38,7 @@ class Base extends BaseObject {
         .firstWhere((e) => e.toString() == 'SizeBase.${json["typeNeutral"]}');
     final double size = sizeBase.add.size;
     return Base(
-      coordinates: Point((stepX * x - size / 2) * ratioXY.width,
-          (stepY * y - size / 2) * ratioXY.height),
+      coordinates: Point((stepX * x - size / 2).w, (stepY * y - size / 2).h),
       ships: sizeBase.add.maxShips,
       description: sizeBase.add.description,
       sizeBase: sizeBase,

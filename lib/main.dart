@@ -5,6 +5,7 @@ import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 
@@ -42,38 +43,42 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Space expansion',
-      debugShowCheckedModeBanner: false,
-      debugShowMaterialGrid: false,
-      showSemanticsDebugger: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      theme: ThemeData(
-        canvasColor: AppColor.darkBlue,
-        textTheme: GoogleFonts.kellySlabTextTheme(),
-      ),
-      builder: (context, child) {
-        deviceSize = Size(MediaQuery.of(context).size.width,
-            MediaQuery.of(context).size.height);
-        ratioXY = Size(standardDeviceSize.width / deviceSize.width,
-            standardDeviceSize.height / deviceSize.height);
-        final mq = MediaQuery.of(context);
-        double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
-        return Directionality(
-          textDirection: ui.TextDirection.ltr,
-          child: MediaQuery(
-            data: mq.copyWith(textScaleFactor: fontScale),
-            child: Scaffold(
-              body: child!,
+    return ScreenUtilInit(
+        designSize: standardDeviceSize,
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return MaterialApp.router(
+            title: 'Space expansion',
+            debugShowCheckedModeBanner: false,
+            debugShowMaterialGrid: false,
+            showSemanticsDebugger: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            routeInformationProvider: router.routeInformationProvider,
+            routeInformationParser: router.routeInformationParser,
+            routerDelegate: router.routerDelegate,
+            theme: ThemeData(
+              canvasColor: AppColor.darkBlue,
+              textTheme: GoogleFonts.kellySlabTextTheme(),
             ),
-          ),
-        );
-      },
-    );
+            builder: (context, child) {
+              deviceSize = Size(MediaQuery.of(context).size.width,
+                  MediaQuery.of(context).size.height);
+              final mq = MediaQuery.of(context);
+              double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
+              return Directionality(
+                textDirection: ui.TextDirection.ltr,
+                child: MediaQuery(
+                  data: mq.copyWith(textScaleFactor: fontScale),
+                  child: Scaffold(
+                    body: child!,
+                  ),
+                ),
+              );
+            },
+          );
+        });
   }
 }

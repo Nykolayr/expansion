@@ -7,6 +7,7 @@ import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BaseShip extends BaseObject {
@@ -33,12 +34,10 @@ class BaseShip extends BaseObject {
     final int x = json['coordinates']['x'];
     final int y = json['coordinates']['y'];
     final size = json['size'];
-    final num pozY = (y == 1)
-        ? (80 - size / 2)
-        : (deviceSize.height - 80 - size / 2);
+    final num pozY =
+        (y == 1) ? (80 - size / 2) : (deviceSize.height - 80 - size / 2);
     return BaseShip(
-      coordinates:
-          Point((stepX * x - size / 2) * ratioXY.width, pozY * ratioXY.height),
+      coordinates: Point((stepX * x - size / 2).w, pozY.h),
       description: json['description'],
       shild: json['shild'],
       ships: json['ships'],

@@ -22,15 +22,11 @@ Size centerTop = const Size(0, 0);
 Size centerDown = const Size(0, 0);
 
 /// размеры эталлоного устройства
-const Size standardDeviceSize = Size(392.7, 822.5);
+const Size standardDeviceSize = Size(392.7, 850.9);
 
 /// размер устройства
 Size deviceSize = const Size(0, 0);
 late final Computer computer;
-
-/// коэффициент отношения между эталлонным и этим устройством
-Size ratioXY = const Size(0, 0);
-
 // шаг по оси х (5 позиций)
 double stepX = standardDeviceSize.width / 6;
 // шаг по оси х (7 позиций)
