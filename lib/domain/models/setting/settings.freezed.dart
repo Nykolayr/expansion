@@ -22,7 +22,6 @@ Settings _$SettingsFromJson(Map<String, dynamic> json) {
 mixin _$Settings {
   bool get isMusic => throw _privateConstructorUsedError;
   bool get isSound => throw _privateConstructorUsedError;
-  bool get isIntroduction => throw _privateConstructorUsedError;
   Lang get lang => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +35,7 @@ abstract class $SettingsCopyWith<$Res> {
   factory $SettingsCopyWith(Settings value, $Res Function(Settings) then) =
       _$SettingsCopyWithImpl<$Res, Settings>;
   @useResult
-  $Res call({bool isMusic, bool isSound, bool isIntroduction, Lang lang});
+  $Res call({bool isMusic, bool isSound, Lang lang});
 }
 
 /// @nodoc
@@ -54,7 +53,6 @@ class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
   $Res call({
     Object? isMusic = null,
     Object? isSound = null,
-    Object? isIntroduction = null,
     Object? lang = null,
   }) {
     return _then(_value.copyWith(
@@ -65,10 +63,6 @@ class _$SettingsCopyWithImpl<$Res, $Val extends Settings>
       isSound: null == isSound
           ? _value.isSound
           : isSound // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isIntroduction: null == isIntroduction
-          ? _value.isIntroduction
-          : isIntroduction // ignore: cast_nullable_to_non_nullable
               as bool,
       lang: null == lang
           ? _value.lang
@@ -85,7 +79,7 @@ abstract class _$$_SettingsCopyWith<$Res> implements $SettingsCopyWith<$Res> {
       __$$_SettingsCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isMusic, bool isSound, bool isIntroduction, Lang lang});
+  $Res call({bool isMusic, bool isSound, Lang lang});
 }
 
 /// @nodoc
@@ -101,7 +95,6 @@ class __$$_SettingsCopyWithImpl<$Res>
   $Res call({
     Object? isMusic = null,
     Object? isSound = null,
-    Object? isIntroduction = null,
     Object? lang = null,
   }) {
     return _then(_$_Settings(
@@ -112,10 +105,6 @@ class __$$_SettingsCopyWithImpl<$Res>
       isSound: null == isSound
           ? _value.isSound
           : isSound // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isIntroduction: null == isIntroduction
-          ? _value.isIntroduction
-          : isIntroduction // ignore: cast_nullable_to_non_nullable
               as bool,
       lang: null == lang
           ? _value.lang
@@ -129,10 +118,7 @@ class __$$_SettingsCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Settings extends _Settings {
   const _$_Settings(
-      {this.isMusic = true,
-      this.isSound = true,
-      this.isIntroduction = true,
-      this.lang = Lang.ru})
+      {this.isMusic = true, this.isSound = true, this.lang = Lang.ru})
       : super._();
 
   factory _$_Settings.fromJson(Map<String, dynamic> json) =>
@@ -146,14 +132,11 @@ class _$_Settings extends _Settings {
   final bool isSound;
   @override
   @JsonKey()
-  final bool isIntroduction;
-  @override
-  @JsonKey()
   final Lang lang;
 
   @override
   String toString() {
-    return 'Settings(isMusic: $isMusic, isSound: $isSound, isIntroduction: $isIntroduction, lang: $lang)';
+    return 'Settings(isMusic: $isMusic, isSound: $isSound, lang: $lang)';
   }
 
   @override
@@ -163,15 +146,12 @@ class _$_Settings extends _Settings {
             other is _$_Settings &&
             (identical(other.isMusic, isMusic) || other.isMusic == isMusic) &&
             (identical(other.isSound, isSound) || other.isSound == isSound) &&
-            (identical(other.isIntroduction, isIntroduction) ||
-                other.isIntroduction == isIntroduction) &&
             (identical(other.lang, lang) || other.lang == lang));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, isMusic, isSound, isIntroduction, lang);
+  int get hashCode => Object.hash(runtimeType, isMusic, isSound, lang);
 
   @JsonKey(ignore: true)
   @override
@@ -189,10 +169,7 @@ class _$_Settings extends _Settings {
 
 abstract class _Settings extends Settings {
   const factory _Settings(
-      {final bool isMusic,
-      final bool isSound,
-      final bool isIntroduction,
-      final Lang lang}) = _$_Settings;
+      {final bool isMusic, final bool isSound, final Lang lang}) = _$_Settings;
   const _Settings._() : super._();
 
   factory _Settings.fromJson(Map<String, dynamic> json) = _$_Settings.fromJson;
@@ -201,8 +178,6 @@ abstract class _Settings extends Settings {
   bool get isMusic;
   @override
   bool get isSound;
-  @override
-  bool get isIntroduction;
   @override
   Lang get lang;
   @override

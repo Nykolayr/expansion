@@ -1,28 +1,17 @@
 part of 'splash_bloc.dart';
 
-abstract class SplashState extends Equatable {
-  const SplashState(this.count);
+class SplashState {
   final int count;
+  final bool isCheck;
+  final bool isSuccess;
+  SplashState(
+      {required this.count, required this.isCheck, required this.isSuccess});
 
-  @override
-  List<Object> get props => [count];
-}
-
-class SplashInitial extends SplashState {
-  const SplashInitial() : super(100);
-}
-
-class SplashIsLoad extends SplashState {
-  const SplashIsLoad(super.count);
-  factory SplashIsLoad.copyWith(int count) {
-    return SplashIsLoad(count);
+  SplashState copyWith({int? count, bool? isCheck, bool? isSuccess}) {
+    return SplashState(
+      count: count ?? this.count,
+      isCheck: isCheck ?? this.isCheck,
+      isSuccess: isSuccess ?? this.isSuccess,
+    );
   }
-}
-
-class SplashLoadSucsess extends SplashState {
-  const SplashLoadSucsess() : super(0);
-}
-
-class SplashLoadError extends SplashState {
-  const SplashLoadError(super.count);
 }

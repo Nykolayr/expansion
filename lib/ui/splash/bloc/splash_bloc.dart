@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:expansion/utils/value.dart';
 
 part 'splash_event.dart';
 part 'splash_state.dart';
@@ -11,19 +12,23 @@ part 'splash_state.dart';
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   static const int _count = 98;
 
-  SplashBloc() : super(const SplashInitial()) {
+  SplashBloc()
+      : super(SplashState(
+            count: 100,
+            isCheck: userRepository.user.isBegin,
+            isSuccess: false)) {
     on<LoadBegin>(_onStarted);
     on<SplashEnd>(onEndSplash);
   }
 
   _onStarted(LoadBegin event, Emitter<SplashState> emit) async {
     for (int k = _count; k > 0; k--) {
-      emit(SplashIsLoad.copyWith(k));
-      await Future.delayed(const Duration(
-        milliseconds: 20,
+      emit(state.copyWith(count: k));
+      await Future.delayed(Duration(
+        milliseconds: userRepository.user.isBegin ? 240 : 0,
       ));
     }
-    emit(const SplashLoadSucsess());
+    emit(state.copyWith(isSuccess: true));
   }
 
   void onEndSplash(SplashEnd event, Emitter<SplashState> emit) async {}

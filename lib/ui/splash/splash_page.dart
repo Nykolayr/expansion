@@ -8,6 +8,7 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../utils/text.dart';
@@ -19,12 +20,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<SplashBloc, SplashState>(
-          listener: (context, state) async {
-        if (state is SplashLoadSucsess) {
-          // context.read<SplashBloc>().add(const SplashEnd());
-        }
-      }, builder: (context, state) {
+      body: BlocBuilder<SplashBloc, SplashState>(builder: (context, state) {
         double widht = deviceSize.width / 3 - 6;
         double height = widht / 3 + 10;
         return Scaffold(
@@ -41,18 +37,18 @@ class SplashPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                      height: state.isSuccess ? height + 40 : 0,
                       duration: const Duration(seconds: 2),
                       child: const LineButtons(),
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: (state is SplashLoadSucsess) ? 0 : height + 40,
+                      height: state.isSuccess ? 0 : height + 40,
                       duration: const Duration(seconds: 2),
                     ),
                     const SizedBox(
@@ -74,21 +70,54 @@ class SplashPage extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: (state is SplashLoadSucsess)
-                    ? const SizedBox.shrink()
-                    : Loader(state),
+                child:
+                    state.isSuccess ? const SizedBox.shrink() : Loader(state),
               ),
+              // Positioned(
+              //   bottom: 90,
+              //   left: 20,
+              //   child: state.isSuccess
+              //       ? Column(
+              //           children: [
+              //             const SizedBox(
+              //               height: 25,
+              //             ),
+              //             GestureDetector(
+              //               onTap: () => context
+              //                   .read<SplashBloc>()
+              //                   .add(const CheckEnter()),
+              //               child: Row(
+              //                 children: [
+              //                   CheckBox(isCheck: userRepository.user.isBegin),
+              //                   SizedBox(width: 15.w),
+              //                   Text(
+              //                     tr('not_introduction'),
+              //                     style: AppText.baseText
+              //                         .copyWith(color: AppColor.darkYeloow),
+              //                   ),
+              //                 ],
+              //               ),
+              //             ),
+              //           ],
+              //         )
+              //       : const SizedBox.shrink(),
+              // ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
-                  height: (state is SplashLoadSucsess) ? height + 40 : 0,
+                  height: (state.isSuccess) ? height + 40 : 0,
                   width: deviceSize.width,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
                       ? ButtonLong(
                           title: tr('begin_game'),
-                          function: () => context.go('/new_game'),
+                          function: () {
+                            userRepository.user =
+                                userRepository.user.copyWith(isBegin: false);
+                            userRepository.saveUser();
+                            context.go('/new_game');
+                          },
                           isWidth: true,
                         )
                       : const LineButtons(
@@ -116,31 +145,32 @@ class Loader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           userRepository.user.isBegin
-              ? AnimatedContainer(
-                  curve: Curves.fastOutSlowIn,
-                  width: (state.count > 96 || state is SplashLoadSucsess)
-                      ? 0
-                      : deviceSize.width - 20,
-                  duration: const Duration(seconds: 2),
-                  child: Card(
-                    elevation: 10,
-                    color: AppColor.darkBlue,
-                    shape: RoundedRectangleBorder(
-                      side: const BorderSide(
-                          color: AppColor.darkYeloow, width: 2),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 25, horizontal: 10),
-                    child: Container(
-                        height: (state.count > 83)
-                            ? 55
-                            : (state is SplashLoadSucsess)
-                                ? deviceSize.height / 2
-                                : null,
-                        padding: const EdgeInsets.all(15),
-                        child:
-                            (state.count > 83 || (state is SplashLoadSucsess))
+              ? Column(
+                  children: [
+                    AnimatedContainer(
+                      curve: Curves.fastOutSlowIn,
+                      width: (state.count > 96 || state.isSuccess)
+                          ? 0
+                          : deviceSize.width - 20,
+                      duration: const Duration(seconds: 2),
+                      child: Card(
+                        elevation: 10,
+                        color: AppColor.darkBlue,
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              color: AppColor.darkYeloow, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 25, horizontal: 10),
+                        child: Container(
+                            height: (state.count > 83)
+                                ? 55
+                                : state.isSuccess
+                                    ? deviceSize.height / 2
+                                    : null,
+                            padding: const EdgeInsets.all(15),
+                            child: (state.count > 83 || state.isSuccess)
                                 ? const SizedBox.shrink()
                                 : AnimatedTextKit(
                                     totalRepeatCount: 1,
@@ -151,13 +181,15 @@ class Loader extends StatelessWidget {
                                               color: AppColor.white)),
                                     ],
                                   )),
-                  ),
+                      ),
+                    ),
+                    Text(
+                      tr('load'),
+                      style: AppText.baseText.copyWith(color: AppColor.white),
+                    ),
+                  ],
                 )
               : const SizedBox.shrink(),
-          Text(
-            tr('load'),
-            style: AppText.baseText.copyWith(color: AppColor.white),
-          ),
           const SizedBox(
             height: 25,
           ),
