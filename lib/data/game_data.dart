@@ -11,6 +11,8 @@ class GameData {
   List<EntitesObject> ships = [];
   int countScene = 0;
   loadMap() async {
+    bases.clear();
+    ships.clear();
     Map<String, dynamic> json = await Api.loadJson(countScene);
     List<Base> planets =
         List<Base>.from(json["neutral"].map((x) => Base.fromJson(x)));

@@ -50,9 +50,17 @@ class AppColor {
         offset: Offset(0, 0),
       ),
     ],
-    // border: Border.all(
-    //   width: 2,
-    //   color: blue,
-    // ),
+  );
+  static BoxDecoration buttonCircleBoxSmall = const BoxDecoration(
+    color: AppColor.darkBlue,
+    shape: BoxShape.circle,
+    boxShadow: [
+      BoxShadow(
+        color: Colors.yellow,
+        spreadRadius: 1.5,
+        blurRadius: 1.5,
+        offset: Offset(0, 0),
+      ),
+    ],
   );
 }

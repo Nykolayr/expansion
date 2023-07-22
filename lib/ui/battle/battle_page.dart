@@ -12,15 +12,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BattlePage extends StatelessWidget {
   const BattlePage({Key? key}) : super(key: key);
-// PageRouter().routeToUntil(context, LoginScreen());
   @override
   Widget build(BuildContext context) {
     context.watch<BattleBloc>();
     return WillPopScope(
       onWillPop: () async {
+        if (context.mounted) {
+          context.read<BattleBloc>().add(PauseEvent());
+        }
         bool? result = await showModalBottom(
-            context, YesNoModal(context, tr('quit_game')));
-        if (result!) {
+            context, YesNoModal(context, '${tr('exit_menu')}?'));
+        if (result != null && result) {
+          if (context.mounted) {
+            context.read<BattleBloc>().add(CloseEvent());
+          }
+          router.pushReplacement('/');
           return Future.value(true);
         } else {
           return Future.value(false);
@@ -85,8 +91,8 @@ class BattlePage extends StatelessWidget {
                             ? 'assets/svg/play.svg'
                             : 'assets/svg/pause.svg',
                         click: () => state.isPause
-                            ? context.read<BattleBloc>().add(PauseEvent())
-                            : context.read<BattleBloc>().add(PlayEvent()),
+                            ? context.read<BattleBloc>().add(PlayEvent())
+                            : context.read<BattleBloc>().add(PauseEvent()),
                       ),
                     ),
                     Positioned(
@@ -94,7 +100,10 @@ class BattlePage extends StatelessWidget {
                       right: 30,
                       child: CircleButton(
                         iconPath: 'assets/svg/help.svg',
-                        click: () => router.push('/help'),
+                        click: () {
+                          context.read<BattleBloc>().add(PauseEvent());
+                          router.push('/help');
+                        },
                       ),
                     ),
                     Positioned(
@@ -103,26 +112,17 @@ class BattlePage extends StatelessWidget {
                       child: CircleButton(
                           iconPath: 'assets/svg/exit.svg',
                           click: () async {
-                            context.read<BattleBloc>().add(PlayEvent());
+                            if (context.mounted) {
+                              context.read<BattleBloc>().add(PauseEvent());
+                            }
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('exit_menu')}?'));
-                            if (result!) {
-                              bool isNow = userRepository.user.isBegin;
-                              userRepository.user =
-                                  userRepository.user.copyWith(isBegin: false);
+                            if (result != null && result) {
                               if (context.mounted) {
                                 context.read<BattleBloc>().add(CloseEvent());
                               }
                               router.pushReplacement('/');
-                              await Future.delayed(
-                                  const Duration(seconds: 4),
-                                  () => userRepository.user = userRepository
-                                      .user
-                                      .copyWith(isBegin: isNow));
                               return;
-                            }
-                            if (context.mounted) {
-                              context.read<BattleBloc>().add(PauseEvent());
                             }
                           }),
                     ),
@@ -132,20 +132,19 @@ class BattlePage extends StatelessWidget {
                       child: CircleButton(
                           iconPath: 'assets/svg/restart.svg',
                           click: () async {
-                            context.read<BattleBloc>().add(PlayEvent());
+                            if (context.mounted) {
+                              context.read<BattleBloc>().add(PauseEvent());
+                            }
                             bool? result = await showModalBottom(context,
                                 YesNoModal(context, '${tr('replay')}?'));
-                            if (result!) {
+                            if (result != null && result) {
                               if (context.mounted) {
                                 context.read<BattleBloc>().add(CloseEvent());
                               }
                               await Future.delayed(
-                                  const Duration(milliseconds: 15000));
+                                  const Duration(milliseconds: 200));
                               router.pushReplacement('/new_game');
                               return;
-                            }
-                            if (context.mounted) {
-                              context.read<BattleBloc>().add(PauseEvent());
                             }
                           }),
                     ),

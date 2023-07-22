@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
+import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
@@ -29,26 +30,18 @@ class SettingsPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
+          appButtonBack(tr("settings")),
           BlocConsumer<SettingBloc, SettingState>(
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
                   width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 75.h,
+                    horizontal: 45.w,
                   ),
                   child: Column(
                     children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          tr("settings"),
-                          style: AppText.baseText.copyWith(
-                            fontSize: 30.sp,
-                          ),
-                        ),
-                      ),
                       const SizedBox(
                         height: 70,
                       ),

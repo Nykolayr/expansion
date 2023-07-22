@@ -1,22 +1,57 @@
+import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+Widget appButtonBack(String title) {
+  return Positioned(
+    top: 20,
+    left: 20,
+    child: SizedBox(
+      width: deviceSize.width - 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircleButton(
+            iconPath: 'assets/svg/back.svg',
+            click: () => router.pop(),
+            style: CircleButtonStyle.small,
+          ),
+          Text(
+            title,
+            style: AppText.baseText.copyWith(
+              fontSize: 30.sp,
+            ),
+          ),
+          const SizedBox(width: 30),
+        ],
+      ),
+    ),
+  );
+}
+
 class CircleButton extends StatelessWidget {
   final Function() click;
   final String iconPath;
-  const CircleButton({required this.iconPath, required this.click, super.key});
+  final CircleButtonStyle style;
+  const CircleButton(
+      {required this.iconPath,
+      required this.click,
+      super.key,
+      this.style = CircleButtonStyle.medium});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: click,
       child: Container(
-        width: 50,
-        height: 50,
-        padding: const EdgeInsets.all(8),
-        decoration: AppColor.buttonCircleBox,
+        width: style.radius.r,
+        height: style.radius.r,
+        padding: EdgeInsets.all(8.r),
+        decoration: style.shadow,
         child: SvgPicture.asset(
           iconPath,
           colorFilter:
@@ -24,6 +59,29 @@ class CircleButton extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+enum CircleButtonStyle {
+  small,
+  medium;
+
+  double get radius {
+    switch (this) {
+      case CircleButtonStyle.small:
+        return 30;
+      case CircleButtonStyle.medium:
+        return 50;
+    }
+  }
+
+  BoxDecoration get shadow {
+    switch (this) {
+      case CircleButtonStyle.small:
+        return AppColor.buttonCircleBoxSmall;
+      case CircleButtonStyle.medium:
+        return AppColor.buttonCircleBox;
+    }
   }
 }
 

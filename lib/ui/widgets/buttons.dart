@@ -1,11 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/utils/colors.dart';
-import 'package:expansion/utils/text.dart';
-import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import "package:easy_localization/easy_localization.dart";
+import "package:expansion/routers/routers.dart";
+import "package:expansion/utils/colors.dart";
+import "package:expansion/utils/text.dart";
+import "package:expansion/utils/value.dart";
+import "package:flutter/material.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/svg.dart";
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;
@@ -19,7 +19,7 @@ class ButtonSide extends StatelessWidget {
     double widht = deviceSize.width / 3;
     double height = widht / 3;
     String text = title ?? direct.title;
-    Function()? fun = function ?? () => context.go(direct.router);
+    Function()? fun = function ?? () => router.go(direct.router);
     return GestureDetector(
       onTap: fun,
       child: SizedBox(
@@ -88,7 +88,7 @@ class ButtonLong extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: SvgPicture.asset(
-                  'assets/svg/bottom_long.svg',
+                  "assets/svg/bottom_long.svg",
                   width: widht,
                   fit: BoxFit.fitWidth,
                 ),
@@ -142,19 +142,19 @@ extension DirectExtention on Direct {
   String get puthIn {
     switch (this) {
       case Direct.leftBottom:
-        return 'assets/svg/bottom_in.svg';
+        return "assets/svg/bottom_in.svg";
       case Direct.rightBottom:
-        return 'assets/svg/bottom_right_in.svg';
+        return "assets/svg/bottom_right_in.svg";
       case Direct.leftTop:
-        return 'assets/svg/top_in.svg';
+        return "assets/svg/top_in.svg";
       case Direct.rightTop:
-        return 'assets/svg/top_right_in.svg';
+        return "assets/svg/top_right_in.svg";
       case Direct.meddleBottom:
-        return 'assets/svg/bottom_middle_in.svg';
+        return "assets/svg/bottom_middle_in.svg";
       case Direct.meddleTop:
-        return 'assets/svg/top_middle_in.svg';
+        return "assets/svg/top_middle_in.svg";
       default:
-        return '';
+        return "";
     }
   }
 
@@ -184,38 +184,38 @@ extension DirectExtention on Direct {
   String get router {
     switch (this) {
       case Direct.leftBottom:
-        return '/settings';
+        return "/new_game";
       case Direct.rightBottom:
-        return '/settings';
+        return "/battle";
       case Direct.leftTop:
-        return '/profile';
+        return "/profile";
       case Direct.rightTop:
-        return '/progress';
+        return "/progress";
       case Direct.meddleBottom:
-        return '/update';
+        return "/update";
       case Direct.meddleTop:
-        return '/settings';
+        return "/settings";
       default:
-        return '/settings';
+        return "/settings";
     }
   }
 
   String get title {
     switch (this) {
       case Direct.leftBottom:
-        return tr('new_game');
+        return tr("new_game");
       case Direct.rightBottom:
-        return tr('сontinue');
+        return tr("сontinue");
       case Direct.leftTop:
-        return tr('profile');
+        return tr("profile");
       case Direct.rightTop:
-        return tr('progress');
+        return tr("progress");
       case Direct.meddleBottom:
-        return tr('upgrades');
+        return tr("upgrades");
       case Direct.meddleTop:
-        return tr('settings');
+        return tr("settings");
       default:
-        return '';
+        return "";
     }
   }
 }

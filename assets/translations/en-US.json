@@ -51,5 +51,12 @@
     "replay": "Replay the level",
     "help": "Help",
     "exit_menu": "Exit the menu",
-    "not_introduction": "Don't show intro"
+    "not_introduction": "Don't show intro",
+    "help_base": "These are bases, initially neutral, that can be captured. The captured base will produce ships, up to a certain number depending on the size of the base.",
+    "help_main_base": "These are the ships of the uterus, aliens and earthlings. It can also be captured, has an initial shield and the maximum number for building ships is 200.",
+    "help_data": "At the bottom of the base is shown the current number of ships and the status of the shield, if there is one.",
+    "help_asteroid": "These are asteroids, they come randomly from outer space. When colliding with a base or ships, it deals damage depending on the size of the asteroid.",
+    "help_attack": "You can capture the base by swiping your finger from your base to a neutral or someone else's base. At the same time, it is impossible to send ships through another base. The base that stands in the way is highlighted with a red cross. All ships that are on the base are sent. When arriving at someone else's base, a battle takes place, where victory depends on the strength of the ships and the base's shield. If you win, the base goes to the player.",
+    "help_up": "Each base produces resources depending on the technology. With the accumulation of a certain mass, upgrade icons appear. The ship icon increases the speed of building ships on the base. The shield icon increases the shield around the base. The next level requires twice as many resources.",
+    "help_win": "The goal of the game is to capture all the alien bases. Defeat with the loss of all their bases."
 }

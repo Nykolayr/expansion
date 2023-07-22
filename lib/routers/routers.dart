@@ -140,7 +140,7 @@ final GoRouter router = GoRouter(
         type: PageTransitionType.topToBottom,
         context: context,
         state: state,
-        child: const Help(),
+        child: const HelpPage(),
       ),
     ),
   ],

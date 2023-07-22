@@ -1,4 +1,4 @@
-// ignore_for_file: empty_catches
+// ignore_for_file: empty_catches, avoid_print
 
 import 'dart:isolate';
 import 'dart:math';
@@ -62,7 +62,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         bases: gameData.bases,
         ships: gameData.ships,
       ));
-    } catch (e) {}
+    } catch (e) {
+      print('BattleShipsEvent error == $e');
+    }
   }
 
   _onArriveAsteroidEvent(
@@ -103,73 +105,76 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onArriveShipsEvent(ArriveShipsEvent event, Emitter<BattleState> emit) async {
-    BaseObject toBase =
-        gameData.bases.where((element) => element.index == event.toIndex).first;
-    Ship ship = gameData.ships.where((element) {
-      return element.index == event.index;
-    }).first as Ship;
-
-    if (event.indexShip != null) {
-      Ship enemyShip = gameData.ships.where((element) {
+    try {
+      BaseObject toBase = gameData.bases
+          .where((element) => element.index == event.toIndex)
+          .first;
+      Ship ship = gameData.ships.where((element) {
         return element.index == event.index;
       }).first as Ship;
-      Future.delayed(const Duration(milliseconds: 200), () {
-        if (enemyShip.ships == ship.ships) {
-          gameData.ships.removeWhere((element) {
-            return element.index == ship.index;
-          });
-          gameData.ships.removeWhere((element) {
-            return element.index == enemyShip.index;
-          });
-        }
-        if (enemyShip.ships > ship.ships) {
-          gameData.ships.removeWhere((element) {
-            return element.index == ship.index;
-          });
-        } else {
-          gameData.ships.removeWhere((element) {
-            return element.index == enemyShip.index;
-          });
-        }
-      });
-      return;
-    }
-    if (toBase.typeStatus == ship.typeStatus) {
-      toBase.ships += ship.ships;
-      gameData.ships.removeWhere((element) {
-        return element.index == ship.index;
-      });
-    } else {
-      int shipCount = ship.ships;
-      ship.isAttack = true;
-      Future.delayed(const Duration(milliseconds: 200), () {
+
+      if (event.indexShip != null) {
+        Ship enemyShip = gameData.ships.where((element) {
+          return element.index == event.index;
+        }).first as Ship;
+        Future.delayed(const Duration(milliseconds: 200), () {
+          if (enemyShip.ships == ship.ships) {
+            gameData.ships.removeWhere((element) {
+              return element.index == ship.index;
+            });
+            gameData.ships.removeWhere((element) {
+              return element.index == enemyShip.index;
+            });
+          }
+          if (enemyShip.ships > ship.ships) {
+            gameData.ships.removeWhere((element) {
+              return element.index == ship.index;
+            });
+          } else {
+            gameData.ships.removeWhere((element) {
+              return element.index == enemyShip.index;
+            });
+          }
+        });
+        return;
+      }
+      if (toBase.typeStatus == ship.typeStatus) {
+        toBase.ships += ship.ships;
         gameData.ships.removeWhere((element) {
           return element.index == ship.index;
         });
-      });
-      if (toBase.shild > 0) {
-        if (toBase.shild < shipCount) {
-          toBase.shild = 0;
-          shipCount = shipCount - toBase.shild.toInt();
+      } else {
+        int shipCount = ship.ships;
+        ship.isAttack = true;
+        Future.delayed(const Duration(milliseconds: 200), () {
+          gameData.ships.removeWhere((element) {
+            return element.index == ship.index;
+          });
+        });
+        if (toBase.shild > 0) {
+          if (toBase.shild < shipCount) {
+            toBase.shild = 0;
+            shipCount = shipCount - toBase.shild.toInt();
+          } else {
+            toBase.shild = toBase.shild - shipCount;
+            shipCount = 0;
+          }
+        }
+        if (toBase.ships > shipCount) {
+          toBase.ships = toBase.ships - shipCount;
         } else {
-          toBase.shild = toBase.shild - shipCount;
-          shipCount = 0;
+          toBase.ships = shipCount - toBase.ships;
+          toBase.typeStatus = ship.typeStatus;
+          toBase.speedBuild = ship.typeStatus.speedRoket;
+          toBase.speedResources = ship.typeStatus.speedResources;
+          toBase.resources = 0;
         }
       }
-      if (toBase.ships > shipCount) {
-        toBase.ships = toBase.ships - shipCount;
-      } else {
-        toBase.ships = shipCount - toBase.ships;
-        toBase.typeStatus = ship.typeStatus;
-        toBase.speedBuild = ship.typeStatus.speedRoket;
-        toBase.speedResources = ship.typeStatus.speedResources;
-        toBase.resources = 0;
-      }
-    }
-    emit(state.copyWith(
-      bases: gameData.bases,
-      ships: gameData.ships,
-    ));
+      emit(state.copyWith(
+        bases: gameData.bases,
+        ships: gameData.ships,
+      ));
+    } catch (e) {}
   }
 
   _onSend(SendEvent event, Emitter<BattleState> emit) async {
@@ -227,6 +232,13 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
     await gameData.loadMap();
+    for (var item in gameData.bases) {
+      item.update();
+    }
+    emit(state.copyWith(
+      bases: gameData.bases,
+      ships: gameData.ships,
+    ));
     await Isolate.spawn(mainLoop, receivePort.sendPort);
     receivePort.listen((message) {
       add(TicEvent());
@@ -272,10 +284,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       emit(state.copyWith(isWin: true));
 
   _onPause(PauseEvent event, Emitter<BattleState> emit) async =>
-      emit(state.copyWith(isPause: false));
+      emit(state.copyWith(isPause: true));
 
   _onPlay(PlayEvent event, Emitter<BattleState> emit) async =>
-      emit(state.copyWith(isPause: true));
+      emit(state.copyWith(isPause: false));
 
   _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
@@ -304,43 +316,60 @@ enum ActionObject {
 /// проверяет есть ли база на пути между базой с point1 и базой point2
 /// возращает базу которая на пути, если нет, то возращает null
 BaseObject? getBase(Point point1, Point point2) {
+  double shipSize = 30;
   GameData gameData = gameRepository.gameData;
-  List<BaseObject> myList = gameData.bases;
-  double minDistance = double.infinity;
-  BaseObject? nearestObject;
-  List<BaseObject> filteredList = myList
-      .where((obj) => obj.coordinates != point1 && obj.coordinates != point2)
+  List<BaseObject> bases = gameData.bases;
+  bases = bases
+      .where((element) =>
+          element.coordinates != point1 && element.coordinates != point2)
       .toList();
-  for (BaseObject obj in filteredList) {
-    if (distance(obj.coordinates, point1) <= obj.size) {
-      return obj;
-    }
+  // Расстояние между точками point1 и point2
+  double distance =
+      sqrt(pow(point2.x - point1.x, 2) + pow(point2.y - point1.y, 2));
 
-    bool intersection = false;
-    double distanceToObj = distance(obj.coordinates, point1);
+  // Направление движения корабля
+  double directionX = (point2.x - point1.x) / distance;
+  double directionY = (point2.y - point1.y) / distance;
 
-    for (int t = 1; t <= 10; t++) {
-      // Проверяем точки на пути с шагом 0.1
-      double x = point1.x + (point2.x - point1.x) * t / 10;
-      double y = point1.y + (point2.y - point1.y) * t / 10;
+  double x = point1.x.toDouble();
+  double y = point1.y.toDouble();
 
-      if (distance(Point(x, y), obj.coordinates) <= obj.size) {
-        intersection = true;
-        break;
+  // Имитируем движение корабля с заданным шагом
+  double stepSize = 0.1; // Задаем размер шага
+  double traveledDistance = 0;
+
+  while (traveledDistance < distance) {
+    // Перемещаем корабль на шаг в направлении к point2
+    x += directionX * stepSize;
+    y += directionY * stepSize;
+
+    // Проверяем, пересекается ли корабль с каким-либо объектом Base
+    for (BaseObject base in bases) {
+      double centersDistance =
+          sqrt(pow(base.coordinates.x - x, 2) + pow(base.coordinates.y - y, 2));
+      double totalRadius = base.size / 2 + shipSize / 2;
+
+      if (centersDistance <= totalRadius) {
+        return base; // Корабль задел базу
       }
     }
 
-    if (intersection && distanceToObj < minDistance) {
-      minDistance = distanceToObj;
-      nearestObject = obj;
-    }
+    traveledDistance += stepSize; // Увеличиваем пройденное расстояние
   }
 
-  return nearestObject;
+  return null; // Корабль успешно достиг точки point2 без пересечений с Base
 }
 
 double distance(Point p1, Point p2) {
   num dx = p2.x - p1.x;
   num dy = p2.y - p1.y;
   return sqrt(dx * dx + dy * dy);
+}
+
+/// вспомогательрный объект имитирующий корабль
+class MoveObj {
+  Point coordinates;
+  final double size;
+
+  MoveObj(this.coordinates, this.size);
 }

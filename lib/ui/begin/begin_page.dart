@@ -2,6 +2,8 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/game/game.dart';
+import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
@@ -11,7 +13,6 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class BeginPage extends StatelessWidget {
   const BeginPage({Key? key}) : super(key: key);
@@ -29,28 +30,20 @@ class BeginPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
+          appButtonBack(tr("new_game")),
           BlocConsumer<BeginBloc, BeginState>(
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
                   width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 75.h,
+                    horizontal: 45.w,
                   ),
                   child: Column(
                     children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          tr("new_game"),
-                          style: AppText.baseText.copyWith(
-                            fontSize: 30.sp,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 70,
+                      SizedBox(
+                        height: 70.h,
                       ),
                       LineMenu(tr('level'), tr(userRepository.game.level.name),
                           () {
@@ -59,8 +52,8 @@ class BeginPage extends StatelessWidget {
                           ChooseLevel(context),
                         );
                       }),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: 40.h,
                       ),
                       LineMenu(
                           tr('hint'),
@@ -87,7 +80,12 @@ class BeginPage extends StatelessWidget {
                       ),
                       ButtonLong(
                         title: tr('save_humanity'),
-                        function: () => context.go('/battle'),
+                        function: () {
+                          userRepository.user =
+                              userRepository.user.copyWith(isBegin: false);
+                          userRepository.saveUser();
+                          router.go('/battle');
+                        },
                       ),
                     ],
                   ),

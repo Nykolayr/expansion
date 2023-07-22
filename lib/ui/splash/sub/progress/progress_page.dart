@@ -1,12 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
-import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
@@ -24,6 +23,7 @@ class ProgressPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
+          appButtonBack(tr("progress")),
           BlocConsumer<ProgressBloc, ProgressState>(
               listener: (context, state) async {},
               builder: (context, state) {
@@ -33,18 +33,8 @@ class ProgressPage extends StatelessWidget {
                     vertical: 75,
                     horizontal: 45,
                   ),
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          tr("progress"),
-                          style: AppText.baseText.copyWith(
-                            fontSize: 30.sp,
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: const Column(
+                    children: [],
                   ),
                 );
               }),
