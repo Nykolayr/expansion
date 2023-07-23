@@ -143,7 +143,7 @@ class BattlePage extends StatelessWidget {
                               }
                               await Future.delayed(
                                   const Duration(milliseconds: 200));
-                              router.pushReplacement('/new_game');
+                              router.pushReplacement('/battle');
                               return;
                             }
                           }),

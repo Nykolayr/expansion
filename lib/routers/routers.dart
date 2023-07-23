@@ -20,7 +20,8 @@ import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 
 final GoRouter router = GoRouter(
-  // initialLocation: '/',
+  debugLogDiagnostics: true,
+  initialLocation: '/',
   routes: <GoRoute>[
     GoRoute(
       name: 'splash',
@@ -90,33 +91,20 @@ final GoRouter router = GoRouter(
             ),
           ),
         ),
+        GoRoute(
+          name: 'new game',
+          path: 'new_game',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.rightToLeft,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => BeginBloc(),
+              child: const BeginPage(),
+            ),
+          ),
+        ),
       ],
-    ),
-    GoRoute(
-      name: 'new game',
-      path: '/new_game',
-      pageBuilder: (context, state) => buildPageWithDefaultTransition(
-        type: PageTransitionType.rightToLeft,
-        context: context,
-        state: state,
-        child: BlocProvider(
-          create: (_) => BeginBloc(),
-          child: const BeginPage(),
-        ),
-      ),
-    ),
-    GoRoute(
-      name: 'game',
-      path: '/game',
-      pageBuilder: (context, state) => buildPageWithDefaultTransition(
-        type: PageTransitionType.rightToLeft,
-        context: context,
-        state: state,
-        child: BlocProvider(
-          create: (_) => BeginBloc(),
-          child: const BeginPage(),
-        ),
-      ),
     ),
     GoRoute(
       name: 'battle',

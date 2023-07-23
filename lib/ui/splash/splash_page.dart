@@ -2,6 +2,7 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/colors.dart';
@@ -9,7 +10,6 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../utils/text.dart';
 import 'bloc/splash_bloc.dart';
@@ -73,35 +73,6 @@ class SplashPage extends StatelessWidget {
                 child:
                     state.isSuccess ? const SizedBox.shrink() : Loader(state),
               ),
-              // Positioned(
-              //   bottom: 90,
-              //   left: 20,
-              //   child: state.isSuccess
-              //       ? Column(
-              //           children: [
-              //             const SizedBox(
-              //               height: 25,
-              //             ),
-              //             GestureDetector(
-              //               onTap: () => context
-              //                   .read<SplashBloc>()
-              //                   .add(const CheckEnter()),
-              //               child: Row(
-              //                 children: [
-              //                   CheckBox(isCheck: userRepository.user.isBegin),
-              //                   SizedBox(width: 15.w),
-              //                   Text(
-              //                     tr('not_introduction'),
-              //                     style: AppText.baseText
-              //                         .copyWith(color: AppColor.darkYeloow),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //           ],
-              //         )
-              //       : const SizedBox.shrink(),
-              // ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(
@@ -116,7 +87,7 @@ class SplashPage extends StatelessWidget {
                             userRepository.user =
                                 userRepository.user.copyWith(isBegin: false);
                             userRepository.saveUser();
-                            context.go('/new_game');
+                            router.go('/new_game');
                           },
                           isWidth: true,
                         )
