@@ -1,17 +1,41 @@
 // ignore_for_file: library_private_types_in_public_api, avoid_renaming_method_parameters
 
+import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
+import 'package:expansion/ui/battle/widgets/fier_works.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/widgets/messages.dart';
+import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BattlePage extends StatelessWidget {
-  const BattlePage({Key? key}) : super(key: key);
+class BattlePage extends StatefulWidget {
+  const BattlePage({super.key});
+
+  @override
+  State<BattlePage> createState() => _BattlePageState();
+}
+
+class _BattlePageState extends State<BattlePage> {
+  late ConfettiController _confettiController;
+  @override
+  void initState() {
+    super.initState();
+    _confettiController =
+        ConfettiController(duration: const Duration(seconds: 10));
+  }
+
+  @override
+  void dispose() {
+    _confettiController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     context.watch<BattleBloc>();
@@ -47,7 +71,8 @@ class BattlePage extends StatelessWidget {
               child: BlocConsumer<BattleBloc, BattleState>(
                   listener: (context, state) async {
                 if (state.isWin) {
-                  Future.delayed(const Duration(seconds: 2), () {
+                  _confettiController.play();
+                  Future.delayed(const Duration(seconds: 10), () {
                     showModalBottom(
                       context,
                       WinLostModal(context, true),
@@ -55,14 +80,12 @@ class BattlePage extends StatelessWidget {
                   });
                 }
                 if (state.isLost) {
-                  if (state.isWin) {
-                    Future.delayed(const Duration(seconds: 2), () {
-                      showModalBottom(
-                        context,
-                        WinLostModal(context, false),
-                      );
-                    });
-                  }
+                  Future.delayed(const Duration(seconds: 10), () {
+                    showModalBottom(
+                      context,
+                      WinLostModal(context, false),
+                    );
+                  });
                 }
               }, builder: (context, state) {
                 return Stack(
@@ -87,13 +110,15 @@ class BattlePage extends StatelessWidget {
                       top: 10,
                       left: 30,
                       child: CircleButton(
-                        iconPath: state.isPause
-                            ? 'assets/svg/play.svg'
-                            : 'assets/svg/pause.svg',
-                        click: () => state.isPause
-                            ? context.read<BattleBloc>().add(PlayEvent())
-                            : context.read<BattleBloc>().add(PauseEvent()),
-                      ),
+                          iconPath: state.isPause
+                              ? 'assets/svg/play.svg'
+                              : 'assets/svg/pause.svg',
+                          click: () {
+                            if (state.isLost || state.isWin) return;
+                            state.isPause
+                                ? context.read<BattleBloc>().add(PlayEvent())
+                                : context.read<BattleBloc>().add(PauseEvent());
+                          }),
                     ),
                     Positioned(
                       top: 10,
@@ -148,6 +173,58 @@ class BattlePage extends StatelessWidget {
                             }
                           }),
                     ),
+                    if (state.isWin || state.isLost)
+                      Positioned(
+                        top: 100,
+                        left: 26,
+                        child: getTextInCard(
+                            state.isWin ? tr('win_text') : tr('lost_text')),
+                      ),
+                    if (state.isWin || state.isLost)
+                      Positioned(
+                        top: 100,
+                        left: 26,
+                        child: getTextInCard(state.isWin
+                            ? tr('win_score', args: [state.score.toString()])
+                            : tr('lost_score')),
+                      ),
+                    if (state.isWin || state.isLost)
+                      Positioned(
+                        top: 200,
+                        left: 30,
+                        child: Container(
+                          width: deviceSize.width - 60,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                width: 2, color: AppColor.darkYeloow),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            image: DecorationImage(
+                              image: AssetImage(
+                                state.isWin
+                                    ? 'assets/images/win.png'
+                                    : 'assets/images/lost.png',
+                              ),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (state.isWin)
+                      if (state.isWin)
+                        Positioned(
+                          top: 300,
+                          left: deviceSize.width / 2,
+                          child: Container(),
+                        ),
+                    Positioned(
+                      top: 300,
+                      left: deviceSize.width / 2,
+                      child: FireworkScreen(
+                        controllerCenter: _confettiController,
+                      ),
+                    ),
                   ],
                 );
               }),
@@ -157,4 +234,23 @@ class BattlePage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget getTextInCard(text) {
+  return Card(
+    elevation: 10,
+    color: AppColor.darkBlue,
+    shape: RoundedRectangleBorder(
+      side: const BorderSide(color: AppColor.darkYeloow, width: 2),
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      width: deviceSize.width - 62,
+      child: Text(
+        text,
+        style: AppText.baseText.copyWith(color: AppColor.white),
+      ),
+    ),
+  );
 }

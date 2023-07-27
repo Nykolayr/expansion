@@ -22,6 +22,10 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get name => throw _privateConstructorUsedError;
   int get step => throw _privateConstructorUsedError;
+  int get score =>
+      throw _privateConstructorUsedError; // общее количество очков для достижения
+  int get upgrade =>
+      throw _privateConstructorUsedError; // количесство очков для апгрейда
   bool get isBegin => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +38,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String name, int step, bool isBegin});
+  $Res call({String name, int step, int score, int upgrade, bool isBegin});
 }
 
 /// @nodoc
@@ -52,6 +56,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? name = null,
     Object? step = null,
+    Object? score = null,
+    Object? upgrade = null,
     Object? isBegin = null,
   }) {
     return _then(_value.copyWith(
@@ -62,6 +68,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
+              as int,
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int,
+      upgrade: null == upgrade
+          ? _value.upgrade
+          : upgrade // ignore: cast_nullable_to_non_nullable
               as int,
       isBegin: null == isBegin
           ? _value.isBegin
@@ -77,7 +91,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$_UserCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, int step, bool isBegin});
+  $Res call({String name, int step, int score, int upgrade, bool isBegin});
 }
 
 /// @nodoc
@@ -91,6 +105,8 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
   $Res call({
     Object? name = null,
     Object? step = null,
+    Object? score = null,
+    Object? upgrade = null,
     Object? isBegin = null,
   }) {
     return _then(_$_User(
@@ -101,6 +117,14 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
+              as int,
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
+              as int,
+      upgrade: null == upgrade
+          ? _value.upgrade
+          : upgrade // ignore: cast_nullable_to_non_nullable
               as int,
       isBegin: null == isBegin
           ? _value.isBegin
@@ -113,7 +137,12 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 /// @nodoc
 @JsonSerializable()
 class _$_User implements _User {
-  const _$_User({required this.name, this.step = 0, this.isBegin = true});
+  const _$_User(
+      {required this.name,
+      this.step = 0,
+      this.score = 0,
+      this.upgrade = 0,
+      this.isBegin = true});
 
   factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
 
@@ -124,11 +153,19 @@ class _$_User implements _User {
   final int step;
   @override
   @JsonKey()
+  final int score;
+// общее количество очков для достижения
+  @override
+  @JsonKey()
+  final int upgrade;
+// количесство очков для апгрейда
+  @override
+  @JsonKey()
   final bool isBegin;
 
   @override
   String toString() {
-    return 'User(name: $name, step: $step, isBegin: $isBegin)';
+    return 'User(name: $name, step: $step, score: $score, upgrade: $upgrade, isBegin: $isBegin)';
   }
 
   @override
@@ -138,12 +175,15 @@ class _$_User implements _User {
             other is _$_User &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.step, step) || other.step == step) &&
+            (identical(other.score, score) || other.score == score) &&
+            (identical(other.upgrade, upgrade) || other.upgrade == upgrade) &&
             (identical(other.isBegin, isBegin) || other.isBegin == isBegin));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, step, isBegin);
+  int get hashCode =>
+      Object.hash(runtimeType, name, step, score, upgrade, isBegin);
 
   @JsonKey(ignore: true)
   @override
@@ -163,6 +203,8 @@ abstract class _User implements User {
   const factory _User(
       {required final String name,
       final int step,
+      final int score,
+      final int upgrade,
       final bool isBegin}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -172,6 +214,10 @@ abstract class _User implements User {
   @override
   int get step;
   @override
+  int get score;
+  @override // общее количество очков для достижения
+  int get upgrade;
+  @override // количесство очков для апгрейда
   bool get isBegin;
   @override
   @JsonKey(ignore: true)

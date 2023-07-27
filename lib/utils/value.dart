@@ -7,6 +7,15 @@ import 'package:computer/computer.dart';
 late UserRepository userRepository;
 GameRepository gameRepository = GameRepository();
 
+/// Базовый балл за победу
+const int baseScore = 1000;
+
+/// Идеальное время победы в секундах
+const int idealTimeInSeconds = 60;
+
+/// Пенальти за каждую секунду сверх идеального времени
+const int penaltyPerSecond = 50;
+
 /// адресс где находится политика безопасности
 const politicUrl = 'https://flutter.dev';
 

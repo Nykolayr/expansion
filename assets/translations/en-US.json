@@ -58,5 +58,9 @@
     "help_asteroid": "These are asteroids, they come randomly from outer space. When colliding with a base or ships, it deals damage depending on the size of the asteroid.",
     "help_attack": "You can capture the base by swiping your finger from your base to a neutral or someone else's base. At the same time, it is impossible to send ships through another base. The base that stands in the way is highlighted with a red cross. All ships that are on the base are sent. When arriving at someone else's base, a battle takes place, where victory depends on the strength of the ships and the base's shield. If you win, the base goes to the player.",
     "help_up": "Each base produces resources depending on the technology. With the accumulation of a certain mass, upgrade icons appear. The ship icon increases the speed of building ships on the base. The shield icon increases the shield around the base. The next level requires twice as many resources.",
-    "help_win": "The goal of the game is to capture all the alien bases. Defeat with the loss of all their bases."
+    "help_win": "The goal of the game is to capture all the alien bases. Defeat with the loss of all their bases.",
+    "win_text": "Honor and glory to the winner! \nYou have defeated the aliens in this battle.",
+    "lost_text": "Woe to the vanquished! \nYou lost to strangers in this fight.",
+    "win_score": "In this fight you got {} points. \nPoints can be spent on improvements.",
+    "lost_score": "You can replay the battle by changing your strategy. \nOr you can go to the improvements if you have free points and improve the characteristics."
 }

@@ -5,6 +5,7 @@ class BattleState {
   final List<EntitesObject> ships;
   final int index;
   final int toIndex;
+  final int score;
   final ActionObject action;
   final bool isWin;
   final bool isLost;
@@ -19,6 +20,7 @@ class BattleState {
     required this.isWin,
     required this.isLost,
     required this.isPause,
+    required this.score,
   });
   factory BattleState.initial() => BattleState(
         bases: [],
@@ -29,12 +31,14 @@ class BattleState {
         isLost: false,
         isWin: false,
         isPause: false,
+        score: 0,
       );
   BattleState copyWith({
     List<BaseObject>? bases,
     List<EntitesObject>? ships,
     int? index,
     int? toIndex,
+    int? score,
     ActionObject? action,
     bool? isWin,
     bool? isLost,
@@ -49,5 +53,6 @@ class BattleState {
         isLost: isLost ?? this.isLost,
         isWin: isWin ?? this.isWin,
         isPause: isPause ?? this.isPause,
+        score: score ?? this.score,
       );
 }

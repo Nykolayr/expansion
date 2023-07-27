@@ -246,6 +246,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onIic(TicEvent event, Emitter<BattleState> emit) async {
+    checkWinLose();
     if (state.isLost || state.isWin || state.isPause) return;
     if (ticHold == maxHoldTic) {
       ticHold = 0;
@@ -255,6 +256,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     if (ticEnemy == maxEnemyTic) {
       setStateEnemy(this);
       ticEnemy = 0;
+      add(WinEvent());
     }
     if (ticAsteroid == maxAsteroidTic) {
       int index = Random().nextInt(1000000);
@@ -277,11 +279,13 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     emit(state.copyWith(bases: gameData.bases, ships: gameData.ships));
   }
 
-  _onLost(LostEvent event, Emitter<BattleState> emit) async =>
-      emit(state.copyWith(isLost: true));
+  _onLost(LostEvent event, Emitter<BattleState> emit) {
+    emit(state.copyWith(isLost: true, isPause: true));
+    print('state2 == ${state.isWin} == ${state.isLost}');
+  }
 
   _onWin(WinEvent event, Emitter<BattleState> emit) async =>
-      emit(state.copyWith(isWin: true));
+      emit(state.copyWith(isWin: true, isPause: true));
 
   _onPause(PauseEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(isPause: true));
@@ -291,6 +295,24 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
+  checkWinLose() {
+    int basesEnemy = 0;
+    int basesOur = 0;
+    for (BaseObject base in state.bases) {
+      switch (base.typeStatus) {
+        case TypeStatus.enemy:
+          basesEnemy++;
+          break;
+        case TypeStatus.our:
+          basesOur++;
+          break;
+        case TypeStatus.neutral:
+        case TypeStatus.asteroid:
+      }
+    }
+    if (basesOur == 0) add(LostEvent());
+    if (basesEnemy == 0) add(WinEvent());
+  }
 }
 
 enum ActionObject {
