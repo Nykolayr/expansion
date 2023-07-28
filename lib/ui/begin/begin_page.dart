@@ -24,7 +24,7 @@ class BeginPage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: deviceSize.height.h,
+            height: deviceSize.height,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
@@ -35,7 +35,7 @@ class BeginPage extends StatelessWidget {
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
-                  width: deviceSize.width.w,
+                  width: deviceSize.width,
                   padding: EdgeInsets.symmetric(
                     vertical: 75.h,
                     horizontal: 45.w,

@@ -21,13 +21,14 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<SplashBloc, SplashState>(builder: (context, state) {
-        double widht = deviceSize.width.w / 3 - 6;
+        double widht = deviceSize.width / 3 - 6;
         double height = widht / 3 + 10.h;
         return Scaffold(
           body: Stack(
             children: [
               SizedBox(
-                height: deviceSize.height.h,
+                height: deviceSize.height,
+                width: deviceSize.width,
                 child: Image.asset(
                   'assets/splash.png',
                   fit: BoxFit.fill,
@@ -78,7 +79,7 @@ class SplashPage extends StatelessWidget {
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
                   height: (state.isSuccess) ? height.h + 40 : 0,
-                  width: deviceSize.width.w,
+                  width: deviceSize.width,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
                       ? ButtonLong(
@@ -111,7 +112,7 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1000.h,
+      height: 500,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -122,7 +123,7 @@ class Loader extends StatelessWidget {
                       curve: Curves.fastOutSlowIn,
                       width: (state.count > 96 || state.isSuccess)
                           ? 0
-                          : deviceSize.width.w - 20,
+                          : deviceSize.width - 20,
                       duration: const Duration(seconds: 2),
                       child: Card(
                         elevation: 10,
@@ -130,7 +131,7 @@ class Loader extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                               color: AppColor.darkYeloow, width: 2.w),
-                          borderRadius: BorderRadius.circular(10).r,
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         margin: const EdgeInsets.symmetric(
                             vertical: 25, horizontal: 10),
@@ -138,7 +139,7 @@ class Loader extends StatelessWidget {
                             height: (state.count > 83)
                                 ? 55.h
                                 : state.isSuccess
-                                    ? deviceSize.height.h / 2
+                                    ? deviceSize.height / 2
                                     : null,
                             padding: const EdgeInsets.all(15),
                             child: (state.count > 83 || state.isSuccess)

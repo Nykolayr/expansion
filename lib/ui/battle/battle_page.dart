@@ -61,8 +61,8 @@ class _BattlePageState extends State<BattlePage> {
         body: Stack(
           children: [
             SizedBox(
-              height: deviceSize.height.h,
-              width: deviceSize.width.w,
+              height: deviceSize.height,
+              width: deviceSize.width,
               child: Image.asset(
                 'assets/images/fon2.png',
                 fit: BoxFit.fill,
@@ -194,7 +194,7 @@ class _BattlePageState extends State<BattlePage> {
                         top: 200.h,
                         left: 30.w,
                         child: Container(
-                          width: deviceSize.width.w - 60,
+                          width: deviceSize.width - 60,
                           height: 300.h,
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -216,12 +216,12 @@ class _BattlePageState extends State<BattlePage> {
                       if (state.isWin)
                         Positioned(
                           top: 300.h,
-                          left: deviceSize.width.w / 2,
+                          left: deviceSize.width / 2,
                           child: Container(),
                         ),
                     Positioned(
                       top: 300.h,
-                      left: deviceSize.width.w / 2,
+                      left: deviceSize.width / 2,
                       child: FireworkScreen(
                         controllerCenter: _confettiController,
                       ),
@@ -247,7 +247,7 @@ Widget getTextInCard(text) {
     ),
     child: Container(
       padding: const EdgeInsets.all(10),
-      width: deviceSize.width.w - 62,
+      width: deviceSize.width - 62,
       child: Text(
         text,
         style: AppText.baseText.copyWith(color: AppColor.white),

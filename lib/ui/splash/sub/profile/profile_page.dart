@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: deviceSize.height.h,
+            height: deviceSize.height,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
@@ -31,10 +31,10 @@ class ProfilePage extends StatelessWidget {
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
-                  width: deviceSize.width.w,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 75.h,
-                    horizontal: 45.w,
+                  width: deviceSize.width,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 75,
+                    horizontal: 45,
                   ),
                   child: const Column(
                     children: [],

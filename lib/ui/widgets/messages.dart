@@ -29,12 +29,12 @@ class SimpleMessage extends StatelessWidget {
           side: BorderSide(color: AppColor.darkYeloow, width: 2.w),
           borderRadius: BorderRadius.circular(10).r,
         ),
-        margin: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15.w),
+        margin: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15),
         child: Container(
           height: 450.h,
-          padding: EdgeInsets.symmetric(
-            horizontal: 12.w,
-            vertical: 25.h,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 25,
           ),
           child: Column(
             children: [
@@ -120,7 +120,7 @@ Future showModalBottom(BuildContext context, Widget widget) {
       backgroundColor: AppColor.darkBlue,
       builder: (BuildContext context) {
         return Padding(
-          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15.w),
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

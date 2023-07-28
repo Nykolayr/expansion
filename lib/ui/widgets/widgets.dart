@@ -35,9 +35,9 @@ Widget getInfo(BaseObject base) {
         Positioned(
           bottom: 0.h,
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 3.w,
-              vertical: 1.h,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 3,
+              vertical: 1,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10).r),

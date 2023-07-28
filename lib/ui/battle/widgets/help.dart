@@ -17,7 +17,7 @@ class HelpPage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: deviceSize.height.h,
+            height: deviceSize.height,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
