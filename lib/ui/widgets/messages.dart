@@ -4,6 +4,7 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Простой показ сообщения c title, body, необязательным
@@ -25,15 +26,15 @@ class SimpleMessage extends StatelessWidget {
         elevation: 10,
         color: AppColor.darkBlue,
         shape: RoundedRectangleBorder(
-          side: const BorderSide(color: AppColor.darkYeloow, width: 2),
-          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: AppColor.darkYeloow, width: 2.w),
+          borderRadius: BorderRadius.circular(10).r,
         ),
-        margin: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+        margin: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15.w),
         child: Container(
-          height: 450,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 25,
+          height: 450.h,
+          padding: EdgeInsets.symmetric(
+            horizontal: 12.w,
+            vertical: 25.h,
           ),
           child: Column(
             children: [
@@ -41,19 +42,19 @@ class SimpleMessage extends StatelessWidget {
                 title,
                 style: AppText.baseTitle,
               ),
-              const SizedBox(
-                height: 25,
+              SizedBox(
+                height: 25.h,
               ),
               Text(
                 body,
                 style: AppText.baseBody,
               ),
-              const SizedBox(
-                height: 25,
+              SizedBox(
+                height: 25.h,
               ),
               additional ?? const SizedBox.shrink(),
-              const SizedBox(
-                height: 45,
+              SizedBox(
+                height: 45.h,
               ),
               Align(
                 alignment: Alignment.center,
@@ -94,7 +95,7 @@ Widget urlText(String text, Uri url) {
   return GestureDetector(
     onTap: () => launchUrl(url),
     child: Container(
-      width: double.infinity,
+      width: double.infinity.w,
       alignment: Alignment.center,
       child: Text(
         text,
@@ -119,18 +120,18 @@ Future showModalBottom(BuildContext context, Widget widget) {
       backgroundColor: AppColor.darkBlue,
       builder: (BuildContext context) {
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 15.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                height: 5,
-                width: 150,
+                height: 5.h,
+                width: 150.w,
                 color: AppColor.darkYeloow,
               ),
-              const SizedBox(
-                height: 25,
+              SizedBox(
+                height: 25.h,
               ),
               widget,
             ],

@@ -6,6 +6,7 @@ import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -17,7 +18,7 @@ class ProfilePage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: deviceSize.height,
+            height: deviceSize.height.h,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,
@@ -30,10 +31,10 @@ class ProfilePage extends StatelessWidget {
               listener: (context, state) async {},
               builder: (context, state) {
                 return Container(
-                  width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+                  width: deviceSize.width.w,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 75.h,
+                    horizontal: 45.w,
                   ),
                   child: const Column(
                     children: [],

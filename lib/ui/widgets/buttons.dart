@@ -16,15 +16,15 @@ class ButtonSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width / 3;
-    double height = widht / 3;
+    double widht = deviceSize.width.w / 3;
+    double height = widht / 3.h;
     String text = title ?? direct.title;
     Function()? fun = function ?? () => router.go(direct.router);
     return GestureDetector(
       onTap: fun,
       child: SizedBox(
-        width: widht,
-        height: height,
+        width: widht.w,
+        height: height.h,
         child: Center(
           child: Stack(
             children: [
@@ -39,8 +39,8 @@ class ButtonSide extends StatelessWidget {
                 width: widht,
                 height: height,
                 padding: EdgeInsets.only(
-                  left: direct.paddingText,
-                  right: direct.isLeft ? 8.w : 0,
+                  left: direct.paddingText.w,
+                  right: direct.isLeft ? 8.w : 0.w,
                 ),
                 child: Align(
                   alignment: Alignment.center,
@@ -74,7 +74,7 @@ class ButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width - 90.h;
+    double widht = deviceSize.width.w - 90.h;
     if (isWidth) {
       widht = widht + 60.w;
     }

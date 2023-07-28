@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WinLostModal extends StatelessWidget {
   final BuildContext context;
@@ -17,8 +18,8 @@ class WinLostModal extends StatelessWidget {
           tr('next_step'),
           style: AppText.baseTitle,
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         if (isWin)
           ButtonLong(
@@ -27,8 +28,8 @@ class WinLostModal extends StatelessWidget {
               Navigator.of(context).pop();
             },
           ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: tr('replay'),
@@ -62,8 +63,8 @@ class YesNoModal extends StatelessWidget {
           title,
           style: AppText.baseTitle,
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: tr('yes'),
@@ -71,8 +72,8 @@ class YesNoModal extends StatelessWidget {
             Navigator.pop(context, true);
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: tr('no'),

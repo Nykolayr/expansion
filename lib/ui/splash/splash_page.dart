@@ -21,13 +21,13 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<SplashBloc, SplashState>(builder: (context, state) {
-        double widht = deviceSize.width / 3 - 6;
-        double height = widht / 3 + 10;
+        double widht = deviceSize.width.w / 3 - 6;
+        double height = widht / 3 + 10.h;
         return Scaffold(
           body: Stack(
             children: [
               SizedBox(
-                height: deviceSize.height,
+                height: deviceSize.height.h,
                 child: Image.asset(
                   'assets/splash.png',
                   fit: BoxFit.fill,
@@ -42,28 +42,28 @@ class SplashPage extends StatelessWidget {
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: state.isSuccess ? height + 40 : 0,
+                      height: state.isSuccess ? height.h + 40 : 0,
                       duration: const Duration(seconds: 2),
                       child: const LineButtons(),
                     ),
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
-                      height: state.isSuccess ? 0 : height + 40,
+                      height: state.isSuccess ? 0 : height.h + 40,
                       duration: const Duration(seconds: 2),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: 20.h,
                     ),
                     Text(
                       tr("space"),
-                      style: AppText.baseTextShadow.copyWith(fontSize: 42),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 42.sp),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Text(
                       tr("EXPANSION"),
-                      style: AppText.baseTextShadow.copyWith(fontSize: 52),
+                      style: AppText.baseTextShadow.copyWith(fontSize: 52.sp),
                     ),
                   ],
                 ),
@@ -77,8 +77,8 @@ class SplashPage extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
-                  height: (state.isSuccess) ? height + 40 : 0,
-                  width: deviceSize.width,
+                  height: (state.isSuccess) ? height.h + 40 : 0,
+                  width: deviceSize.width.w,
                   duration: const Duration(seconds: 2),
                   child: userRepository.user.isBegin
                       ? ButtonLong(
@@ -111,7 +111,7 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 1000,
+      height: 1000.h,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -122,23 +122,23 @@ class Loader extends StatelessWidget {
                       curve: Curves.fastOutSlowIn,
                       width: (state.count > 96 || state.isSuccess)
                           ? 0
-                          : deviceSize.width - 20,
+                          : deviceSize.width.w - 20,
                       duration: const Duration(seconds: 2),
                       child: Card(
                         elevation: 10,
                         color: AppColor.darkBlue,
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                              color: AppColor.darkYeloow, width: 2),
-                          borderRadius: BorderRadius.circular(10),
+                          side: BorderSide(
+                              color: AppColor.darkYeloow, width: 2.w),
+                          borderRadius: BorderRadius.circular(10).r,
                         ),
                         margin: const EdgeInsets.symmetric(
                             vertical: 25, horizontal: 10),
                         child: Container(
                             height: (state.count > 83)
-                                ? 55
+                                ? 55.h
                                 : state.isSuccess
-                                    ? deviceSize.height / 2
+                                    ? deviceSize.height.h / 2
                                     : null,
                             padding: const EdgeInsets.all(15),
                             child: (state.count > 83 || state.isSuccess)
@@ -148,7 +148,7 @@ class Loader extends StatelessWidget {
                                     animatedTexts: [
                                       TyperAnimatedText(tr('pretext'),
                                           textStyle: AppText.baseText.copyWith(
-                                              fontSize: 20,
+                                              fontSize: 20.sp,
                                               color: AppColor.white)),
                                     ],
                                   )),
@@ -161,30 +161,30 @@ class Loader extends StatelessWidget {
                   ],
                 )
               : const SizedBox.shrink(),
-          const SizedBox(
-            height: 25,
+          SizedBox(
+            height: 25.h,
           ),
           Stack(
             children: [
               Container(
-                width: 220,
-                height: 18,
+                width: 220.w,
+                height: 18.h,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    width: 2,
+                    width: 2.w,
                     color: AppColor.darkYeloow,
                   ),
                 ),
               ),
               Container(
-                width: 220 - 220 * (state.count) / 100,
-                height: 18,
+                width: 220.w - 220 * (state.count) / 100,
+                height: 18.h,
                 color: AppColor.darkYeloow,
               ),
             ],
           ),
-          const SizedBox(
-            height: 35,
+          SizedBox(
+            height: 35.h,
           ),
         ],
       ),

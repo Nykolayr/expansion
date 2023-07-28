@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FireworkScreen extends StatefulWidget {
   final ConfettiController controllerCenter;
@@ -20,9 +21,9 @@ class FireworkScreenState extends State<FireworkScreen> {
   Path drawStar(Size size) {
     double degToRad(double deg) => deg * (pi / 180.0);
     const numberOfPoints = 5;
-    final halfWidth = size.width / 2;
-    final externalRadius = halfWidth;
-    final internalRadius = halfWidth / 2.5;
+    final halfWidth = size.width.w / 2;
+    final externalRadius = halfWidth.r;
+    final internalRadius = halfWidth / 2.5.r;
     final degreesPerStep = degToRad(360 / numberOfPoints);
     final halfDegreesPerStep = degreesPerStep / 2;
     final path = Path();

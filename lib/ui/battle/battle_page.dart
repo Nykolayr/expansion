@@ -13,6 +13,7 @@ import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BattlePage extends StatefulWidget {
   const BattlePage({super.key});
@@ -60,8 +61,8 @@ class _BattlePageState extends State<BattlePage> {
         body: Stack(
           children: [
             SizedBox(
-              height: deviceSize.height,
-              width: deviceSize.width,
+              height: deviceSize.height.h,
+              width: deviceSize.width.w,
               child: Image.asset(
                 'assets/images/fon2.png',
                 fit: BoxFit.fill,
@@ -107,8 +108,8 @@ class _BattlePageState extends State<BattlePage> {
                       );
                     }).toList(),
                     Positioned(
-                      top: 10,
-                      left: 30,
+                      top: 10.h,
+                      left: 30.w,
                       child: CircleButton(
                           iconPath: state.isPause
                               ? 'assets/svg/play.svg'
@@ -121,8 +122,8 @@ class _BattlePageState extends State<BattlePage> {
                           }),
                     ),
                     Positioned(
-                      top: 10,
-                      right: 30,
+                      top: 10.h,
+                      right: 30.w,
                       child: CircleButton(
                         iconPath: 'assets/svg/help.svg',
                         click: () {
@@ -132,8 +133,8 @@ class _BattlePageState extends State<BattlePage> {
                       ),
                     ),
                     Positioned(
-                      bottom: 10,
-                      left: 30,
+                      bottom: 10.h,
+                      left: 30.w,
                       child: CircleButton(
                           iconPath: 'assets/svg/exit.svg',
                           click: () async {
@@ -152,8 +153,8 @@ class _BattlePageState extends State<BattlePage> {
                           }),
                     ),
                     Positioned(
-                      bottom: 10,
-                      right: 30,
+                      bottom: 10.h,
+                      right: 30.w,
                       child: CircleButton(
                           iconPath: 'assets/svg/restart.svg',
                           click: () async {
@@ -175,31 +176,31 @@ class _BattlePageState extends State<BattlePage> {
                     ),
                     if (state.isWin || state.isLost)
                       Positioned(
-                        top: 100,
-                        left: 26,
+                        top: 100.h,
+                        left: 26.w,
                         child: getTextInCard(
                             state.isWin ? tr('win_text') : tr('lost_text')),
                       ),
                     if (state.isWin || state.isLost)
                       Positioned(
-                        top: 100,
-                        left: 26,
+                        top: 100.h,
+                        left: 26.w,
                         child: getTextInCard(state.isWin
                             ? tr('win_score', args: [state.score.toString()])
                             : tr('lost_score')),
                       ),
                     if (state.isWin || state.isLost)
                       Positioned(
-                        top: 200,
-                        left: 30,
+                        top: 200.h,
+                        left: 30.w,
                         child: Container(
-                          width: deviceSize.width - 60,
-                          height: 300,
+                          width: deviceSize.width.w - 60,
+                          height: 300.h,
                           decoration: BoxDecoration(
                             border: Border.all(
-                                width: 2, color: AppColor.darkYeloow),
+                                width: 2.w, color: AppColor.darkYeloow),
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
+                                const BorderRadius.all(Radius.circular(20)).r,
                             image: DecorationImage(
                               image: AssetImage(
                                 state.isWin
@@ -214,13 +215,13 @@ class _BattlePageState extends State<BattlePage> {
                     if (state.isWin)
                       if (state.isWin)
                         Positioned(
-                          top: 300,
-                          left: deviceSize.width / 2,
+                          top: 300.h,
+                          left: deviceSize.width.w / 2,
                           child: Container(),
                         ),
                     Positioned(
-                      top: 300,
-                      left: deviceSize.width / 2,
+                      top: 300.h,
+                      left: deviceSize.width.w / 2,
                       child: FireworkScreen(
                         controllerCenter: _confettiController,
                       ),
@@ -241,12 +242,12 @@ Widget getTextInCard(text) {
     elevation: 10,
     color: AppColor.darkBlue,
     shape: RoundedRectangleBorder(
-      side: const BorderSide(color: AppColor.darkYeloow, width: 2),
-      borderRadius: BorderRadius.circular(10),
+      side: BorderSide(color: AppColor.darkYeloow, width: 2.w),
+      borderRadius: BorderRadius.circular(10).r,
     ),
     child: Container(
       padding: const EdgeInsets.all(10),
-      width: deviceSize.width - 62,
+      width: deviceSize.width.w - 62,
       child: Text(
         text,
         style: AppText.baseText.copyWith(color: AppColor.white),
