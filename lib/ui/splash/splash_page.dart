@@ -21,8 +21,8 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<SplashBloc, SplashState>(builder: (context, state) {
-        double widht = deviceSize.width / 3 - 6;
-        double height = widht / 3 + 10.h;
+        double widht = deviceSize.width / 3;
+        double height = widht / 3 + 10;
         return Scaffold(
           body: Stack(
             children: [
