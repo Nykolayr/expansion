@@ -6,7 +6,6 @@ import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);

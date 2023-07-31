@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,8 @@ import 'utils/value.dart';
 // ignore: non_constant_identifier_names
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])

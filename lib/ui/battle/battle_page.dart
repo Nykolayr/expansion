@@ -176,40 +176,39 @@ class _BattlePageState extends State<BattlePage> {
                     ),
                     if (state.isWin || state.isLost)
                       Positioned(
-                        top: 100.h,
-                        left: 26.w,
-                        child: getTextInCard(
-                            state.isWin ? tr('win_text') : tr('lost_text')),
-                      ),
-                    if (state.isWin || state.isLost)
-                      Positioned(
-                        top: 100.h,
-                        left: 26.w,
-                        child: getTextInCard(state.isWin
-                            ? tr('win_score', args: [state.score.toString()])
-                            : tr('lost_score')),
-                      ),
-                    if (state.isWin || state.isLost)
-                      Positioned(
-                        top: 200.h,
-                        left: 30.w,
-                        child: Container(
-                          width: deviceSize.width - 60,
-                          height: 300.h,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 2.w, color: AppColor.darkYeloow),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20)).r,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                state.isWin
-                                    ? 'assets/images/win.png'
-                                    : 'assets/images/lost.png',
+                        top: 100,
+                        left: 26,
+                        child: Column(
+                          children: [
+                            getTextInCard(
+                                state.isWin ? tr('win_text') : tr('lost_text')),
+                            SizedBox(height: 50.h),
+                            Container(
+                              width: deviceSize.width - 60,
+                              height: 300,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 2, color: AppColor.darkYeloow),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(20)),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    state.isWin
+                                        ? 'assets/images/win.png'
+                                        : 'assets/images/lost.png',
+                                  ),
+                                  fit: BoxFit.fill,
+                                ),
                               ),
-                              fit: BoxFit.fill,
                             ),
-                          ),
+                            SizedBox(height: 50.h),
+                            getTextInCard(
+                              state.isWin
+                                  ? tr('win_score',
+                                      args: [state.score.toString()])
+                                  : tr('lost_score'),
+                            ),
+                          ],
                         ),
                       ),
                     if (state.isWin)

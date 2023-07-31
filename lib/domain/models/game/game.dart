@@ -13,9 +13,13 @@ class Game with _$Game {
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 }
 
-enum Level { easy, average, difficult }
+/// уровни сложности, отвечают за быстроту мышления AI, скорость кораблей,
+/// скорость постройки кораблей, прочность щита, скорость пополнения ресурсов
+enum Level {
+  easy,
+  average,
+  difficult;
 
-extension LevelExtention on Level {
   String get nameMenu {
     switch (this) {
       case Level.easy:
@@ -27,14 +31,26 @@ extension LevelExtention on Level {
     }
   }
 
-  double get ratio {
+  /// количество тиков для хода врагов
+  int get ticEnemy {
     switch (this) {
       case Level.easy:
-        return 0.8;
+        return 600;
       case Level.average:
-        return 1;
+        return 400;
       case Level.difficult:
-        return 1.2;
+        return 200;
+    }
+  }
+
+  double get enemySpeed {
+    switch (this) {
+      case Level.easy:
+        return 0.3;
+      case Level.average:
+        return 0.5;
+      case Level.difficult:
+        return 0.7;
     }
   }
 }

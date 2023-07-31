@@ -11,9 +11,7 @@ import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'battle_event.dart';
 part 'battle_state.dart';
@@ -22,7 +20,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   BattleBloc() : super(BattleState.initial()) {
     on<InitEvent>(_onInit);
     on<TicEvent>(_onIic);
-    on<PressEvent>(_onPress);
     on<SendEvent>(_onSend);
     on<ArriveShipsEvent>(_onArriveShipsEvent);
     on<WinEvent>(_onWin);
@@ -184,15 +181,13 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         event.toIndex == event.fromIndex) return;
     int toIndex = event.toIndex;
     int fromIndex = event.fromIndex;
-    ActionObject action = ActionObject.attack;
-    if (state.bases[toIndex].typeStatus == state.bases[fromIndex].typeStatus) {
-      action = ActionObject.support;
-    }
     BaseObject toBase = state.bases[toIndex];
     BaseObject fromBase = state.bases[fromIndex];
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
-    int ships = fromBase.ships;
+    int ships = (fromBase.typeStatus == TypeStatus.enemy)
+        ? (fromBase.ships * userRepository.upEnemy.shieldDurability()).toInt()
+        : (fromBase.ships * userRepository.upOur.shieldDurability()).toInt();
     BaseObject? betweenBase = getBase(fromBase.coordinates, toBase.coordinates);
     if (betweenBase != null) {
       await betweenBase.showIsNotMove();
@@ -203,7 +198,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         index: Random().nextInt(1000000),
         fromIndex: fromIndex,
         toIndex: toIndex,
-        speed: ourSpeed,
         isAttack: false,
         target: PointFly(Point(to.y + toBase.size / 2, to.x + toBase.size / 2)),
         fly: PointFly(
@@ -220,14 +214,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     emit(state.copyWith(
       bases: gameData.bases,
       ships: gameData.ships,
-      index: -1,
-      toIndex: toIndex,
-      action: action,
     ));
-  }
-
-  _onPress(PressEvent event, Emitter<BattleState> emit) async {
-    emit(state.copyWith(index: event.index, action: ActionObject.tap));
   }
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
@@ -253,7 +240,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       return;
     }
 
-    if (ticEnemy == maxEnemyTic) {
+    if (ticEnemy ==
+        (userRepository.game.level.ticEnemy *
+                (userRepository.upEnemy.tic().toInt() - 1))
+            .toInt()) {
       setStateEnemy(this);
       ticEnemy = 0;
       add(WinEvent());
@@ -312,26 +302,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
     if (basesOur == 0) add(LostEvent());
     if (basesEnemy == 0) add(WinEvent());
-  }
-}
-
-enum ActionObject {
-  tap,
-  attack,
-  support,
-  no;
-
-  Color get colorCrossFire {
-    switch (this) {
-      case ActionObject.no:
-        return Colors.transparent;
-      case ActionObject.tap:
-        return AppColor.darkYeloow;
-      case ActionObject.attack:
-        return AppColor.red;
-      case ActionObject.support:
-        return AppColor.darkGreen;
-    }
   }
 }
 
