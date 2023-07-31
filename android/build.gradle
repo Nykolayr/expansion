@@ -5,11 +5,17 @@ buildscript {
         mavenCentral()
     }
 
+plugins {
+   id("com.google.gms.google-services") version "4.3.15" apply false
+}
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
+        implementation("com.google.firebase:firebase-analytics-ktx")
     }
 }
+
 
 allprojects {
     repositories {
