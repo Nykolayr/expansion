@@ -72,5 +72,16 @@
     "shipDurability_help": "The strength of the ship allows you to use fewer ships to capture bases",
     "shipBuildSpeed_help": "Increases the speed of building ships on our bases",
     "resourceIncomeSpeed_help": "Increases the growth rate of resources on our bases",
-    "shieldDurability_help": "Increases the strength of the shield for our bases"
+    "shieldDurability_help": "Increases the strength of the shield for our bases",
+    "googlelogin": "Login to account Google",
+    "accountlogin": "Login to account",
+    "exit_profile": "Logout of account",
+    "Guest": "Guest",
+    "profilelogin": "Login to account",
+    "login": "Enter",
+    "register": "Register",
+    "profileregister": "Registration",
+    "password": "Enter password",
+    "gmail": "Enter email",
+    "username": "Enter username"
 }

@@ -9,15 +9,15 @@ Widget getInfo(BaseObject base) {
   bool isUpShild = getIsUpShild(base);
   bool isUpSpeed = getIsUpSpeed(base);
   return SizedBox(
-    width: base.size,
-    height: base.size,
+    width: base.size.w,
+    height: base.size.h,
     child: Stack(
       alignment: Alignment.center,
       children: [
         if (isUpSpeed && base.typeStatus == TypeStatus.our)
           Positioned(
-            top: 0,
-            left: 0,
+            top: 0.h,
+            left: 0.w,
             child: GestureDetector(
               onTap: () => base.upSpeedBuild(),
               child: const UpLevel(infoStatus: InfoStatus.rocket),
@@ -25,22 +25,22 @@ Widget getInfo(BaseObject base) {
           ),
         if (isUpShild && base.typeStatus == TypeStatus.our)
           Positioned(
-            top: 0,
-            right: 0,
+            top: 0.h,
+            right: 0.w,
             child: GestureDetector(
               onTap: () => base.upShild(),
               child: const UpLevel(infoStatus: InfoStatus.shild),
             ),
           ),
         Positioned(
-          bottom: 0,
+          bottom: 0.h,
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 3,
               vertical: 1,
             ),
             decoration: BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(10).r),
               color: (base.typeStatus == TypeStatus.neutral)
                   ? Colors.blue.withOpacity(0.9)
                   : base.typeStatus.color.withOpacity(0.9),
@@ -51,7 +51,7 @@ Widget getInfo(BaseObject base) {
                   base: base,
                   infoStatus: InfoStatus.rocket,
                 ),
-                if (base.shild > 0) const SizedBox(width: 2),
+                if (base.shild > 0) SizedBox(width: 2.w),
                 if (base.shild > 0)
                   CircleInfo(
                     base: base,
@@ -73,8 +73,8 @@ class UpLevel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 35,
-      height: 35,
+      width: 35.w,
+      height: 35.h,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -84,10 +84,10 @@ class UpLevel extends StatelessWidget {
                 const ColorFilter.mode(AppColor.darkYeloow, BlendMode.srcIn),
           ),
           Positioned(
-            bottom: 8,
+            bottom: 8.h,
             child: SvgPicture.asset(
               infoStatus.pathImage,
-              width: 12,
+              width: 12.w,
               colorFilter:
                   const ColorFilter.mode(AppColor.black, BlendMode.srcIn),
             ),
@@ -110,11 +110,11 @@ class CircleInfo extends StatelessWidget {
       children: [
         SvgPicture.asset(
           infoStatus.pathImage,
-          width: 11,
+          width: 11.w,
           colorFilter: const ColorFilter.mode(AppColor.white, BlendMode.srcIn),
         ),
-        const SizedBox(
-          width: 1,
+        SizedBox(
+          width: 1.w,
         ),
         Text(
           infoStatus.infoText(base),
@@ -206,7 +206,7 @@ class IconRotateState extends State<IconRotate> {
       duration: const Duration(milliseconds: 1500),
       child: SvgPicture.asset(
         'assets/svg/battle.svg',
-        width: widget.size,
+        width: widget.size.w,
       ),
     );
   }

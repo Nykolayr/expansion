@@ -30,9 +30,9 @@ class UpdatePage extends StatelessWidget {
               builder: (context, state) {
                 return Container(
                   width: deviceSize.width,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 75.h,
-                    horizontal: 45.w,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 75,
+                    horizontal: 45,
                   ),
                   child: const Column(
                     children: [],

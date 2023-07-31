@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageAnimation extends StatefulWidget {
   final int numberOfImages;
@@ -62,7 +63,7 @@ class ImageAnimationState extends State<ImageAnimation>
         playSound();
         return Image.asset(
           '${widget.animationsGame.spritePath}${_animation.value}.png',
-          width: widget.size,
+          width: widget.size.w,
         );
       },
     );

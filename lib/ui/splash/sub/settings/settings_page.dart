@@ -36,14 +36,14 @@ class SettingsPage extends StatelessWidget {
               builder: (context, state) {
                 return Container(
                   width: deviceSize.width,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 75.h,
-                    horizontal: 45.w,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 75,
+                    horizontal: 45,
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 70,
+                      SizedBox(
+                        height: 70.h,
                       ),
                       LineMenu(
                           tr('music'),
@@ -55,8 +55,8 @@ class SettingsPage extends StatelessWidget {
                                 isMusic: !userRepository.settings.isMusic);
                         context.read<SettingBloc>().add(ChangeSound());
                       }),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: 40.h,
                       ),
                       LineMenu(
                           tr('sound'),
@@ -68,8 +68,8 @@ class SettingsPage extends StatelessWidget {
                                 isSound: !userRepository.settings.isSound);
                         context.read<SettingBloc>().add(ChangeSound());
                       }),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: 40.h,
                       ),
                       LineMenu(
                           tr('lang'), userRepository.settings.lang.nameMenu,
@@ -79,8 +79,8 @@ class SettingsPage extends StatelessWidget {
                           ChooseLang(context),
                         );
                       }),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: 40.h,
                       ),
                       ButtonLong(
                         title: tr('politica'),
@@ -109,8 +109,8 @@ class ChooseLang extends StatelessWidget {
           tr('choose_lang'),
           style: AppText.baseTitle,
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: userRepository.settings.lang.nameSelectRu,
@@ -120,8 +120,8 @@ class ChooseLang extends StatelessWidget {
             context.read<SettingBloc>().add(const ChangeLang(Lang.ru));
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: userRepository.settings.lang.nameSelectEng,

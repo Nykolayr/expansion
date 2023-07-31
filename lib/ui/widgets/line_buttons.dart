@@ -1,6 +1,7 @@
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LineButtons extends StatelessWidget {
   final bool isTop;
@@ -10,15 +11,15 @@ class LineButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double widht = deviceSize.width / 3 - 6;
-    final double height = widht / 3 + 10;
+    final double widht = deviceSize.width / 3;
+    final double height = widht / 3;
     return Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 20,
         ),
         height: height,
-        width: deviceSize.width - 30,
+        width: deviceSize.width.w,
         child: Stack(
           children: isTop
               ? [

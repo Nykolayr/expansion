@@ -64,8 +64,8 @@ class BeginPage extends StatelessWidget {
                             .copyWith(isHint: !userRepository.game.isHint);
                         context.read<BeginBloc>().add(ChangeHint());
                       }),
-                      const SizedBox(
-                        height: 40,
+                      SizedBox(
+                        height: 40.h,
                       ),
                       LineMenu(
                           tr('universe'), tr(userRepository.game.univer.name),
@@ -75,8 +75,8 @@ class BeginPage extends StatelessWidget {
                           ChooseUniver(context),
                         );
                       }),
-                      const SizedBox(
-                        height: 70,
+                      SizedBox(
+                        height: 70.h,
                       ),
                       ButtonLong(
                         title: tr('save_humanity'),
@@ -109,8 +109,8 @@ class ChooseLevel extends StatelessWidget {
           tr('choose_level'),
           style: AppText.baseTitle,
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: Level.easy.nameMenu,
@@ -119,8 +119,8 @@ class ChooseLevel extends StatelessWidget {
             context.read<BeginBloc>().add(const ChangeLevel(Level.easy));
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: Level.average.nameMenu,
@@ -129,8 +129,8 @@ class ChooseLevel extends StatelessWidget {
             context.read<BeginBloc>().add(const ChangeLevel(Level.average));
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: Level.difficult.nameMenu,
@@ -156,8 +156,8 @@ class ChooseUniver extends StatelessWidget {
           tr('choose_univer'),
           style: AppText.baseTitle,
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: tr(Univer.classic.name),
@@ -166,8 +166,8 @@ class ChooseUniver extends StatelessWidget {
             context.read<BeginBloc>().add(const ChangeUniver(Univer.classic));
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
         ButtonLong(
           title: tr(Univer.generated.name),
@@ -176,8 +176,8 @@ class ChooseUniver extends StatelessWidget {
             context.read<BeginBloc>().add(const ChangeUniver(Univer.generated));
           },
         ),
-        const SizedBox(
-          height: 25,
+        SizedBox(
+          height: 25.h,
         ),
       ],
     );

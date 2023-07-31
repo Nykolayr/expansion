@@ -64,8 +64,8 @@ class HelpPage extends StatelessWidget {
                     style: AppText.baseText.copyWith(fontSize: 15.sp),
                     dropCapPadding: EdgeInsets.only(right: 10.w, bottom: 2.h),
                     dropCap: DropCap(
-                        width: 80,
-                        height: 80,
+                        width: 80.w,
+                        height: 80.h,
                         child: Image.asset('assets/images/help_up.png')),
                   ),
                 ],
@@ -102,8 +102,8 @@ Widget lineHelp(String path, String path2, String text, {double size = 40}) {
 Widget getImageHelp(String path, double size) {
   if (path.contains('.svg')) {
     return SvgPicture.asset(path,
-        semanticsLabel: 'My SVG Picture', width: size);
+        semanticsLabel: 'My SVG Picture', width: size.w);
   } else {
-    return Image.asset(path, height: size.w);
+    return Image.asset(path, height: size.h);
   }
 }

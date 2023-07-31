@@ -8,8 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 Widget appButtonBack(String title) {
   return Positioned(
-    top: 20,
-    left: 20,
+    top: 20.h,
+    left: 20.w,
     child: SizedBox(
       width: deviceSize.width - 40,
       child: Row(
@@ -26,7 +26,7 @@ Widget appButtonBack(String title) {
               fontSize: 30.sp,
             ),
           ),
-          const SizedBox(width: 30),
+          SizedBox(width: 30.w),
         ],
       ),
     ),
@@ -97,7 +97,7 @@ class CheckBox extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: AppColor.darkYeloow,
-          width: 2,
+          width: 2.w,
         ),
         color: AppColor.darkBlue,
       ),
