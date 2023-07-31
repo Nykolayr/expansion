@@ -85,3 +85,42 @@ class YesNoModal extends StatelessWidget {
     );
   }
 }
+
+class TextFieldModel extends StatelessWidget {
+  final BuildContext context;
+  final String title;
+  final TextEditingController nameController =
+      TextEditingController(); // Добавляем TextEditingController
+  TextFieldModel(this.context, this.title, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context2) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: AppText.baseTitle,
+        ),
+        SizedBox(height: 25.h),
+        TextField(
+          controller:
+              nameController, // Подключаем TextEditingController к TextField
+          style: const TextStyle(fontSize: 22, color: Colors.white),
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: "Введите логин",
+            fillColor: Color.fromARGB(26, 255, 255, 255),
+            filled: true,
+          ),
+        ),
+        SizedBox(height: 25.h),
+        ButtonLong(
+          title: tr('done'),
+          function: () {
+            Navigator.pop(context, nameController.text);
+          },
+        ),
+      ],
+    );
+  }
+}

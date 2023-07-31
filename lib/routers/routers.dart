@@ -7,6 +7,10 @@ import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
 import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
+import 'package:expansion/ui/splash/sub/profile_login/bloc/profile_login_bloc.dart';
+import 'package:expansion/ui/splash/sub/profile_login/profile_login_page.dart';
+import 'package:expansion/ui/splash/sub/profile_register/bloc/profile_register_bloc.dart';
+import 'package:expansion/ui/splash/sub/profile_register/profile_register_page.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
 import 'package:expansion/ui/splash/sub/progress/progress_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
@@ -53,18 +57,48 @@ final GoRouter router = GoRouter(
           ),
         ),
         GoRoute(
-          name: 'profile',
-          path: 'profile',
-          pageBuilder: (context, state) => buildPageWithDefaultTransition(
-            type: PageTransitionType.topToBottom,
-            context: context,
-            state: state,
-            child: BlocProvider(
-              create: (_) => ProfileBloc(),
-              child: const ProfilePage(),
-            ),
-          ),
-        ),
+            name: 'profile',
+            path: 'profile',
+            pageBuilder: (context, state) => buildPageWithDefaultTransition(
+                  type: PageTransitionType.topToBottom,
+                  context: context,
+                  state: state,
+                  child: BlocProvider(
+                    create: (_) => ProfileBloc(),
+                    child: const ProfilePage(),
+                  ),
+                ),
+            routes: [
+              GoRoute(
+                  name: 'ProfileLogin',
+                  path: 'profile_login',
+                  pageBuilder: (context, state) =>
+                      buildPageWithDefaultTransition(
+                        type: PageTransitionType.rightToLeft,
+                        context: context,
+                        state: state,
+                        child: BlocProvider(
+                          create: (_) => ProfileLoginBloc(),
+                          child: const ProfileLoginPage(),
+                        ),
+                      ),
+                  routes: [
+                    GoRoute(
+                      name: 'ProfileRegister',
+                      path: 'register',
+                      pageBuilder: (context, state) =>
+                          buildPageWithDefaultTransition(
+                        type: PageTransitionType.rightToLeft,
+                        context: context,
+                        state: state,
+                        child: BlocProvider(
+                          create: (_) => ProfileRegisterBloc(),
+                          child: const ProfileRegisterPage(),
+                        ),
+                      ),
+                    ),
+                  ]),
+            ]),
         GoRoute(
           name: 'progress',
           path: 'progress',
@@ -101,6 +135,19 @@ final GoRouter router = GoRouter(
             child: BlocProvider(
               create: (_) => BeginBloc(),
               child: const BeginPage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          name: 'Profile Login',
+          path: 'profile_login',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.rightToLeft,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => ProfileLoginBloc(),
+              child: const ProfileLoginPage(),
             ),
           ),
         ),

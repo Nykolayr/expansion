@@ -65,10 +65,14 @@ class ButtonLong extends StatelessWidget {
   final String title;
   final Function() function;
   final bool isWidth;
+  final bool isPhoto;
+  final String Photo;
   const ButtonLong(
       {required this.function,
       required this.title,
       this.isWidth = false,
+      this.isPhoto = false,
+      this.Photo = "assets/google_logo.png",
       Key? key})
       : super(key: key);
 
@@ -110,6 +114,24 @@ class ButtonLong extends StatelessWidget {
                   ),
                 ),
               ),
+              isPhoto
+                  ? Container(
+                      padding: EdgeInsets.only(
+                          top: 11
+                              .h), // Можете настроить нужные вам значения padding
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FractionallySizedBox(
+                          alignment: Alignment.centerLeft,
+                          widthFactor:
+                              0.15, // Можете настроить нужные вам значения widthFactor для ограничения ширины изображения
+                          child: Image.asset(
+                            Photo,
+                            height: 15.0,
+                          ),
+                        ),
+                      ))
+                  : Container(),
             ],
           ),
         ),
