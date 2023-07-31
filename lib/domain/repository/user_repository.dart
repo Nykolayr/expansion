@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:expansion/data/local_data.dart';
 import 'package:expansion/domain/models/game/game.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
+import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
@@ -11,6 +12,8 @@ class UserRepository {
   );
   Settings settings = const Settings();
   Game game = const Game();
+  AllUpgrade upEnemy = AllUpgrade.initialEnemy();
+  AllUpgrade upOur = AllUpgrade.initialOur();
   UserRepository._();
 
   static Future<UserRepository> create() async {
@@ -42,12 +45,16 @@ class UserRepository {
   UserRepository.fromJson(Map<String, dynamic> json)
       : user = User.fromJson(json['user']),
         settings = Settings.fromJson(json['settings']),
-        game = Game.fromJson(json['game']);
+        game = Game.fromJson(json['game']),
+        upEnemy = AllUpgrade.fromJson(json['upEnemy']),
+        upOur = AllUpgrade.fromJson(json['upOur']);
 
   Map<String, dynamic> toJson() => {
         'user': user,
         'settings': settings,
         'game': game,
+        'upEnemy': upEnemy,
+        'upOur': upOur,
       };
 
   saveUser() {

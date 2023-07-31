@@ -43,9 +43,6 @@ double maxbuildShips = 20;
 // количество тиков которые нужно пропустить для рендеринга
 int maxHoldTic = 2;
 
-// количество тиков для хода врагов
-int maxEnemyTic = 400;
-
 // количество тиков для нового астероида
 int maxAsteroidTic = 500;
 
@@ -66,7 +63,5 @@ double enemySpeedResourse = 0.1;
 
 // скорость наших кораблей
 double ourSpeed = 0.5;
-// скорость чужих кораблей
-double enemySpeed = 0.5;
 // скорость астероидов
 double asteroidSpeed = 1;

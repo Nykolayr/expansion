@@ -13,7 +13,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class Ship extends EntitesObject {
   int fromIndex; // индекс базы с которой летит корабль
   int toIndex; // индекс базы на которую летит корабль
-  double speed; // скорость корабля
   double distance; // дистанция от нашей базы до базы на которую летит корабль
   PointFly target; // координаты цели
   PointFly fly; // текущие координаты корабля
@@ -28,7 +27,6 @@ class Ship extends EntitesObject {
     required this.fromIndex,
     required this.toIndex,
     required this.distance,
-    required this.speed,
     required this.target,
     required this.fly,
     required super.ships,
@@ -41,7 +39,11 @@ class Ship extends EntitesObject {
 
   @override
   void update() {
-    fly = fly.moveTowards(target, speed * 3);
+    fly = fly.moveTowards(
+        target,
+        (typeStatus == TypeStatus.enemy)
+            ? userRepository.upEnemy.shipSpeed() * 3
+            : userRepository.upOur.shipSpeed() * 3);
     distanceCurrent = fly.distanceTo(target);
     coordinates = fly.coordinates;
     indexShip = checkCollisionShip(this);

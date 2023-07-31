@@ -1,5 +1,4 @@
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 
 /// Абстрактный класс объект база(наша, враг и нейтралы),  есть 4 фактора
 /// speedBuild скорость изготовление кораблей - повышается постройкой
@@ -20,7 +19,6 @@ abstract class BaseObject extends EntitesObject {
   int maxShips; // максимальное количество кораблей для постройки
   double speedBuild;
   double speedResources;
-  ActionObject actionObject;
   double roundShip = 0;
   double roundResources = 0;
   bool isNotMove = false;
@@ -36,7 +34,6 @@ abstract class BaseObject extends EntitesObject {
     required this.speedBuild,
     required this.speedResources,
     required this.resources,
-    required this.actionObject,
     required super.index,
   });
 

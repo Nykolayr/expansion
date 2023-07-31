@@ -21,11 +21,6 @@ class LostEvent extends BattleEvent {}
 
 class TicEvent extends BattleEvent {}
 
-class PressEvent extends BattleEvent {
-  final int index;
-  const PressEvent(this.index);
-}
-
 class ArriveAsteroidEvent extends BattleEvent {
   final int index;
   final int? indexBase;

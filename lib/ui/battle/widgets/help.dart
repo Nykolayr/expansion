@@ -54,7 +54,7 @@ class HelpPage extends StatelessWidget {
                     style: AppText.baseText.copyWith(fontSize: 15.sp),
                     dropCapPadding: EdgeInsets.only(right: 10.w, bottom: 2.h),
                     dropCap: DropCap(
-                        width: 120,
+                        width: 120.w,
                         height: 120,
                         child: Image.asset('assets/images/help_attack.png')),
                   ),
