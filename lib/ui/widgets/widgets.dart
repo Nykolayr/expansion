@@ -40,7 +40,7 @@ Widget getInfo(BaseObject base) {
               vertical: 1,
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10).r),
+              borderRadius: BorderRadius.all(const Radius.circular(10).r),
               color: (base.typeStatus == TypeStatus.neutral)
                   ? Colors.blue.withOpacity(0.9)
                   : base.typeStatus.color.withOpacity(0.9),
@@ -140,7 +140,8 @@ bool getIsUpShild(BaseObject base) {
 
 /// проверяет, хватает ли ресурсов на следующий ап ускорения постройки кораблей базы
 bool getIsUpSpeed(BaseObject base) {
-  int levelSpeed = (base.speedBuild / base.typeStatus.speedRoket).round() - 1;
+  int levelSpeed =
+      (base.speedBuild / base.typeStatus.speedBuildShip).round() - 1;
   bool isUpSpeed = false;
   if (base.resources > 100 * (1 << (levelSpeed))) isUpSpeed = true;
   return isUpSpeed;

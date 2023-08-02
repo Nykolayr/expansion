@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 class AllUpgrade {
   final int maxLevel = 5; // максимальный уровень апгрейда
   double score; // Начальное количество очков
+  double minShild = 20; // минимальный ап щита
   List<Upgrade> list = [];
 
   AllUpgrade({required this.score, required this.list});

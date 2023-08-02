@@ -141,28 +141,35 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           return element.index == ship.index;
         });
       } else {
-        int shipCount = ship.ships;
+        double shild = toBase.shild * toBase.typeStatus.shieldDurability;
+        int shipCount = (ship.ships * ship.typeStatus.shipDurability).round();
+        int shipBase =
+            (toBase.ships * toBase.typeStatus.shipDurability).round();
         ship.isAttack = true;
         Future.delayed(const Duration(milliseconds: 200), () {
           gameData.ships.removeWhere((element) {
             return element.index == ship.index;
           });
         });
-        if (toBase.shild > 0) {
-          if (toBase.shild < shipCount) {
+        if (shild > 0) {
+          if (shild < shipCount) {
             toBase.shild = 0;
-            shipCount = shipCount - toBase.shild.toInt();
+            shipCount =
+                ((shipCount - shild.round()) / ship.typeStatus.shipDurability)
+                    .round();
           } else {
-            toBase.shild = toBase.shild - shipCount;
+            toBase.shild = shild - shipCount;
             shipCount = 0;
           }
         }
-        if (toBase.ships > shipCount) {
-          toBase.ships = toBase.ships - shipCount;
+        if (shipBase > shipCount) {
+          toBase.ships =
+              ((toBase.ships - shipCount) / toBase.typeStatus.shipDurability)
+                  .round();
         } else {
           toBase.ships = shipCount - toBase.ships;
           toBase.typeStatus = ship.typeStatus;
-          toBase.speedBuild = ship.typeStatus.speedRoket;
+          toBase.speedBuild = ship.typeStatus.speedBuildShip;
           toBase.speedResources = ship.typeStatus.speedResources;
           toBase.resources = 0;
         }
@@ -185,9 +192,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     BaseObject fromBase = state.bases[fromIndex];
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
-    int ships = (fromBase.typeStatus == TypeStatus.enemy)
-        ? (fromBase.ships * userRepository.upEnemy.shieldDurability()).toInt()
-        : (fromBase.ships * userRepository.upOur.shieldDurability()).toInt();
+    int ships = fromBase.ships;
     BaseObject? betweenBase = getBase(fromBase.coordinates, toBase.coordinates);
     if (betweenBase != null) {
       await betweenBase.showIsNotMove();

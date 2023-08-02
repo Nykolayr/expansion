@@ -66,13 +66,13 @@ class ButtonLong extends StatelessWidget {
   final Function() function;
   final bool isWidth;
   final bool isPhoto;
-  final String Photo;
+  final String photo;
   const ButtonLong(
       {required this.function,
       required this.title,
       this.isWidth = false,
       this.isPhoto = false,
-      this.Photo = "assets/google_logo.png",
+      this.photo = "assets/google_logo.png",
       Key? key})
       : super(key: key);
 
@@ -126,7 +126,7 @@ class ButtonLong extends StatelessWidget {
                           widthFactor:
                               0.15, // Можете настроить нужные вам значения widthFactor для ограничения ширины изображения
                           child: Image.asset(
-                            Photo,
+                            photo,
                             height: 15.0,
                           ),
                         ),

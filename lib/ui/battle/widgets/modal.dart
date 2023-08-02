@@ -94,7 +94,7 @@ class TextFieldModel extends StatelessWidget {
   TextFieldModel(this.context, this.title, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context2) {
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Text(

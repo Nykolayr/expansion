@@ -20,7 +20,6 @@ abstract class BaseObject extends EntitesObject {
   double speedBuild;
   double speedResources;
   double roundShip = 0;
-  double roundResources = 0;
   bool isNotMove = false;
 
   BaseObject({
@@ -54,9 +53,9 @@ abstract class BaseObject extends EntitesObject {
   }
 
   void upSpeedBuild() {
-    int levelSpeed = (speedBuild / typeStatus.speedRoket).round();
+    int levelSpeed = (speedBuild / typeStatus.speedBuildShip).round();
     resources -= 100 * (1 << (levelSpeed));
-    speedBuild += typeStatus.speedRoket;
+    speedBuild += typeStatus.speedBuildShip;
   }
 
   @override
@@ -64,16 +63,8 @@ abstract class BaseObject extends EntitesObject {
     if (typeStatus == TypeStatus.neutral) return;
     if (ships < maxShips) {
       roundShip += speedBuild;
-      if (roundShip > 1) {
-        ships++;
-        roundShip = 0;
-      }
+      ships = roundShip.round();
     }
-
-    roundResources += speedResources;
-    if (roundResources > 1) {
-      resources++;
-      roundResources = 0;
-    }
+    resources += speedResources;
   }
 }

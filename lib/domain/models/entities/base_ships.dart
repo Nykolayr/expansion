@@ -39,7 +39,7 @@ class BaseShip extends BaseObject {
       description: json['description'],
       shild: json['shild'],
       ships: json['ships'],
-      speedBuild: typeStatus.speedRoket,
+      speedBuild: typeStatus.speedBuildShip,
       speedResources: typeStatus.speedResources,
       resources: 0.0,
       maxShips: json['maxShips'],
