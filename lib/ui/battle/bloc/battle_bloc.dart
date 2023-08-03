@@ -11,6 +11,7 @@ import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
+import 'package:expansion/game_core/min_time.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'battle_event.dart';
@@ -35,6 +36,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   bool isSend = false;
   int ticEnemy = 0;
   int ticAsteroid = 0;
+  int ticTime = 0;
   ReceivePort receivePort = ReceivePort();
   _onBattleShipsEvent(BattleShipsEvent event, Emitter<BattleState> emit) async {
     try {
@@ -265,6 +267,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     ticAsteroid++;
     ticHold++;
     ticEnemy++;
+    ticTime++;
     for (var item in gameData.bases) {
       item.update();
     }
@@ -306,7 +309,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       }
     }
     if (basesOur == 0) add(LostEvent());
-    if (basesEnemy == 0) add(WinEvent());
+    if (basesEnemy == 0) {
+      int minTime = calculateMinTime();
+      print('object == $ticTime == $minTime');
+      add(WinEvent());
+    }
   }
 }
 
