@@ -1,6 +1,7 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -127,6 +128,29 @@ class CircleInfo extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget titleWithSvg(String text) {
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      SvgPicture.asset(
+        'assets/svg/titul.svg',
+        width: deviceSize.width,
+        height: 40,
+        fit: BoxFit.fitWidth,
+      ),
+      Text(
+        text,
+        style: TextStyle(
+          color: AppColor.darkYeloow,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ],
+  );
 }
 
 /// проверяет, хватает ли ресурсов на следующий ап щита базы
