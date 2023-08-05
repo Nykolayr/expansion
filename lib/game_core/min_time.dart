@@ -1,60 +1,34 @@
-import 'dart:math';
-
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
 
-int calculateMinTime() {
-  List<BaseObject> bases = gameRepository.gameData.bases;
-  Map<Point, int> timeToCapture = {};
-  Map<Point, int> timeToBuild =
-      {}; // Время на накопление кораблей для захвата базы
-
-  for (var base in bases) {
-    timeToCapture[base.coordinates] = double.infinity
-        .toInt(); // Инициализируем время на захват всех баз как бесконечность
-    timeToBuild[base.coordinates] =
-        0; // Начальное время на накопление кораблей - 0
-  }
-
-  // Начальная база считается захваченной сразу, время на захват - 0
-  timeToCapture[bases[0].coordinates] = 0;
-
-  while (true) {
-    Point currentCoordinates = const Point(0, 0);
-    int minTime = double.infinity.toInt();
-
-    // Находим базу с минимальным временем на захват
-    for (var base in bases) {
-      if (timeToCapture[base.coordinates]! < minTime) {
-        currentCoordinates = base.coordinates;
-        minTime = timeToCapture[base.coordinates]!;
-      }
-    }
-
-    // Если все базы были захвачены, прерываем цикл
-    if (minTime == double.infinity.toInt()) break;
-
-    // Обновляем время на захват соседних баз
-    for (var base in bases) {
-      int distance = ((currentCoordinates.x - base.coordinates.x).abs() +
-          (currentCoordinates.y - base.coordinates.y).abs()) as int;
-      int travelTime = (distance * 3) ~/ TypeStatus.our.shipSpeed;
-      int nextTime = max(minTime + travelTime, timeToBuild[base.coordinates]!);
-
-      if (nextTime < timeToCapture[base.coordinates]!) {
-        timeToCapture[base.coordinates] = nextTime;
-        timeToBuild[base.coordinates] =
-            (nextTime + TypeStatus.our.shipSpeed * 3).toInt();
-      }
-    }
-  }
-
-  // Находим максимальное время на захват всех баз
+/// Высчитывает очки за захват всех баз противника
+/// в зависимости от быстроты захвата
+/// base - наша начальная база, time - сколько тиков вышло у игрока
+int calculateScore(BaseObject base, int time) {
   int maxTime = 0;
-  for (var base in bases) {
-    maxTime = max(maxTime, timeToCapture[base.coordinates]!);
+  double speedShips = TypeStatus.our.shipSpeed * speedShipsMult;
+  double speedBuildShips = TypeStatus.our.speedBuildShip * delSpeedBuild;
+  List<BaseObject> bases = gameRepository.gameData.bases;
+  bases.removeWhere((element) => element.index == base.index);
+  sortDist(bases, base);
+  BaseObject previousBase = base;
+  for (int k = 0; k < bases.length; k++) {
+    maxTime +=
+        (distance(previousBase.coordinates, bases[k].coordinates) / speedShips +
+                bases[k].maxShips / (speedBuildShips * (k + 1)))
+            .round();
+    previousBase = bases[k];
   }
+  double score = scoreMultiplier * (1 + (maxTime / time));
+  return score.toInt();
+}
 
-  return maxTime;
+void sortDist(List<BaseObject> bases, BaseObject base) {
+  bases.sort((base1, base2) {
+    double dist1 = distance(base.coordinates, base1.coordinates);
+    double dist2 = distance(base.coordinates, base2.coordinates);
+    return dist1.compareTo(dist2);
+  });
 }

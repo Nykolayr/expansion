@@ -131,6 +131,8 @@ class CircleInfo extends StatelessWidget {
 
 /// проверяет, хватает ли ресурсов на следующий ап щита базы
 bool getIsUpShild(BaseObject base) {
+  if (base.typeStatus == TypeStatus.neutral ||
+      base.typeStatus == TypeStatus.asteroid) return false;
   int levelShild = (base.shild / base.typeStatus.minShild).round();
   bool isUpShild = false;
 
@@ -140,6 +142,8 @@ bool getIsUpShild(BaseObject base) {
 
 /// проверяет, хватает ли ресурсов на следующий ап ускорения постройки кораблей базы
 bool getIsUpSpeed(BaseObject base) {
+  if (base.typeStatus == TypeStatus.neutral ||
+      base.typeStatus == TypeStatus.asteroid) return false;
   int levelSpeed =
       (base.speedBuild / base.typeStatus.speedBuildShip).round() - 1;
   bool isUpSpeed = false;

@@ -23,10 +23,10 @@ const politicUrl = 'https://flutter.dev';
 const pathAssetScenes = 'assets/scenes';
 
 /// координаты верхнего главного объекта
-Size centerTop = const Size(0, 0);
+const Size centerTop = Size(0, 0);
 
 /// координаты нижнего главного объекта
-Size centerDown = const Size(0, 0);
+const Size centerDown = Size(0, 0);
 
 /// размеры эталлоного устройства
 const Size standardDeviceSize = Size(392.7, 850.9);
@@ -35,13 +35,19 @@ const Size standardDeviceSize = Size(392.7, 850.9);
 Size deviceSize = const Size(0, 0);
 late final Computer computer;
 // шаг по оси х (5 позиций)
-double stepX = standardDeviceSize.width / 6;
+final double stepX = standardDeviceSize.width / 6;
 // шаг по оси х (7 позиций)
-double stepY = (standardDeviceSize.height) / 9;
+final double stepY = standardDeviceSize.height / 9;
 // количество тиков которые нужно пропустить для рендеринга
-int maxHoldTic = 2;
+const maxHoldTic = 2;
 
 // количество тиков для нового астероида
-int maxAsteroidTic = 500;
+const maxAsteroidTic = 500;
 // скорость астероидов
-double asteroidSpeed = 1;
+const double asteroidSpeed = 1;
+// умножитель скорости для кораблей
+const speedShipsMult = 1.4;
+// делитель скорости
+const delSpeedBuild = 8;
+// Множитель, который определяет диапазон очков
+double scoreMultiplier = 200;
