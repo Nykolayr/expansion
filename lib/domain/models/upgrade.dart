@@ -6,13 +6,15 @@ import 'package:expansion/utils/value.dart';
 class AllUpgrade {
   final int maxLevel = 5; // максимальный уровень апгрейда
   int score; // Начальное количество очков
+  int allScore; // Общее количество очков
   double minShild = 20; // минимальный ап щита
   List<Upgrade> list = [];
 
-  AllUpgrade({required this.score, required this.list});
+  AllUpgrade({required this.score, required this.allScore, required this.list});
   factory AllUpgrade.fromJson(Map<String, dynamic> json) {
     return AllUpgrade(
         score: json['score'],
+        allScore: json['allScore'],
         list: List.from(json['list']).map((x) => Upgrade.fromJson(x)).toList());
   }
   factory AllUpgrade.initialOur() {
@@ -31,7 +33,7 @@ class AllUpgrade {
         nextValue: 5,
         type: TypeUp.beginShips,
         value: 100));
-    return AllUpgrade(list: list, score: 0);
+    return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
   /// иницилизируем систему upgrade  в начале игры
@@ -52,7 +54,7 @@ class AllUpgrade {
         type: TypeUp.beginShips,
         value: 100));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
-    return AllUpgrade(list: list, score: 0);
+    return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
   double shipSpeed() {
@@ -83,6 +85,11 @@ class AllUpgrade {
     return list[6].value;
   }
 
+  addScore(int inScore) {
+    allScore += inScore;
+    score += inScore;
+  }
+
   // Метод для апгрейда параметра
   toUpgrade(int index) {
     Upgrade upgrade = list[index];
@@ -97,6 +104,7 @@ class AllUpgrade {
 
   Map<String, dynamic> toJson() => {
         'score': score,
+        'allScore': allScore,
         'list': list,
       };
 }
