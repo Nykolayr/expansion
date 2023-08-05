@@ -145,6 +145,7 @@ enum Direct {
   leftBottom,
   meddleTop,
   meddleBottom,
+  titl,
   rightTop,
   rightBottom,
 }
@@ -172,6 +173,8 @@ extension DirectExtention on Direct {
       case Direct.rightTop:
         return "assets/svg/top_right_in.svg";
       case Direct.meddleBottom:
+        return "assets/svg/bottom_middle_in.svg";
+      case Direct.titl:
         return "assets/svg/bottom_middle_in.svg";
       case Direct.meddleTop:
         return "assets/svg/top_middle_in.svg";
