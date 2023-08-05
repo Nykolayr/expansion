@@ -4,7 +4,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +42,7 @@ class UpdatePage extends StatelessWidget {
                       ),
                       titleWithSvg(tr("score", args: ["1000000"])),
                       SizedBox(height: 50.h),
-                      UpgradeAdding(tr("Скорость корабля")),
+                      upgradeAdding(tr("Скорость корабля")),
                     ],
                   ),
                 );

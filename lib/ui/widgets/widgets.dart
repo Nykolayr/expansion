@@ -154,7 +154,7 @@ Widget titleWithSvg(String text) {
   );
 }
 
-Widget UpgradeAdding(String text) {
+Widget upgradeAdding(String text) {
   return Column(
     children: [
       Row(
