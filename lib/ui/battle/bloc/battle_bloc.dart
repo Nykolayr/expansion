@@ -310,11 +310,14 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
     if (basesOur == 0) add(LostEvent());
     if (basesEnemy == 0) {
-      userRepository.upOur.score += calculateScore(mainBase, ticTime);
+      userRepository.upOur.addScore(calculateScore(mainBase, ticTime));
       add(WinEvent());
     }
   }
 }
+
+
+
 
 /// проверяет есть ли база на пути между базой с point1 и базой point2
 /// возращает базу которая на пути, если нет, то возращает null
