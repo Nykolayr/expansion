@@ -11,6 +11,7 @@ import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/game_core/game_loop.dart';
+import 'package:expansion/game_core/min_time.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 part 'battle_event.dart';
@@ -35,6 +36,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   bool isSend = false;
   int ticEnemy = 0;
   int ticAsteroid = 0;
+  int ticTime = 0;
+  late BaseObject mainBase;
   ReceivePort receivePort = ReceivePort();
   _onBattleShipsEvent(BattleShipsEvent event, Emitter<BattleState> emit) async {
     try {
@@ -141,28 +144,35 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
           return element.index == ship.index;
         });
       } else {
-        int shipCount = ship.ships;
+        double shild = toBase.shild * toBase.typeStatus.shieldDurability;
+        int shipCount = (ship.ships * ship.typeStatus.shipDurability).round();
+        int shipBase =
+            (toBase.ships * toBase.typeStatus.shipDurability).round();
         ship.isAttack = true;
         Future.delayed(const Duration(milliseconds: 200), () {
           gameData.ships.removeWhere((element) {
             return element.index == ship.index;
           });
         });
-        if (toBase.shild > 0) {
-          if (toBase.shild < shipCount) {
+        if (shild > 0) {
+          if (shild < shipCount) {
             toBase.shild = 0;
-            shipCount = shipCount - toBase.shild.toInt();
+            shipCount =
+                ((shipCount - shild.round()) / ship.typeStatus.shipDurability)
+                    .round();
           } else {
-            toBase.shild = toBase.shild - shipCount;
+            toBase.shild = shild - shipCount;
             shipCount = 0;
           }
         }
-        if (toBase.ships > shipCount) {
-          toBase.ships = toBase.ships - shipCount;
+        if (shipBase > shipCount) {
+          toBase.ships =
+              ((toBase.ships - shipCount) / toBase.typeStatus.shipDurability)
+                  .round();
         } else {
           toBase.ships = shipCount - toBase.ships;
           toBase.typeStatus = ship.typeStatus;
-          toBase.speedBuild = ship.typeStatus.speedRoket;
+          toBase.speedBuild = ship.typeStatus.speedBuildShip;
           toBase.speedResources = ship.typeStatus.speedResources;
           toBase.resources = 0;
         }
@@ -181,19 +191,16 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         event.toIndex == event.fromIndex) return;
     int toIndex = event.toIndex;
     int fromIndex = event.fromIndex;
-    BaseObject toBase = state.bases[toIndex];
-    BaseObject fromBase = state.bases[fromIndex];
+    BaseObject toBase = gameData.bases[toIndex];
+    BaseObject fromBase = gameData.bases[fromIndex];
     Point to = toBase.coordinates;
     Point from = fromBase.coordinates;
-    int ships = (fromBase.typeStatus == TypeStatus.enemy)
-        ? (fromBase.ships * userRepository.upEnemy.shieldDurability()).toInt()
-        : (fromBase.ships * userRepository.upOur.shieldDurability()).toInt();
     BaseObject? betweenBase = getBase(fromBase.coordinates, toBase.coordinates);
     if (betweenBase != null) {
       await betweenBase.showIsNotMove();
       return;
     }
-    if (ships > 1) {
+    if (fromBase.ships > 1) {
       gameData.ships.add(Ship(
         index: Random().nextInt(1000000),
         fromIndex: fromIndex,
@@ -202,15 +209,15 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         target: PointFly(Point(to.y + toBase.size / 2, to.x + toBase.size / 2)),
         fly: PointFly(
             Point(from.y + fromBase.size / 2, from.x + fromBase.size / 2)),
-        ships: ships,
+        ships: fromBase.ships,
         coordinates: Point(from.y, from.x + fromBase.size / 2),
         typeStatus: fromBase.typeStatus,
         distance: 0,
         distanceCurrent: 0,
         size: 40,
       ));
+      fromBase.ships = 0;
     }
-    fromBase.ships = 0;
     emit(state.copyWith(
       bases: gameData.bases,
       ships: gameData.ships,
@@ -219,7 +226,9 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
     await gameData.loadMap();
+
     for (var item in gameData.bases) {
+      if (item.typeStatus == TypeStatus.our) mainBase = item;
       item.update();
     }
     emit(state.copyWith(
@@ -233,8 +242,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   }
 
   _onIic(TicEvent event, Emitter<BattleState> emit) async {
-    checkWinLose();
     if (state.isLost || state.isWin || state.isPause) return;
+    checkWinLose();
     if (ticHold == maxHoldTic) {
       ticHold = 0;
       return;
@@ -246,7 +255,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
             .toInt()) {
       setStateEnemy(this);
       ticEnemy = 0;
-      add(WinEvent());
+      // add(WinEvent());
     }
     if (ticAsteroid == maxAsteroidTic) {
       int index = Random().nextInt(1000000);
@@ -260,6 +269,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     ticAsteroid++;
     ticHold++;
     ticEnemy++;
+    ticTime++;
     for (var item in gameData.bases) {
       item.update();
     }
@@ -269,10 +279,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     emit(state.copyWith(bases: gameData.bases, ships: gameData.ships));
   }
 
-  _onLost(LostEvent event, Emitter<BattleState> emit) {
-    emit(state.copyWith(isLost: true, isPause: true));
-    print('state2 == ${state.isWin} == ${state.isLost}');
-  }
+  _onLost(LostEvent event, Emitter<BattleState> emit) async =>
+      emit(state.copyWith(isWin: true, isPause: true));
 
   _onWin(WinEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(isWin: true, isPause: true));
@@ -288,7 +296,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   checkWinLose() {
     int basesEnemy = 0;
     int basesOur = 0;
-    for (BaseObject base in state.bases) {
+    for (BaseObject base in gameData.bases) {
       switch (base.typeStatus) {
         case TypeStatus.enemy:
           basesEnemy++;
@@ -301,7 +309,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       }
     }
     if (basesOur == 0) add(LostEvent());
-    if (basesEnemy == 0) add(WinEvent());
+    if (basesEnemy == 0) {
+      userRepository.upOur.score += calculateScore(mainBase, ticTime);
+      add(WinEvent());
+    }
   }
 }
 

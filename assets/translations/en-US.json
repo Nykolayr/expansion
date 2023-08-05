@@ -83,5 +83,8 @@
     "profileregister": "Registration",
     "password": "Enter password",
     "gmail": "Enter email",
-    "username": "Enter username"
+    "username": "Enter username",
+    "done": "Done",
+    "beginShips": "Initial number of ships",
+    "beginShips_help": "The initial number of ships on the base at the beginning of the game"
 }

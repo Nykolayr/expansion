@@ -204,8 +204,9 @@ class _BattlePageState extends State<BattlePage> {
                             SizedBox(height: 50.h),
                             getTextInCard(
                               state.isWin
-                                  ? tr('win_score',
-                                      args: [state.score.toString()])
+                                  ? tr('win_score', args: [
+                                      userRepository.upOur.score.toString()
+                                    ])
                                   : tr('lost_score'),
                             ),
                           ],

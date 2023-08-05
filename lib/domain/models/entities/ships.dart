@@ -39,11 +39,7 @@ class Ship extends EntitesObject {
 
   @override
   void update() {
-    fly = fly.moveTowards(
-        target,
-        (typeStatus == TypeStatus.enemy)
-            ? userRepository.upEnemy.shipSpeed() * 3
-            : userRepository.upOur.shipSpeed() * 3);
+    fly = fly.moveTowards(target, typeStatus.shipSpeed * speedShipsMult);
     distanceCurrent = fly.distanceTo(target);
     coordinates = fly.coordinates;
     indexShip = checkCollisionShip(this);

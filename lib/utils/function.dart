@@ -19,3 +19,13 @@ CustomTransitionPage buildPageWithDefaultTransition({
             .buildTransitions(context, animation, secondaryAnimation, child),
   );
 }
+
+/// функция которая возращает null, если нет вхождений
+T? findFirstWhereOrNull<T>(Iterable<T> items, bool Function(T) test) {
+  for (var item in items) {
+    if (test(item)) {
+      return item;
+    }
+  }
+  return null;
+}

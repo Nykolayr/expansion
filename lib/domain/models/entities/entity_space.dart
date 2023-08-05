@@ -1,5 +1,7 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 
+import '../../../utils/value.dart';
+
 /// Абстрактный класс объект база(наша, враг и нейтралы),  есть 4 фактора
 /// speedBuild скорость изготовление кораблей - повышается постройкой
 /// shild  защита - повышается постройкой
@@ -19,8 +21,7 @@ abstract class BaseObject extends EntitesObject {
   int maxShips; // максимальное количество кораблей для постройки
   double speedBuild;
   double speedResources;
-  double roundShip = 0;
-  double roundResources = 0;
+  int roundShip = 0;
   bool isNotMove = false;
 
   BaseObject({
@@ -54,26 +55,23 @@ abstract class BaseObject extends EntitesObject {
   }
 
   void upSpeedBuild() {
-    int levelSpeed = (speedBuild / typeStatus.speedRoket).round();
+    int levelSpeed = (speedBuild / typeStatus.speedBuildShip).round();
     resources -= 100 * (1 << (levelSpeed));
-    speedBuild += typeStatus.speedRoket;
+    speedBuild += typeStatus.speedBuildShip / 3;
   }
 
   @override
   void update() {
-    if (typeStatus == TypeStatus.neutral) return;
+    if (typeStatus == TypeStatus.neutral || typeStatus == TypeStatus.asteroid) {
+      return;
+    }
     if (ships < maxShips) {
-      roundShip += speedBuild;
-      if (roundShip > 1) {
-        ships++;
+      roundShip++;
+      if (roundShip == delSpeedBuild) {
         roundShip = 0;
+        ships++;
       }
     }
-
-    roundResources += speedResources;
-    if (roundResources > 1) {
-      resources++;
-      roundResources = 0;
-    }
+    resources += speedResources / 8;
   }
 }

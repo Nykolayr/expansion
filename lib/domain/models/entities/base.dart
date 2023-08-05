@@ -135,8 +135,8 @@ enum SizeBase {
           pictire: 'assets/images/bases/base1.png',
           maxShips: 100,
           shild: 0.0,
-          speedBuild: ourSpeedRocet,
-          speedResources: ourSpeedResourse,
+          speedBuild: 0,
+          speedResources: 0,
           size: 60,
           timeCapture: 100,
         );
@@ -146,8 +146,8 @@ enum SizeBase {
           pictire: 'assets/images/bases/base2.png',
           maxShips: 130,
           shild: 0.0,
-          speedBuild: ourSpeedRocet,
-          speedResources: ourSpeedResourse,
+          speedBuild: 0,
+          speedResources: 0,
           size: 80,
           timeCapture: 100,
         );

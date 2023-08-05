@@ -38,24 +38,63 @@ enum TypeStatus {
   double get minShild {
     switch (this) {
       case TypeStatus.our:
-        return minOurShild;
+        return userRepository.upOur.minShild;
       case TypeStatus.enemy:
-        return minEnemyShild;
+        return userRepository.upEnemy.minShild;
       case TypeStatus.neutral:
-        return minOurShild;
+        return 0;
       case TypeStatus.asteroid:
         return 0;
     }
   }
 
-  double get speedRoket {
+  double get shipSpeed {
     switch (this) {
       case TypeStatus.our:
-        return ourSpeedRocet;
+        return userRepository.upOur.shipSpeed();
       case TypeStatus.enemy:
-        return enemySpeedRocet;
+        return userRepository.upEnemy.shipSpeed();
       case TypeStatus.neutral:
-        return ourSpeedRocet;
+        return 1;
+      case TypeStatus.asteroid:
+        return 0;
+    }
+  }
+
+  double get shipDurability {
+    switch (this) {
+      case TypeStatus.our:
+        return userRepository.upOur.shipDurability();
+      case TypeStatus.enemy:
+        return userRepository.upEnemy.shipDurability();
+      case TypeStatus.neutral:
+        return 1;
+      case TypeStatus.asteroid:
+        return 0;
+    }
+  }
+
+  double get shieldDurability {
+    switch (this) {
+      case TypeStatus.our:
+        return userRepository.upOur.shieldDurability();
+      case TypeStatus.enemy:
+        return userRepository.upEnemy.shieldDurability();
+      case TypeStatus.neutral:
+        return 1;
+      case TypeStatus.asteroid:
+        return 0;
+    }
+  }
+
+  double get speedBuildShip {
+    switch (this) {
+      case TypeStatus.our:
+        return userRepository.upOur.shipBuildSpeed();
+      case TypeStatus.enemy:
+        return userRepository.upEnemy.shipBuildSpeed();
+      case TypeStatus.neutral:
+        return 0;
       case TypeStatus.asteroid:
         return 0;
     }
@@ -64,11 +103,24 @@ enum TypeStatus {
   double get speedResources {
     switch (this) {
       case TypeStatus.our:
-        return ourSpeedResourse;
+        return userRepository.upOur.resourceIncomeSpeed();
       case TypeStatus.enemy:
-        return enemySpeedResourse;
+        return userRepository.upEnemy.resourceIncomeSpeed();
       case TypeStatus.neutral:
-        return ourSpeedResourse;
+        return 0;
+      case TypeStatus.asteroid:
+        return 0;
+    }
+  }
+
+  int get beginShips {
+    switch (this) {
+      case TypeStatus.our:
+        return userRepository.upOur.beginShips();
+      case TypeStatus.enemy:
+        return userRepository.upEnemy.beginShips();
+      case TypeStatus.neutral:
+        return 0;
       case TypeStatus.asteroid:
         return 0;
     }

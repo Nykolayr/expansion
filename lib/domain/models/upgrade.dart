@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/utils/value.dart';
 
 /// класс для отлеживания очков и апгрейда
 /// различных параметров игрока
 class AllUpgrade {
   final int maxLevel = 5; // максимальный уровень апгрейда
-  double score; // Начальное количество очков
+  int score; // Начальное количество очков
+  double minShild = 20; // минимальный ап щита
   List<Upgrade> list = [];
 
   AllUpgrade({required this.score, required this.list});
@@ -22,8 +24,17 @@ class AllUpgrade {
     list.add(Upgrade.from(
         TypeUp.resourceIncomeSpeed, 10)); // скорость прироста ресурсов
     list.add(Upgrade.from(TypeUp.shieldDurability, 15)); // прочность щита
+    // Начальное значение кораблей на базе в начале игры
+    list.add(Upgrade(
+        level: 0,
+        nextScore: scoreMultiplier,
+        nextValue: 5,
+        type: TypeUp.beginShips,
+        value: 100));
     return AllUpgrade(list: list, score: 0);
   }
+
+  /// иницилизируем систему upgrade  в начале игры
   factory AllUpgrade.initialEnemy() {
     List<Upgrade> list = [];
     list.add(Upgrade.from(TypeUp.shipSpeed, 5)); // скорость кораблей
@@ -33,6 +44,13 @@ class AllUpgrade {
     list.add(Upgrade.from(
         TypeUp.resourceIncomeSpeed, 5)); // скорость прироста ресурсов
     list.add(Upgrade.from(TypeUp.shieldDurability, 5)); // прочность щита
+    // Начальное значение кораблей на базе в начале игры
+    list.add(Upgrade(
+        level: 0,
+        nextScore: scoreMultiplier,
+        nextValue: 20,
+        type: TypeUp.beginShips,
+        value: 100));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
     return AllUpgrade(list: list, score: 0);
   }
@@ -57,8 +75,12 @@ class AllUpgrade {
     return list[4].value;
   }
 
+  int beginShips() {
+    return list[5].value.round();
+  }
+
   double tic() {
-    return list[5].value;
+    return list[6].value;
   }
 
   // Метод для апгрейда параметра
@@ -85,6 +107,7 @@ enum TypeUp {
   shipBuildSpeed,
   resourceIncomeSpeed,
   shieldDurability,
+  beginShips,
   tic;
 
   String get text {
@@ -98,6 +121,8 @@ enum TypeUp {
       case TypeUp.resourceIncomeSpeed:
         return tr(name);
       case TypeUp.shieldDurability:
+        return tr(name);
+      case TypeUp.beginShips:
         return tr(name);
       case TypeUp.tic:
         return tr(name);
@@ -118,12 +143,14 @@ enum TypeUp {
         return tr('${name}_help');
       case TypeUp.tic:
         return tr('${name}_help');
+      case TypeUp.beginShips:
+        return tr('${name}_help');
     }
   }
 }
 
 class Upgrade {
-  TypeUp type;
+  TypeUp type; // тип апгрейда
   double value; // начальное значение
   int level; // начальный уровень
   int nextValue; // процент на который идет прирост с последующим уровнем
@@ -137,7 +164,11 @@ class Upgrade {
   });
   factory Upgrade.from(TypeUp type, int nextValue) {
     return Upgrade(
-        type: type, value: 1, level: 0, nextValue: nextValue, nextScore: 500);
+        type: type,
+        value: 1,
+        level: 0,
+        nextValue: nextValue,
+        nextScore: scoreMultiplier);
   }
 
   factory Upgrade.fromJson(Map<String, dynamic> json) {
