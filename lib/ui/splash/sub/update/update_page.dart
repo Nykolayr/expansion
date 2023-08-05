@@ -3,9 +3,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UpdatePage extends StatelessWidget {
   const UpdatePage({Key? key}) : super(key: key);
@@ -31,10 +33,15 @@ class UpdatePage extends StatelessWidget {
                   width: deviceSize.width,
                   padding: const EdgeInsets.symmetric(
                     vertical: 75,
-                    horizontal: 45,
+                    horizontal: 20,
                   ),
-                  child: const Column(
-                    children: [],
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      titleWithSvg('У вас 2000 очков'),
+                    ],
                   ),
                 );
               }),
