@@ -113,6 +113,19 @@ enum TypeStatus {
     }
   }
 
+  int get beginShips {
+    switch (this) {
+      case TypeStatus.our:
+        return userRepository.upOur.beginShips();
+      case TypeStatus.enemy:
+        return userRepository.upEnemy.beginShips();
+      case TypeStatus.neutral:
+        return 0;
+      case TypeStatus.asteroid:
+        return 0;
+    }
+  }
+
   String get shipImage {
     switch (this) {
       case TypeStatus.our:

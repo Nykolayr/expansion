@@ -38,7 +38,7 @@ class BaseShip extends BaseObject {
       coordinates: Point((stepX * x - size / 2).w, pozY.h),
       description: json['description'],
       shild: json['shild'],
-      ships: json['ships'],
+      ships: typeStatus.beginShips,
       speedBuild: typeStatus.speedBuildShip,
       speedResources: typeStatus.speedResources,
       resources: 0.0,

@@ -7,14 +7,6 @@ import 'package:computer/computer.dart';
 late UserRepository userRepository;
 GameRepository gameRepository = GameRepository();
 
-/// Базовый балл за победу
-const int baseScore = 1000;
-
-/// Идеальное время победы в секундах
-const int idealTimeInSeconds = 60;
-
-/// Пенальти за каждую секунду сверх идеального времени
-const int penaltyPerSecond = 50;
 
 /// адресс где находится политика безопасности
 const politicUrl = 'https://flutter.dev';
@@ -40,14 +32,15 @@ final double stepX = standardDeviceSize.width / 6;
 final double stepY = standardDeviceSize.height / 9;
 // количество тиков которые нужно пропустить для рендеринга
 const maxHoldTic = 2;
-
 // количество тиков для нового астероида
 const maxAsteroidTic = 500;
 // скорость астероидов
 const double asteroidSpeed = 1;
 // умножитель скорости для кораблей
 const speedShipsMult = 1.4;
-// делитель скорости
-const delSpeedBuild = 8;
+// делитель скорости для производства кораблей на базе
+// при уменьшении скорость увеличивается
+const delSpeedBuild = 10;
 // Множитель, который определяет диапазон очков
-double scoreMultiplier = 200;
+// также начальное значение для апгрейда
+const int scoreMultiplier = 200;
