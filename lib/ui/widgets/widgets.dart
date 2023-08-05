@@ -1,5 +1,6 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +149,32 @@ Widget titleWithSvg(String text) {
           fontWeight: FontWeight.w700,
         ),
         textAlign: TextAlign.center,
+      ),
+    ],
+  );
+}
+
+Widget UpgradeAdding(String text) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          CircleButton(
+            iconPath: 'assets/svg/help.svg',
+            click: () {},
+            style: CircleButtonStyle.small,
+          ),
+          const SizedBox(width: 15),
+          Text(
+            text,
+            style: TextStyle(
+              color: AppColor.darkYeloow,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     ],
   );
