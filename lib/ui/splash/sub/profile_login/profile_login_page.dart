@@ -79,8 +79,8 @@ class ProfileLoginPage extends StatelessWidget {
                       ),
                       ButtonLong(
                           title: tr('register'),
-                          function: () =>
-                              router.go('/profile/profile_login/register')),
+                          function: () => Navigator.pop(context)),
+                      //router.go('/profile/profile_login/register')
                     ],
                   ),
                 );
