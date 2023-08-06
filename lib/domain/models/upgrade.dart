@@ -92,6 +92,7 @@ class AllUpgrade {
   addScore(int inScore) {
     allScore += inScore;
     score += inScore;
+    userRepository.saveUser();
   }
 
   // Метод для апгрейда параметра

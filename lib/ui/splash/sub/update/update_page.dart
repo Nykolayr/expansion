@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
+import 'package:expansion/ui/splash/sub/update/widgets.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -27,28 +28,26 @@ class UpdatePage extends StatelessWidget {
             ),
           ),
           appButtonBack(tr("upgrades")),
-          BlocConsumer<UpdateBloc, UpdateState>(
-              listener: (context, state) async {},
-              builder: (context, state) {
-                return Container(
-                  width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 20,
+          BlocBuilder<UpdateBloc, UpdateState>(builder: (context, state) {
+            return Container(
+              width: deviceSize.width,
+              padding: const EdgeInsets.symmetric(
+                vertical: 75,
+                horizontal: 20,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      titleWithSvg(tr("score",
-                          args: [userRepository.upOur.score.toString()])),
-                      SizedBox(height: 50.h),
-                      upgradeAdding(TypeUp.shipSpeed),
-                    ],
-                  ),
-                );
-              }),
+                  titleWithSvg(tr("score",
+                      args: [userRepository.upOur.score.toString()])),
+                  SizedBox(height: 30.h),
+                  for (Upgrade item in state.upgrade.list) upgradeAdding(item)
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

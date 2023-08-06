@@ -21,6 +21,8 @@ class LostEvent extends BattleEvent {}
 
 class TicEvent extends BattleEvent {}
 
+class AddScore extends BattleEvent {}
+
 class ArriveAsteroidEvent extends BattleEvent {
   final int index;
   final int? indexBase;

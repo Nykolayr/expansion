@@ -27,74 +27,67 @@ class ProfileRegisterPage extends StatelessWidget {
             ),
           ),
           appButtonBack(tr("profileregister")),
-          BlocConsumer<ProfileRegisterBloc, ProfileRegisterState>(
-              listener: (context, state) async {},
+          BlocBuilder<ProfileRegisterBloc, ProfileRegisterState>(
               builder: (context, state) {
-                return Container(
-                  height: deviceSize.height,
-                  width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+            return Container(
+              height: deviceSize.height,
+              width: deviceSize.width,
+              padding: const EdgeInsets.symmetric(
+                vertical: 75,
+                horizontal: 45,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      TextField(
-                          style: const TextStyle(
-                              fontSize: 22, color: Colors.white),
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: tr('username'),
-                              hintStyle: const TextStyle(
-                                  color: Color.fromARGB(80, 255, 255, 255)),
-                              fillColor:
-                                  const Color.fromARGB(26, 255, 255, 255),
-                              filled: true)),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      TextField(
-                          style: const TextStyle(
-                              fontSize: 22, color: Colors.white),
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: tr('gmail'),
-                              hintStyle: const TextStyle(
-                                  color: Color.fromARGB(80, 255, 255, 255)),
-                              fillColor:
-                                  const Color.fromARGB(26, 255, 255, 255),
-                              filled: true)),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      TextField(
-                          style: const TextStyle(
-                              fontSize: 22, color: Colors.white),
-                          obscureText: true,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: tr('password'),
-                              hintStyle: const TextStyle(
-                                  color: Color.fromARGB(80, 255, 255, 255)),
-                              fillColor:
-                                  const Color.fromARGB(26, 255, 255, 255),
-                              filled: true)),
-                      SizedBox(
-                        height: 30.h,
-                      ),
-                      ButtonLong(
-                          title: tr('register'),
-                          function: () => print("Вход в аккаунт какое то")),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                    ],
+                  TextField(
+                      style: const TextStyle(fontSize: 22, color: Colors.white),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: tr('username'),
+                          hintStyle: const TextStyle(
+                              color: Color.fromARGB(80, 255, 255, 255)),
+                          fillColor: const Color.fromARGB(26, 255, 255, 255),
+                          filled: true)),
+                  SizedBox(
+                    height: 20.h,
                   ),
-                );
-              }),
+                  TextField(
+                      style: const TextStyle(fontSize: 22, color: Colors.white),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: tr('gmail'),
+                          hintStyle: const TextStyle(
+                              color: Color.fromARGB(80, 255, 255, 255)),
+                          fillColor: const Color.fromARGB(26, 255, 255, 255),
+                          filled: true)),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  TextField(
+                      style: const TextStyle(fontSize: 22, color: Colors.white),
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: tr('password'),
+                          hintStyle: const TextStyle(
+                              color: Color.fromARGB(80, 255, 255, 255)),
+                          fillColor: const Color.fromARGB(26, 255, 255, 255),
+                          filled: true)),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  ButtonLong(
+                      title: tr('register'),
+                      function: () => print("Вход в аккаунт какое то")),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

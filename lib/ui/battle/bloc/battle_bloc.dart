@@ -28,6 +28,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<PauseEvent>(_onPause);
     on<PlayEvent>(_onPlay);
     on<CloseEvent>(_onClose);
+    on<AddScore>(_onAddScore);
     on<ArriveAsteroidEvent>(_onArriveAsteroidEvent);
     on<BattleShipsEvent>(_onBattleShipsEvent);
   }
@@ -283,7 +284,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       emit(state.copyWith(isWin: true, isPause: true));
 
   _onWin(WinEvent event, Emitter<BattleState> emit) async =>
-      emit(state.copyWith(isWin: true, isPause: true));
+      emit(state.copyWith(
+          isWin: true,
+          isPause: true,
+          score: calculateScore(mainBase, ticTime)));
 
   _onPause(PauseEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(isPause: true));
@@ -293,6 +297,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
+  _onAddScore(AddScore event, Emitter<BattleState> emit) async =>
+      userRepository.upOur.addScore(calculateScore(mainBase, ticTime));
   checkWinLose() {
     int basesEnemy = 0;
     int basesOur = 0;
@@ -310,14 +316,10 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
     if (basesOur == 0) add(LostEvent());
     if (basesEnemy == 0) {
-      userRepository.upOur.addScore(calculateScore(mainBase, ticTime));
       add(WinEvent());
     }
   }
 }
-
-
-
 
 /// проверяет есть ли база на пути между базой с point1 и базой point2
 /// возращает базу которая на пути, если нет, то возращает null
