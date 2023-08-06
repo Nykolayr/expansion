@@ -1,5 +1,6 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
@@ -154,7 +155,8 @@ Widget titleWithSvg(String text) {
   );
 }
 
-Widget UpgradeAdding(String text) {
+Widget upgradeAdding(TypeUp type) {
+  // userRepository.upOur.getFromType(type);
   return Column(
     children: [
       Row(
@@ -166,7 +168,7 @@ Widget UpgradeAdding(String text) {
           ),
           const SizedBox(width: 15),
           Text(
-            text,
+            type.text,
             style: TextStyle(
               color: AppColor.darkYeloow,
               fontSize: 16.sp,

@@ -57,6 +57,10 @@ class AllUpgrade {
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
+  double getFromType(TypeUp type) {
+    return list.firstWhere((element) => element.type == type).value;
+  }
+
   double shipSpeed() {
     return list[0].value;
   }
@@ -134,6 +138,25 @@ enum TypeUp {
         return tr(name);
       case TypeUp.tic:
         return tr(name);
+    }
+  }
+
+  String get image {
+    switch (this) {
+      case TypeUp.shipSpeed:
+        return 'assets/svg/help.svg';
+      case TypeUp.shipDurability:
+        return 'assets/svg/help.svg';
+      case TypeUp.shipBuildSpeed:
+        return 'assets/svg/help.svg';
+      case TypeUp.resourceIncomeSpeed:
+        return 'assets/svg/help.svg';
+      case TypeUp.shieldDurability:
+        return 'assets/svg/help.svg';
+      case TypeUp.beginShips:
+        return 'assets/svg/help.svg';
+      case TypeUp.tic:
+        return 'assets/svg/help.svg';
     }
   }
 
