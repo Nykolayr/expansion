@@ -29,6 +29,7 @@ class AllUpgrade {
     // Начальное значение кораблей на базе в начале игры
     list.add(Upgrade(
         level: 0,
+        percenstValue: 0,
         nextScore: scoreMultiplier,
         nextValue: 5,
         type: TypeUp.beginShips,
@@ -51,6 +52,7 @@ class AllUpgrade {
         level: 0,
         nextScore: scoreMultiplier,
         nextValue: 20,
+        percenstValue: 0,
         type: TypeUp.beginShips,
         value: 100));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
@@ -145,19 +147,19 @@ enum TypeUp {
   String get image {
     switch (this) {
       case TypeUp.shipSpeed:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/rocket.svg';
       case TypeUp.shipDurability:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/shield.svg';
       case TypeUp.shipBuildSpeed:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/rocket.svg';
       case TypeUp.resourceIncomeSpeed:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/hammers.svg';
       case TypeUp.shieldDurability:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/shield.svg';
       case TypeUp.beginShips:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/rocket.svg';
       case TypeUp.tic:
-        return 'assets/svg/help.svg';
+        return 'assets/svg/ship.svg';
     }
   }
 
@@ -183,9 +185,10 @@ enum TypeUp {
 
 class Upgrade {
   TypeUp type; // тип апгрейда
-  double value; // начальное значение
+  double value; // начальное значение в процентах
   int level; // начальный уровень
   int nextValue; // процент на который идет прирост с последующим уровнем
+  int percenstValue; // текущий процент
   int nextScore; // начальный уровень очков для перехода на новый уровень
   Upgrade({
     required this.type,
@@ -193,12 +196,14 @@ class Upgrade {
     required this.level,
     required this.nextValue,
     required this.nextScore,
+    required this.percenstValue,
   });
   factory Upgrade.from(TypeUp type, int nextValue) {
     return Upgrade(
         type: type,
         value: 1,
         level: 0,
+        percenstValue: 0,
         nextValue: nextValue,
         nextScore: scoreMultiplier);
   }
@@ -210,6 +215,7 @@ class Upgrade {
       level: json['level'],
       nextValue: json['nextValue'],
       nextScore: json['nextScore'],
+      percenstValue: json['percenstValue'],
     );
   }
 
@@ -219,5 +225,6 @@ class Upgrade {
         'level': level,
         'nextValue': nextValue,
         'nextScore': nextScore,
+        'percenstValue': percenstValue,
       };
 }

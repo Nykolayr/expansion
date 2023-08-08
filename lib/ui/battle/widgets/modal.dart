@@ -13,7 +13,8 @@ class WinLostModal extends StatelessWidget {
   const WinLostModal(this.context, this.isWin, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  // ignore: avoid_renaming_method_parameters
+  Widget build(BuildContext context2) {
     return Column(
       children: [
         Text(

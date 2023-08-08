@@ -43,7 +43,8 @@ class UpdatePage extends StatelessWidget {
                   titleWithSvg(tr("score",
                       args: [userRepository.upOur.score.toString()])),
                   SizedBox(height: 30.h),
-                  for (Upgrade item in state.upgrade.list) upgradeAdding(item)
+                  for (Upgrade item in state.upgrade.list)
+                    upgradeAdding(item, context)
                 ],
               ),
             );

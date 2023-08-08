@@ -2,22 +2,24 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Creator: CorelDRAW -->
 <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
-viewBox="0 0 1208.53 675.55"
+viewBox="0 0 850 678.13"
  xmlns:xlink="http://www.w3.org/1999/xlink"
  xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
  <defs>
-    <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="648.21" y1="652.31" x2="648.3" y2="25">
-     <stop offset="0" stop-opacity="1" stop-color="#0D4384"/>
-     <stop offset="0.478431" stop-opacity="1" stop-color="#071919"/>
-     <stop offset="1" stop-opacity="1" stop-color="#0D4384"/>
-    </linearGradient>
+     <linearGradient id="id0" gradientUnits="userSpaceOnUse" x1="455.31" y1="659.91" x2="455.44" y2="20.01">
+      <stop offset="0" stop-opacity="1" stop-color="#0D4384"/>
+      <stop offset="0.478431" stop-opacity="1" stop-color="#071919"/>
+      <stop offset="1" stop-opacity="1" stop-color="#0D4384"/>
+     </linearGradient>
  </defs>
  <g id="Слой_x0020_1">
   <metadata id="CorelCorpID_0Corel-Layer"/>
-  <g>
-   <polygon fill="none" stroke="#FABE0D" stroke-width="50" stroke-miterlimit="22.9256" points="25,25 1183.53,25 1183.53,650.55 25,650.55 "/>
-   <polygon id="_1" fill="url(#id0)" points="25,25 1183.53,25 1183.53,650.55 25,650.55 "/>
+  <g id="_2009079314464">
+   <g>
+    <path fill="#FABE0D" fill-rule="nonzero" d="M825 40.02l-800 0 0 -40.02 800 0 25 20.01 -25 20.01zm0 -40.02l25 0 0 20.01 -25 -20.01zm-25 658.12l0 -638.11 50 0 0 638.11 -25 20.01 -25 -20.01zm50 0l0 20.01 -25 0 25 -20.01zm-825 -20.01l800 0 0 40.02 -800 0 -25 -20.01 25 -20.01zm0 40.02l-25 0 0 -20.01 25 20.01zm25 -658.12l0 638.11 -50 0 0 -638.11 25 -20.01 25 20.01zm-50 0l0 -20.01 25 0 -25 20.01z"/>
+    <polygon id="_1" fill="url(#id0)" points="25,20.01 825,20.01 825,658.12 25,658.12 "/>
+   </g>
+   <polygon fill="#FABE0D" fill-rule="nonzero" points="241.19,525.22 241.19,339.06 149.29,339.06 425,152.91 700.71,339.06 608.82,339.06 608.82,525.22 "/>
   </g>
-  <polygon fill="#FABE0D" fill-rule="nonzero" points="378.17,580.41 378.17,337.78 265.13,337.78 604.26,95.15 943.39,337.78 830.36,337.78 830.36,580.41 "/>
  </g>
 </svg>
