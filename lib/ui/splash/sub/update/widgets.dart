@@ -74,13 +74,16 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
               for (int k = 0; k < maxLevel; k++) getUpLevel(k, upgrade.level),
               GestureDetector(
                 onTap: () {
-                  context.read<UpdateBloc>().add();
+                  context.read<UpdateBloc>().add(ChangeUdrade(upgrade.type));
                 },
-                child: SvgPicture.asset(
-                  'assets/svg/buttonUp.svg',
-                  width: size,
-                  // height: size - 10,
-                  fit: BoxFit.cover,
+                child: Opacity(
+                  opacity: userRepository.upOur.isUpgrade(upgrade) ? 1 : 0.3,
+                  child: SvgPicture.asset(
+                    'assets/svg/buttonUp.svg',
+                    width: size,
+                    // height: size - 10,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ],

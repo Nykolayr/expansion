@@ -76,8 +76,8 @@ class _BattlePageState extends State<BattlePage> {
                   if (context.mounted) {
                     context.read<BattleBloc>().add(CloseEvent());
                   }
-                  Future.delayed(const Duration(seconds: 7), () {
-                    showModalBottom(
+                  Future.delayed(const Duration(seconds: 7), () async {
+                    await showModalBottom(
                       context,
                       WinLostModal(context, true),
                     );
@@ -87,7 +87,7 @@ class _BattlePageState extends State<BattlePage> {
                   if (context.mounted) {
                     context.read<BattleBloc>().add(CloseEvent());
                   }
-                  Future.delayed(const Duration(seconds: 7), () {
+                  Future.delayed(const Duration(seconds: 3), () {
                     showModalBottom(
                       context,
                       WinLostModal(context, false),

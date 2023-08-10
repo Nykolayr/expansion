@@ -33,7 +33,7 @@ class AllUpgrade {
         nextScore: scoreMultiplier,
         nextValue: 5,
         type: TypeUp.beginShips,
-        value: 100));
+        value: 200));
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
@@ -54,7 +54,7 @@ class AllUpgrade {
         nextValue: 20,
         percenstValue: 0,
         type: TypeUp.beginShips,
-        value: 100));
+        value: 200));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
@@ -98,11 +98,19 @@ class AllUpgrade {
   }
 
   // Метод для апгрейда параметра
-  toUpgrade(int index) {
+  toUpgrade(TypeUp type) {
+    int index = list.indexWhere((element) => element.type == type);
     Upgrade upgrade = list[index];
     upgrade.level++;
     upgrade.value += 1 / upgrade.nextValue;
+    upgrade.percenstValue += upgrade.nextValue;
+    score -= upgrade.nextScore;
     upgrade.nextScore *= 2;
+    print('object == ${upgrade.toJson()}}');
+  }
+
+  bool isUpgrade(Upgrade upgrade) {
+    return upgrade.nextScore < score;
   }
 
   Upgrade getUpgradeFromType(TypeUp type) {

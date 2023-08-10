@@ -10,6 +10,11 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
     on<ChangeUdrade>(_onChangeUdrade);
     on<ResetScore>(_onResetScore);
   }
-  _onChangeUdrade(UpdateEvent event, Emitter<UpdateState> emit) async {}
+  _onChangeUdrade(ChangeUdrade event, Emitter<UpdateState> emit) async {
+    userRepository.upOur.toUpgrade(event.type);
+    userRepository.saveUser();
+    emit(state.copyWith(upgrade: userRepository.upOur));
+  }
+
   _onResetScore(ResetScore event, Emitter<UpdateState> emit) async {}
 }
