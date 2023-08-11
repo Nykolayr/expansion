@@ -31,65 +31,60 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           appButtonBack(tr("settings")),
-          BlocConsumer<SettingBloc, SettingState>(
-              listener: (context, state) async {},
-              builder: (context, state) {
-                return Container(
-                  width: deviceSize.width,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 75,
-                    horizontal: 45,
+          BlocBuilder<SettingBloc, SettingState>(builder: (context, state) {
+            return Container(
+              width: deviceSize.width,
+              padding: const EdgeInsets.symmetric(
+                vertical: 75,
+                horizontal: 45,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 70.h,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 70.h,
-                      ),
-                      LineMenu(
-                          tr('music'),
-                          userRepository.settings.isMusic
-                              ? tr('turn')
-                              : tr('un_turn'), () {
-                        userRepository.settings = userRepository.settings
-                            .copyWith(
-                                isMusic: !userRepository.settings.isMusic);
-                        context.read<SettingBloc>().add(ChangeSound());
-                      }),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      LineMenu(
-                          tr('sound'),
-                          userRepository.settings.isSound
-                              ? tr('turn2')
-                              : tr('un_turn2'), () {
-                        userRepository.settings = userRepository.settings
-                            .copyWith(
-                                isSound: !userRepository.settings.isSound);
-                        context.read<SettingBloc>().add(ChangeSound());
-                      }),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      LineMenu(
-                          tr('lang'), userRepository.settings.lang.nameMenu,
-                          () {
-                        showModalBottom(
-                          context,
-                          ChooseLang(context),
-                        );
-                      }),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      ButtonLong(
-                        title: tr('politica'),
-                        function: () => showPolitic(context),
-                      ),
-                    ],
+                  LineMenu(
+                      tr('music'),
+                      userRepository.settings.isMusic
+                          ? tr('turn')
+                          : tr('un_turn'), () {
+                    userRepository.settings = userRepository.settings
+                        .copyWith(isMusic: !userRepository.settings.isMusic);
+                    context.read<SettingBloc>().add(ChangeSound());
+                  }),
+                  SizedBox(
+                    height: 40.h,
                   ),
-                );
-              }),
+                  LineMenu(
+                      tr('sound'),
+                      userRepository.settings.isSound
+                          ? tr('turn2')
+                          : tr('un_turn2'), () {
+                    userRepository.settings = userRepository.settings
+                        .copyWith(isSound: !userRepository.settings.isSound);
+                    context.read<SettingBloc>().add(ChangeSound());
+                  }),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  LineMenu(tr('lang'), userRepository.settings.lang.nameMenu,
+                      () {
+                    showModalBottom(
+                      context,
+                      ChooseLang(context),
+                    );
+                  }),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  ButtonLong(
+                    title: tr('politica'),
+                    function: () => showPolitic(context),
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

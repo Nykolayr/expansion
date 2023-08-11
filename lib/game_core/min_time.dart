@@ -9,7 +9,7 @@ import 'package:expansion/utils/value.dart';
 int calculateScore(BaseObject base, int time) {
   int maxTime = 0;
   double speedShips = TypeStatus.our.shipSpeed * speedShipsMult;
-  double speedBuildShips = TypeStatus.our.speedBuildShip * delSpeedBuild;
+  double speedBuildShips = TypeStatus.our.speedBuildShip * (15 / delSpeedBuild);
   List<BaseObject> bases = gameRepository.gameData.bases;
   bases.removeWhere((element) => element.index == base.index);
   sortDist(bases, base);

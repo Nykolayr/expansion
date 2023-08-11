@@ -48,6 +48,7 @@ dependencies:
   confetti: ^0.7.0 #https://pub.dev/packages/confetti
   firebase_core: ^2.15.0 #https://pub.dev/packages/firebase_core
   google_sign_in: ^6.1.4 # https://pub.dev/packages/google_sign_in
+  flutter_svg_provider: ^1.0.4 #https://pub.dev/packages/flutter_svg_provider
   
 dev_dependencies:
   flutter_test:

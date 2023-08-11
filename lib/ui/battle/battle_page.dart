@@ -28,7 +28,7 @@ class _BattlePageState extends State<BattlePage> {
   void initState() {
     super.initState();
     _confettiController =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
   }
 
   @override
@@ -73,15 +73,21 @@ class _BattlePageState extends State<BattlePage> {
                   listener: (context, state) async {
                 if (state.isWin) {
                   _confettiController.play();
-                  Future.delayed(const Duration(seconds: 10), () {
-                    showModalBottom(
+                  if (context.mounted) {
+                    context.read<BattleBloc>().add(CloseEvent());
+                  }
+                  Future.delayed(const Duration(seconds: 4), () async {
+                    await showModalBottom(
                       context,
                       WinLostModal(context, true),
                     );
                   });
                 }
                 if (state.isLost) {
-                  Future.delayed(const Duration(seconds: 10), () {
+                  if (context.mounted) {
+                    context.read<BattleBloc>().add(CloseEvent());
+                  }
+                  Future.delayed(const Duration(seconds: 3), () {
                     showModalBottom(
                       context,
                       WinLostModal(context, false),
@@ -204,9 +210,8 @@ class _BattlePageState extends State<BattlePage> {
                             SizedBox(height: 50.h),
                             getTextInCard(
                               state.isWin
-                                  ? tr('win_score', args: [
-                                      userRepository.upOur.score.toString()
-                                    ])
+                                  ? tr('win_score',
+                                      args: [state.score.toString()])
                                   : tr('lost_score'),
                             ),
                           ],

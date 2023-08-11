@@ -29,8 +29,9 @@ class AllUpgrade {
     // Начальное значение кораблей на базе в начале игры
     list.add(Upgrade(
         level: 0,
+        percenstValue: 0,
         nextScore: scoreMultiplier,
-        nextValue: 5,
+        nextValue: 10,
         type: TypeUp.beginShips,
         value: 100));
     return AllUpgrade(list: list, score: 0, allScore: 0);
@@ -50,52 +51,64 @@ class AllUpgrade {
     list.add(Upgrade(
         level: 0,
         nextScore: scoreMultiplier,
-        nextValue: 20,
+        nextValue: 10,
+        percenstValue: 0,
         type: TypeUp.beginShips,
         value: 100));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
+  double getFromType(TypeUp type) {
+    return list.firstWhere((element) => element.type == type).value;
+  }
+
   double shipSpeed() {
-    return list[0].value;
+    return (list[0].value * (1 + list[0].percenstValue / 100));
   }
 
   double shipDurability() {
-    return list[1].value;
+    return (list[1].value * (1 + list[1].percenstValue / 100));
   }
 
   double shipBuildSpeed() {
-    return list[2].value;
+    return (list[2].value * (1 + list[2].percenstValue / 100));
   }
 
   double resourceIncomeSpeed() {
-    return list[3].value;
+    return (list[3].value * (1 + list[3].percenstValue / 100));
   }
 
   double shieldDurability() {
-    return list[4].value;
+    return (list[4].value * (1 + list[4].percenstValue / 100));
   }
 
   int beginShips() {
-    return list[5].value.round();
+    return (list[5].value * (1 + list[5].percenstValue / 100)).round();
   }
 
   double tic() {
-    return list[6].value;
+    return (list[6].value * (1 + list[6].percenstValue / 100));
   }
 
   addScore(int inScore) {
     allScore += inScore;
     score += inScore;
+    userRepository.saveUser();
   }
 
   // Метод для апгрейда параметра
-  toUpgrade(int index) {
+  toUpgrade(TypeUp type) {
+    int index = list.indexWhere((element) => element.type == type);
     Upgrade upgrade = list[index];
     upgrade.level++;
-    upgrade.value += 1 / upgrade.nextValue;
+    upgrade.percenstValue += upgrade.nextValue;
+    score -= upgrade.nextScore;
     upgrade.nextScore *= 2;
+  }
+
+  bool isUpgrade(Upgrade upgrade) {
+    return upgrade.nextScore < score;
   }
 
   Upgrade getUpgradeFromType(TypeUp type) {
@@ -137,6 +150,25 @@ enum TypeUp {
     }
   }
 
+  String get image {
+    switch (this) {
+      case TypeUp.shipSpeed:
+        return 'assets/svg/rocket.svg';
+      case TypeUp.shipDurability:
+        return 'assets/svg/shield.svg';
+      case TypeUp.shipBuildSpeed:
+        return 'assets/svg/rocket.svg';
+      case TypeUp.resourceIncomeSpeed:
+        return 'assets/svg/hammers.svg';
+      case TypeUp.shieldDurability:
+        return 'assets/svg/shield.svg';
+      case TypeUp.beginShips:
+        return 'assets/svg/rocket.svg';
+      case TypeUp.tic:
+        return 'assets/svg/ship.svg';
+    }
+  }
+
   String get textHelp {
     switch (this) {
       case TypeUp.shipSpeed:
@@ -159,9 +191,10 @@ enum TypeUp {
 
 class Upgrade {
   TypeUp type; // тип апгрейда
-  double value; // начальное значение
+  double value; // начальное значение в процентах
   int level; // начальный уровень
   int nextValue; // процент на который идет прирост с последующим уровнем
+  int percenstValue; // текущий процент
   int nextScore; // начальный уровень очков для перехода на новый уровень
   Upgrade({
     required this.type,
@@ -169,12 +202,14 @@ class Upgrade {
     required this.level,
     required this.nextValue,
     required this.nextScore,
+    required this.percenstValue,
   });
   factory Upgrade.from(TypeUp type, int nextValue) {
     return Upgrade(
         type: type,
         value: 1,
         level: 0,
+        percenstValue: 0,
         nextValue: nextValue,
         nextScore: scoreMultiplier);
   }
@@ -186,6 +221,7 @@ class Upgrade {
       level: json['level'],
       nextValue: json['nextValue'],
       nextScore: json['nextScore'],
+      percenstValue: json['percenstValue'],
     );
   }
 
@@ -195,5 +231,6 @@ class Upgrade {
         'level': level,
         'nextValue': nextValue,
         'nextScore': nextScore,
+        'percenstValue': percenstValue,
       };
 }

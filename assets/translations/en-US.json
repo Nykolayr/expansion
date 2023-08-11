@@ -87,6 +87,7 @@
     "done": "Done",
     "beginShips": "Initial number of ships",
     "beginShips_help": "The initial number of ships on the base at the beginning of the game",
-    "score": "You have {} points"
-
+    "score": "You have {} points",
+    "reset_ugrades": "Reset upgrades",
+    "want_ugrades": "Do you really want to reset the ugrades?"
 }

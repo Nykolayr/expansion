@@ -17,7 +17,10 @@ Widget appButtonBack(String title) {
         children: [
           CircleButton(
             iconPath: 'assets/svg/back.svg',
-            click: () => router.pop(),
+            click: () {
+              print('object');
+              router.pop();
+            },
             style: CircleButtonStyle.small,
           ),
           Text(

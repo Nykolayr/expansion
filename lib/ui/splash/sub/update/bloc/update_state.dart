@@ -1,12 +1,12 @@
 part of 'update_bloc.dart';
 
-abstract class UpdateState extends Equatable {
-  const UpdateState();
+class UpdateState {
+  final AllUpgrade upgrade;
+  const UpdateState({
+    required this.upgrade,
+  });
 
-  @override
-  List<Object> get props => [];
+  factory UpdateState.initial() => UpdateState(upgrade: userRepository.upOur);
+  UpdateState copyWith({AllUpgrade? upgrade}) =>
+      UpdateState(upgrade: upgrade ?? this.upgrade);
 }
-
-class UpdateInitial extends UpdateState {}
-
-class UpdateChange extends UpdateState {}

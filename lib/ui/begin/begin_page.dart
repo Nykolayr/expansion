@@ -31,66 +31,60 @@ class BeginPage extends StatelessWidget {
             ),
           ),
           appButtonBack(tr("new_game")),
-          BlocConsumer<BeginBloc, BeginState>(
-              listener: (context, state) async {},
-              builder: (context, state) {
-                return Container(
-                  width: deviceSize.width,
-                  padding: EdgeInsets.symmetric(
-                    vertical: 75.h,
-                    horizontal: 45.w,
+          BlocBuilder<BeginBloc, BeginState>(builder: (context, state) {
+            return Container(
+              width: deviceSize.width,
+              padding: EdgeInsets.symmetric(
+                vertical: 75.h,
+                horizontal: 45.w,
+              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 70.h,
                   ),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 70.h,
-                      ),
-                      LineMenu(tr('level'), tr(userRepository.game.level.name),
-                          () {
-                        showModalBottom(
-                          context,
-                          ChooseLevel(context),
-                        );
-                      }),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      LineMenu(
-                          tr('hint'),
-                          userRepository.game.isHint
-                              ? tr('turn2')
-                              : tr('un_turn2'), () {
-                        userRepository.game = userRepository.game
-                            .copyWith(isHint: !userRepository.game.isHint);
-                        context.read<BeginBloc>().add(ChangeHint());
-                      }),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      LineMenu(
-                          tr('universe'), tr(userRepository.game.univer.name),
-                          () {
-                        showModalBottom(
-                          context,
-                          ChooseUniver(context),
-                        );
-                      }),
-                      SizedBox(
-                        height: 70.h,
-                      ),
-                      ButtonLong(
-                        title: tr('save_humanity'),
-                        function: () {
-                          userRepository.user =
-                              userRepository.user.copyWith(isBegin: false);
-                          userRepository.saveUser();
-                          router.go('/battle');
-                        },
-                      ),
-                    ],
+                  LineMenu(tr('level'), tr(userRepository.game.level.name), () {
+                    showModalBottom(
+                      context,
+                      ChooseLevel(context),
+                    );
+                  }),
+                  SizedBox(
+                    height: 40.h,
                   ),
-                );
-              }),
+                  LineMenu(tr('hint'),
+                      userRepository.game.isHint ? tr('turn2') : tr('un_turn2'),
+                      () {
+                    userRepository.game = userRepository.game
+                        .copyWith(isHint: !userRepository.game.isHint);
+                    context.read<BeginBloc>().add(ChangeHint());
+                  }),
+                  SizedBox(
+                    height: 40.h,
+                  ),
+                  LineMenu(tr('universe'), tr(userRepository.game.univer.name),
+                      () {
+                    showModalBottom(
+                      context,
+                      ChooseUniver(context),
+                    );
+                  }),
+                  SizedBox(
+                    height: 70.h,
+                  ),
+                  ButtonLong(
+                    title: tr('save_humanity'),
+                    function: () {
+                      userRepository.user =
+                          userRepository.user.copyWith(isBegin: false);
+                      userRepository.saveUser();
+                      router.go('/battle');
+                    },
+                  ),
+                ],
+              ),
+            );
+          }),
         ],
       ),
     );

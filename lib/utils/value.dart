@@ -7,7 +7,6 @@ import 'package:computer/computer.dart';
 late UserRepository userRepository;
 GameRepository gameRepository = GameRepository();
 
-
 /// адресс где находится политика безопасности
 const politicUrl = 'https://flutter.dev';
 
@@ -40,7 +39,7 @@ const double asteroidSpeed = 1;
 const speedShipsMult = 1.4;
 // делитель скорости для производства кораблей на базе
 // при уменьшении скорость увеличивается
-const delSpeedBuild = 10;
+const delSpeedBuild = 12;
 // Множитель, который определяет диапазон очков
 // также начальное значение для апгрейда
 const int scoreMultiplier = 200;

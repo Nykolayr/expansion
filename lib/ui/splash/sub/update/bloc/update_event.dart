@@ -7,6 +7,9 @@ abstract class UpdateEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangeSound extends UpdateEvent {}
+class ChangeUdrade extends UpdateEvent {
+  final TypeUp type;
+  const ChangeUdrade(this.type);
+}
 
-class ChangeLang extends UpdateEvent {}
+class ResetScore extends UpdateEvent {}

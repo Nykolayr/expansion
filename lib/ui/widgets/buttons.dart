@@ -6,6 +6,7 @@ import "package:expansion/utils/value.dart";
 import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;
@@ -61,6 +62,36 @@ class ButtonSide extends StatelessWidget {
   }
 }
 
+class ButtonLongSimple extends StatelessWidget {
+  final String title;
+  final Function() function;
+  const ButtonLongSimple(
+      {required this.function, required this.title, Key? key})
+      : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: function,
+      child: Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(
+          horizontal: 30,
+        ),
+        decoration: const BoxDecoration(
+            image:
+                DecorationImage(image: svg.Svg("assets/svg/bottom_long.svg"))),
+        child: Text(
+          title,
+          style: AppText.baseText.copyWith(
+            fontSize: 16.sp,
+            color: AppColor.darkYeloow,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonLong extends StatelessWidget {
   final String title;
   final Function() function;
@@ -78,7 +109,7 @@ class ButtonLong extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width - 90.h;
+    double widht = deviceSize.width - 90.w;
     if (isWidth) {
       widht = widht + 60.w;
     }

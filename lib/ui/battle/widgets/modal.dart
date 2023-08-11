@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WinLostModal extends StatelessWidget {
@@ -25,7 +28,8 @@ class WinLostModal extends StatelessWidget {
           ButtonLong(
             title: tr('continue'),
             function: () {
-              Navigator.of(context).pop();
+              context.read<BattleBloc>().add(AddScore());
+              router.pushReplacement('/');
             },
           ),
         SizedBox(
@@ -34,14 +38,14 @@ class WinLostModal extends StatelessWidget {
         ButtonLong(
           title: tr('replay'),
           function: () {
-            Navigator.of(context).pop();
+            router.pushReplacement('/battle');
           },
         ),
         if (!isWin)
           ButtonLong(
             title: tr('exit_menu'),
             function: () {
-              Navigator.of(context).pop();
+              router.pushReplacement('/');
             },
           ),
       ],

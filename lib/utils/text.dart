@@ -31,6 +31,18 @@ class AppText {
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
   );
+
+  static TextStyle baseBodyBoldYellow = TextStyle(
+    color: AppColor.darkYeloow,
+    fontWeight: FontWeight.w700,
+    fontSize: 16.sp,
+  );
+
+  static TextStyle baseBodyBold = TextStyle(
+    color: AppColor.white,
+    fontWeight: FontWeight.w700,
+    fontSize: 16.sp,
+  );
   static TextStyle baseUrl = TextStyle(
     color: AppColor.blue,
     fontWeight: FontWeight.w400,
