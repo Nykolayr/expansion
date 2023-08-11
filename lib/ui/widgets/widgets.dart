@@ -1,6 +1,7 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -238,5 +239,39 @@ class IconRotateState extends State<IconRotate> {
         width: widget.size.w,
       ),
     );
+  }
+}
+
+/// вызывает SnackBar, без дублирования
+class SnackBarHelper {
+  static bool isShowingSnackBar = false;
+
+  static void showUpgradeSnackBar(BuildContext context, String text) {
+    if (isShowingSnackBar) {
+      return; // Do nothing if a SnackBar is already being shown
+    }
+
+    isShowingSnackBar = true;
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+            backgroundColor: AppColor.darkBlue,
+            content: Text(
+              text,
+              style: AppText.baseText.copyWith(
+                fontSize: 16.sp,
+                color: AppColor.darkYeloow,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        )
+        .closed
+        .then((_) {
+      // SnackBar closed callback
+      isShowingSnackBar = false;
+    });
   }
 }
