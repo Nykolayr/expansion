@@ -16,5 +16,12 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
     emit(state.copyWith(upgrade: userRepository.upOur));
   }
 
-  _onResetScore(ResetScore event, Emitter<UpdateState> emit) async {}
+  _onResetScore(ResetScore event, Emitter<UpdateState> emit) async {
+    int score = userRepository.upOur.allScore;
+    userRepository.upOur = AllUpgrade.initialOur();
+    userRepository.upOur.score = score;
+    userRepository.upOur.allScore = score;
+    userRepository.saveUser();
+    emit(state.copyWith(upgrade: userRepository.upOur));
+  }
 }

@@ -31,9 +31,9 @@ class AllUpgrade {
         level: 0,
         percenstValue: 0,
         nextScore: scoreMultiplier,
-        nextValue: 5,
+        nextValue: 10,
         type: TypeUp.beginShips,
-        value: 200));
+        value: 100));
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
@@ -51,10 +51,10 @@ class AllUpgrade {
     list.add(Upgrade(
         level: 0,
         nextScore: scoreMultiplier,
-        nextValue: 20,
+        nextValue: 10,
         percenstValue: 0,
         type: TypeUp.beginShips,
-        value: 200));
+        value: 100));
     list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
@@ -64,31 +64,31 @@ class AllUpgrade {
   }
 
   double shipSpeed() {
-    return list[0].value;
+    return (list[0].value * (1 + list[0].percenstValue / 100));
   }
 
   double shipDurability() {
-    return list[1].value;
+    return (list[1].value * (1 + list[1].percenstValue / 100));
   }
 
   double shipBuildSpeed() {
-    return list[2].value;
+    return (list[2].value * (1 + list[2].percenstValue / 100));
   }
 
   double resourceIncomeSpeed() {
-    return list[3].value;
+    return (list[3].value * (1 + list[3].percenstValue / 100));
   }
 
   double shieldDurability() {
-    return list[4].value;
+    return (list[4].value * (1 + list[4].percenstValue / 100));
   }
 
   int beginShips() {
-    return list[5].value.round();
+    return (list[5].value * (1 + list[5].percenstValue / 100)).round();
   }
 
   double tic() {
-    return list[6].value;
+    return (list[6].value * (1 + list[6].percenstValue / 100));
   }
 
   addScore(int inScore) {
@@ -102,11 +102,9 @@ class AllUpgrade {
     int index = list.indexWhere((element) => element.type == type);
     Upgrade upgrade = list[index];
     upgrade.level++;
-    upgrade.value += 1 / upgrade.nextValue;
     upgrade.percenstValue += upgrade.nextValue;
     score -= upgrade.nextScore;
     upgrade.nextScore *= 2;
-    print('object == ${upgrade.toJson()}}');
   }
 
   bool isUpgrade(Upgrade upgrade) {

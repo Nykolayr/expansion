@@ -44,7 +44,20 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
               children: [
                 CircleButton(
                   iconPath: 'assets/svg/help.svg',
-                  click: () {},
+                  click: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 20),
+                        backgroundColor: AppColor.darkBlue,
+                        content: Text(
+                          upgrade.type.textHelp,
+                          style: AppText.baseText.copyWith(
+                            fontSize: 16.sp,
+                            color: AppColor.darkYeloow,
+                          ),
+                          textAlign: TextAlign.center,
+                        )));
+                  },
                   style: CircleButtonStyle.small,
                 ),
                 SizedBox(width: 15.w),

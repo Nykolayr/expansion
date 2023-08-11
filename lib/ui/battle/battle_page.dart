@@ -28,7 +28,7 @@ class _BattlePageState extends State<BattlePage> {
   void initState() {
     super.initState();
     _confettiController =
-        ConfettiController(duration: const Duration(seconds: 10));
+        ConfettiController(duration: const Duration(seconds: 4));
   }
 
   @override
@@ -76,7 +76,7 @@ class _BattlePageState extends State<BattlePage> {
                   if (context.mounted) {
                     context.read<BattleBloc>().add(CloseEvent());
                   }
-                  Future.delayed(const Duration(seconds: 7), () async {
+                  Future.delayed(const Duration(seconds: 4), () async {
                     await showModalBottom(
                       context,
                       WinLostModal(context, true),

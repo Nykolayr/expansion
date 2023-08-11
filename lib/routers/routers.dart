@@ -157,7 +157,7 @@ final GoRouter router = GoRouter(
       name: 'battle',
       path: '/battle',
       pageBuilder: (context, state) => buildPageWithDefaultTransition(
-        type: PageTransitionType.rightToLeft,
+        type: PageTransitionType.fade,
         context: context,
         state: state,
         child: BlocProvider(
