@@ -3,12 +3,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/progress/progress.dart';
 import 'package:expansion/routers/routers.dart';
-import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
-import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
-import 'package:expansion/ui/widgets/messages.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
