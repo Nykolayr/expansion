@@ -298,7 +298,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
   _onAddScore(AddScore event, Emitter<BattleState> emit) async =>
-      userRepository.upOur.addScore(calculateScore(mainBase, ticTime));
+      userRepository.setScore(calculateScore(mainBase, ticTime));
   checkWinLose() {
     int basesEnemy = 0;
     int basesOur = 0;

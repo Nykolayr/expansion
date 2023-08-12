@@ -74,6 +74,8 @@ class ButtonLongSimple extends StatelessWidget {
       onTap: function,
       child: Container(
         alignment: Alignment.center,
+        width: deviceSize.width - 60.w,
+        height: 45.h,
         margin: const EdgeInsets.symmetric(
           horizontal: 30,
         ),

@@ -7,9 +7,7 @@ import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
-  User user = const User(
-    name: 'Гость',
-  );
+  User user = const User();
   Settings settings = const Settings();
   Game game = const Game();
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();
@@ -56,6 +54,13 @@ class UserRepository {
         'upEnemy': upEnemy,
         'upOur': upOur,
       };
+
+  setScore(int score) {
+    upOur.allScore += score;
+    upOur.score += score;
+    user = user.copyWith(score: upOur.allScore);
+    saveUser();
+  }
 
   saveUser() {
     LocalData().saveJson(toJson());

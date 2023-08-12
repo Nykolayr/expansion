@@ -91,12 +91,6 @@ class AllUpgrade {
     return (list[6].value * (1 + list[6].percenstValue / 100));
   }
 
-  addScore(int inScore) {
-    allScore += inScore;
-    score += inScore;
-    userRepository.saveUser();
-  }
-
   // Метод для апгрейда параметра
   toUpgrade(TypeUp type) {
     int index = list.indexWhere((element) => element.type == type);

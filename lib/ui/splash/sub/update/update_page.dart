@@ -29,7 +29,7 @@ class UpdatePage extends StatelessWidget {
           title: tr('reset_ugrades'),
           function: () async {
             bool? result = await showModalBottom(
-                context, YesNoModal(context, '${tr('want_ugrades')}?'));
+                context, YesNoModal(context, tr('want_ugrades')));
             if (result != null && result) {
               if (context.mounted) {
                 context.read<UpdateBloc>().add(ResetScore());
