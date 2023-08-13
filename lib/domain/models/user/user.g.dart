@@ -8,7 +8,7 @@ part of 'user.dart';
 
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['id'] as int? ?? 0,
-      name: json['name'] as String? ?? 'Гость',
+      name: json['name'] as String,
       score: json['score'] as int? ?? 0,
       isBegin: json['isBegin'] as bool? ?? true,
       isRegistration: json['isRegistration'] as bool? ?? false,

@@ -9,8 +9,8 @@ import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
 import 'package:expansion/ui/splash/sub/profile_login/bloc/profile_login_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile_login/profile_login_page.dart';
-import 'package:expansion/ui/splash/sub/profile_register/bloc/profile_register_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile_register/profile_register_page.dart';
+import 'package:expansion/ui/splash/sub/profile_register/profile_registr_google_page.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
 import 'package:expansion/ui/splash/sub/progress/progress_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
@@ -85,16 +85,24 @@ final GoRouter router = GoRouter(
                   routes: [
                     GoRoute(
                       name: 'ProfileRegister',
-                      path: 'register',
+                      path: 'Profile_Register',
                       pageBuilder: (context, state) =>
                           buildPageWithDefaultTransition(
                         type: PageTransitionType.rightToLeft,
                         context: context,
                         state: state,
-                        child: BlocProvider(
-                          create: (_) => ProfileRegisterBloc(),
-                          child: const ProfileRegisterPage(),
-                        ),
+                        child: const ProfileRegisterPage(),
+                      ),
+                    ),
+                    GoRoute(
+                      name: 'ProfileGoogleRegister',
+                      path: 'Profile_Google_Register',
+                      pageBuilder: (context, state) =>
+                          buildPageWithDefaultTransition(
+                        type: PageTransitionType.rightToLeft,
+                        context: context,
+                        state: state,
+                        child: const ProfileRegisterGooglePage(),
                       ),
                     ),
                   ]),

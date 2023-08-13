@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ProfileRegisterPage extends StatelessWidget {
-  const ProfileRegisterPage({Key? key}) : super(key: key);
+class ProfileRegisterGooglePage extends StatelessWidget {
+  const ProfileRegisterGooglePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

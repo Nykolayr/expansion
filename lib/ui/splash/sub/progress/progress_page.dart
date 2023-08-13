@@ -18,7 +18,7 @@ class ProgressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<ProgressBloc>();
     yourDataList.sort((a, b) => b.score.compareTo(a.score));
-   
+
     return Scaffold(
       bottomNavigationBar: Container(
         color: AppColor.darkBlue,

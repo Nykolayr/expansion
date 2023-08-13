@@ -140,7 +140,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
 class _$_User implements _User {
   const _$_User(
       {this.id = 0,
-      this.name = 'Гость',
+      required this.name,
       this.score = 0,
       this.isBegin = true,
       this.isRegistration = false});
@@ -152,7 +152,6 @@ class _$_User implements _User {
   final int id;
 // id игрока
   @override
-  @JsonKey()
   final String name;
 // имя игрока
   @override
@@ -207,7 +206,7 @@ class _$_User implements _User {
 abstract class _User implements User {
   const factory _User(
       {final int id,
-      final String name,
+      required final String name,
       final int score,
       final bool isBegin,
       final bool isRegistration}) = _$_User;

@@ -8,7 +8,7 @@ part 'user.g.dart';
 class User with _$User {
   const factory User({
     @Default(0) int id, // id игрока
-    @Default('Гость') String name, // имя игрока
+    required String name, // имя игрока
     @Default(0) int score, // общее количество очков для достижения
     @Default(true) bool isBegin, // было ли вступление
     @Default(false) bool isRegistration, // было ли регистрация

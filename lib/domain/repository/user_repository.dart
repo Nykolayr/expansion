@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/data/local_data.dart';
 import 'package:expansion/domain/models/game/game.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
@@ -7,7 +8,7 @@ import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
-  User user = const User();
+  User user = User(name: tr("Guest"));
   Settings settings = const Settings();
   Game game = const Game();
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();

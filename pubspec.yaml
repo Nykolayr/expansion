@@ -35,7 +35,7 @@ dependencies:
   # assets_audio_player: ^3.0.6 #https://pub.dev/packages/assets_audio_player
   audioplayers: ^4.1.0 #https://pub.dev/packages/audioplayers
   flutter_launcher_icons: ^0.13.1 #https://pub.dev/packages/flutter_launcher_icons
-  go_router: ^9.0.0 #https://pub.dev/packages/go_router
+  go_router: ^10.0.0 #https://pub.dev/packages/go_router
   google_fonts: ^4.0.1 #https://pub.dev/packages/google_fonts
   freezed_annotation: ^2.2.0 #https://pub.dev/packages/freezed_annotation
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit

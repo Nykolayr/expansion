@@ -7,6 +7,7 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class ChangeSound extends ProfileEvent {}
-
-class ChangeLang extends ProfileEvent {}
+class ChangeName extends ProfileEvent {
+  final String name;
+  const ChangeName(this.name);
+}

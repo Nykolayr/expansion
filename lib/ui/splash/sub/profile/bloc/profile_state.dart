@@ -1,12 +1,12 @@
 part of 'profile_bloc.dart';
 
-abstract class ProfileState extends Equatable {
-  const ProfileState();
+class ProfileState extends Equatable {
+  final User user;
+  const ProfileState({required this.user});
 
   @override
   List<Object> get props => [];
+
+  factory ProfileState.initial() => ProfileState(user: userRepository.user);
+  ProfileState copyWith({User? user}) => ProfileState(user: user ?? this.user);
 }
-
-class ProfileInitial extends ProfileState {}
-
-class ProfileChange extends ProfileState {}
