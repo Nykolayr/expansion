@@ -9,9 +9,11 @@ import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -44,8 +46,12 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  const Image(
-                      image: AssetImage("assets/avatar_icon.png"), height: 120),
+                  CircleAvatar(
+                    radius: 40.r,
+                    backgroundImage: state.user.photoURL.contains('http')
+                        ? NetworkImage(state.user.photoURL)
+                        : AssetImage(state.user.photoURL) as ImageProvider,
+                  ),
                   SizedBox(
                     height: 20.h,
                   ),
@@ -86,8 +92,9 @@ class ProfilePage extends StatelessWidget {
                   ),
                   ButtonLong(
                     title: tr('googlelogin'),
-                    function: () =>
-                        router.go('/profile/Profile_Google_Register'),
+                    function: () async {
+                      await signup(context);
+                    },
                     isPhoto: true,
                   ),
                   SizedBox(
@@ -118,5 +125,33 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// функция для регистрации пользователя в аккаунт Google
+  Future<void> signup(BuildContext context) async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+
+      // Getting users credential
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      User? user = result.user;
+      if (user != null) {
+        if (context.mounted) {
+          context.read<ProfileBloc>().add(ChangeUser(
+              name: user.displayName!,
+              photoUrl: user.photoURL!,
+              uid: user.uid,
+              isRegistration: true));
+        }
+      }
+    }
   }
 }

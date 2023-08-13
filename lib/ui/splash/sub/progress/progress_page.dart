@@ -117,7 +117,7 @@ class ProgressPage extends StatelessWidget {
                           for (int k = 1; k < yourDataList.length + 1; k++)
                             NameAndScoreWidget(
                               user: yourDataList[k - 1],
-                              id: 5,
+                              id: userRepository.user.id,
                               index: k,
                             ),
                           SizedBox(height: 20.h)

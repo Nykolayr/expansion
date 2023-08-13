@@ -8,7 +8,7 @@ import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
 
 class UserRepository {
-  User user = User(name: tr("Guest"));
+  UserGame user = UserGame(name: tr("guest"));
   Settings settings = const Settings();
   Game game = const Game();
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();
@@ -42,7 +42,7 @@ class UserRepository {
   }
 
   UserRepository.fromJson(Map<String, dynamic> json)
-      : user = User.fromJson(json['user']),
+      : user = UserGame.fromJson(json['user']),
         settings = Settings.fromJson(json['settings']),
         game = Game.fromJson(json['game']),
         upEnemy = AllUpgrade.fromJson(json['upEnemy']),

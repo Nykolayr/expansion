@@ -10,7 +10,6 @@ import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
 import 'package:expansion/ui/splash/sub/profile_login/bloc/profile_login_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile_login/profile_login_page.dart';
 import 'package:expansion/ui/splash/sub/profile_register/profile_register_page.dart';
-import 'package:expansion/ui/splash/sub/profile_register/profile_registr_google_page.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
 import 'package:expansion/ui/splash/sub/progress/progress_page.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
@@ -70,42 +69,31 @@ final GoRouter router = GoRouter(
                 ),
             routes: [
               GoRoute(
-                  name: 'ProfileLogin',
-                  path: 'profile_login',
-                  pageBuilder: (context, state) =>
-                      buildPageWithDefaultTransition(
-                        type: PageTransitionType.rightToLeft,
-                        context: context,
-                        state: state,
-                        child: BlocProvider(
-                          create: (_) => ProfileLoginBloc(),
-                          child: const ProfileLoginPage(),
-                        ),
-                      ),
-                  routes: [
-                    GoRoute(
-                      name: 'ProfileRegister',
-                      path: 'Profile_Register',
-                      pageBuilder: (context, state) =>
-                          buildPageWithDefaultTransition(
-                        type: PageTransitionType.rightToLeft,
-                        context: context,
-                        state: state,
-                        child: const ProfileRegisterPage(),
-                      ),
-                    ),
-                    GoRoute(
-                      name: 'ProfileGoogleRegister',
-                      path: 'Profile_Google_Register',
-                      pageBuilder: (context, state) =>
-                          buildPageWithDefaultTransition(
-                        type: PageTransitionType.rightToLeft,
-                        context: context,
-                        state: state,
-                        child: const ProfileRegisterGooglePage(),
-                      ),
-                    ),
-                  ]),
+                name: 'profileLogin',
+                path: 'profile_login',
+                pageBuilder: (context, state) => buildPageWithDefaultTransition(
+                  type: PageTransitionType.rightToLeft,
+                  context: context,
+                  state: state,
+                  child: BlocProvider.value(
+                    value: ProfileBloc(),
+                    child: const ProfileLoginPage(),
+                  ),
+                ),
+              ),
+              GoRoute(
+                name: 'profileRegister',
+                path: 'profile_Register',
+                pageBuilder: (context, state) => buildPageWithDefaultTransition(
+                  type: PageTransitionType.rightToLeft,
+                  context: context,
+                  state: state,
+                  child: BlocProvider.value(
+                    value: ProfileBloc(),
+                    child: const ProfileRegisterPage(),
+                  ),
+                ),
+              ),
             ]),
         GoRoute(
           name: 'progress',

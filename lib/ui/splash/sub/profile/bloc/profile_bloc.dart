@@ -8,8 +8,19 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileState.initial()) {
+    on<ChangeUser>(_onChangeUser);
     on<ChangeName>(_onChangeName);
   }
+  _onChangeUser(ChangeUser event, Emitter<ProfileState> emit) async {
+    userRepository.user = userRepository.user.copyWith(
+        name: event.name,
+        photoURL: event.photoUrl,
+        id: event.uid,
+        isRegistration: event.isRegistration);
+    userRepository.saveUser();
+    emit(state.copyWith(user: userRepository.user));
+  }
+
   _onChangeName(ChangeName event, Emitter<ProfileState> emit) async {
     userRepository.user = userRepository.user.copyWith(name: event.name);
     userRepository.saveUser();

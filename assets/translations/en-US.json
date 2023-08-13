@@ -76,7 +76,7 @@
     "googlelogin": "Login to account Google",
     "accountlogin": "Login to account",
     "exit_profile": "Logout of account",
-    "Guest": "Guest",
+    "guest": "Guest",
     "profilelogin": "Login to account",
     "login": "Enter",
     "register": "Register",

@@ -5,13 +5,15 @@ part 'user.g.dart';
 @Freezed()
 
 /// Класс игрока
-class User with _$User {
-  const factory User({
-    @Default(0) int id, // id игрока
+class UserGame with _$UserGame {
+  const factory UserGame({
+    @Default('0') String id, // id игрока
     required String name, // имя игрока
+    @Default('assets/avatar_icon.png') String photoURL, // фото игрока
     @Default(0) int score, // общее количество очков для достижения
     @Default(true) bool isBegin, // было ли вступление
     @Default(false) bool isRegistration, // было ли регистрация
-  }) = _User;
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  }) = _UserGame;
+  factory UserGame.fromJson(Map<String, dynamic> json) =>
+      _$UserGameFromJson(json);
 }
