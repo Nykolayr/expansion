@@ -65,11 +65,13 @@ class ButtonSide extends StatelessWidget {
 class ButtonLongSimple extends StatelessWidget {
   final String title;
   final Function() function;
+  final String? photo;
   const ButtonLongSimple(
-      {required this.function, required this.title, Key? key})
+      {required this.function, required this.title, this.photo, Key? key})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print('object == $photo');
     return GestureDetector(
       onTap: function,
       child: Container(
@@ -82,12 +84,32 @@ class ButtonLongSimple extends StatelessWidget {
         decoration: const BoxDecoration(
             image:
                 DecorationImage(image: svg.Svg("assets/svg/bottom_long.svg"))),
-        child: Text(
-          title,
-          style: AppText.baseText.copyWith(
-            fontSize: 16.sp,
-            color: AppColor.darkYeloow,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (photo != null)
+              Row(
+                children: [
+                  photo!.contains('svg')
+                      ? SvgPicture.asset(
+                          photo!,
+                          height: 20.0,
+                          colorFilter: const ColorFilter.mode(
+                              AppColor.darkYeloow, BlendMode.srcIn),
+                        )
+                      : Image.asset(photo!, height: 15.0),
+                  SizedBox(width: 10.w),
+                ],
+              ),
+            Text(
+              title,
+              style: AppText.baseText.copyWith(
+                fontSize: 16.sp,
+                color: AppColor.darkYeloow,
+              ),
+            ),
+            if (photo != null) SizedBox(width: 20.w),
+          ],
         ),
       ),
     );
@@ -98,14 +120,12 @@ class ButtonLong extends StatelessWidget {
   final String title;
   final Function() function;
   final bool isWidth;
-  final bool isPhoto;
-  final String photo;
+  final String? photo;
   const ButtonLong(
       {required this.function,
       required this.title,
       this.isWidth = false,
-      this.isPhoto = false,
-      this.photo = "assets/google_logo.png",
+      this.photo,
       Key? key})
       : super(key: key);
 
@@ -147,7 +167,7 @@ class ButtonLong extends StatelessWidget {
                   ),
                 ),
               ),
-              isPhoto
+              photo != null
                   ? Container(
                       padding: EdgeInsets.only(
                           top: 11
@@ -158,13 +178,12 @@ class ButtonLong extends StatelessWidget {
                           alignment: Alignment.centerLeft,
                           widthFactor:
                               0.15, // Можете настроить нужные вам значения widthFactor для ограничения ширины изображения
-                          child: Image.asset(
-                            photo,
-                            height: 15.0,
-                          ),
+                          child: photo!.contains('svg')
+                              ? SvgPicture.asset(photo!, height: 15.0)
+                              : Image.asset(photo!, height: 15.0),
                         ),
                       ))
-                  : Container(),
+                  : const SizedBox.shrink(),
             ],
           ),
         ),

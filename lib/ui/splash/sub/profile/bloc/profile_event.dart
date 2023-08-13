@@ -15,14 +15,9 @@ class ChangeName extends ProfileEvent {
   });
 }
 
+class SignOut extends ProfileEvent {}
+
 class ChangeUser extends ProfileEvent {
-  final String name;
-  final String photoUrl;
   final String uid;
-  final bool isRegistration;
-  const ChangeUser(
-      {required this.name,
-      required this.photoUrl,
-      required this.uid,
-      required this.isRegistration});
+  const ChangeUser({required this.uid});
 }

@@ -17,7 +17,9 @@ class UserRepository {
 
   static Future<UserRepository> create() async {
     late UserRepository userRepository;
+
     String? data = await LocalData().loadJson();
+
     if (data != '{}' && data != '') {
       userRepository = UserRepository.fromJson(jsonDecode(data!));
     } else {
@@ -35,7 +37,6 @@ class UserRepository {
           );
           break;
       }
-
       userRepository.saveUser();
     }
     return userRepository;
@@ -63,8 +64,21 @@ class UserRepository {
     saveUser();
   }
 
+  initUser() {
+    user = UserGame.init();
+    settings = const Settings();
+    game = const Game();
+    upEnemy = AllUpgrade.initialEnemy();
+    upOur = AllUpgrade.initialOur();
+    saveUser();
+  }
+
   saveUser() {
-    LocalData().saveJson(toJson());
+    if (user.isRegistration) {
+      LocalData().saveJson(toJson());
+    } else {
+      LocalData().saveJson(toJson());
+    }
   }
 
   setLang(Lang lang) {

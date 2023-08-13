@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -14,6 +15,14 @@ class UserGame with _$UserGame {
     @Default(true) bool isBegin, // было ли вступление
     @Default(false) bool isRegistration, // было ли регистрация
   }) = _UserGame;
+  factory UserGame.init() => UserGame(
+        id: '0',
+        name: tr("guest"),
+        photoURL: 'assets/avatar_icon.png',
+        score: 0,
+        isBegin: false,
+        isRegistration: false,
+      );
   factory UserGame.fromJson(Map<String, dynamic> json) =>
       _$UserGameFromJson(json);
 }

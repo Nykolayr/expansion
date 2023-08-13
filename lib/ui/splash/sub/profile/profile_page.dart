@@ -1,12 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +22,31 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<ProfileBloc>();
     return Scaffold(
+      bottomNavigationBar: Container(
+        color: AppColor.darkBlue,
+        height: 80,
+        child: userRepository.user.isRegistration
+            ? ButtonLongSimple(
+                title: tr('exit_profile'),
+                function: () async {
+                  bool? result = await showModalBottom(
+                      context, YesNoModal(context, tr('exit_profile_text')));
+                  if (result != null && result) {
+                    if (context.mounted) {
+                      context.read<ProfileBloc>().add(SignOut());
+                    }
+                  }
+                },
+                photo: 'assets/svg/exit.svg',
+              )
+            : ButtonLongSimple(
+                title: tr('googlelogin'),
+                function: () async {
+                  await signup(context);
+                },
+                photo: 'assets/images/google_logo.png',
+              ),
+      ),
       body: Stack(
         children: [
           SizedBox(
@@ -90,34 +115,10 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: 200.h,
                   ),
-                  ButtonLong(
-                    title: tr('googlelogin'),
-                    function: () async {
-                      await signup(context);
-                    },
-                    isPhoto: true,
-                  ),
-                  SizedBox(
-                    height: 40.h,
-                  ),
-                  ButtonLong(
-                    title: tr('accountlogin'),
-                    function: () => router.go('/profile/profile_login'),
-                  ),
-                  SizedBox(
-                    height: 50.h,
-                  ),
-                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    CircleButton(
-                        iconPath: 'assets/svg/exit.svg', click: () async {}),
-                    SizedBox(
-                      width: 20.w,
-                    ),
-                    Text(
-                      tr("exit_profile_text"),
-                      style: AppText.baseTextShadow.copyWith(fontSize: 15.sp),
-                    ),
-                  ]),
+                  // ButtonLong(
+                  //   title: tr('accountlogin'),
+                  //   function: () => router.go('/profile/profile_login'),
+                  // ),
                 ],
               ),
             );
@@ -145,11 +146,7 @@ class ProfilePage extends StatelessWidget {
       User? user = result.user;
       if (user != null) {
         if (context.mounted) {
-          context.read<ProfileBloc>().add(ChangeUser(
-              name: user.displayName!,
-              photoUrl: user.photoURL!,
-              uid: user.uid,
-              isRegistration: true));
+          context.read<ProfileBloc>().add(ChangeUser(uid: user.uid));
         }
       }
     }
