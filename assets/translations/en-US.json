@@ -90,5 +90,9 @@
     "beginShips_help": "The initial number of ships on the base at the beginning of the game",
     "score": "You have {} points",
     "reset_ugrades": "Reset upgrades",
-    "want_ugrades": "Do you really want to reset the ugrades?"
+    "want_ugrades": "Do you really want to reset the ugrades?",
+    "already_played": "If you have already played, you can log in to your account and continue playing.",
+    "strategic": "Strategic",
+    "donat_info": "At the moment, this feature is still in development, if you want to help the game, click on the button below.",
+    "help_games": "Help the game"
 }

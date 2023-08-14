@@ -20,7 +20,7 @@ class UserGame with _$UserGame {
         name: tr("guest"),
         photoURL: 'assets/avatar_icon.png',
         score: 0,
-        isBegin: false,
+        isBegin: true,
         isRegistration: false,
       );
   factory UserGame.fromJson(Map<String, dynamic> json) =>

@@ -85,9 +85,6 @@ class SplashPage extends StatelessWidget {
                       ? ButtonLong(
                           title: tr('begin_game'),
                           function: () {
-                            userRepository.user =
-                                userRepository.user.copyWith(isBegin: false);
-                            userRepository.saveUser();
                             router.go('/new_game');
                           },
                           isWidth: true,

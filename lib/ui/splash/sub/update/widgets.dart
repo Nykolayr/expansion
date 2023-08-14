@@ -78,6 +78,7 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
               for (int k = 0; k < maxLevel; k++) getUpLevel(k, upgrade.level),
               GestureDetector(
                 onTap: () {
+                  if (!userRepository.upOur.isUpgrade(upgrade)) return;
                   context.read<UpdateBloc>().add(ChangeUdrade(upgrade.type));
                 },
                 child: Opacity(

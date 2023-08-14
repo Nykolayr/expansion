@@ -8,6 +8,8 @@ import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
+import 'package:expansion/ui/widgets/widgets.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +23,32 @@ class BeginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<BeginBloc>();
     return Scaffold(
+      bottomNavigationBar: Container(
+        color: AppColor.darkBlue,
+        height: 150,
+        width: deviceSize.width,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 15.h,
+            ),
+            Text(
+              tr("already_played"),
+              style: AppText.baseBody,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            ButtonLongSimple(
+              title: tr('login'),
+              function: () {
+                router.go('/profile');
+              },
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           SizedBox(
@@ -153,27 +181,22 @@ class ChooseUniver extends StatelessWidget {
         SizedBox(
           height: 25.h,
         ),
-        ButtonLong(
-          title: tr(Univer.classic.name),
-          function: () {
-            Navigator.of(context).pop();
-            context.read<BeginBloc>().add(const ChangeUniver(Univer.classic));
-          },
-        ),
-        SizedBox(
-          height: 25.h,
-        ),
-        ButtonLong(
-          title: tr(Univer.generated.name),
-          function: () {
-            Navigator.of(context).pop();
-            context.read<BeginBloc>().add(const ChangeUniver(Univer.generated));
-          },
-        ),
-        SizedBox(
-          height: 25.h,
-        ),
+        for (var item in Univer.values) getUniver(item),
+        helpGame(context2),
       ],
+    );
+  }
+
+  Widget getUniver(Univer item) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 25.h),
+      child: ButtonLong(
+        title: tr(item.name),
+        function: () {
+          Navigator.of(context).pop();
+          // context.read<BeginBloc>().add(ChangeUniver(item));
+        },
+      ),
     );
   }
 }

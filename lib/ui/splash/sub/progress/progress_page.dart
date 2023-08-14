@@ -20,32 +20,34 @@ class ProgressPage extends StatelessWidget {
     yourDataList.sort((a, b) => b.score.compareTo(a.score));
 
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: AppColor.darkBlue,
-        height: 150,
-        width: deviceSize.width,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 15.h,
+      bottomNavigationBar: userRepository.user.isRegistration
+          ? const SizedBox.shrink()
+          : Container(
+              color: AppColor.darkBlue,
+              height: 150,
+              width: deviceSize.width,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Text(
+                    tr("guestWarning"),
+                    style: AppText.baseBody,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  ButtonLongSimple(
+                    title: tr('loginAndRegister'),
+                    function: () {
+                      router.go('/profile');
+                    },
+                  ),
+                ],
+              ),
             ),
-            Text(
-              tr("guestWarning"),
-              style: AppText.baseBody,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            ButtonLongSimple(
-              title: tr('loginAndRegister'),
-              function: () {
-                router.go('/profile/profile_login');
-              },
-            ),
-          ],
-        ),
-      ),
       body: Stack(
         children: [
           SizedBox(
@@ -99,32 +101,33 @@ class ProgressPage extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  Expanded(
-                    //This
-                    child: SingleChildScrollView(
-                      child: Column(
-                        // mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            height: 25.h,
-                          ),
-                          Text(
-                            tr("Достижения других игроков"),
-                            style: AppText.baseBodyBold,
-                            textAlign: TextAlign.center,
-                          ),
-                          SizedBox(height: 15.h),
-                          for (int k = 1; k < yourDataList.length + 1; k++)
-                            NameAndScoreWidget(
-                              user: yourDataList[k - 1],
-                              id: userRepository.user.id,
-                              index: k,
+                  if (userRepository.user.isRegistration)
+                    Expanded(
+                      //This
+                      child: SingleChildScrollView(
+                        child: Column(
+                          // mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              height: 25.h,
                             ),
-                          SizedBox(height: 20.h)
-                        ],
+                            Text(
+                              tr("Достижения других игроков"),
+                              style: AppText.baseBodyBold,
+                              textAlign: TextAlign.center,
+                            ),
+                            SizedBox(height: 15.h),
+                            for (int k = 1; k < yourDataList.length + 1; k++)
+                              NameAndScoreWidget(
+                                user: yourDataList[k - 1],
+                                id: userRepository.user.id,
+                                index: k,
+                              ),
+                            SizedBox(height: 20.h)
+                          ],
+                        ),
                       ),
                     ),
-                  ),
                 ],
               ),
             );

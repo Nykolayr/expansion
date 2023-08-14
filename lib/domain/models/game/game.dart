@@ -55,4 +55,4 @@ enum Level {
   }
 }
 
-enum Univer { classic, generated }
+enum Univer { classic, generated, strategic }

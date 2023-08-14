@@ -71,7 +71,6 @@ class ButtonLongSimple extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('object == $photo');
     return GestureDetector(
       onTap: function,
       child: Container(

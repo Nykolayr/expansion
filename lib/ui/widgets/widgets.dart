@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
@@ -274,4 +277,23 @@ class SnackBarHelper {
       isShowingSnackBar = false;
     });
   }
+}
+
+Widget helpGame(BuildContext context) {
+  return Column(
+    children: [
+      Text(
+        tr('donat_info'),
+        style: AppText.baseTitle.copyWith(color: AppColor.white),
+        textAlign: TextAlign.center,
+      ),
+      SizedBox(
+        height: 25.h,
+      ),
+      ButtonLong(
+        title: tr('help_games'),
+        function: () => router.go('/helpGame'),
+      ),
+    ],
+  );
 }
