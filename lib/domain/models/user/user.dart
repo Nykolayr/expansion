@@ -12,6 +12,7 @@ class UserGame with _$UserGame {
     required String name, // имя игрока
     @Default('assets/avatar_icon.png') String photoURL, // фото игрока
     @Default(0) int score, // общее количество очков для достижения
+    @Default(1) int mapClassic, // номер карты в компании классика
     @Default(true) bool isBegin, // было ли вступление
     @Default(false) bool isRegistration, // было ли регистрация
   }) = _UserGame;

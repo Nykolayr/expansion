@@ -15,7 +15,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc()
       : super(SplashState(
             count: 100,
-            isCheck: userRepository.user.isBegin,
+            isCheck: userRepository.game.isSplash,
             isSuccess: false)) {
     on<LoadBegin>(_onStarted);
     on<SplashEnd>(onEndSplash);
@@ -25,7 +25,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     for (int k = _count; k > 0; k--) {
       emit(state.copyWith(count: k));
       await Future.delayed(Duration(
-        milliseconds: userRepository.user.isBegin ? 240 : 0,
+        milliseconds: userRepository.game.isSplash ? 240 : 0,
       ));
     }
     emit(state.copyWith(isSuccess: true));

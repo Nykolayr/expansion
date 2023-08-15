@@ -25,6 +25,8 @@ mixin _$UserGame {
   String get photoURL => throw _privateConstructorUsedError; // фото игрока
   int get score =>
       throw _privateConstructorUsedError; // общее количество очков для достижения
+  int get mapClassic =>
+      throw _privateConstructorUsedError; // номер карты в компании классика
   bool get isBegin => throw _privateConstructorUsedError; // было ли вступление
   bool get isRegistration => throw _privateConstructorUsedError;
 
@@ -44,6 +46,7 @@ abstract class $UserGameCopyWith<$Res> {
       String name,
       String photoURL,
       int score,
+      int mapClassic,
       bool isBegin,
       bool isRegistration});
 }
@@ -65,6 +68,7 @@ class _$UserGameCopyWithImpl<$Res, $Val extends UserGame>
     Object? name = null,
     Object? photoURL = null,
     Object? score = null,
+    Object? mapClassic = null,
     Object? isBegin = null,
     Object? isRegistration = null,
   }) {
@@ -84,6 +88,10 @@ class _$UserGameCopyWithImpl<$Res, $Val extends UserGame>
       score: null == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
+              as int,
+      mapClassic: null == mapClassic
+          ? _value.mapClassic
+          : mapClassic // ignore: cast_nullable_to_non_nullable
               as int,
       isBegin: null == isBegin
           ? _value.isBegin
@@ -109,6 +117,7 @@ abstract class _$$_UserGameCopyWith<$Res> implements $UserGameCopyWith<$Res> {
       String name,
       String photoURL,
       int score,
+      int mapClassic,
       bool isBegin,
       bool isRegistration});
 }
@@ -128,6 +137,7 @@ class __$$_UserGameCopyWithImpl<$Res>
     Object? name = null,
     Object? photoURL = null,
     Object? score = null,
+    Object? mapClassic = null,
     Object? isBegin = null,
     Object? isRegistration = null,
   }) {
@@ -147,6 +157,10 @@ class __$$_UserGameCopyWithImpl<$Res>
       score: null == score
           ? _value.score
           : score // ignore: cast_nullable_to_non_nullable
+              as int,
+      mapClassic: null == mapClassic
+          ? _value.mapClassic
+          : mapClassic // ignore: cast_nullable_to_non_nullable
               as int,
       isBegin: null == isBegin
           ? _value.isBegin
@@ -168,6 +182,7 @@ class _$_UserGame implements _UserGame {
       required this.name,
       this.photoURL = 'assets/avatar_icon.png',
       this.score = 0,
+      this.mapClassic = 1,
       this.isBegin = true,
       this.isRegistration = false});
 
@@ -191,6 +206,10 @@ class _$_UserGame implements _UserGame {
 // общее количество очков для достижения
   @override
   @JsonKey()
+  final int mapClassic;
+// номер карты в компании классика
+  @override
+  @JsonKey()
   final bool isBegin;
 // было ли вступление
   @override
@@ -199,7 +218,7 @@ class _$_UserGame implements _UserGame {
 
   @override
   String toString() {
-    return 'UserGame(id: $id, name: $name, photoURL: $photoURL, score: $score, isBegin: $isBegin, isRegistration: $isRegistration)';
+    return 'UserGame(id: $id, name: $name, photoURL: $photoURL, score: $score, mapClassic: $mapClassic, isBegin: $isBegin, isRegistration: $isRegistration)';
   }
 
   @override
@@ -212,6 +231,8 @@ class _$_UserGame implements _UserGame {
             (identical(other.photoURL, photoURL) ||
                 other.photoURL == photoURL) &&
             (identical(other.score, score) || other.score == score) &&
+            (identical(other.mapClassic, mapClassic) ||
+                other.mapClassic == mapClassic) &&
             (identical(other.isBegin, isBegin) || other.isBegin == isBegin) &&
             (identical(other.isRegistration, isRegistration) ||
                 other.isRegistration == isRegistration));
@@ -219,8 +240,8 @@ class _$_UserGame implements _UserGame {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, name, photoURL, score, isBegin, isRegistration);
+  int get hashCode => Object.hash(runtimeType, id, name, photoURL, score,
+      mapClassic, isBegin, isRegistration);
 
   @JsonKey(ignore: true)
   @override
@@ -242,6 +263,7 @@ abstract class _UserGame implements UserGame {
       required final String name,
       final String photoURL,
       final int score,
+      final int mapClassic,
       final bool isBegin,
       final bool isRegistration}) = _$_UserGame;
 
@@ -256,6 +278,8 @@ abstract class _UserGame implements UserGame {
   @override // фото игрока
   int get score;
   @override // общее количество очков для достижения
+  int get mapClassic;
+  @override // номер карты в компании классика
   bool get isBegin;
   @override // было ли вступление
   bool get isRegistration;

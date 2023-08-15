@@ -3,6 +3,7 @@ import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/text.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,6 +46,10 @@ class WinLostModal extends StatelessWidget {
           ButtonLong(
             title: tr('exit_menu'),
             function: () {
+              userRepository.user = userRepository.user.copyWith(
+                  isBegin: true,
+                  mapClassic: userRepository.user.mapClassic + 1);
+              userRepository.saveUser();
               router.pushReplacement('/');
             },
           ),

@@ -22,6 +22,7 @@ Game _$GameFromJson(Map<String, dynamic> json) {
 mixin _$Game {
   Univer get univer => throw _privateConstructorUsedError;
   Level get level => throw _privateConstructorUsedError;
+  bool get isSplash => throw _privateConstructorUsedError;
   bool get isHint => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -34,7 +35,7 @@ abstract class $GameCopyWith<$Res> {
   factory $GameCopyWith(Game value, $Res Function(Game) then) =
       _$GameCopyWithImpl<$Res, Game>;
   @useResult
-  $Res call({Univer univer, Level level, bool isHint});
+  $Res call({Univer univer, Level level, bool isSplash, bool isHint});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$GameCopyWithImpl<$Res, $Val extends Game>
   $Res call({
     Object? univer = null,
     Object? level = null,
+    Object? isSplash = null,
     Object? isHint = null,
   }) {
     return _then(_value.copyWith(
@@ -63,6 +65,10 @@ class _$GameCopyWithImpl<$Res, $Val extends Game>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as Level,
+      isSplash: null == isSplash
+          ? _value.isSplash
+          : isSplash // ignore: cast_nullable_to_non_nullable
+              as bool,
       isHint: null == isHint
           ? _value.isHint
           : isHint // ignore: cast_nullable_to_non_nullable
@@ -77,7 +83,7 @@ abstract class _$$_GameCopyWith<$Res> implements $GameCopyWith<$Res> {
       __$$_GameCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Univer univer, Level level, bool isHint});
+  $Res call({Univer univer, Level level, bool isSplash, bool isHint});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$_GameCopyWithImpl<$Res> extends _$GameCopyWithImpl<$Res, _$_Game>
   $Res call({
     Object? univer = null,
     Object? level = null,
+    Object? isSplash = null,
     Object? isHint = null,
   }) {
     return _then(_$_Game(
@@ -102,6 +109,10 @@ class __$$_GameCopyWithImpl<$Res> extends _$GameCopyWithImpl<$Res, _$_Game>
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
               as Level,
+      isSplash: null == isSplash
+          ? _value.isSplash
+          : isSplash // ignore: cast_nullable_to_non_nullable
+              as bool,
       isHint: null == isHint
           ? _value.isHint
           : isHint // ignore: cast_nullable_to_non_nullable
@@ -116,6 +127,7 @@ class _$_Game implements _Game {
   const _$_Game(
       {this.univer = Univer.classic,
       this.level = Level.average,
+      this.isSplash = true,
       this.isHint = true});
 
   factory _$_Game.fromJson(Map<String, dynamic> json) => _$$_GameFromJson(json);
@@ -128,11 +140,14 @@ class _$_Game implements _Game {
   final Level level;
   @override
   @JsonKey()
+  final bool isSplash;
+  @override
+  @JsonKey()
   final bool isHint;
 
   @override
   String toString() {
-    return 'Game(univer: $univer, level: $level, isHint: $isHint)';
+    return 'Game(univer: $univer, level: $level, isSplash: $isSplash, isHint: $isHint)';
   }
 
   @override
@@ -142,12 +157,14 @@ class _$_Game implements _Game {
             other is _$_Game &&
             (identical(other.univer, univer) || other.univer == univer) &&
             (identical(other.level, level) || other.level == level) &&
+            (identical(other.isSplash, isSplash) ||
+                other.isSplash == isSplash) &&
             (identical(other.isHint, isHint) || other.isHint == isHint));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, univer, level, isHint);
+  int get hashCode => Object.hash(runtimeType, univer, level, isSplash, isHint);
 
   @JsonKey(ignore: true)
   @override
@@ -165,7 +182,10 @@ class _$_Game implements _Game {
 
 abstract class _Game implements Game {
   const factory _Game(
-      {final Univer univer, final Level level, final bool isHint}) = _$_Game;
+      {final Univer univer,
+      final Level level,
+      final bool isSplash,
+      final bool isHint}) = _$_Game;
 
   factory _Game.fromJson(Map<String, dynamic> json) = _$_Game.fromJson;
 
@@ -173,6 +193,8 @@ abstract class _Game implements Game {
   Univer get univer;
   @override
   Level get level;
+  @override
+  bool get isSplash;
   @override
   bool get isHint;
   @override

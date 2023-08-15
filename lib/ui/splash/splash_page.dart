@@ -81,10 +81,13 @@ class SplashPage extends StatelessWidget {
                   height: (state.isSuccess) ? height.h + 40 : 0,
                   width: deviceSize.width,
                   duration: const Duration(seconds: 2),
-                  child: userRepository.user.isBegin
+                  child: userRepository.game.isSplash
                       ? ButtonLong(
                           title: tr('begin_game'),
                           function: () {
+                            userRepository.game =
+                                userRepository.game.copyWith(isSplash: false);
+                            userRepository.saveUser();
                             router.go('/new_game');
                           },
                           isWidth: true,
@@ -113,7 +116,7 @@ class Loader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          userRepository.user.isBegin
+          userRepository.game.isSplash
               ? Column(
                   children: [
                     AnimatedContainer(

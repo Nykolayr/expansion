@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/data/base_data.dart';
 import 'package:expansion/data/local_data.dart';
 import 'package:expansion/domain/models/game/game.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
@@ -13,6 +14,7 @@ class UserRepository {
   Game game = const Game();
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();
   AllUpgrade upOur = AllUpgrade.initialOur();
+
   UserRepository._();
 
   static Future<UserRepository> create() async {
@@ -75,7 +77,7 @@ class UserRepository {
 
   saveUser() {
     if (user.isRegistration) {
-      LocalData().saveJson(toJson());
+      BaseData().saveJson(json: toJson(), user: user);
     } else {
       LocalData().saveJson(toJson());
     }

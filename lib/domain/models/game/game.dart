@@ -8,6 +8,7 @@ class Game with _$Game {
   const factory Game({
     @Default(Univer.classic) Univer univer,
     @Default(Level.average) Level level,
+    @Default(true) bool isSplash,
     @Default(true) bool isHint,
   }) = _Game;
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);

@@ -11,6 +11,7 @@ _$_UserGame _$$_UserGameFromJson(Map<String, dynamic> json) => _$_UserGame(
       name: json['name'] as String,
       photoURL: json['photoURL'] as String? ?? 'assets/avatar_icon.png',
       score: json['score'] as int? ?? 0,
+      mapClassic: json['mapClassic'] as int? ?? 1,
       isBegin: json['isBegin'] as bool? ?? true,
       isRegistration: json['isRegistration'] as bool? ?? false,
     );
@@ -21,6 +22,7 @@ Map<String, dynamic> _$$_UserGameToJson(_$_UserGame instance) =>
       'name': instance.name,
       'photoURL': instance.photoURL,
       'score': instance.score,
+      'mapClassic': instance.mapClassic,
       'isBegin': instance.isBegin,
       'isRegistration': instance.isRegistration,
     };

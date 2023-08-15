@@ -94,5 +94,7 @@
     "already_played": "If you have already played, you can log in to your account and continue playing.",
     "strategic": "Strategic",
     "donat_info": "At the moment, this feature is still in development, if you want to help the game, click on the button below.",
-    "help_games": "Help the game"
+    "help_games": "Help the game",
+    "attempt_new_game": "Do you really want to start a new game? All progress will be reset to zero.",
+    "maps": "Map of the company"
 }

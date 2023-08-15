@@ -1,5 +1,8 @@
 import "package:easy_localization/easy_localization.dart";
+import "package:expansion/domain/models/upgrade.dart";
 import "package:expansion/routers/routers.dart";
+import "package:expansion/ui/battle/widgets/modal.dart";
+import "package:expansion/ui/widgets/messages.dart";
 import "package:expansion/utils/colors.dart";
 import "package:expansion/utils/text.dart";
 import "package:expansion/utils/value.dart";
@@ -20,7 +23,34 @@ class ButtonSide extends StatelessWidget {
     double widht = deviceSize.width / 3;
     double height = widht / 3.h;
     String text = title ?? direct.title;
-    Function()? fun = function ?? () => router.go(direct.router);
+    Function()? fun = function ??
+        () async {
+          if (Direct.rightBottom == direct && userRepository.user.isBegin) {
+            if (userRepository.user.mapClassic == 1) {
+              router.go('/new_game');
+            } else {
+              router.go('/maps');
+            }
+
+            return;
+          }
+          if (Direct.leftBottom == direct) {
+            bool? result = await showModalBottom(
+                context, YesNoModal(context, tr('attempt_new_game')));
+            if (result != null && result) {
+              if (context.mounted) {
+                userRepository.upEnemy = AllUpgrade.initialEnemy();
+                userRepository.upOur = AllUpgrade.initialOur();
+                userRepository.user = userRepository.user
+                    .copyWith(isBegin: true, score: 0, mapClassic: 1);
+                userRepository.saveUser();
+                router.go(direct.router);
+              }
+              return;
+            }
+          }
+          router.go(direct.router);
+        };
     return GestureDetector(
       onTap: fun,
       child: SizedBox(
