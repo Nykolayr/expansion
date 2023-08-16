@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/upgrade.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class UpdatePage extends StatelessWidget {
   const UpdatePage({Key? key}) : super(key: key);
@@ -54,8 +56,9 @@ class UpdatePage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 75, right: 20, left: 20),
               child: Column(
                 children: [
-                  titleWithSvg(tr("score",
-                      args: [userRepository.upOur.score.toString()])),
+                  titleWithSvg(tr("score", args: [
+                    Get.find<UserRepository>().upOur.score.toString()
+                  ])),
                   SizedBox(height: 30.h),
                   Expanded(
                     child: SingleChildScrollView(

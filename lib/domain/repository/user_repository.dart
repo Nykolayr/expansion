@@ -7,13 +7,19 @@ import 'package:expansion/domain/models/game/game.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
+import 'package:get/get.dart';
 
-class UserRepository {
-  UserGame user = UserGame(name: tr("guest"));
+class UserRepository extends GetxController {
+  UserGame user = UserGame.init();
   Settings settings = const Settings();
   Game game = const Game();
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();
   AllUpgrade upOur = AllUpgrade.initialOur();
+  static UserRepository? _instance;
+  static Future<UserRepository> getInstance() async {
+    _instance ??= await create();
+    return _instance!;
+  }
 
   UserRepository._();
 
@@ -68,6 +74,7 @@ class UserRepository {
 
   initUser() {
     user = UserGame.init();
+    user = user.copyWith(name: tr('guest'));
     settings = const Settings();
     game = const Game();
     upEnemy = AllUpgrade.initialEnemy();
@@ -75,11 +82,11 @@ class UserRepository {
     saveUser();
   }
 
-  saveUser() {
+  Future<void> saveUser() async {
     if (user.isRegistration) {
-      BaseData().saveJson(json: toJson(), user: user);
+      await BaseData().saveJson(json: toJson(), user: user);
     } else {
-      LocalData().saveJson(toJson());
+      await LocalData().saveJson(toJson());
     }
   }
 

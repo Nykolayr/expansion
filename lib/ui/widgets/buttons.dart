@@ -1,5 +1,6 @@
 import "package:easy_localization/easy_localization.dart";
 import "package:expansion/domain/models/upgrade.dart";
+import "package:expansion/domain/repository/user_repository.dart";
 import "package:expansion/routers/routers.dart";
 import "package:expansion/ui/battle/widgets/modal.dart";
 import "package:expansion/ui/widgets/messages.dart";
@@ -10,6 +11,9 @@ import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
+import "package:get/get.dart";
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;

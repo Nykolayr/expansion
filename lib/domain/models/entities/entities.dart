@@ -1,8 +1,11 @@
 import 'dart:math';
 
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/utils/colors.dart';
-import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 /// абстрактный объект ля всех объектов в битве
 abstract class EntitesObject {

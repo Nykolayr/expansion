@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
@@ -16,9 +15,9 @@ class UserGame with _$UserGame {
     @Default(true) bool isBegin, // было ли вступление
     @Default(false) bool isRegistration, // было ли регистрация
   }) = _UserGame;
-  factory UserGame.init() => UserGame(
+  factory UserGame.init() => const UserGame(
         id: '0',
-        name: tr("guest"),
+        name: 'Гость',
         photoURL: 'assets/avatar_icon.png',
         score: 0,
         isBegin: true,

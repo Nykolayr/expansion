@@ -19,7 +19,6 @@ import 'package:expansion/ui/splash/sub/settings/settings_page.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
 import 'package:expansion/ui/splash/sub/update/update_page.dart';
 import 'package:expansion/utils/function.dart';
-import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
@@ -35,12 +34,9 @@ final GoRouter router = GoRouter(
         type: PageTransitionType.topToBottom,
         context: context,
         state: state,
-        child: RepositoryProvider(
-          create: (context) => userRepository,
-          child: BlocProvider(
-            create: (_) => SplashBloc()..add(const LoadBegin()),
-            child: const SplashPage(),
-          ),
+        child: BlocProvider(
+          create: (_) => SplashBloc()..add(const LoadBegin()),
+          child: const SplashPage(),
         ),
       ),
       routes: [

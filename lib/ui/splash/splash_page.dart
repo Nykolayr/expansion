@@ -2,6 +2,7 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
@@ -10,9 +11,12 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../../utils/text.dart';
 import 'bloc/splash_bloc.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

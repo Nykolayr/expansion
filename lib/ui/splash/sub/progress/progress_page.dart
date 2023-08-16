@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/progress/progress.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/progress/bloc/progress_bloc.dart';
@@ -10,6 +11,9 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);

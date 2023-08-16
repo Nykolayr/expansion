@@ -1,10 +1,7 @@
 import 'dart:ui';
-
 import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:computer/computer.dart';
 
-late UserRepository userRepository;
 GameRepository gameRepository = GameRepository();
 
 /// адресс где находится политика безопасности

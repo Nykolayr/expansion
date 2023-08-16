@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:ui' as ui;
 
@@ -28,16 +29,22 @@ void main() async {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
-    userRepository = await UserRepository.create();
     // Добавляем два isolate
     computer = Computer.create();
     await computer.turnOn();
+    // UserRepository userRepository = await UserRepository.getInstance();
+    // await userRepository.initUser();
+
+    await Get.putAsync(() async {
+      UserRepository userRepository = await UserRepository.getInstance();
+      await userRepository.initUser();
+      return userRepository;
+    });
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],
         path: 'assets/translations',
         fallbackLocale: const Locale('en', 'US'),
-        startLocale: userRepository.settings.lang.locale,
         child: const MyApp(),
       ),
     );
@@ -54,7 +61,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) {
-          return MaterialApp.router(
+          return GetMaterialApp.router(
             title: 'Space expansion',
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
@@ -70,6 +77,11 @@ class MyApp extends StatelessWidget {
               textTheme: GoogleFonts.kellySlabTextTheme(),
             ),
             builder: (context, child) {
+              String name = Get.find<UserRepository>().user.name;
+              if (name == 'guest') {
+                Get.find<UserRepository>().user =
+                    Get.find<UserRepository>().user.copyWith(name: tr(name));
+              }
               deviceSize = Size(MediaQuery.of(context).size.width,
                   MediaQuery.of(context).size.height);
               final mq = MediaQuery.of(context);

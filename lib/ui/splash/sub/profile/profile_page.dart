@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
@@ -13,7 +14,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -98,14 +102,12 @@ class ProfilePage extends StatelessWidget {
                               );
 
                               if (enteredName != null &&
-                                  enteredName.isNotEmpty) {
-                                print('Введенное имя: $enteredName');
-                              }
+                                  enteredName.isNotEmpty) {}
                             },
                             child: const Icon(
                               Icons.edit,
                               color: Colors.grey,
-                              size: 15,
+                              size: 25,
                             ),
                           ),
                         ],
@@ -123,6 +125,8 @@ class ProfilePage extends StatelessWidget {
               ),
             );
           }),
+          if (context.watch<ProfileBloc>().state.isLoading)
+            const CircularProgressIndicator(),
         ],
       ),
     );
@@ -145,6 +149,13 @@ class ProfilePage extends StatelessWidget {
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
       if (user != null) {
+        userRepository.user = userRepository.user.copyWith(
+          photoURL: user.photoURL ?? 'assets/avatar_icon.png',
+          name: user.displayName ?? tr('guest'),
+          isRegistration: true,
+          id: user.uid,
+        );
+        userRepository.saveUser();
         if (context.mounted) {
           context.read<ProfileBloc>().add(ChangeUser(uid: user.uid));
         }

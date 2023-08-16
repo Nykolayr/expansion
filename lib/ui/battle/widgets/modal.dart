@@ -1,12 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/text.dart';
-import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class WinLostModal extends StatelessWidget {
   final BuildContext context;
@@ -46,10 +47,13 @@ class WinLostModal extends StatelessWidget {
           ButtonLong(
             title: tr('exit_menu'),
             function: () {
-              userRepository.user = userRepository.user.copyWith(
-                  isBegin: true,
-                  mapClassic: userRepository.user.mapClassic + 1);
-              userRepository.saveUser();
+              Get.find<UserRepository>().user = Get.find<UserRepository>()
+                  .user
+                  .copyWith(
+                      isBegin: true,
+                      mapClassic:
+                          Get.find<UserRepository>().user.mapClassic + 1);
+              Get.find<UserRepository>().saveUser();
               router.pushReplacement('/');
             },
           ),
@@ -98,8 +102,7 @@ class YesNoModal extends StatelessWidget {
 class TextFieldModel extends StatelessWidget {
   final BuildContext context;
   final String title;
-  final TextEditingController nameController =
-      TextEditingController(); // Добавляем TextEditingController
+  final TextEditingController nameController = TextEditingController();
   TextFieldModel(this.context, this.title, {Key? key}) : super(key: key);
 
   @override

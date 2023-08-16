@@ -1,10 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:expansion/domain/models/game/game.dart';
-import 'package:expansion/utils/value.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 part 'begin_event.dart';
 part 'begin_state.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class BeginBloc extends Bloc<BeginEvent, BeginState> {
   BeginBloc() : super(BeginInitial()) {

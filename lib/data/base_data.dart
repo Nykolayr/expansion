@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion/domain/models/user/user.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
+import 'package:get/get.dart';
 
 class BaseData {
   Future<void> saveJson(
@@ -20,11 +22,15 @@ class BaseData {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  Future<String?> loadJson({required String id}) async {
+  Future<Map<String, dynamic>> loadJson({required String id}) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     var docSnapshot = await users.doc(id).get();
-    Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
-    print('docSnapshot == ${docSnapshot.data().runtimeType}');
-    return data['json'];
+    Map<String, dynamic> data = {};
+    if (docSnapshot.data() == null) {
+      await Get.find<UserRepository>().saveUser();
+      docSnapshot = await users.doc(id).get();
+    }
+    data = docSnapshot.data() as Map<String, dynamic>;
+    return jsonDecode(data['json']);
   }
 }

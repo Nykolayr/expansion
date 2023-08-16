@@ -51,6 +51,7 @@ dependencies:
   flutter_svg_provider: ^1.0.4 #https://pub.dev/packages/flutter_svg_provider
   firebase_auth: ^4.7.2 #https://pub.dev/packages/firebase_auth
   cloud_firestore: ^4.8.4 #https://pub.dev/packages/cloud_firestore
+  get: ^4.6.5 #https://pub.dev/packages/get
   
 dev_dependencies:
   flutter_test:

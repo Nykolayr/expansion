@@ -2,6 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/game/game.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
@@ -15,6 +16,9 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+UserRepository userRepository = Get.find<UserRepository>();
 
 class BeginPage extends StatelessWidget {
   const BeginPage({Key? key}) : super(key: key);
