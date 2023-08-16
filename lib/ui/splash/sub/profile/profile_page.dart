@@ -64,6 +64,7 @@ class ProfilePage extends StatelessWidget {
             tr("profile"),
           ),
           BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
+            print('object state ${state.isLoading}');
             return Container(
               width: deviceSize.width,
               padding: const EdgeInsets.symmetric(
@@ -126,7 +127,9 @@ class ProfilePage extends StatelessWidget {
             );
           }),
           if (context.watch<ProfileBloc>().state.isLoading)
-            const CircularProgressIndicator(),
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
         ],
       ),
     );

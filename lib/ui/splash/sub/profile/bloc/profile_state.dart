@@ -6,7 +6,7 @@ class ProfileState extends Equatable {
   const ProfileState({required this.user, this.isLoading = false});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [user, isLoading];
 
   factory ProfileState.initial() =>
       ProfileState(user: userRepository.user, isLoading: false);

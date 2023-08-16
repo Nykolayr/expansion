@@ -85,9 +85,8 @@ class UserRepository extends GetxController {
   Future<void> saveUser() async {
     if (user.isRegistration) {
       await BaseData().saveJson(json: toJson(), user: user);
-    } else {
-      await LocalData().saveJson(toJson());
     }
+    await LocalData().saveJson(toJson());
   }
 
   setLang(Lang lang) {
