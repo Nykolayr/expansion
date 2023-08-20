@@ -35,7 +35,7 @@ void main() async {
     Get.put(() => computerTic);
     await Get.putAsync(() async {
       UserRepository userRepository = await UserRepository.getInstance();
-      await userRepository.initUser();
+      // await userRepository.initUser();
       return userRepository;
     });
     runApp(

@@ -19,7 +19,7 @@ class WinLostModal extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 15.h,
+          height: 20.h,
         ),
         // Text(
         //   tr('next_step'),

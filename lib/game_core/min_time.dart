@@ -21,7 +21,7 @@ int calculateScore(BaseObject base, int time) {
             .round();
     previousBase = bases[k];
   }
-  double score = scoreMultiplier * (1 + (maxTime / time));
+  double score = (scoreMultiplier - 100) * (1 + (maxTime / time));
   return score.toInt();
 }
 

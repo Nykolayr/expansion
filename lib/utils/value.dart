@@ -37,4 +37,4 @@ const speedShipsMult = 1.4;
 const delSpeedBuild = 12;
 // Множитель, который определяет диапазон очков
 // также начальное значение для апгрейда
-const int scoreMultiplier = 100;
+const int scoreMultiplier = 200;

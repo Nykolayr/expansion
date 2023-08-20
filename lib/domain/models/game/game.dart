@@ -32,6 +32,18 @@ enum Level {
     }
   }
 
+  /// скорость прироста улучшений в процентах
+  int get enemyPercent {
+    switch (this) {
+      case Level.easy:
+        return 1;
+      case Level.average:
+        return 2;
+      case Level.difficult:
+        return 3;
+    }
+  }
+
   /// количество тиков для хода врагов
   int get ticEnemy {
     switch (this) {
@@ -44,6 +56,7 @@ enum Level {
     }
   }
 
+  /// скорость кораблей врагов
   double get enemySpeed {
     switch (this) {
       case Level.easy:

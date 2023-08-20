@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/utils/value.dart';
+import 'package:get/get.dart';
 
 /// класс для отлеживания очков и апгрейда
 /// различных параметров игрока
@@ -91,12 +93,21 @@ class AllUpgrade {
     return (list[6].value * (1 + list[6].percenstValue / 100));
   }
 
+  /// метод для чужих апгрейд всех параметров после каждого боя
+  toAllUpgrade() {
+    for (var item in list) {
+      toUpgrade(item.type, isEnemy: true);
+    }
+  }
+
   // Метод для апгрейда параметра
-  toUpgrade(TypeUp type) {
+  toUpgrade(TypeUp type, {bool isEnemy = false}) {
     int index = list.indexWhere((element) => element.type == type);
     Upgrade upgrade = list[index];
     upgrade.level++;
-    upgrade.percenstValue += upgrade.nextValue;
+    upgrade.percenstValue += isEnemy
+        ? Get.find<UserRepository>().game.level.enemyPercent
+        : upgrade.nextValue;
     score -= upgrade.nextScore;
     upgrade.nextScore *= 2;
   }
@@ -184,12 +195,23 @@ enum TypeUp {
 }
 
 class Upgrade {
-  TypeUp type; // тип апгрейда
-  double value; // начальное значение в процентах
-  int level; // начальный уровень
-  int nextValue; // процент на который идет прирост с последующим уровнем
-  int percenstValue; // текущий процент
-  int nextScore; // начальный уровень очков для перехода на новый уровень
+  /// тип апгрейда
+  TypeUp type;
+
+  /// начальное значение в процентах
+  double value;
+
+  /// начальный уровень
+  int level;
+
+  /// процент на который идет прирост с последующим уровнем
+  int nextValue;
+
+  /// текущий процент
+  int percenstValue;
+
+  /// начальный уровень очков для перехода на новый уровень
+  int nextScore;
   Upgrade({
     required this.type,
     required this.value,

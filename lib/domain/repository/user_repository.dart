@@ -74,6 +74,7 @@ class UserRepository extends GetxController {
     upOur.allScore += score;
     upOur.score += score;
     user = user.copyWith(score: upOur.allScore);
+    upEnemy.toAllUpgrade();
     saveUser();
   }
 
@@ -82,6 +83,7 @@ class UserRepository extends GetxController {
     user = user.copyWith(name: tr('guest'));
     settings = const Settings();
     game = const Game();
+    game = game.copyWith(isSplash: false);
     upEnemy = AllUpgrade.initialEnemy();
     upOur = AllUpgrade.initialOur();
     saveUser();

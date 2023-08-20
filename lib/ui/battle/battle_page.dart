@@ -12,6 +12,7 @@ import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -39,7 +40,7 @@ class _BattlePageState extends State<BattlePage> {
 
   @override
   Widget build(BuildContext context) {
-    // context.watch<BattleBloc>();
+    context.watch<BattleBloc>();
     return WillPopScope(
       onWillPop: () async {
         if (context.mounted) {
@@ -61,7 +62,7 @@ class _BattlePageState extends State<BattlePage> {
         bottomNavigationBar: (context.read<BattleBloc>().state.isWin ||
                 context.read<BattleBloc>().state.isLost)
             ? Container(
-                height: 190.h,
+                height: 145.h,
                 color: AppColor.darkBlue,
                 width: deviceSize.width,
                 child: WinLostModal(context),
@@ -181,16 +182,16 @@ class _BattlePageState extends State<BattlePage> {
                     ),
                     if (state.isWin || state.isLost)
                       Positioned(
-                        top: 100,
+                        top: 40,
                         left: 26,
                         child: Column(
                           children: [
                             getTextInCard(
                                 state.isWin ? tr('win_text') : tr('lost_text')),
-                            SizedBox(height: 50.h),
+                            SizedBox(height: 30.h),
                             Container(
                               width: deviceSize.width - 60,
-                              height: 300,
+                              height: 250,
                               decoration: BoxDecoration(
                                 border: Border.all(
                                     width: 2, color: AppColor.darkYeloow),
@@ -206,7 +207,7 @@ class _BattlePageState extends State<BattlePage> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 50.h),
+                            SizedBox(height: 30.h),
                             getTextInCard(
                               state.isWin
                                   ? tr('win_score',
@@ -218,7 +219,7 @@ class _BattlePageState extends State<BattlePage> {
                       ),
                     if (state.isWin)
                       Positioned(
-                        top: 300.h,
+                        top: 250.h,
                         left: deviceSize.width / 2,
                         child: FireworkScreen(
                           controllerCenter: _confettiController,
