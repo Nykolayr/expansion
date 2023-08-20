@@ -50,6 +50,11 @@ class UserRepository extends GetxController {
     return userRepository;
   }
 
+  Future loadFromBase(String id) async {
+    Map<String, dynamic> data = await BaseData().loadJson(id: id);
+    _instance = UserRepository.fromJson(data);
+  }
+
   UserRepository.fromJson(Map<String, dynamic> json)
       : user = UserGame.fromJson(json['user']),
         settings = Settings.fromJson(json['settings']),

@@ -16,8 +16,6 @@ import 'package:get/get.dart';
 
 import 'bloc/setting_bloc.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -49,11 +47,13 @@ class SettingsPage extends StatelessWidget {
                   ),
                   LineMenu(
                       tr('music'),
-                      userRepository.settings.isMusic
+                      Get.find<UserRepository>().settings.isMusic
                           ? tr('turn')
                           : tr('un_turn'), () {
-                    userRepository.settings = userRepository.settings
-                        .copyWith(isMusic: !userRepository.settings.isMusic);
+                    Get.find<UserRepository>().settings =
+                        Get.find<UserRepository>().settings.copyWith(
+                            isMusic:
+                                !Get.find<UserRepository>().settings.isMusic);
                     context.read<SettingBloc>().add(ChangeSound());
                   }),
                   SizedBox(
@@ -61,18 +61,20 @@ class SettingsPage extends StatelessWidget {
                   ),
                   LineMenu(
                       tr('sound'),
-                      userRepository.settings.isSound
+                      Get.find<UserRepository>().settings.isSound
                           ? tr('turn2')
                           : tr('un_turn2'), () {
-                    userRepository.settings = userRepository.settings
-                        .copyWith(isSound: !userRepository.settings.isSound);
+                    Get.find<UserRepository>().settings =
+                        Get.find<UserRepository>().settings.copyWith(
+                            isSound:
+                                !Get.find<UserRepository>().settings.isSound);
                     context.read<SettingBloc>().add(ChangeSound());
                   }),
                   SizedBox(
                     height: 40.h,
                   ),
-                  LineMenu(tr('lang'), userRepository.settings.lang.nameMenu,
-                      () {
+                  LineMenu(tr('lang'),
+                      Get.find<UserRepository>().settings.lang.nameMenu, () {
                     showModalBottom(
                       context,
                       ChooseLang(context),
@@ -112,7 +114,7 @@ class ChooseLang extends StatelessWidget {
           height: 25.h,
         ),
         ButtonLong(
-          title: userRepository.settings.lang.nameSelectRu,
+          title: Get.find<UserRepository>().settings.lang.nameSelectRu,
           function: () {
             Navigator.of(context).pop();
             context.setLocale(Lang.ru.locale);
@@ -123,7 +125,7 @@ class ChooseLang extends StatelessWidget {
           height: 25.h,
         ),
         ButtonLong(
-          title: userRepository.settings.lang.nameSelectEng,
+          title: Get.find<UserRepository>().settings.lang.nameSelectEng,
           function: () {
             Navigator.of(context).pop();
             context.setLocale(Lang.en.locale);

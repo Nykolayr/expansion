@@ -30,11 +30,9 @@ void main() async {
       statusBarColor: Colors.transparent,
     ));
     // Добавляем два isolate
-    computer = Computer.create();
-    await computer.turnOn();
-    // UserRepository userRepository = await UserRepository.getInstance();
-    // await userRepository.initUser();
-
+    Computer computerTic = Computer.create();
+    await computerTic.turnOn();
+    Get.put(() => computerTic);
     await Get.putAsync(() async {
       UserRepository userRepository = await UserRepository.getInstance();
       await userRepository.initUser();

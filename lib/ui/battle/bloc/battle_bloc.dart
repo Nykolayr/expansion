@@ -10,10 +10,12 @@ import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/game_core/min_time.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 part 'battle_event.dart';
 part 'battle_state.dart';
 
@@ -232,11 +234,14 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
       if (item.typeStatus == TypeStatus.our) mainBase = item;
       item.update();
     }
+
     emit(state.copyWith(
       bases: gameData.bases,
       ships: gameData.ships,
     ));
+
     await Isolate.spawn(mainLoop, receivePort.sendPort);
+
     receivePort.listen((message) {
       add(TicEvent());
     });
@@ -251,8 +256,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     }
 
     if (ticEnemy ==
-        (userRepository.game.level.ticEnemy *
-                (userRepository.upEnemy.tic().toInt() - 1))
+        (Get.find<UserRepository>().game.level.ticEnemy *
+                (Get.find<UserRepository>().upEnemy.tic().toInt() - 1))
             .toInt()) {
       setStateEnemy(this);
       ticEnemy = 0;
@@ -298,7 +303,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
   _onAddScore(AddScore event, Emitter<BattleState> emit) async =>
-      userRepository.setScore(calculateScore(mainBase, ticTime));
+      Get.find<UserRepository>().setScore(calculateScore(mainBase, ticTime));
   checkWinLose() {
     int basesEnemy = 0;
     int basesOur = 0;

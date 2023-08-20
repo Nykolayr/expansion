@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 part 'begin_event.dart';
 part 'begin_state.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class BeginBloc extends Bloc<BeginEvent, BeginState> {
   BeginBloc() : super(BeginInitial()) {
     on<ChangeLevel>(_onLevel);
@@ -16,12 +14,14 @@ class BeginBloc extends Bloc<BeginEvent, BeginState> {
     on<ChangeHint>(_onHint);
   }
   _onLevel(ChangeLevel event, Emitter<BeginState> emit) async {
-    userRepository.game = userRepository.game.copyWith(level: event.level);
+    Get.find<UserRepository>().game =
+        Get.find<UserRepository>().game.copyWith(level: event.level);
     setChange(emit);
   }
 
   _onUniver(ChangeUniver event, Emitter<BeginState> emit) async {
-    userRepository.game = userRepository.game.copyWith(univer: event.univer);
+    Get.find<UserRepository>().game =
+        Get.find<UserRepository>().game.copyWith(univer: event.univer);
     setChange(emit);
   }
 
@@ -31,7 +31,7 @@ class BeginBloc extends Bloc<BeginEvent, BeginState> {
 
   setChange(Emitter<BeginState> emit) {
     emit(BeginInitial());
-    userRepository.saveUser();
+    Get.find<UserRepository>().saveUser();
     emit(BeginChange());
   }
 }

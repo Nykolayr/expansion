@@ -5,8 +5,6 @@ import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 /// абстрактный объект ля всех объектов в битве
 abstract class EntitesObject {
   Point coordinates; // координаты объекта
@@ -41,9 +39,9 @@ enum TypeStatus {
   double get minShild {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.minShild;
+        return Get.find<UserRepository>().upOur.minShild;
       case TypeStatus.enemy:
-        return userRepository.upEnemy.minShild;
+        return Get.find<UserRepository>().upEnemy.minShild;
       case TypeStatus.neutral:
         return 0;
       case TypeStatus.asteroid:
@@ -54,9 +52,9 @@ enum TypeStatus {
   double get shipSpeed {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.shipSpeed();
+        return Get.find<UserRepository>().upOur.shipSpeed();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.shipSpeed();
+        return Get.find<UserRepository>().upEnemy.shipSpeed();
       case TypeStatus.neutral:
         return 1;
       case TypeStatus.asteroid:
@@ -67,9 +65,9 @@ enum TypeStatus {
   double get shipDurability {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.shipDurability();
+        return Get.find<UserRepository>().upOur.shipDurability();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.shipDurability();
+        return Get.find<UserRepository>().upEnemy.shipDurability();
       case TypeStatus.neutral:
         return 1;
       case TypeStatus.asteroid:
@@ -80,9 +78,9 @@ enum TypeStatus {
   double get shieldDurability {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.shieldDurability();
+        return Get.find<UserRepository>().upOur.shieldDurability();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.shieldDurability();
+        return Get.find<UserRepository>().upEnemy.shieldDurability();
       case TypeStatus.neutral:
         return 1;
       case TypeStatus.asteroid:
@@ -93,9 +91,9 @@ enum TypeStatus {
   double get speedBuildShip {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.shipBuildSpeed();
+        return Get.find<UserRepository>().upOur.shipBuildSpeed();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.shipBuildSpeed();
+        return Get.find<UserRepository>().upEnemy.shipBuildSpeed();
       case TypeStatus.neutral:
         return 0;
       case TypeStatus.asteroid:
@@ -106,9 +104,9 @@ enum TypeStatus {
   double get speedResources {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.resourceIncomeSpeed();
+        return Get.find<UserRepository>().upOur.resourceIncomeSpeed();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.resourceIncomeSpeed();
+        return Get.find<UserRepository>().upEnemy.resourceIncomeSpeed();
       case TypeStatus.neutral:
         return 0;
       case TypeStatus.asteroid:
@@ -119,9 +117,9 @@ enum TypeStatus {
   int get beginShips {
     switch (this) {
       case TypeStatus.our:
-        return userRepository.upOur.beginShips();
+        return Get.find<UserRepository>().upOur.beginShips();
       case TypeStatus.enemy:
-        return userRepository.upEnemy.beginShips();
+        return Get.find<UserRepository>().upEnemy.beginShips();
       case TypeStatus.neutral:
         return 0;
       case TypeStatus.asteroid:

@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:computer/computer.dart';
 
 GameRepository gameRepository = GameRepository();
 
@@ -21,7 +20,6 @@ const Size standardDeviceSize = Size(392.7, 850.9);
 
 /// размер устройства
 Size deviceSize = const Size(0, 0);
-late final Computer computer;
 // шаг по оси х (5 позиций)
 final double stepX = standardDeviceSize.width / 6;
 // шаг по оси х (7 позиций)
@@ -39,4 +37,4 @@ const speedShipsMult = 1.4;
 const delSpeedBuild = 12;
 // Множитель, который определяет диапазон очков
 // также начальное значение для апгрейда
-const int scoreMultiplier = 200;
+const int scoreMultiplier = 100;

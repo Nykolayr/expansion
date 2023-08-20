@@ -1,4 +1,5 @@
 import 'package:expansion/domain/models/upgrade.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
@@ -9,10 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 /// функция вывода строки для улучшения
 Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
-  int maxLevel = userRepository.upOur.maxLevel + 1;
+  int maxLevel = Get.find<UserRepository>().upOur.maxLevel + 1;
   double size =
       ((deviceSize.width - 40 - maxLevel * 10) / (maxLevel + 1)).r - 1;
   TypeUp type = upgrade.type;
@@ -78,11 +80,15 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
               for (int k = 0; k < maxLevel; k++) getUpLevel(k, upgrade.level),
               GestureDetector(
                 onTap: () {
-                  if (!userRepository.upOur.isUpgrade(upgrade)) return;
+                  if (!Get.find<UserRepository>().upOur.isUpgrade(upgrade)) {
+                    return;
+                  }
                   context.read<UpdateBloc>().add(ChangeUdrade(upgrade.type));
                 },
                 child: Opacity(
-                  opacity: userRepository.upOur.isUpgrade(upgrade) ? 1 : 0.3,
+                  opacity: Get.find<UserRepository>().upOur.isUpgrade(upgrade)
+                      ? 1
+                      : 0.3,
                   child: SvgPicture.asset(
                     'assets/svg/buttonUp.svg',
                     width: size,

@@ -13,8 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class ProgressPage extends StatelessWidget {
   const ProgressPage({Key? key}) : super(key: key);
 
@@ -24,7 +22,7 @@ class ProgressPage extends StatelessWidget {
     yourDataList.sort((a, b) => b.score.compareTo(a.score));
 
     return Scaffold(
-      bottomNavigationBar: userRepository.user.isRegistration
+      bottomNavigationBar: Get.find<UserRepository>().user.isRegistration
           ? const SizedBox.shrink()
           : Container(
               color: AppColor.darkBlue,
@@ -83,7 +81,7 @@ class ProgressPage extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        userRepository.upOur.allScore.toString(),
+                        Get.find<UserRepository>().upOur.allScore.toString(),
                         style: TextStyle(
                           color: AppColor.red,
                           fontSize: 16.sp,
@@ -105,7 +103,7 @@ class ProgressPage extends StatelessWidget {
                   SizedBox(
                     height: 10.h,
                   ),
-                  if (userRepository.user.isRegistration)
+                  if (Get.find<UserRepository>().user.isRegistration)
                     Expanded(
                       //This
                       child: SingleChildScrollView(
@@ -124,7 +122,7 @@ class ProgressPage extends StatelessWidget {
                             for (int k = 1; k < yourDataList.length + 1; k++)
                               NameAndScoreWidget(
                                 user: yourDataList[k - 1],
-                                id: userRepository.user.id,
+                                id: Get.find<UserRepository>().user.id,
                                 index: k,
                               ),
                             SizedBox(height: 20.h)

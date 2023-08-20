@@ -11,22 +11,24 @@ import 'package:get/get.dart';
 
 class WinLostModal extends StatelessWidget {
   final BuildContext context;
-  final bool isWin;
-  const WinLostModal(this.context, this.isWin, {Key? key}) : super(key: key);
+  const WinLostModal(this.context, {Key? key}) : super(key: key);
 
   @override
   // ignore: avoid_renaming_method_parameters
   Widget build(BuildContext context2) {
     return Column(
       children: [
-        Text(
-          tr('next_step'),
-          style: AppText.baseTitle,
-        ),
         SizedBox(
-          height: 25.h,
+          height: 15.h,
         ),
-        if (isWin)
+        // Text(
+        //   tr('next_step'),
+        //   style: AppText.baseTitle,
+        // ),
+        // SizedBox(
+        //   height: 25.h,
+        // ),
+        if (context.read<BattleBloc>().state.isWin)
           ButtonLong(
             title: tr('continue'),
             function: () {
@@ -43,7 +45,7 @@ class WinLostModal extends StatelessWidget {
             router.pushReplacement('/battle');
           },
         ),
-        if (!isWin)
+        if (!context.read<BattleBloc>().state.isWin)
           ButtonLong(
             title: tr('exit_menu'),
             function: () {

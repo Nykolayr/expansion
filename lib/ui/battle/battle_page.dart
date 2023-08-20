@@ -23,12 +23,12 @@ class BattlePage extends StatefulWidget {
 }
 
 class _BattlePageState extends State<BattlePage> {
-  late ConfettiController _confettiController;
+  final ConfettiController _confettiController =
+      ConfettiController(duration: const Duration(seconds: 20));
+
   @override
   void initState() {
     super.initState();
-    _confettiController =
-        ConfettiController(duration: const Duration(seconds: 4));
   }
 
   @override
@@ -39,7 +39,7 @@ class _BattlePageState extends State<BattlePage> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<BattleBloc>();
+    // context.watch<BattleBloc>();
     return WillPopScope(
       onWillPop: () async {
         if (context.mounted) {
@@ -58,6 +58,15 @@ class _BattlePageState extends State<BattlePage> {
         }
       },
       child: Scaffold(
+        bottomNavigationBar: (context.read<BattleBloc>().state.isWin ||
+                context.read<BattleBloc>().state.isLost)
+            ? Container(
+                height: 190.h,
+                color: AppColor.darkBlue,
+                width: deviceSize.width,
+                child: WinLostModal(context),
+              )
+            : const SizedBox.shrink(),
         body: Stack(
           children: [
             SizedBox(
@@ -72,27 +81,17 @@ class _BattlePageState extends State<BattlePage> {
               child: BlocConsumer<BattleBloc, BattleState>(
                   listener: (context, state) async {
                 if (state.isWin) {
-                  _confettiController.play();
                   if (context.mounted) {
                     context.read<BattleBloc>().add(CloseEvent());
                   }
-                  Future.delayed(const Duration(seconds: 4), () async {
-                    await showModalBottom(
-                      context,
-                      WinLostModal(context, true),
-                    );
+                  Future.delayed(const Duration(milliseconds: 800), () async {
+                    _confettiController.play();
                   });
                 }
                 if (state.isLost) {
                   if (context.mounted) {
                     context.read<BattleBloc>().add(CloseEvent());
                   }
-                  Future.delayed(const Duration(seconds: 3), () {
-                    showModalBottom(
-                      context,
-                      WinLostModal(context, false),
-                    );
-                  });
                 }
               }, builder: (context, state) {
                 return Stack(
@@ -218,19 +217,13 @@ class _BattlePageState extends State<BattlePage> {
                         ),
                       ),
                     if (state.isWin)
-                      if (state.isWin)
-                        Positioned(
-                          top: 300.h,
-                          left: deviceSize.width / 2,
-                          child: Container(),
+                      Positioned(
+                        top: 300.h,
+                        left: deviceSize.width / 2,
+                        child: FireworkScreen(
+                          controllerCenter: _confettiController,
                         ),
-                    Positioned(
-                      top: 300.h,
-                      left: deviceSize.width / 2,
-                      child: FireworkScreen(
-                        controllerCenter: _confettiController,
                       ),
-                    ),
                   ],
                 );
               }),

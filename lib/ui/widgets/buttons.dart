@@ -13,8 +13,6 @@ import "package:flutter_svg/svg.dart";
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import "package:get/get.dart";
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class ButtonSide extends StatelessWidget {
   final Direct direct;
   final String? title;
@@ -29,8 +27,9 @@ class ButtonSide extends StatelessWidget {
     String text = title ?? direct.title;
     Function()? fun = function ??
         () async {
-          if (Direct.rightBottom == direct && userRepository.user.isBegin) {
-            if (userRepository.user.mapClassic == 1) {
+          if (Direct.rightBottom == direct &&
+              Get.find<UserRepository>().user.isBegin) {
+            if (Get.find<UserRepository>().user.mapClassic == 1) {
               router.go('/new_game');
             } else {
               router.go('/maps');
@@ -43,11 +42,12 @@ class ButtonSide extends StatelessWidget {
                 context, YesNoModal(context, tr('attempt_new_game')));
             if (result != null && result) {
               if (context.mounted) {
-                userRepository.upEnemy = AllUpgrade.initialEnemy();
-                userRepository.upOur = AllUpgrade.initialOur();
-                userRepository.user = userRepository.user
+                Get.find<UserRepository>().upEnemy = AllUpgrade.initialEnemy();
+                Get.find<UserRepository>().upOur = AllUpgrade.initialOur();
+                Get.find<UserRepository>().user = Get.find<UserRepository>()
+                    .user
                     .copyWith(isBegin: true, score: 0, mapClassic: 1);
-                userRepository.saveUser();
+                Get.find<UserRepository>().saveUser();
                 router.go(direct.router);
               }
               return;

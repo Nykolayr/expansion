@@ -17,8 +17,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -29,7 +27,7 @@ class ProfilePage extends StatelessWidget {
       bottomNavigationBar: Container(
         color: AppColor.darkBlue,
         height: 80,
-        child: userRepository.user.isRegistration
+        child: Get.find<UserRepository>().user.isRegistration
             ? ButtonLongSimple(
                 title: tr('exit_profile'),
                 function: () async {
@@ -64,7 +62,6 @@ class ProfilePage extends StatelessWidget {
             tr("profile"),
           ),
           BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
-            print('object state ${state.isLoading}');
             return Container(
               width: deviceSize.width,
               padding: const EdgeInsets.symmetric(
@@ -152,13 +149,14 @@ class ProfilePage extends StatelessWidget {
       UserCredential result = await auth.signInWithCredential(authCredential);
       User? user = result.user;
       if (user != null) {
-        userRepository.user = userRepository.user.copyWith(
-          photoURL: user.photoURL ?? 'assets/avatar_icon.png',
-          name: user.displayName ?? tr('guest'),
-          isRegistration: true,
-          id: user.uid,
-        );
-        userRepository.saveUser();
+        Get.find<UserRepository>().user =
+            Get.find<UserRepository>().user.copyWith(
+                  photoURL: user.photoURL ?? 'assets/avatar_icon.png',
+                  name: user.displayName ?? tr('guest'),
+                  isRegistration: true,
+                  id: user.uid,
+                );
+        Get.find<UserRepository>().saveUser();
         if (context.mounted) {
           context.read<ProfileBloc>().add(ChangeUser(uid: user.uid));
         }

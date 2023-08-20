@@ -6,7 +6,8 @@ class UpdateState {
     required this.upgrade,
   });
 
-  factory UpdateState.initial() => UpdateState(upgrade: userRepository.upOur);
+  factory UpdateState.initial() =>
+      UpdateState(upgrade: Get.find<UserRepository>().upOur);
   UpdateState copyWith({AllUpgrade? upgrade}) =>
       UpdateState(upgrade: upgrade ?? this.upgrade);
 }

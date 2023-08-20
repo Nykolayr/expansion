@@ -16,8 +16,6 @@ import 'package:get/get.dart';
 import '../../utils/text.dart';
 import 'bloc/splash_bloc.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
@@ -85,13 +83,15 @@ class SplashPage extends StatelessWidget {
                   height: (state.isSuccess) ? height.h + 40 : 0,
                   width: deviceSize.width,
                   duration: const Duration(seconds: 2),
-                  child: userRepository.game.isSplash
+                  child: Get.find<UserRepository>().game.isSplash
                       ? ButtonLong(
                           title: tr('begin_game'),
-                          function: () {
-                            userRepository.game =
-                                userRepository.game.copyWith(isSplash: false);
-                            userRepository.saveUser();
+                          function: () async {
+                            Get.find<UserRepository>().game =
+                                Get.find<UserRepository>()
+                                    .game
+                                    .copyWith(isSplash: false);
+                            await Get.find<UserRepository>().saveUser();
                             router.go('/new_game');
                           },
                           isWidth: true,
@@ -120,7 +120,7 @@ class Loader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          userRepository.game.isSplash
+          Get.find<UserRepository>().game.isSplash
               ? Column(
                   children: [
                     AnimatedContainer(

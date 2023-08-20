@@ -67,6 +67,7 @@ class ProfileLoginPage extends StatelessWidget {
                   ),
                   ButtonLong(
                       title: tr('login'),
+                      // ignore: avoid_print
                       function: () => print("Вход в аккаунт какое то")),
                   SizedBox(
                     height: 15.h,

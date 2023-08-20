@@ -18,8 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-UserRepository userRepository = Get.find<UserRepository>();
-
 class BeginPage extends StatelessWidget {
   const BeginPage({Key? key}) : super(key: key);
 
@@ -27,32 +25,34 @@ class BeginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     context.watch<BeginBloc>();
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: AppColor.darkBlue,
-        height: 150,
-        width: deviceSize.width,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 15.h,
+      bottomNavigationBar: Get.find<UserRepository>().user.isRegistration
+          ? const SizedBox.shrink()
+          : Container(
+              color: AppColor.darkBlue,
+              height: 150,
+              width: deviceSize.width,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  Text(
+                    tr("already_played"),
+                    style: AppText.baseBody,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  ButtonLongSimple(
+                    title: tr('login'),
+                    function: () {
+                      router.go('/profile');
+                    },
+                  ),
+                ],
+              ),
             ),
-            Text(
-              tr("already_played"),
-              style: AppText.baseBody,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            ButtonLongSimple(
-              title: tr('login'),
-              function: () {
-                router.go('/profile');
-              },
-            ),
-          ],
-        ),
-      ),
       body: Stack(
         children: [
           SizedBox(
@@ -75,7 +75,8 @@ class BeginPage extends StatelessWidget {
                   SizedBox(
                     height: 70.h,
                   ),
-                  LineMenu(tr('level'), tr(userRepository.game.level.name), () {
+                  LineMenu(tr('level'),
+                      tr(Get.find<UserRepository>().game.level.name), () {
                     showModalBottom(
                       context,
                       ChooseLevel(context),
@@ -84,18 +85,22 @@ class BeginPage extends StatelessWidget {
                   SizedBox(
                     height: 40.h,
                   ),
-                  LineMenu(tr('hint'),
-                      userRepository.game.isHint ? tr('turn2') : tr('un_turn2'),
-                      () {
-                    userRepository.game = userRepository.game
-                        .copyWith(isHint: !userRepository.game.isHint);
+                  LineMenu(
+                      tr('hint'),
+                      Get.find<UserRepository>().game.isHint
+                          ? tr('turn2')
+                          : tr('un_turn2'), () {
+                    Get.find<UserRepository>().game = Get.find<UserRepository>()
+                        .game
+                        .copyWith(
+                            isHint: !Get.find<UserRepository>().game.isHint);
                     context.read<BeginBloc>().add(ChangeHint());
                   }),
                   SizedBox(
                     height: 40.h,
                   ),
-                  LineMenu(tr('universe'), tr(userRepository.game.univer.name),
-                      () {
+                  LineMenu(tr('universe'),
+                      tr(Get.find<UserRepository>().game.univer.name), () {
                     showModalBottom(
                       context,
                       ChooseUniver(context),
@@ -107,9 +112,11 @@ class BeginPage extends StatelessWidget {
                   ButtonLong(
                     title: tr('save_humanity'),
                     function: () {
-                      userRepository.user =
-                          userRepository.user.copyWith(isBegin: false);
-                      userRepository.saveUser();
+                      Get.find<UserRepository>().user =
+                          Get.find<UserRepository>()
+                              .user
+                              .copyWith(isBegin: false);
+                      Get.find<UserRepository>().saveUser();
                       router.go('/battle');
                     },
                   ),
