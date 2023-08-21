@@ -1,6 +1,7 @@
 {
    "system": {
-      "name": "solar",
+      "nameRu": "Солнечная система",
+      "nameEn": "solar",
       "starName": "sun",
       "StarType": "classG"
    },

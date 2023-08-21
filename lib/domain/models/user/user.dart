@@ -13,7 +13,7 @@ class UserGame with _$UserGame {
     @Default(0) int score, // общее количество очков для достижения
     @Default(1) int mapClassic, // номер карты в компании классика
     @Default(true) bool isBegin, // было ли вступление
-    @Default(false) bool isRegistration, // было ли регистрация
+    @Default(false) bool isRegistration, // была ли регистрация
   }) = _UserGame;
   factory UserGame.init() => const UserGame(
         id: '0',

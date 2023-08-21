@@ -15,7 +15,7 @@ class MapsPage extends StatelessWidget {
           SizedBox(
             height: deviceSize.height,
             child: Image.asset(
-              'assets/images/fon1.png',
+              'assets/images/fonMap1.png',
               fit: BoxFit.fill,
             ),
           ),
