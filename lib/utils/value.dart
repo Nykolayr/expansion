@@ -1,7 +1,4 @@
 import 'dart:ui';
-import 'package:expansion/domain/repository/game_repository.dart';
-
-GameRepository gameRepository = GameRepository();
 
 /// адресс где находится политика безопасности
 const politicUrl = 'https://flutter.dev';

@@ -38,7 +38,7 @@ class BeginPage extends StatelessWidget {
                   ),
                   Text(
                     tr("already_played"),
-                    style: AppText.baseBody,
+                    style: AppText.baseBody16,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -140,7 +140,7 @@ class ChooseLevel extends StatelessWidget {
       children: [
         Text(
           tr('choose_level'),
-          style: AppText.baseTitle,
+          style: AppText.baseTitle18,
         ),
         SizedBox(
           height: 25.h,
@@ -187,7 +187,7 @@ class ChooseUniver extends StatelessWidget {
       children: [
         Text(
           tr('choose_univer'),
-          style: AppText.baseTitle,
+          style: AppText.baseTitle18,
         ),
         SizedBox(
           height: 25.h,

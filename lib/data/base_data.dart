@@ -7,6 +7,7 @@ import 'package:expansion/domain/models/user/user.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:get/get.dart';
 
+///сохранение и загрузка в базе данных гугла
 class BaseData {
   Future<void> saveJson(
       {required Map<String, dynamic> json, required UserGame user}) async {

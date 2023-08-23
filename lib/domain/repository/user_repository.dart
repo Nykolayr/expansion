@@ -13,9 +13,12 @@ class UserRepository extends GetxController {
   UserGame user = UserGame.init();
   Settings settings = const Settings();
   Game game = const Game();
+
   AllUpgrade upEnemy = AllUpgrade.initialEnemy();
   AllUpgrade upOur = AllUpgrade.initialOur();
+
   static UserRepository? _instance;
+
   static Future<UserRepository> getInstance() async {
     _instance ??= await create();
     return _instance!;
@@ -26,7 +29,7 @@ class UserRepository extends GetxController {
   static Future<UserRepository> create() async {
     late UserRepository userRepository;
 
-    String? data = await LocalData().loadJson();
+    String? data = await LocalData().loadJsonUser();
 
     if (data != '{}' && data != '') {
       userRepository = UserRepository.fromJson(jsonDecode(data!));
@@ -47,6 +50,7 @@ class UserRepository extends GetxController {
       }
       userRepository.saveUser();
     }
+
     return userRepository;
   }
 
@@ -93,7 +97,7 @@ class UserRepository extends GetxController {
     if (user.isRegistration) {
       await BaseData().saveJson(json: toJson(), user: user);
     }
-    await LocalData().saveJson(toJson());
+    await LocalData().saveJsonUser(toJson());
   }
 
   setLang(Lang lang) {

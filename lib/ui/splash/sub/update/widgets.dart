@@ -54,7 +54,7 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
                   style: CircleButtonStyle.small,
                 ),
                 SizedBox(width: 15.w),
-                Text(type.text, style: AppText.baseBodyBoldYellow),
+                Text(type.text, style: AppText.baseBodyBoldYellow16),
               ],
             ),
             Row(
@@ -67,7 +67,7 @@ Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
                 ),
                 SizedBox(width: 5.w),
                 Text('+${upgrade.percenstValue}%',
-                    style: AppText.baseBodyBoldYellow),
+                    style: AppText.baseBodyBoldYellow16),
               ],
             ),
           ],

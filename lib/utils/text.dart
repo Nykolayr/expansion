@@ -21,31 +21,47 @@ class AppText {
       ),
     ],
   );
-  static TextStyle baseTitle = TextStyle(
+  static TextStyle baseTitle18 = TextStyle(
     color: AppColor.darkYeloow,
     fontWeight: FontWeight.w400,
     fontSize: 18.sp,
   );
-  static TextStyle baseBody = TextStyle(
+
+  static TextStyle baseBody16 = TextStyle(
     color: AppColor.white,
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
   );
 
-  static TextStyle baseBodyBoldYellow = TextStyle(
+  static TextStyle baseBodyBoldYellow16 = TextStyle(
     color: AppColor.darkYeloow,
     fontWeight: FontWeight.w700,
     fontSize: 16.sp,
   );
+  static TextStyle baseBodyBoldYellow18 = TextStyle(
+    color: AppColor.darkYeloow,
+    fontWeight: FontWeight.w700,
+    fontSize: 18.sp,
+  );
 
-  static TextStyle baseBodyBold = TextStyle(
+  static TextStyle baseBodyBold16 = TextStyle(
     color: AppColor.white,
     fontWeight: FontWeight.w700,
     fontSize: 16.sp,
   );
-  static TextStyle baseUrl = TextStyle(
+  static TextStyle baseUrl16 = TextStyle(
     color: AppColor.blue,
     fontWeight: FontWeight.w400,
     fontSize: 16.sp,
+  );
+  static TextStyle baseBodyBold14 = TextStyle(
+    color: AppColor.darkYeloow,
+    fontWeight: FontWeight.w700,
+    fontSize: 14.sp,
+  );
+  static TextStyle baseBodyBold12 = TextStyle(
+    color: AppColor.darkYeloow,
+    fontWeight: FontWeight.w700,
+    fontSize: 12.sp,
   );
 }

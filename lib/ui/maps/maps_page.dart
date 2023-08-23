@@ -1,11 +1,25 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/models/maps/scenes.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import '../battle/widgets/widgets.dart';
 
-class MapsPage extends StatelessWidget {
+class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
+
+  @override
+  State<MapsPage> createState() => _MapsPageState();
+}
+
+class _MapsPageState extends State<MapsPage> {
+  List<Scene> scenes = [];
+  @override
+  void initState() {
+    scenes = Get.find<GameRepository>().scenes;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +34,8 @@ class MapsPage extends StatelessWidget {
             ),
           ),
           appButtonBack(tr("maps")),
-          Padding(
-            padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 70.h),
-            child: const Column(
-              children: [],
-            ),
-          ),
+          for (int index = 0; index < 25; index++)
+            scenes[index].build(index: index, context: context),
         ],
       ),
     );

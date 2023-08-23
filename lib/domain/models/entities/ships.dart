@@ -1,5 +1,5 @@
-import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
@@ -9,6 +9,7 @@ import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class Ship extends EntitesObject {
   int fromIndex; // индекс базы с которой летит корабль
@@ -139,7 +140,7 @@ class PointFly {
 
 /// проверяет, произошло ли столкновение с вражеским отрядом кораблей
 int? checkCollisionShip(Ship shipOur) {
-  GameData gameData = gameRepository.gameData;
+  GameRepository gameData = Get.find<GameRepository>();
   for (EntitesObject ship in gameData.ships) {
     if (ship.typeStatus == shipOur.typeStatus ||
         ship.typeStatus == TypeStatus.asteroid ||

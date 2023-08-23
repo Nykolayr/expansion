@@ -1,12 +1,12 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
-// import 'package:expansion/domain/models/entities/ships.dart';
-import 'package:expansion/utils/value.dart';
+import 'package:get/get.dart';
 
 void setStateEnemy(BattleBloc block) async {
-  List<BaseObject> bases = gameRepository.gameData.bases;
+  List<BaseObject> bases = Get.find<GameRepository>().bases;
   List<BaseObject> basesNeutral = [];
   List<BaseObject> basesEnemy = [];
   List<BaseObject> basesOur = [];

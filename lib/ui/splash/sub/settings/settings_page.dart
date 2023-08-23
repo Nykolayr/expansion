@@ -108,7 +108,7 @@ class ChooseLang extends StatelessWidget {
       children: [
         Text(
           tr('choose_lang'),
-          style: AppText.baseTitle,
+          style: AppText.baseTitle18,
         ),
         SizedBox(
           height: 25.h,

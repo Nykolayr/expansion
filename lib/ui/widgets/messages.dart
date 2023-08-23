@@ -40,14 +40,14 @@ class SimpleMessage extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: AppText.baseTitle,
+                style: AppText.baseTitle18,
               ),
               SizedBox(
                 height: 25.h,
               ),
               Text(
                 body,
-                style: AppText.baseBody,
+                style: AppText.baseBody16,
               ),
               SizedBox(
                 height: 25.h,
@@ -100,7 +100,7 @@ Widget urlText(String text, Uri url) {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: AppText.baseUrl,
+        style: AppText.baseUrl16,
       ),
     ),
   );

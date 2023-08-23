@@ -1,7 +1,9 @@
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';
+import 'package:get/get.dart';
 
 /// Высчитывает очки за захват всех баз противника
 /// в зависимости от быстроты захвата
@@ -10,7 +12,7 @@ int calculateScore(BaseObject base, int time) {
   int maxTime = 0;
   double speedShips = TypeStatus.our.shipSpeed * speedShipsMult;
   double speedBuildShips = TypeStatus.our.speedBuildShip * (15 / delSpeedBuild);
-  List<BaseObject> bases = gameRepository.gameData.bases;
+  List<BaseObject> bases = Get.find<GameRepository>().bases;
   bases.removeWhere((element) => element.index == base.index);
   sortDist(bases, base);
   BaseObject previousBase = base;

@@ -284,7 +284,7 @@ Widget helpGame(BuildContext context) {
     children: [
       Text(
         tr('donat_info'),
-        style: AppText.baseTitle.copyWith(color: AppColor.white),
+        style: AppText.baseTitle18.copyWith(color: AppColor.white),
         textAlign: TextAlign.center,
       ),
       SizedBox(

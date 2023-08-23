@@ -1,5 +1,6 @@
 import 'package:computer/computer.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/firebase_options.dart';
 import 'package:expansion/routers/routers.dart';
@@ -35,7 +36,6 @@ void main() async {
     Get.put(() => computerTic);
     await Get.putAsync(() async {
       UserRepository userRepository = await UserRepository.getInstance();
-      // await userRepository.initUser();
       return userRepository;
     });
     runApp(
@@ -82,6 +82,11 @@ class MyApp extends StatelessWidget {
               }
               deviceSize = Size(MediaQuery.of(context).size.width,
                   MediaQuery.of(context).size.height);
+              Get.putAsync(() async {
+                GameRepository gameRepository = GameRepository();
+                await gameRepository.init();
+                return gameRepository;
+              });
               final mq = MediaQuery.of(context);
               double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
               return Directionality(

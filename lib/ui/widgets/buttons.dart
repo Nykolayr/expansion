@@ -296,7 +296,10 @@ extension DirectExtention on Direct {
       case Direct.leftBottom:
         return "/new_game";
       case Direct.rightBottom:
-        return "/battle";
+        return (Get.find<UserRepository>().user.mapClassic > 1 &&
+                Get.find<UserRepository>().user.isBegin)
+            ? "/maps"
+            : "/battle";
       case Direct.leftTop:
         return "/profile";
       case Direct.rightTop:

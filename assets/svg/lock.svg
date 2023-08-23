@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg fill="#000000" width="800px" height="800px" viewBox="-7.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
-<title>lock</title>
-<path d="M14.625 15.156h2.094c0.281 0 0.5 0.25 0.5 0.531v11c0 0.281-0.219 0.5-0.5 0.5h-16.219c-0.281 0-0.5-0.219-0.5-0.5v-11c0-0.281 0.219-0.531 0.5-0.531h2.031v-5.125c0-2.875 1.844-5.25 4.688-5.25h2.688c2.875 0 4.719 2.375 4.719 5.25v5.125zM5.188 15.156h6.813v-4.875c0-1.594-1.313-2.938-2.938-2.938h-0.969c-1.594 0-2.906 1.344-2.906 2.938v4.875zM7.156 24h2.906l-0.719-3.156c0.5-0.25 0.844-0.781 0.844-1.375 0-0.906-0.719-1.594-1.594-1.594s-1.563 0.688-1.563 1.594c0 0.594 0.344 1.125 0.844 1.375z"></path>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="100%" height="100%" version="1.1" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd"
+viewBox="0 0 322.17 419.22"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <g id="Слой_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <path id="lock.svg" fill="#FABE0D" fill-rule="nonzero" d="M273.64 194.12l39.17 0c5.26,0 9.36,4.68 9.36,9.93l0 205.82c0,5.25 -4.1,9.35 -9.36,9.35l-303.45 0c-5.26,0 -9.36,-4.1 -9.36,-9.35l0 -205.82c0,-5.25 4.1,-9.93 9.36,-9.93l38 0 0 -95.89c0,-53.79 34.5,-98.23 87.71,-98.23l50.29 0c53.79,0 88.29,44.44 88.29,98.23l0 95.89 -0.01 0zm-176.57 0l127.47 0 0 -91.21c0,-29.83 -24.57,-54.97 -54.97,-54.97l-18.13 0c-29.82,0 -54.37,25.14 -54.37,54.97l0 91.21zm36.82 165.47l54.37 0 -13.45 -59.05c9.35,-4.67 15.79,-14.61 15.79,-25.72 0,-16.96 -13.45,-29.83 -29.82,-29.83 -16.37,0 -29.25,12.87 -29.25,29.83 0,11.11 6.44,21.04 15.79,25.72l-13.43 59.05z"/>
+ </g>
 </svg>

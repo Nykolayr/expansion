@@ -2,12 +2,14 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class Base extends BaseObject {
   SizeBase sizeBase;
@@ -114,7 +116,7 @@ class Base extends BaseObject {
             );
           },
           onAccept: (int sender) {
-            if (gameRepository.gameData.bases[sender].typeStatus ==
+            if (Get.find<GameRepository>().bases[sender].typeStatus ==
                 TypeStatus.our) onAccept!(sender);
           },
         ),

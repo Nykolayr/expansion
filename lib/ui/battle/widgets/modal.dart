@@ -31,8 +31,15 @@ class WinLostModal extends StatelessWidget {
         if (context.read<BattleBloc>().state.isWin)
           ButtonLong(
             title: tr('continue'),
-            function: () {
+            function: () async {
               context.read<BattleBloc>().add(AddScore());
+              Get.find<UserRepository>().user = Get.find<UserRepository>()
+                  .user
+                  .copyWith(
+                      isBegin: true,
+                      mapClassic:
+                          Get.find<UserRepository>().user.mapClassic + 1);
+              await Get.find<UserRepository>().saveUser();
               router.pushReplacement('/');
             },
           ),
@@ -49,13 +56,6 @@ class WinLostModal extends StatelessWidget {
           ButtonLong(
             title: tr('exit_menu'),
             function: () {
-              Get.find<UserRepository>().user = Get.find<UserRepository>()
-                  .user
-                  .copyWith(
-                      isBegin: true,
-                      mapClassic:
-                          Get.find<UserRepository>().user.mapClassic + 1);
-              Get.find<UserRepository>().saveUser();
               router.pushReplacement('/');
             },
           ),
@@ -76,7 +76,7 @@ class YesNoModal extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppText.baseTitle,
+          style: AppText.baseTitle18,
         ),
         SizedBox(
           height: 25.h,
@@ -113,7 +113,7 @@ class TextFieldModel extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppText.baseTitle,
+          style: AppText.baseTitle18,
         ),
         SizedBox(height: 25.h),
         TextField(

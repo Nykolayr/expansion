@@ -4,12 +4,12 @@ import 'dart:isolate';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
-import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/enemy_intelect.dart';
 import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/game_core/game_loop.dart';
 import 'package:expansion/game_core/min_time.dart';
@@ -34,7 +34,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<ArriveAsteroidEvent>(_onArriveAsteroidEvent);
     on<BattleShipsEvent>(_onBattleShipsEvent);
   }
-  GameData gameData = gameRepository.gameData;
+  GameRepository gameData = Get.find<GameRepository>();
   int ticHold = 0;
   bool isSend = false;
   int ticEnemy = 0;
@@ -229,7 +229,6 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onInit(InitEvent event, Emitter<BattleState> emit) async {
     await gameData.loadMap();
-
     for (var item in gameData.bases) {
       if (item.typeStatus == TypeStatus.our) mainBase = item;
       item.update();
@@ -330,7 +329,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 /// возращает базу которая на пути, если нет, то возращает null
 BaseObject? getBase(Point point1, Point point2) {
   double shipSize = 30;
-  GameData gameData = gameRepository.gameData;
+  GameRepository gameData = Get.find<GameRepository>();
   List<BaseObject> bases = gameData.bases;
   bases = bases
       .where((element) =>

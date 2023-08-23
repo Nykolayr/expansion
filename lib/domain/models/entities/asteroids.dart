@@ -1,12 +1,13 @@
 import 'dart:math';
-import 'package:expansion/data/game_data.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
+import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/animations_sprites.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 /// класс астероид, характеризуется точками откуда и куда,
 /// сколько сил
@@ -160,7 +161,7 @@ PointFly spawnObjectOnEdge(int edge) {
 
 /// проверяет, произошло ли столкновение с отрядом кораблей
 int? checkCollisionBase(Asteroid ast, {isBase = true}) {
-  GameData gameData = gameRepository.gameData;
+  GameRepository gameData = Get.find<GameRepository>();
   for (EntitesObject base in isBase ? gameData.bases : gameData.ships) {
     if (base.typeStatus == TypeStatus.asteroid) continue;
 

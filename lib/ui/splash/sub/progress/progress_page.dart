@@ -35,7 +35,7 @@ class ProgressPage extends StatelessWidget {
                   ),
                   Text(
                     tr("guestWarning"),
-                    style: AppText.baseBody,
+                    style: AppText.baseBody16,
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
@@ -115,7 +115,7 @@ class ProgressPage extends StatelessWidget {
                             ),
                             Text(
                               tr("Достижения других игроков"),
-                              style: AppText.baseBodyBold,
+                              style: AppText.baseBodyBold16,
                               textAlign: TextAlign.center,
                             ),
                             SizedBox(height: 15.h),
