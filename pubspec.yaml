@@ -52,7 +52,7 @@ dependencies:
   firebase_auth: ^4.7.3 #https://pub.dev/packages/firebase_auth
   cloud_firestore: ^4.8.5 #https://pub.dev/packages/cloud_firestore
   get: ^4.6.5 #https://pub.dev/packages/get
-  
+    
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -15,7 +15,6 @@ import '../../../utils/value.dart';
 /// size - размер объекта
 
 abstract class BaseObject extends EntitesObject {
-  String description; // описание базы
   double shild; // щит базы max до 100
   double resources; // количество ресурсов на базе
   int maxShips; // максимальное количество кораблей для постройки
@@ -29,7 +28,6 @@ abstract class BaseObject extends EntitesObject {
     required super.typeStatus,
     required super.size,
     required super.ships,
-    required this.description,
     required this.shild,
     required this.maxShips,
     required this.speedBuild,

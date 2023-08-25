@@ -17,7 +17,6 @@ class Base extends BaseObject {
 
   Base({
     required super.coordinates,
-    required super.description,
     required super.maxShips,
     required super.shild,
     required super.ships,
@@ -40,7 +39,6 @@ class Base extends BaseObject {
     return Base(
       coordinates: Point((stepX * x - size / 2).w, (stepY * y - size / 2).h),
       ships: sizeBase.add.maxShips,
-      description: sizeBase.add.description,
       sizeBase: sizeBase,
       timeCapture: sizeBase.add.timeCapture,
       maxShips: sizeBase.add.maxShips,
@@ -56,7 +54,6 @@ class Base extends BaseObject {
   }
   Map<String, dynamic> toJson() => {
         "coordinates": coordinates,
-        "description": description,
         "maxShips": maxShips,
         "shild": shild,
         "ships": ships,

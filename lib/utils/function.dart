@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 
+/// функция создает различные анимации для переходов по страницам
 CustomTransitionPage buildPageWithDefaultTransition({
   required BuildContext context,
   required GoRouterState state,
@@ -44,4 +45,12 @@ void shuffle(List elements, {int start = 0, int? end, Random? random}) {
     elements[start + pos] = elements[start + length];
     elements[start + length] = tmp1;
   }
+}
+
+/// печать длинных строк
+void prints(var s1) {
+  String s = s1.toString();
+  final pattern = RegExp('.{1,800}');
+  // ignore: avoid_print
+  pattern.allMatches(s).forEach((match) => print(match.group(0)));
 }

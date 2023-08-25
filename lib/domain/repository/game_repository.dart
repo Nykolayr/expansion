@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:expansion/Api/api.dart';
 import 'package:expansion/data/local_data.dart';
@@ -9,9 +8,6 @@ import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/maps/scenes.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
-import 'package:expansion/utils/function.dart';
-import 'package:expansion/utils/value.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 /// класс игровых сущностей которые загружаются из апи или ассета
@@ -28,56 +24,33 @@ class GameRepository extends GetxController {
   GameRepository._internal();
 
   init() async {
-    await loadScenesFromJson();
-    await saveScenesToLocal();
-  }
+    String? data = await LocalData().loadJsonMaps();
 
-  loadScenesFromJson() async {
-    // String? data = await LocalData().loadJsonMaps();
-
-    // if (data != '{}' && data != '') {
-    //   List json = jsonDecode(data!);
-    //   scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
-    // } else {
-    Map<String, dynamic> json = await Api.loadJsonScenes();
-    scenes = List<Scene>.from(json["scenes"].map((x) => Scene.fromJson(x)));
-    shuffle(scenes, start: 1);
-    double xOffset = 5.0;
-    double yOffset = 100.0;
-    double screenHeight = 150.0;
-    double width = deviceSize.width - 10;
-    int numScenesPerRow = width ~/ (width / 5.0);
-    Random random = Random();
-    for (int i = 0; i < scenes.length; i++) {
-      if (i % numScenesPerRow == 0 && i != 0) {
-        yOffset -= 20.0 + random.nextDouble() * 10;
-      } else if (i % numScenesPerRow == 1) {
-        yOffset += 20.0 + random.nextDouble() * 10;
-        ;
-      } else if (i % numScenesPerRow == 2) {
-        yOffset -= 20.0 + random.nextDouble() * 10;
-        ;
-      } else if (i % numScenesPerRow == 3) {
-        yOffset += 20.0 + random.nextDouble() * 10;
-        ;
-      } else if (i % numScenesPerRow == 4) {
-        yOffset -= 20 + random.nextDouble() * 10;
+    if (data != '{}' && data != '') {
+      List json = jsonDecode(data!);
+      scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+    } else {
+      List<dynamic> json = await Api.loadJsonScenes();
+      scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+      for (var index = 0; index < scenes.length; index++) {
+        TypeScene typeScene = TypeScene.first;
+        switch (index % 5) {
+          case 1:
+            typeScene = TypeScene.second;
+            break;
+          case 2:
+            typeScene = TypeScene.third;
+            break;
+          case 3:
+            typeScene = TypeScene.fourth;
+            break;
+          case 4:
+            typeScene = TypeScene.fifth;
+        }
+        scenes[index].typeScene = typeScene;
       }
-      scenes[i].y = yOffset;
-      scenes[i].x = xOffset;
-      xOffset += width / numScenesPerRow;
-
-      if ((i + 1) % numScenesPerRow == 0) {
-        xOffset = 5.0;
-        yOffset += screenHeight;
-      }
+      await LocalData().saveJsonMaps(scenes);
     }
-    // }
-    // await saveScenesToLocal();
-  }
-
-  saveScenesToLocal() async {
-    await LocalData().saveJsonMaps(scenes);
   }
 
   loadMap() async {

@@ -1,610 +1,608 @@
-{
-    "scenes": [
-     {
-    "nameRu": "Солнце",
-    "nameEn": "Sun",
-    "x": 5.0,
-    "y": 100.0
- },
-  {
-    "nameRu": "Алмак",
-    "nameEn": "Almak",
-    "x": 100.0,
-    "y": 120.0
- },
- {
-    "nameRu": "Алараф",
-    "nameEn": "Alaraf",
-    "x": 180.0,
-    "y": 90.0
- },
- {
-    "nameRu": "Алголь",
-    "nameEn": "Algol",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алиот",
-    "nameEn": "Aliot",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альбирео",
-    "nameEn": "Albireo",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альхена",
-    "nameEn": "Alkhena",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альгениб",
-    "nameEn": "Algenib",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альдебаран",
-    "nameEn": "Aldebaran",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альдерамин",
-    "nameEn": "Alderamine",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алькор",
-    "nameEn": "Alcor",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альрами",
-    "nameEn": "Alrami",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альтаир",
-    "nameEn": "Altair",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альфарад",
-    "nameEn": "Alfarad",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альциона",
-    "nameEn": "Alcyone",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альферац",
-    "nameEn": "Alferats",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Антарес",
-    "nameEn": "Antares",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Арктур",
-    "nameEn": "Arcturus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Ахернар",
-    "nameEn": "Ahernar",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Белллатрикс",
-    "nameEn": "Bellatrix",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Бенетнаш",
-    "nameEn": "Benetnash",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Бетельгейзе",
-    "nameEn": "Betelgeuse",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Вега",
-    "nameEn": "Vega",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Гемма",
-    "nameEn": "Gemma",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Денеб",
-    "nameEn": "Deneb",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Денебола",
-    "nameEn": "Denebola",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Конопус",
-    "nameEn": "Konopus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Капелла",
-    "nameEn": "Chapel",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Кастор",
-    "nameEn": "Castor",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Кохаб",
-    "nameEn": "Kohab",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Кохаб",
-    "nameEn": "Kohab",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Кохаб",
-    "nameEn": "Kohab",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Маркаб",
-    "nameEn": "Markab",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мегрец",
-    "nameEn": "Megrez",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Менкар",
-    "nameEn": "Menkar",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мерак",
-    "nameEn": "Merak",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Меропа",
-    "nameEn": "Merope",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мирах",
-    "nameEn": "Mirach",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мирзам",
-    "nameEn": "Mirzam",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мирфак",
-    "nameEn": "Mirfak",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мицар",
-    "nameEn": "Mizar",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Нат",
-    "nameEn": "Nath",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Поллукс",
-    "nameEn": "Pollux",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Полярная",
-    "nameEn": "Polaris",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Процион",
-    "nameEn": "Procyon",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альгети",
-    "nameEn": "Algieba",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альхаг",
-    "nameEn": "Alhag",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Регул",
-    "nameEn": "Regulus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Ригель",
-    "nameEn": "Rigel",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Сириус",
-    "nameEn": "Sirius",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Спика",
-    "nameEn": "Spica",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Тубан",
-    "nameEn": "Tuban",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Факт",
-    "nameEn": "Fact",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Фекда",
-    "nameEn": "Fekda",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Хамал",
-    "nameEn": "Hamal",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Шаф",
-    "nameEn": "Shaf",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Шеат",
-    "nameEn": "Sheat",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Шедир",
-    "nameEn": "Shedir",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Электра",
-    "nameEn": "Elektra",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Веритате",
-    "nameEn": "Veritate",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Нембус",
-    "nameEn": "Nembus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альферац",
-    "nameEn": "Alpheratz",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Аламак",
-    "nameEn": "Almach",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Адхил",
-    "nameEn": "Adhil",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Титавин",
-    "nameEn": "Titawin",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Васат",
-    "nameEn": "Wasat",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мебсута",
-    "nameEn": "Mebsuta",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мекбуда",
-    "nameEn": "Mekbuda",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Пропус",
-    "nameEn": "Propus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Интеркрус",
-    "nameEn": "Intercrus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Чалаван",
-    "nameEn": "Chalawan",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Дубхе",
-    "nameEn": "Dubhe",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алкаид",
-    "nameEn": "Alkaid",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Талитха",
-    "nameEn": "Talitha",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алькафрах",
-    "nameEn": "Alkaphrah",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Тания",
-    "nameEn": "Tania",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алюла",
-    "nameEn": "Alula",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мускида",
-    "nameEn": "Muscida",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Хауд",
-    "nameEn": "Haud",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мусцида",
-    "nameEn": "Muscida",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Мулифен",
-    "nameEn": "Muliphein",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Везен",
-    "nameEn": "Wezen",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Адара",
-    "nameEn": "Adhara",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Фуруд",
-    "nameEn": "Furud",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Алудра",
-    "nameEn": "Aludra",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Исида",
-    "nameEn": "Isida",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Зубен",
-    "nameEn": "Zuben",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Брахиум",
-    "nameEn": "Brachium",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Скат",
-    "nameEn": "Skat",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Анха",
-    "nameEn": "Ancha",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Ситула",
-    "nameEn": "Situla",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Сеат",
-    "nameEn": "Seat",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Альмааз",
-    "nameEn": "Almaaz",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Хедус",
-    "nameEn": "Haedus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Пылающая",
-    "nameEn": "Blazing",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Неккар",
-    "nameEn": "Nekkar",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Сегинус",
-    "nameEn": "Seginus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Муфрид",
-    "nameEn": "Muphrid",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Принцепс",
-    "nameEn": "Princeps",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Цегинус",
-    "nameEn": "Ceginus",
-    "x": 20.0,
-    "y": 20.0
- },
- {
-    "nameRu": "Киссин",
-    "nameEn": "Kissin",
-    "x": 20.0,
-    "y": 20.0
- }
+[
+   {
+      "nameRu": "Солнце",
+      "nameEn": "Sun",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Титавин",
+      "nameEn": "Titawin",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алараф",
+      "nameEn": "Alaraf",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Конопус",
+      "nameEn": "Konopus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Пылающая",
+      "nameEn": "Blazing",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альциона",
+      "nameEn": "Alcyone",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алиот",
+      "nameEn": "Aliot",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Электра",
+      "nameEn": "Elektra",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Сеат",
+      "nameEn": "Seat",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Интеркрус",
+      "nameEn": "Intercrus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Маркаб",
+      "nameEn": "Markab",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алмак",
+      "nameEn": "Almak",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мусцида",
+      "nameEn": "Muscida",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Адара",
+      "nameEn": "Adhara",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алголь",
+      "nameEn": "Algol",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Пропус",
+      "nameEn": "Propus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альгениб",
+      "nameEn": "Algenib",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Муфрид",
+      "nameEn": "Muphrid",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мерак",
+      "nameEn": "Merak",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Дубхе",
+      "nameEn": "Dubhe",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Денебола",
+      "nameEn": "Denebola",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мирах",
+      "nameEn": "Mirach",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Фекда",
+      "nameEn": "Fekda",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альферац",
+      "nameEn": "Alpheratz",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Киссин",
+      "nameEn": "Kissin",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Шедир",
+      "nameEn": "Shedir",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Полярная",
+      "nameEn": "Polaris",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Исида",
+      "nameEn": "Isida",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Белллатрикс",
+      "nameEn": "Bellatrix",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Принцепс",
+      "nameEn": "Princeps",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Шаф",
+      "nameEn": "Shaf",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Поллукс",
+      "nameEn": "Pollux",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Скат",
+      "nameEn": "Skat",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альдебаран",
+      "nameEn": "Aldebaran",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мускида",
+      "nameEn": "Muscida",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Капелла",
+      "nameEn": "Chapel",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Цегинус",
+      "nameEn": "Ceginus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мулифен",
+      "nameEn": "Muliphein",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альбирео",
+      "nameEn": "Albireo",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Менкар",
+      "nameEn": "Menkar",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алудра",
+      "nameEn": "Aludra",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алькафрах",
+      "nameEn": "Alkaphrah",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альферац",
+      "nameEn": "Alferats",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мебсута",
+      "nameEn": "Mebsuta",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Аламак",
+      "nameEn": "Almach",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альфарад",
+      "nameEn": "Alfarad",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альмааз",
+      "nameEn": "Almaaz",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Меропа",
+      "nameEn": "Merope",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Антарес",
+      "nameEn": "Antares",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мегрец",
+      "nameEn": "Megrez",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Ригель",
+      "nameEn": "Rigel",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Факт",
+      "nameEn": "Fact",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Гемма",
+      "nameEn": "Gemma",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Нат",
+      "nameEn": "Nath",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Бетельгейзе",
+      "nameEn": "Betelgeuse",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Кохаб",
+      "nameEn": "Kohab",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Фуруд",
+      "nameEn": "Furud",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мекбуда",
+      "nameEn": "Mekbuda",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альгети",
+      "nameEn": "Algieba",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Адхил",
+      "nameEn": "Adhil",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Веритате",
+      "nameEn": "Veritate",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Кохаб",
+      "nameEn": "Kohab",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алкаид",
+      "nameEn": "Alkaid",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Чалаван",
+      "nameEn": "Chalawan",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Везен",
+      "nameEn": "Wezen",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Неккар",
+      "nameEn": "Nekkar",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мицар",
+      "nameEn": "Mizar",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мирфак",
+      "nameEn": "Mirfak",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Кохаб",
+      "nameEn": "Kohab",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алькор",
+      "nameEn": "Alcor",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Брахиум",
+      "nameEn": "Brachium",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Мирзам",
+      "nameEn": "Mirzam",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Васат",
+      "nameEn": "Wasat",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Ахернар",
+      "nameEn": "Ahernar",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Талитха",
+      "nameEn": "Talitha",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Нембус",
+      "nameEn": "Nembus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Шеат",
+      "nameEn": "Sheat",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Сириус",
+      "nameEn": "Sirius",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Кастор",
+      "nameEn": "Castor",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Тания",
+      "nameEn": "Tania",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Анха",
+      "nameEn": "Ancha",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Хамал",
+      "nameEn": "Hamal",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Ситула",
+      "nameEn": "Situla",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Сегинус",
+      "nameEn": "Seginus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Арктур",
+      "nameEn": "Arcturus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Алюла",
+      "nameEn": "Alula",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альдерамин",
+      "nameEn": "Alderamine",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альрами",
+      "nameEn": "Alrami",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Процион",
+      "nameEn": "Procyon",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Денеб",
+      "nameEn": "Deneb",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Зубен",
+      "nameEn": "Zuben",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альхена",
+      "nameEn": "Alkhena",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Хедус",
+      "nameEn": "Haedus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альхаг",
+      "nameEn": "Alhag",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Спика",
+      "nameEn": "Spica",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Хауд",
+      "nameEn": "Haud",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Вега",
+      "nameEn": "Vega",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Тубан",
+      "nameEn": "Tuban",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Бенетнаш",
+      "nameEn": "Benetnash",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Регул",
+      "nameEn": "Regulus",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   },
+   {
+      "nameRu": "Альтаир",
+      "nameEn": "Altair",
+      "descriptionRu": "",
+      "descriptionEn": ""
+   }
 ]
-}

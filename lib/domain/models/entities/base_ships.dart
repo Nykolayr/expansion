@@ -15,7 +15,6 @@ class BaseShip extends BaseObject {
   String path;
   BaseShip({
     required super.coordinates,
-    required super.description,
     required super.maxShips,
     required super.shild,
     required super.ships,
@@ -38,7 +37,6 @@ class BaseShip extends BaseObject {
         (y == 1) ? (80 - size / 2) : (deviceSize.height - 80 - size / 2);
     return BaseShip(
       coordinates: Point((stepX * x - size / 2).w, pozY.h),
-      description: json['description'],
       shild: json['shild'],
       ships: typeStatus.beginShips,
       speedBuild: typeStatus.speedBuildShip,
@@ -53,7 +51,6 @@ class BaseShip extends BaseObject {
   }
   Map<String, dynamic> toJson() => {
         "coordinates": coordinates,
-        "description": description,
         "maxShips": maxShips,
         "shild": shild,
         "ships": ships,

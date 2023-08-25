@@ -1,9 +1,11 @@
 {
-"mainShipEnemy": {
+
+   "mainShipEnemy": {
       "coordinates": {
          "x": 3,
          "y": 1
       },
+      "description": "Это вражеский корабль",
       "shild": 100.0,
       "ships": 100,
       "speedBuild": 0.1,
@@ -19,6 +21,7 @@
          "x": 3,
          "y": 7
       },
+      "description": "Это наш корабль",
       "shild": 100.0,
       "ships": 100,
       "speedBuild": 0.1,

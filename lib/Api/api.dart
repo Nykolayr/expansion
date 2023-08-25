@@ -10,8 +10,9 @@ class Api {
     return json.decode(data);
   }
 
-  static Future<Map<String, dynamic>> loadJsonScenes() async {
+  static Future<List<dynamic>> loadJsonScenes() async {
     String data = await rootBundle.loadString('$pathAssetScenes/scenes.json');
+
     return json.decode(data);
   }
 }
