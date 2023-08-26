@@ -3,606 +3,808 @@
       "nameRu": "Солнце",
       "nameEn": "Sun",
       "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionEn": "",
+      "battleRu": "Битва за родную систему начинается!",
+      "battleEn": "The battle for the native system begins!"
    },
    {
       "nameRu": "Титавин",
       "nameEn": "Titawin",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Пришельцы бежали с нашей родной сиcтемы, но они оставили портал, который ведёт в другую систему. Итак, у нас открылся путь к звездам!",
+      "descriptionEn": "The aliens fled from our home system, but they left a portal that leads to another system. So, we have opened the way to the stars!",
+      "battleRu": "Враги стали сильнее, базы больше!",
+      "battleEn": "The enemies have become stronger, the bases are bigger!"
    },
    {
       "nameRu": "Алараф",
       "nameEn": "Alaraf",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Новый портал - новые возможности или новые угрозы?",
+      "descriptionEn": "New portal - new opportunities or new threats?",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Конопус",
       "nameEn": "Konopus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Оставшиеся обломки вражеских кораблей напоминают нам о цене победы в космической схватке.",
+      "descriptionEn": "The remaining fragments of enemy ships remind us of the price of victory in a space battle.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Пылающая",
       "nameEn": "Blazing",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на разверзшийся портал, мы осознали, что наши грани расширяются не только в пространстве, но и во времени.",
+      "descriptionEn": "Looking at the opened portal, we realized that our edges are expanding not only in space, but also in time.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альциона",
       "nameEn": "Alcyone",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сквозь пылающие облака вражеской армады мы увидели новые миры, ждущие своих исследователей.",
+      "descriptionEn": "Through the flaming clouds of the enemy armada, we saw new worlds waiting for their explorers.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алиот",
       "nameEn": "Aliot",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал стал символом нашей смелости, ведь мы перешли грань между известным и неизведанным.",
+      "descriptionEn": "The portal has become a symbol of our courage, because we have crossed the line between the known and the unknown.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Электра",
       "nameEn": "Elektra",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сражение закончилось, но перед нами открылась новая глава нашей космической эпопеи.",
+      "descriptionEn": "The battle is over, but a new chapter of our space epic has opened before us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Сеат",
       "nameEn": "Seat",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Мы покорили вражескую армию и открыли перед собой дорогу к звездам.",
+      "descriptionEn": "We have conquered the enemy army and opened the way to the stars in front of us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Интеркрус",
       "nameEn": "Intercrus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Переступив порог портала, мы поняли, что наши судьбы теперь неразрывно связаны с бескрайним космосом.",
+      "descriptionEn": "Having crossed the threshold of the portal, we realized that our destinies are now inextricably linked with the boundless cosmos.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Маркаб",
       "nameEn": "Markab",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал представляет собой мост между нашим прошлым и будущим в галактических просторах.",
+      "descriptionEn": "The portal is a bridge between our past and the future in the galactic expanses.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алмак",
       "nameEn": "Almak",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждое сражение - это шаг к новым мирам, к новым свершениям.",
+      "descriptionEn": "Every battle is a step to new worlds, to new achievements.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мусцида",
       "nameEn": "Muscida",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Светящийся портал напоминает нам, что смелость и решимость открывают дорогу в неизведанные горизонты.",
+      "descriptionEn": "The glowing portal reminds us that courage and determination open the way to unexplored horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Адара",
       "nameEn": "Adhara",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сражение за сражением, и мы продолжаем свое великое путешествие к звездам.",
+      "descriptionEn": "Battle after battle, and we continue our great journey to the stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алголь",
       "nameEn": "Algol",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал раскрывает перед нами не только новые системы, но и новые возможности для человечества.",
+      "descriptionEn": "The portal reveals to us not only new systems, but also new opportunities for humanity.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Пропус",
       "nameEn": "Propus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "После победы наши корабли несут наши надежды через портал, открывая перед нами новые миры.",
+      "descriptionEn": "After the victory, our ships carry our hopes through the portal, opening up new worlds for us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альгениб",
       "nameEn": "Algenib",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "В каждом портале мы видим шанс вписать свое имя в историю галактической экспансии.",
+      "descriptionEn": "In each portal we see a chance to write our name into the history of galactic expansion.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Муфрид",
       "nameEn": "Muphrid",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы делаем еще один шаг вперед, к новым горизонтам и новым звездам.",
+      "descriptionEn": "With each victory, we take another step forward, to new horizons and new stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мерак",
       "nameEn": "Merak",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на портал, мы осознали, что космос - наш следующий этап развития.",
+      "descriptionEn": "Looking at the portal, we realized that space is our next stage of development.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Дубхе",
       "nameEn": "Dubhe",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Вражеские корабли ушли в небытие, оставив за собой лишь сверкающий портал в неизведанное.",
+      "descriptionEn": "The enemy ships have gone into oblivion, leaving behind only a sparkling portal into the unknown.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Денебола",
       "nameEn": "Denebola",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал как символ нашей настойчивости и стремления к победе над вселенной.",
+      "descriptionEn": "The portal as a symbol of our perseverance and striving for victory over the universe.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мирах",
       "nameEn": "Mirach",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Мы одержали победу, и теперь перед нами открылась панорама новых миров, ожидающих исследования.",
+      "descriptionEn": "We have won, and now we have a panorama of new worlds waiting to be explored.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Фекда",
       "nameEn": "Fekda",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это шанс доказать, что человечество не остановится ни перед чем, чтобы расширить свои горизонты.",
+      "descriptionEn": "Each portal is a chance to prove that humanity will stop at nothing to expand its horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альферац",
       "nameEn": "Alpheratz",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сражение за сражением, и мы несем свою цивилизацию через порталы к новым горизонтам.",
+      "descriptionEn": "Battle after battle, and we carry our civilization through portals to new horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Киссин",
       "nameEn": "Kissin",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал стал символом нашей решимости и способности преодолевать все трудности.",
+      "descriptionEn": "The portal has become a symbol of our determination and ability to overcome all difficulties.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Шедир",
       "nameEn": "Shedir",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый выигрыш открывает новый портал и новые горизонты для человечества.",
+      "descriptionEn": "Each win opens a new portal and new horizons for humanity.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Полярная",
       "nameEn": "Polaris",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на сверкающий портал, мы понимаем, что наша судьба неразрывно связана с космическими путешествиями.",
+      "descriptionEn": "Looking at the sparkling portal, we understand that our destiny is inextricably linked with space travel.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Исида",
       "nameEn": "Isida",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой битвой мы делаем следующий шаг в нашем захватывающем путешествии через порталы к звездам.",
+      "descriptionEn": "With each battle, we take the next step in our exciting journey through portals to the stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Белллатрикс",
       "nameEn": "Bellatrix",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал открывает перед нами дверь в неизведанные миры, где мы можем писать новую историю.",
+      "descriptionEn": "The portal opens the door to unknown worlds where we can write a new story.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Принцепс",
       "nameEn": "Princeps",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Враги ушли, но портал остался - напоминание о том, что наше стремление исследовать бескрайний космос не знает границ.",
+      "descriptionEn": "The enemies are gone, but the portal remains - a reminder that our desire to explore the boundless cosmos knows no boundaries.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Шаф",
       "nameEn": "Shaf",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Следующий портал - следующий этап нашего великого путешествия к звездам.",
+      "descriptionEn": "The next portal is the next stage of our great journey to the stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Поллукс",
       "nameEn": "Pollux",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал стал путеводной звездой на пути к новым мирам и новым достижениям.",
+      "descriptionEn": "The portal has become a guiding star on the way to new worlds and new achievements.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Скат",
       "nameEn": "Skat",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы открываем новый портал и показываем вселенной, на что способно человечество.",
+      "descriptionEn": "With each victory, we open a new portal and show the universe what humanity is capable of.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альдебаран",
       "nameEn": "Aldebaran",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сверкающий портал напоминает нам о нашей способности преодолевать трудности и исследовать неизведанное.",
+      "descriptionEn": "The sparkling portal reminds us of our ability to overcome difficulties and explore the unknown.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мускида",
       "nameEn": "Muscida",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Враги могут меняться, но наше стремление к звездам остается неизменным через каждый открытый портал.",
+      "descriptionEn": "Enemies may change, but our quest for the stars remains the same through every open portal.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Капелла",
       "nameEn": "Chapel",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым порталом мы переступаем через порог новых возможностей и вызовов.",
+      "descriptionEn": "With each portal, we cross the threshold of new opportunities and challenges.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Цегинус",
       "nameEn": "Ceginus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на новый портал, мы видим ключ к расширению нашей цивилизации в галактические просторы.",
+      "descriptionEn": "Looking at the new portal, we see the key to the expansion of our civilization into the galactic expanses.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мулифен",
       "nameEn": "Muliphein",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал открывает перед нами дорогу в будущее, где человечество будет писать свою космическую легенду.",
+      "descriptionEn": "The portal opens the way for us to the future, where humanity will write its cosmic legend.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альбирео",
       "nameEn": "Albireo",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал как символ перемены, который связывает нас с бескрайними звездами.",
+      "descriptionEn": "The portal as a symbol of change, which connects us with the boundless stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Менкар",
       "nameEn": "Menkar",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждое победное сражение - это шаг к новым мирам, которые ждут нашего исследования.",
+      "descriptionEn": "Each victorious battle is a step towards new worlds that await our exploration.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алудра",
       "nameEn": "Aludra",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Перед нами открылась череда порталов, ведущих в неисследованные системы и галактики.",
+      "descriptionEn": "A series of portals leading to unexplored systems and galaxies opened before us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алькафрах",
       "nameEn": "Alkaphrah",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Мы доказали, что даже в самых отчаянных схватках можем найти путь к новым звездам.",
+      "descriptionEn": "We have proved that even in the most desperate battles we can find a way to new stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альферац",
       "nameEn": "Alferats",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Победа за победой, и каждый портал становится нашим следующим шагом к галактическому величию.",
+      "descriptionEn": "Victory after victory, and each portal becomes our next step to galactic greatness.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мебсута",
       "nameEn": "Mebsuta",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Следующий портал ожидает нас, как новая глава нашего захватывающего путешествия.",
+      "descriptionEn": "The next portal awaits us as a new chapter of our exciting journey.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Аламак",
       "nameEn": "Almach",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "В каждом портале заложены надежды и мечты о новых открытиях и покорении космоса.",
+      "descriptionEn": "Each portal contains hopes and dreams of new discoveries and the conquest of space.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альфарад",
       "nameEn": "Alfarad",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Портал открывает перед нами не только пути к звездам, но и к своим собственным границам.",
+      "descriptionEn": "The portal opens before us not only the way to the stars, but also to its own borders.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альмааз",
       "nameEn": "Almaaz",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Победы оставляют следы на полях битвы, но порталы оставляют следы наших успехов во вселенной.",
+      "descriptionEn": "Victories leave traces on the battlefields, but portals leave traces of our successes in the universe.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Меропа",
       "nameEn": "Merope",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на каждый новый портал, мы видим предел лишь начала нашего космического путешествия.",
+      "descriptionEn": "Looking at each new portal, we see the limit only of the beginning of our space journey.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Антарес",
       "nameEn": "Antares",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы покоряем новый портал и продвигаемся дальше в глубины космоса.",
+      "descriptionEn": "With each victory, we conquer a new portal and move further into the depths of space.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мегрец",
       "nameEn": "Megrez",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы становятся мостами между нами и новыми мирами, где наши мечты обретают реальность.",
+      "descriptionEn": "Portals become bridges between us and new worlds where our dreams become reality.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Ригель",
       "nameEn": "Rigel",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наша сила и решимость открывают перед нами порталы, ведущие к невиданным до этого горизонтам.",
+      "descriptionEn": "Our strength and determination open portals for us, leading to unprecedented horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Факт",
       "nameEn": "Fact",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Перед каждым порталом мы как пионеры, готовые исследовать и завоевывать неизведанные сферы.",
+      "descriptionEn": "Before each portal, we are like pioneers, ready to explore and conquer unexplored spheres.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Гемма",
       "nameEn": "Gemma",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сверкающие порталы стали символами нашей настойчивости в борьбе за место во вселенной.",
+      "descriptionEn": "Sparkling portals have become symbols of our perseverance in the struggle for a place in the universe.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Нат",
       "nameEn": "Nath",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Победы над врагами - это не только путь к победе, но и к новым порталам в другие миры.",
+      "descriptionEn": "Defeating enemies is not only the way to victory, but also to new portals to other worlds.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Бетельгейзе",
       "nameEn": "Betelgeuse",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это возможность покорить новые галактики и расширить наше влияние.",
+      "descriptionEn": "Each portal is an opportunity to conquer new galaxies and expand our influence.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Кохаб",
       "nameEn": "Kohab",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как окна в будущее, через которые мы видим новые пути и перспективы.",
+      "descriptionEn": "Portals are like windows into the future, through which we see new ways and prospects.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Фуруд",
       "nameEn": "Furud",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым открытым порталом мы шагаем дальше в пустоту космоса, полные решимости и надежды.",
+      "descriptionEn": "With each open portal, we step further into the void of space, full of determination and hope.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мекбуда",
       "nameEn": "Mekbuda",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Взглянув на портал, мы осознали, что наши битвы с врагами - лишь начало нашего космического путешествия.",
+      "descriptionEn": "Looking at the portal, we realized that our battles with enemies are just the beginning of our space journey.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альгети",
       "nameEn": "Algieba",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Сверкающие порталы как звезды на нашем пути, освещающие новые горизонты и возможности.",
+      "descriptionEn": "Sparkling portals are like stars on our way, illuminating new horizons and opportunities.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Адхил",
       "nameEn": "Adhil",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Перед нами открылась сеть порталов, как сеть возможностей для расширения нашей цивилизации.",
+      "descriptionEn": "A network of portals has opened up before us as a network of opportunities for the expansion of our civilization.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Веритате",
       "nameEn": "Veritate",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали ключами к тому, чтобы раскроить дверь в мир неизведанных звездных систем.",
+      "descriptionEn": "Portals have become the keys to open the door to the world of unexplored star systems.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Кохаб",
       "nameEn": "Kohab",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это шанс показать, что мы не просто обитатели Земли, а граждане вселенной.",
+      "descriptionEn": "Each portal is a chance to show that we are not just inhabitants of the Earth, but citizens of the universe.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алкаид",
       "nameEn": "Alkaid",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Мы побеждаем не только врагов, но и сомнения, когда шагаем через каждый новый портал.",
+      "descriptionEn": "We defeat not only enemies, but also doubts as we step through each new portal.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Чалаван",
       "nameEn": "Chalawan",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы открывают перед нами новые аспекты реальности, которые ранее были недоступны.",
+      "descriptionEn": "Portals open up new aspects of reality that were previously inaccessible to us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Везен",
       "nameEn": "Wezen",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы вносим свой след в историю и открываем новые порталы для будущих поколений.",
+      "descriptionEn": "With each victory, we make our mark on history and open new portals for future generations.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Неккар",
       "nameEn": "Nekkar",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали нашими путеводными звездами во тьме космоса, ведущими нас к новым горизонтам.",
+      "descriptionEn": "Portals have become our guiding stars in the darkness of space, leading us to new horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мицар",
       "nameEn": "Mizar",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы открывают перед нами не только порталы, но и новые главы в книге нашего развития.",
+      "descriptionEn": "Our victories open not only portals for us, but also new chapters in the book of our development.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мирфак",
       "nameEn": "Mirfak",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым новым порталом мы доказываем, что готовы к новым вызовам и покорению невиданных миров.",
+      "descriptionEn": "With each new portal, we prove that we are ready for new challenges and the conquest of unprecedented worlds.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Кохаб",
       "nameEn": "Kohab",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как ключи к закрытым дверям галактических систем, которые теперь открыты для нас.",
+      "descriptionEn": "Portals are like keys to the closed doors of galactic systems that are now open to us.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алькор",
       "nameEn": "Alcor",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это шаг в неизведанные просторы, где наши мечты превращаются в реальность.",
+      "descriptionEn": "Each portal is a step into unknown spaces where our dreams turn into reality.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Брахиум",
       "nameEn": "Brachium",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали символами нашей непоколебимой веры в способность человечества преодолевать трудности.",
+      "descriptionEn": "Portals have become symbols of our unshakable faith in humanity's ability to overcome difficulties.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Мирзам",
       "nameEn": "Mirzam",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наша решимость и мужество открывают перед нами порталы в миры, о которых мы даже не мечтали.",
+      "descriptionEn": "Our determination and courage open portals to worlds we never even dreamed of.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Васат",
       "nameEn": "Wasat",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым порталом мы шагаем вперед, оставляя позади прошлые битвы и открывая новые перспективы.",
+      "descriptionEn": "With each portal we step forward, leaving behind the past battles and opening up new perspectives.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Ахернар",
       "nameEn": "Ahernar",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как арки к будущему, которое мы строим своими руками и решимостью.",
+      "descriptionEn": "Portals are like arches to the future that we are building with our own hands and determination.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Талитха",
       "nameEn": "Talitha",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждое сражение укрепляет нашу связь с космосом, открывая новые порталы к далеким звездам.",
+      "descriptionEn": "Each battle strengthens our connection with the cosmos, opening new portals to distant stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Нембус",
       "nameEn": "Nembus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали символами нашей настойчивости в исследовании галактических тайн.",
+      "descriptionEn": "Portals have become symbols of our perseverance in exploring galactic mysteries.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Шеат",
       "nameEn": "Sheat",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы - это ключи к порталам, открывающим нам путь к бескрайнему космосу.",
+      "descriptionEn": "Our victories are the keys to the portals that open the way for us to the boundless cosmos.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Сириус",
       "nameEn": "Sirius",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как двери в неизведанные комнаты вселенной, где наши шаги создают новую историю.",
+      "descriptionEn": "Portals are like doors to unexplored rooms of the universe, where our steps create a new story.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Кастор",
       "nameEn": "Castor",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым порталом мы раскрываем новые горизонты, даруя человечеству бесконечные возможности.",
+      "descriptionEn": "With each portal, we open up new horizons, giving humanity endless opportunities.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Тания",
       "nameEn": "Tania",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали связующим звеном между нами и невероятными мирами космоса.",
+      "descriptionEn": "Portals have become a link between us and the incredible worlds of space.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Анха",
       "nameEn": "Ancha",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это шанс доказать, что наша цивилизация способна сделать шаг вперед в неизвестное.",
+      "descriptionEn": "Each portal is a chance to prove that our civilization is capable of taking a step forward into the unknown.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Хамал",
       "nameEn": "Hamal",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы над врагами открывают перед нами порталы, ведущие к победам над границами космоса.",
+      "descriptionEn": "Our victories over our enemies open portals leading to victories over the boundaries of space.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Ситула",
       "nameEn": "Situla",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как пути к свершениям, которые ждут нас в далеких созвездиях.",
+      "descriptionEn": "Portals as paths to the achievements that await us in distant constellations.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Сегинус",
       "nameEn": "Seginus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым открытым порталом мы добавляем новую страницу к книге наших космических побед.",
+      "descriptionEn": "With each open portal, we add a new page to the book of our cosmic victories.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Арктур",
       "nameEn": "Arcturus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали символами нашего стремления к новым высотам и новым горизонтам.",
+      "descriptionEn": "Portals have become symbols of our striving for new heights and new horizons.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Алюла",
       "nameEn": "Alula",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это новая глава в нашей эпопее по освоению космоса и расширению границ.",
+      "descriptionEn": "Each portal is a new chapter in our epic of space exploration and expansion of borders.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альдерамин",
       "nameEn": "Alderamine",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как порталы в будущее, где наши мечты становятся реальностью.",
+      "descriptionEn": "Portals are like portals to the future, where our dreams become reality.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альрами",
       "nameEn": "Alrami",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы раскрываем новый портал, открывая путь к новым галактикам и звездам.",
+      "descriptionEn": "With each victory, we open a new portal, opening the way to new galaxies and stars.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Процион",
       "nameEn": "Procyon",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали маяками на нашем пути, освещающими дорогу к бескрайним просторам космоса.",
+      "descriptionEn": "Portals have become beacons on our way, illuminating the way to the vast expanses of space.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Денеб",
       "nameEn": "Deneb",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы пишут историю, а порталы - открывают новые главы этой истории.",
+      "descriptionEn": "Our victories write history, and portals open new chapters of this history.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Зубен",
       "nameEn": "Zuben",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это шаг в неизведанные миры, где наша цивилизация может процветать.",
+      "descriptionEn": "Each portal is a step into unknown worlds where our civilization can flourish.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альхена",
       "nameEn": "Alkhena",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали символами нашей смелости и уверенности в будущем.",
+      "descriptionEn": "Portals have become symbols of our courage and confidence in the future.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Хедус",
       "nameEn": "Haedus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждым новым порталом мы показываем вселенной, что готовы сделать следующий шаг вперед.",
+      "descriptionEn": "With each new portal, we show the universe that we are ready to take the next step forward.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альхаг",
       "nameEn": "Alhag",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как пути к неизведанным горизонтам, где наши мечты могут воплотиться в реальность.",
+      "descriptionEn": "Portals are like paths to unexplored horizons where our dreams can come true.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Спика",
       "nameEn": "Spica",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы над врагами - это ключи к новым мирам, открывающимся перед нами через порталы.",
+      "descriptionEn": "Our victories over our enemies are the keys to new worlds opening up to us through portals.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Хауд",
       "nameEn": "Haud",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Каждый портал - это звено в цепи наших достижений, ведущее к новым вершинам.",
+      "descriptionEn": "Each portal is a link in the chain of our achievements, leading to new heights.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Вега",
       "nameEn": "Vega",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы стали символами нашей настойчивости и готовности к новым вызовам.",
+      "descriptionEn": "Portals have become symbols of our perseverance and readiness for new challenges.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Тубан",
       "nameEn": "Tuban",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "С каждой победой мы открываем перед собой новый портал и новые возможности.",
+      "descriptionEn": "With each victory, we open up a new portal and new opportunities.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Бенетнаш",
       "nameEn": "Benetnash",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Порталы как ключи к загадкам космоса, которые мы готовы разгадать.",
+      "descriptionEn": "Portals are like keys to the mysteries of the cosmos that we are ready to solve.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Регул",
       "nameEn": "Regulus",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Наши победы укрепляют нашу веру в будущее, и порталы открывают перед нами дорогу туда.",
+      "descriptionEn": "Our victories strengthen our faith in the future, and portals open the way for us there.",
+      "battleRu": "",
+      "battleEn": ""
    },
    {
       "nameRu": "Альтаир",
       "nameEn": "Altair",
-      "descriptionRu": "",
-      "descriptionEn": ""
+      "descriptionRu": "Вот мы и прибыли в материнскую систему пришельцев, последняя эпическая битва, которая должна поставить жирную точку в нашей экспансии.",
+      "descriptionEn": "So we have arrived at the alien mother system, the last epic battle that should put a bold end to our expansion.",
+      "battleRu": "",
+      "battleEn": ""
    }
 ]

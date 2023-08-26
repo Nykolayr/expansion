@@ -12,16 +12,28 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 class Scene {
   String nameRu = '';
   String nameEn = '';
+  String battleRu = '';
+  String battleEn = '';
+  String descriptionRu = '';
+  String descriptionEn = '';
   TypeScene typeScene = TypeScene.first;
   Scene({
     required this.nameRu,
     required this.nameEn,
+    required this.battleRu,
+    required this.battleEn,
+    required this.descriptionRu,
+    required this.descriptionEn,
     required this.typeScene,
   });
   factory Scene.fromJson(Map<String, dynamic> json) {
     return Scene(
       nameRu: json['nameRu'],
       nameEn: json['nameEn'],
+      battleRu: json['battleRu'],
+      battleEn: json['battleEn'],
+      descriptionRu: json['descriptionRu'],
+      descriptionEn: json['descriptionEn'],
       typeScene: json['typeScene'] == null
           ? TypeScene.first
           : TypeScene.values.byName(json['typeScene']),
@@ -30,6 +42,10 @@ class Scene {
   Map<String, dynamic> toJson() => {
         "nameRu": nameRu,
         "nameEn": nameEn,
+        "battleRu": battleRu,
+        "battleEn": battleEn,
+        "descriptionRu": descriptionRu,
+        "descriptionEn": descriptionEn,
         "typeScene": typeScene.name,
       };
   Widget build({

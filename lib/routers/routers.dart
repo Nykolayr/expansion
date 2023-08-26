@@ -4,6 +4,7 @@ import 'package:expansion/ui/battle/widgets/help.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/help_game/help_game.dart';
+import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/maps/maps_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
@@ -47,7 +48,10 @@ final GoRouter router = GoRouter(
             type: PageTransitionType.topToBottom,
             context: context,
             state: state,
-            child: const MapsPage(),
+            child: BlocProvider(
+              create: (_) => MapsBloc(),
+              child: const MapsPage(),
+            ),
           ),
         ),
         GoRoute(
