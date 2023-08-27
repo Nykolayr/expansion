@@ -24,7 +24,7 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
   }
 
   _onMapsEndEvent(MapsEndEvent event, Emitter<MapsState> emit) async {
-    await Future.delayed(const Duration(milliseconds: 3500));
+    await Future.delayed(const Duration(milliseconds: 3000));
     emit(state.copyWith(isNext: true));
   }
 }

@@ -31,7 +31,33 @@ class GameRepository extends GetxController {
       scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
     } else {
       List<dynamic> json = await Api.loadJsonScenes();
-      scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+      List<Scene> temp = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+      // переделываем все сцены по 5 штук змейкой
+      int l = temp.length ~/ 10 + 1;
+      int k = 0;
+      int s = 4;
+
+      outerloop:
+      for (var m = 0; m < l; m++) {
+        for (var i = 0; i < 5; i++) {
+          temp[k].id = k;
+          scenes.add(temp[k]);
+          k++;
+          if (k > temp.length - 1) break outerloop;
+        }
+        int j = k + s;
+        if (j > temp.length) {
+          j = temp.length - 1;
+          s = temp.length - k;
+        }
+        for (var z = 0; z < s + 1; z++) {
+          temp[j - z].id = j - z;
+          scenes.add(temp[j - z]);
+          k++;
+          if (k > temp.length - 1) break outerloop;
+        }
+      }
+
       for (var index = 0; index < scenes.length; index++) {
         TypeScene typeScene = TypeScene.first;
         switch (index % 5) {

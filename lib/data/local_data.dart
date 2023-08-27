@@ -21,9 +21,9 @@ class LocalData {
     }
   }
 
-  Future<void> saveJsonMaps(List<Scene> json, [String key = 'maps']) async {
+  Future<void> saveJsonMaps(List<Scene> scenes, [String key = 'maps']) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(key, jsonEncode(json));
+    await prefs.setString(key, jsonEncode(scenes));
   }
 
   Future<String?> loadJsonMaps([String key = 'maps']) async {
@@ -37,5 +37,3 @@ class LocalData {
     }
   }
 }
-
-

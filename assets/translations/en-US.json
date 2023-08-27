@@ -97,5 +97,6 @@
     "help_games": "Help the game",
     "attempt_new_game": "Do you really want to start a new game? All progress will be reset to zero.",
     "maps": "Map of the company",
-    "expansion": "Continue expansion!"
+    "expansion": "Continue expansion!",
+    "started": "Let's go!"
 }

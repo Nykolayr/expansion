@@ -33,6 +33,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
     on<AddScore>(_onAddScore);
     on<ArriveAsteroidEvent>(_onArriveAsteroidEvent);
     on<BattleShipsEvent>(_onBattleShipsEvent);
+    on<EndBeginEvent>(_onEndBeginEvent);
   }
   GameRepository gameData = Get.find<GameRepository>();
   int ticHold = 0;
@@ -286,6 +287,11 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
   _onLost(LostEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(isWin: true, isPause: true));
+
+  _onEndBeginEvent(EndBeginEvent event, Emitter<BattleState> emit) async {
+    emit(state.copyWith(isBegin: false));
+    add(PlayEvent());
+  }
 
   _onWin(WinEvent event, Emitter<BattleState> emit) async =>
       emit(state.copyWith(

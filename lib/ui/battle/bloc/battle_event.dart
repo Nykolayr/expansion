@@ -13,6 +13,8 @@ class CloseEvent extends BattleEvent {}
 
 class PauseEvent extends BattleEvent {}
 
+class EndBeginEvent extends BattleEvent {}
+
 class PlayEvent extends BattleEvent {}
 
 class WinEvent extends BattleEvent {}

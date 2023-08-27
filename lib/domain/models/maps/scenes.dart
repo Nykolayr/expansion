@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class Scene {
+  int id = 0;
   String nameRu = '';
   String nameEn = '';
   String battleRu = '';
@@ -18,6 +19,7 @@ class Scene {
   String descriptionEn = '';
   TypeScene typeScene = TypeScene.first;
   Scene({
+    required this.id,
     required this.nameRu,
     required this.nameEn,
     required this.battleRu,
@@ -28,6 +30,7 @@ class Scene {
   });
   factory Scene.fromJson(Map<String, dynamic> json) {
     return Scene(
+      id: json['id'] ?? 0,
       nameRu: json['nameRu'],
       nameEn: json['nameEn'],
       battleRu: json['battleRu'],
@@ -40,6 +43,7 @@ class Scene {
     );
   }
   Map<String, dynamic> toJson() => {
+        "id": id,
         "nameRu": nameRu,
         "nameEn": nameEn,
         "battleRu": battleRu,
@@ -55,11 +59,11 @@ class Scene {
     int current = Get.find<UserRepository>().user.mapClassic - 1;
     String infoText = context.locale == const Locale('ru') ? nameEn : nameRu;
     Widget info =
-        Text((index + 1).toString(), style: AppText.baseBodyBoldYellow18);
-    if (current == index) {
+        Text((id + 1).toString(), style: AppText.baseBodyBoldYellow18);
+    if (current == id) {
       info = SvgPicture.asset('assets/svg/target.svg', width: 25.w);
     }
-    if (current < index) {
+    if (current < id) {
       info = SvgPicture.asset('assets/svg/lock.svg',
           colorFilter:
               const ColorFilter.mode(AppColor.darkYeloow, BlendMode.srcIn),
@@ -68,7 +72,7 @@ class Scene {
     bool isOddLine = (index ~/ 5).isEven;
     return GestureDetector(
       child: Opacity(
-        opacity: index > current + 3 ? 0.4 : 1,
+        opacity: id > current + 3 ? 0.4 : 1,
         child: Stack(
           children: [
             CustomPaint(

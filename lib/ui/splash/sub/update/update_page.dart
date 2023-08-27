@@ -43,7 +43,8 @@ class UpdatePage extends StatelessWidget {
       body: Stack(
         children: [
           SizedBox(
-            height: deviceSize.height,
+            // height: deviceSize.height,
+            width: deviceSize.width,
             child: Image.asset(
               'assets/images/fon1.png',
               fit: BoxFit.fill,

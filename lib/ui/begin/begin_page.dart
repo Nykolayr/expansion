@@ -29,7 +29,7 @@ class BeginPage extends StatelessWidget {
           ? const SizedBox.shrink()
           : Container(
               color: AppColor.darkBlue,
-              height: 150,
+              height: 150.h,
               width: deviceSize.width,
               child: Column(
                 children: [

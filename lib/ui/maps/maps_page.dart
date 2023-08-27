@@ -11,6 +11,7 @@ import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,6 @@ class _MapsPageState extends State<MapsPage> {
   @override
   void initState() {
     bloc = context.read<MapsBloc>();
-    controller.addListener(() {});
     super.initState();
   }
 
@@ -52,11 +52,22 @@ class _MapsPageState extends State<MapsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
+        padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 15.h),
         color: AppColor.darkBlue,
-        height: 80,
-        child: ButtonLongSimple(
-          title: tr('expansion'),
-          function: () => nextMissions(),
+        height: 160.h,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(
+                context.locale != const Locale('ru')
+                    ? scenes[current].descriptionRu
+                    : scenes[current].descriptionEn,
+                style: AppText.baseBody16),
+            ButtonLongSimple(
+              title: tr('expansion'),
+              function: () => nextMissions(),
+            ),
+          ],
         ),
       ),
       body: BlocConsumer<MapsBloc, MapsState>(
@@ -64,8 +75,7 @@ class _MapsPageState extends State<MapsPage> {
         listener: (context, state) async {
           if (state.isNext) {
             Future.delayed(const Duration(milliseconds: 500), () async {
-              // router.go('/battle');
-              router.pop();
+              router.go('/battle');
             });
           }
         },
@@ -73,7 +83,7 @@ class _MapsPageState extends State<MapsPage> {
           return Stack(
             children: [
               SizedBox(
-                height: deviceSize.height,
+                width: deviceSize.width,
                 child: Image.asset(
                   'assets/images/fonMap1.png',
                   fit: BoxFit.fill,
@@ -81,7 +91,7 @@ class _MapsPageState extends State<MapsPage> {
               ),
               appButtonBack(tr("maps")),
               Padding(
-                padding: EdgeInsets.only(top: top, bottom: 50),
+                padding: EdgeInsets.only(top: top),
                 child: GridView.builder(
                   controller: controller,
                   physics: state.isBegin
@@ -95,35 +105,44 @@ class _MapsPageState extends State<MapsPage> {
                   itemCount: scenes.length,
                   itemBuilder: (context, index) {
                     var globalKey = RectGetter.createGlobalKey();
+                    int id = scenes[index].id;
                     try {
-                      if (index == current &&
+                      if (id == current &&
                           state.isBegin &&
                           !state.isNext &&
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
                           Rect? rect = RectGetter.getRectFromKey(globalKey);
-
+                          double dx =
+                              (scenes[id].typeScene == TypeScene.fifth ||
+                                      scenes[id].typeScene == TypeScene.first)
+                                  ? 20.w
+                                  : 35.w;
                           to = Point(
-                            rect!.center.dx - 35.w,
+                            rect!.center.dx - dx,
                             rect.center.dy +
-                                scenes[index].typeScene.padding -
+                                scenes[id].typeScene.padding -
                                 35.h,
                           );
                         });
                       }
-                      if (index == current - 1 &&
+                      if (id == current - 1 &&
                           state.isBegin &&
                           !state.isNext &&
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
                           Rect? rect = RectGetter.getRectFromKey(globalKey);
-
+                          double dx =
+                              (scenes[id].typeScene == TypeScene.fifth ||
+                                      scenes[id].typeScene == TypeScene.first)
+                                  ? -20.w
+                                  : 10.w;
                           from = Point(
-                            rect!.center.dx + 10.w,
+                            rect!.center.dx + dx,
                             rect.center.dy +
-                                scenes[index].typeScene.padding -
+                                scenes[id].typeScene.padding -
                                 30.h,
                           );
                         });
@@ -134,7 +153,7 @@ class _MapsPageState extends State<MapsPage> {
                       key: globalKey,
                       child: GestureDetector(
                           onTap: () {
-                            if (current != index || !user.isBegin) return;
+                            if (current != id || !user.isBegin) return;
                             nextMissions();
                           },
                           child: scenes[index].build(
@@ -149,7 +168,7 @@ class _MapsPageState extends State<MapsPage> {
                 AnimatedPositioned(
                   top: !state.isMove ? from.y.toDouble() : to.y.toDouble(),
                   left: !state.isMove ? from.x.toDouble() : to.x.toDouble(),
-                  duration: const Duration(seconds: 4),
+                  duration: const Duration(seconds: 3),
                   child: Transform.rotate(
                     angle: angleToPoint(from, to),
                     child: Container(
@@ -176,7 +195,7 @@ class _MapsPageState extends State<MapsPage> {
     if (bloc.state.isBegin) return;
 
     bloc.add(MapsBeginEvent());
-    double scrollTo = (current ~/ 5) * 120.h;
+    double scrollTo = (current ~/ 5 - 1) * 120.h;
     controller.jumpTo(scrollTo);
     await Future.delayed(const Duration(milliseconds: 300));
     bloc.add(MapsShowEvent());
