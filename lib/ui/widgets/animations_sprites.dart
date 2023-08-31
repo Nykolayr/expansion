@@ -59,7 +59,7 @@ class ImageAnimationState extends State<ImageAnimation>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _animation,
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         playSound();
         return Image.asset(
           '${widget.animationsGame.spritePath}${_animation.value}.png',

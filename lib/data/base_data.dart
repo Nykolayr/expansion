@@ -11,7 +11,8 @@ import 'package:get/get.dart';
 class BaseData {
   Future<void> saveJson(
       {required Map<String, dynamic> json, required UserGame user}) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
     return users
         .doc(user.id)
         .set({
@@ -19,19 +20,24 @@ class BaseData {
           'json': jsonEncode(json),
           'score': user.score,
         })
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .then((value) => print('User Added'))
+        .catchError((error) => print('Failed to add user: $error'));
   }
 
   Future<Map<String, dynamic>> loadJson({required String id}) async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    final CollectionReference users =
+        FirebaseFirestore.instance.collection('users');
     var docSnapshot = await users.doc(id).get();
-    Map<String, dynamic> data = {};
+    var data = <String, dynamic>{};
     if (docSnapshot.data() == null) {
       await Get.find<UserRepository>().saveUser();
       docSnapshot = await users.doc(id).get();
     }
-    data = docSnapshot.data() as Map<String, dynamic>;
-    return jsonDecode(data['json']);
+    if (docSnapshot.data() == null) {
+      data = docSnapshot.data()! as Map<String, dynamic>;
+      return jsonDecode(data['json'] as String) as Map<String, dynamic>;
+    } else {
+      return {};
+    }
   }
 }

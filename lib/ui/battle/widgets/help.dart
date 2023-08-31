@@ -23,7 +23,7 @@ class HelpPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("help")),
+          appButtonBack(tr('help')),
           Padding(
             padding: EdgeInsets.only(left: 20.w, right: 20.w, top: 70.h),
             child: SingleChildScrollView(

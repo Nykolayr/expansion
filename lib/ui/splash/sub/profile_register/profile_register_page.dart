@@ -8,9 +8,10 @@ import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:surf_logger/surf_logger.dart';
 
 class ProfileRegisterPage extends StatelessWidget {
-  const ProfileRegisterPage({Key? key}) : super(key: key);
+  const ProfileRegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class ProfileRegisterPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("profileregister")),
+          appButtonBack(tr('profileregister')),
           BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
             return Container(
               height: deviceSize.height,
@@ -78,7 +79,7 @@ class ProfileRegisterPage extends StatelessWidget {
                   ),
                   ButtonLong(
                       title: tr('register'),
-                      function: () => print("Вход в аккаунт какое то")),
+                      function: () => Logger.d('Вход в аккаунт какое то')),
                   SizedBox(
                     height: 15.h,
                   ),

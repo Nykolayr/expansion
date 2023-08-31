@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
+import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
@@ -14,10 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'bloc/setting_bloc.dart';
-
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,7 @@ class SettingsPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("settings")),
+          appButtonBack(tr('settings')),
           BlocBuilder<SettingBloc, SettingState>(builder: (context, state) {
             return Container(
               width: deviceSize.width,
@@ -99,7 +98,7 @@ class SettingsPage extends StatelessWidget {
 
 class ChooseLang extends StatelessWidget {
   final BuildContext context;
-  const ChooseLang(this.context, {Key? key}) : super(key: key);
+  const ChooseLang(this.context, {super.key});
 
   @override
   // ignore: avoid_renaming_method_parameters

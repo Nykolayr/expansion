@@ -11,8 +11,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget getInfo(BaseObject base) {
-  bool isUpShild = getIsUpShild(base);
-  bool isUpSpeed = getIsUpSpeed(base);
+  final isUpShild = getIsUpShild(base);
+  final isUpSpeed = getIsUpSpeed(base);
   return SizedBox(
     width: base.size.w,
     height: base.size.h,
@@ -161,10 +161,10 @@ Widget titleWithSvg(String text) {
 bool getIsUpShild(BaseObject base) {
   if (base.typeStatus == TypeStatus.neutral ||
       base.typeStatus == TypeStatus.asteroid) return false;
-  int levelShild = (base.shild / base.typeStatus.minShild).round();
-  bool isUpShild = false;
+  final levelShild = (base.shild / base.typeStatus.minShild).round();
+  var isUpShild = false;
 
-  if (base.resources > 100 * (1 << (levelShild))) isUpShild = true;
+  if (base.resources > 100 * (1 << levelShild)) isUpShild = true;
   return isUpShild;
 }
 
@@ -172,10 +172,10 @@ bool getIsUpShild(BaseObject base) {
 bool getIsUpSpeed(BaseObject base) {
   if (base.typeStatus == TypeStatus.neutral ||
       base.typeStatus == TypeStatus.asteroid) return false;
-  int levelSpeed =
+  final levelSpeed =
       (base.speedBuild / base.typeStatus.speedBuildShip).round() - 1;
-  bool isUpSpeed = false;
-  if (base.resources > 100 * (1 << (levelSpeed))) isUpSpeed = true;
+  var isUpSpeed = false;
+  if (base.resources > 100 * (1 << levelSpeed)) isUpSpeed = true;
   return isUpSpeed;
 }
 
@@ -211,19 +211,17 @@ enum InfoStatus {
 /// вращающаяся икона битвы, когда отряд кораблей нападет на станцию
 class IconRotate extends StatefulWidget {
   final double size;
-  const IconRotate({super.key, required this.size});
+  const IconRotate({required this.size, super.key});
 
   @override
   State<IconRotate> createState() => IconRotateState();
 }
 
 class IconRotateState extends State<IconRotate> {
-  double turns = 0.0;
+  double turns = 0;
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 200), () {
-      _changeRotation();
-    });
+    Future.delayed(const Duration(milliseconds: 200), _changeRotation);
     super.initState();
   }
 

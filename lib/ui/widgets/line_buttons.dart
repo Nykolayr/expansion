@@ -6,13 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class LineButtons extends StatelessWidget {
   final bool isTop;
   final bool isBegin;
-  const LineButtons({this.isTop = true, this.isBegin = false, Key? key})
-      : super(key: key);
+  const LineButtons({this.isTop = true, this.isBegin = false, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double widht = deviceSize.width / 3;
-    final double height = widht / 3;
+    final widht = deviceSize.width / 3;
+    final height = widht / 3;
     return Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
@@ -30,7 +29,6 @@ class LineButtons extends StatelessWidget {
                     ),
                   ),
                   const Align(
-                    alignment: Alignment.center,
                     child: ButtonSide(
                       Direct.meddleTop,
                     ),
@@ -50,7 +48,6 @@ class LineButtons extends StatelessWidget {
                     ),
                   ),
                   const Align(
-                    alignment: Alignment.center,
                     child: ButtonSide(
                       Direct.meddleBottom,
                     ),
@@ -71,12 +68,11 @@ class LineMenu extends StatelessWidget {
   final String title2;
   final Function() click;
 
-  const LineMenu(this.title1, this.title2, this.click, {Key? key})
-      : super(key: key);
+  const LineMenu(this.title1, this.title2, this.click, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final double widht = (deviceSize.width - 45) / 2 - 12;
+    final widht = (deviceSize.width - 45) / 2 - 12;
     return Stack(
       children: [
         Align(

@@ -16,8 +16,7 @@ class SimpleMessage extends StatelessWidget {
   final Widget? additional;
   final Function()? tap;
   const SimpleMessage(this.title, this.body,
-      {this.additional, this.tap, Key? key})
-      : super(key: key);
+      {this.additional, this.tap, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +56,6 @@ class SimpleMessage extends StatelessWidget {
                 height: 45.h,
               ),
               Align(
-                alignment: Alignment.center,
                 child: ButtonSide(
                   Direct.meddleTop,
                   function: () => Navigator.pop(context),
@@ -72,15 +70,15 @@ class SimpleMessage extends StatelessWidget {
   }
 }
 
-showPolitic(BuildContext context) {
-  String body = '''
+dynamic showPolitic(BuildContext context) {
+  final body = '''
 ${tr('part1')}
 
 ${tr('part2')}
 
 ${tr('part3')}
  ''';
-  final Uri url = Uri.parse(politicUrl);
+  final url = Uri.parse(politicUrl);
 
   return showModal(
       context,
@@ -106,23 +104,22 @@ Widget urlText(String text, Uri url) {
   );
 }
 
-showModal(BuildContext context, Widget widget) {
+void showModal(BuildContext context, Widget widget) {
   showDialog<void>(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return widget;
       });
 }
 
-Future showModalBottom(BuildContext context, Widget widget) {
+Future<bool?> showModalBottom(BuildContext context, Widget widget) {
   return showModalBottomSheet(
       context: context,
       backgroundColor: AppColor.darkBlue,
-      builder: (BuildContext context) {
+      builder: (context) {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(

@@ -31,11 +31,11 @@ class Base extends BaseObject {
   });
 
   factory Base.fromJson(Map<String, dynamic> json) {
-    final int x = json['coordinates']['x'];
-    final int y = json['coordinates']['y'];
-    SizeBase sizeBase = SizeBase.values
+    final x = (json['coordinates'] as Map<String, dynamic>)['x'] as int;
+    final y = (json['coordinates'] as Map<String, dynamic>)['y'] as int;
+    final sizeBase = SizeBase.values
         .firstWhere((e) => e.toString() == 'SizeBase.${json["typeNeutral"]}');
-    final double size = sizeBase.add.size;
+    final size = sizeBase.add.size;
     return Base(
       coordinates: Point((stepX * x - size / 2).w, (stepY * y - size / 2).h),
       ships: sizeBase.add.maxShips,
@@ -45,7 +45,7 @@ class Base extends BaseObject {
       shild: sizeBase.add.shild,
       speedBuild: sizeBase.add.speedBuild,
       speedResources: sizeBase.add.speedResources,
-      resources: 0.0,
+      resources: 0,
       typeStatus: TypeStatus.values.firstWhere(
           (e) => e.toString() == 'TypeStatus.${json["typeStatus"]}'),
       size: size,
@@ -53,15 +53,15 @@ class Base extends BaseObject {
     );
   }
   Map<String, dynamic> toJson() => {
-        "coordinates": coordinates,
-        "maxShips": maxShips,
-        "shild": shild,
-        "ships": ships,
-        "speedBuild": speedBuild,
-        "speedResources": speedResources,
-        "SizeBase": sizeBase,
-        "resources": resources,
-        "typeStatus": typeStatus,
+        'coordinates': coordinates,
+        'maxShips': maxShips,
+        'shild': shild,
+        'ships': ships,
+        'speedBuild': speedBuild,
+        'speedResources': speedResources,
+        'SizeBase': sizeBase,
+        'resources': resources,
+        'typeStatus': typeStatus,
       };
 
   @override
@@ -81,17 +81,17 @@ class Base extends BaseObject {
         ),
         child: DragTarget<int>(
           builder: (
-            BuildContext context,
-            List<dynamic> accepted,
-            List<dynamic> rejected,
+            context,
+            accepted,
+            rejected,
           ) {
             return Stack(
               alignment: Alignment.center,
               children: [
                 Container(
                   padding: const EdgeInsets.all(2),
-                  height: sizeBase.add.size.toDouble(),
-                  width: sizeBase.add.size.toDouble(),
+                  height: sizeBase.add.size,
+                  width: sizeBase.add.size,
                   decoration: typeStatus.boxDecor,
                   child: Container(
                     padding: const EdgeInsets.all(5),
@@ -112,7 +112,7 @@ class Base extends BaseObject {
               ],
             );
           },
-          onAccept: (int sender) {
+          onAccept: (sender) {
             if (Get.find<GameRepository>().bases[sender].typeStatus ==
                 TypeStatus.our) onAccept!(sender);
           },
@@ -130,10 +130,10 @@ enum SizeBase {
     switch (this) {
       case SizeBase.base:
         return BaseAdd(
-          description: "Нейтральный объект",
+          description: 'Нейтральный объект',
           pictire: 'assets/images/bases/base1.png',
           maxShips: 100,
-          shild: 0.0,
+          shild: 0,
           speedBuild: 0,
           speedResources: 0,
           size: 60,
@@ -141,10 +141,10 @@ enum SizeBase {
         );
       case SizeBase.midleBase:
         return BaseAdd(
-          description: "Нейтральный средний объект",
+          description: 'Нейтральный средний объект',
           pictire: 'assets/images/bases/base2.png',
           maxShips: 130,
-          shild: 0.0,
+          shild: 0,
           speedBuild: 0,
           speedResources: 0,
           size: 80,

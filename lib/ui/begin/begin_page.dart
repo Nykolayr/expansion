@@ -19,7 +19,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class BeginPage extends StatelessWidget {
-  const BeginPage({Key? key}) : super(key: key);
+  const BeginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class BeginPage extends StatelessWidget {
                     height: 15.h,
                   ),
                   Text(
-                    tr("already_played"),
+                    tr('already_played'),
                     style: AppText.baseBody16,
                     textAlign: TextAlign.center,
                   ),
@@ -62,7 +62,7 @@ class BeginPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("new_game")),
+          appButtonBack(tr('new_game')),
           BlocBuilder<BeginBloc, BeginState>(builder: (context, state) {
             return Container(
               width: deviceSize.width,
@@ -132,7 +132,7 @@ class BeginPage extends StatelessWidget {
 
 class ChooseLevel extends StatelessWidget {
   final BuildContext context;
-  const ChooseLevel(this.context, {Key? key}) : super(key: key);
+  const ChooseLevel(this.context, {super.key});
 
   @override
   Widget build(BuildContext context2) {
@@ -179,7 +179,7 @@ class ChooseLevel extends StatelessWidget {
 
 class ChooseUniver extends StatelessWidget {
   final BuildContext context;
-  const ChooseUniver(this.context, {Key? key}) : super(key: key);
+  const ChooseUniver(this.context, {super.key});
 
   @override
   Widget build(BuildContext context2) {
@@ -192,7 +192,7 @@ class ChooseUniver extends StatelessWidget {
         SizedBox(
           height: 25.h,
         ),
-        for (var item in Univer.values) getUniver(item),
+        for (final item in Univer.values) getUniver(item),
         helpGame(context2),
       ],
     );

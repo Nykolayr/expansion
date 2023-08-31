@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
             ? ButtonLongSimple(
                 title: tr('exit_profile'),
                 function: () async {
-                  bool? result = await showModalBottom(
+                  final result = await showModalBottom(
                       context, YesNoModal(context, tr('exit_profile_text')));
                   if (result != null && result) {
                     if (context.mounted) {
@@ -59,7 +59,7 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           appButtonBack(
-            tr("profile"),
+            tr('profile'),
           ),
           BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
             return Container(
@@ -94,13 +94,11 @@ class ProfilePage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              String? enteredName = await showModalBottom(
+                              // TODO: реализовать редактирование имени в модалке
+                              await showModalBottom(
                                 context,
                                 TextFieldModel(context, '${tr('username')}?'),
                               );
-
-                              if (enteredName != null &&
-                                  enteredName.isNotEmpty) {}
                             },
                             child: const Icon(
                               Icons.edit,
@@ -134,20 +132,19 @@ class ProfilePage extends StatelessWidget {
 
   /// функция для регистрации пользователя в аккаунт Google
   Future<void> signup(BuildContext context) async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+    final auth = FirebaseAuth.instance;
+    final googleSignIn = GoogleSignIn();
+    final googleSignInAccount = await googleSignIn.signIn();
     if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
+      final googleSignInAuthentication =
           await googleSignInAccount.authentication;
       final AuthCredential authCredential = GoogleAuthProvider.credential(
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken);
 
       // Getting users credential
-      UserCredential result = await auth.signInWithCredential(authCredential);
-      User? user = result.user;
+      final result = await auth.signInWithCredential(authCredential);
+      final user = result.user;
       if (user != null) {
         Get.find<UserRepository>().user =
             Get.find<UserRepository>().user.copyWith(
@@ -156,7 +153,7 @@ class ProfilePage extends StatelessWidget {
                   isRegistration: true,
                   id: user.uid,
                 );
-        Get.find<UserRepository>().saveUser();
+        await Get.find<UserRepository>().saveUser();
         if (context.mounted) {
           context.read<ProfileBloc>().add(ChangeUser(uid: user.uid));
         }

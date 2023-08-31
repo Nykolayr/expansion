@@ -9,28 +9,28 @@ import 'package:get/get.dart';
 /// в зависимости от быстроты захвата
 /// base - наша начальная база, time - сколько тиков вышло у игрока
 int calculateScore(BaseObject base, int time) {
-  int maxTime = 0;
-  double speedShips = TypeStatus.our.shipSpeed * speedShipsMult;
-  double speedBuildShips = TypeStatus.our.speedBuildShip * (15 / delSpeedBuild);
-  List<BaseObject> bases = Get.find<GameRepository>().bases;
-  bases.removeWhere((element) => element.index == base.index);
+  var maxTime = 0;
+  final speedShips = TypeStatus.our.shipSpeed * speedShipsMult;
+  final speedBuildShips = TypeStatus.our.speedBuildShip * (15 / delSpeedBuild);
+  final bases = Get.find<GameRepository>().bases
+    ..removeWhere((element) => element.index == base.index);
   sortDist(bases, base);
-  BaseObject previousBase = base;
-  for (int k = 0; k < bases.length; k++) {
+  var previousBase = base;
+  for (var k = 0; k < bases.length; k++) {
     maxTime +=
         (distance(previousBase.coordinates, bases[k].coordinates) / speedShips +
                 bases[k].maxShips / (speedBuildShips * (k + 1)))
             .round();
     previousBase = bases[k];
   }
-  double score = (scoreMultiplier - 100) * (1 + (maxTime / time));
+  final score = (scoreMultiplier - 100) * (1 + (maxTime / time));
   return score.toInt();
 }
 
 void sortDist(List<BaseObject> bases, BaseObject base) {
   bases.sort((base1, base2) {
-    double dist1 = distance(base.coordinates, base1.coordinates);
-    double dist2 = distance(base.coordinates, base2.coordinates);
+    final dist1 = distance(base.coordinates, base1.coordinates);
+    final dist2 = distance(base.coordinates, base2.coordinates);
     return dist1.compareTo(dist2);
   });
 }

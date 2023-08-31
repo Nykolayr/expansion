@@ -14,50 +14,52 @@ class AllUpgrade {
 
   AllUpgrade({required this.score, required this.allScore, required this.list});
   factory AllUpgrade.fromJson(Map<String, dynamic> json) {
+    final jsonObject = json['list'] as List<Map<String, dynamic>>;
     return AllUpgrade(
-        score: json['score'],
-        allScore: json['allScore'],
-        list: List.from(json['list']).map((x) => Upgrade.fromJson(x)).toList());
+        score: json['score'] as int,
+        allScore: json['allScore'] as int,
+        list: jsonObject.map(Upgrade.fromJson).toList());
   }
   factory AllUpgrade.initialOur() {
-    List<Upgrade> list = [];
-    list.add(Upgrade.from(TypeUp.shipSpeed, 10)); // скорость кораблей
-    list.add(Upgrade.from(TypeUp.shipDurability, 5)); // прочность кораблей
-    list.add(
-        Upgrade.from(TypeUp.shipBuildSpeed, 10)); // скорость прироста кораблей
-    list.add(Upgrade.from(
-        TypeUp.resourceIncomeSpeed, 10)); // скорость прироста ресурсов
-    list.add(Upgrade.from(TypeUp.shieldDurability, 15)); // прочность щита
-    // Начальное значение кораблей на базе в начале игры
-    list.add(Upgrade(
-        level: 0,
-        percenstValue: 0,
-        nextScore: scoreMultiplier,
-        nextValue: 10,
-        type: TypeUp.beginShips,
-        value: 100));
+    final list = <Upgrade>[
+      Upgrade.from(TypeUp.shipSpeed, 10), // скорость кораблей
+      Upgrade.from(TypeUp.shipDurability, 5), // прочность кораблей
+      Upgrade.from(TypeUp.shipBuildSpeed, 10), // скорость прироста кораблей
+      Upgrade.from(
+          TypeUp.resourceIncomeSpeed, 10), // скорость прироста ресурсов
+      Upgrade.from(TypeUp.shieldDurability, 15), // прочность щита
+      // Начальное значение кораблей на базе в начале игры
+      Upgrade(
+          level: 0,
+          percenstValue: 0,
+          nextScore: scoreMultiplier,
+          nextValue: 10,
+          type: TypeUp.beginShips,
+          value: 100),
+    ];
+
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
   /// иницилизируем систему upgrade  в начале игры
   factory AllUpgrade.initialEnemy() {
-    List<Upgrade> list = [];
-    list.add(Upgrade.from(TypeUp.shipSpeed, 5)); // скорость кораблей
-    list.add(Upgrade.from(TypeUp.shipDurability, 5)); // прочность кораблей
-    list.add(
-        Upgrade.from(TypeUp.shipBuildSpeed, 5)); // скорость прироста кораблей
-    list.add(Upgrade.from(
-        TypeUp.resourceIncomeSpeed, 5)); // скорость прироста ресурсов
-    list.add(Upgrade.from(TypeUp.shieldDurability, 5)); // прочность щита
-    // Начальное значение кораблей на базе в начале игры
-    list.add(Upgrade(
-        level: 0,
-        nextScore: scoreMultiplier,
-        nextValue: 10,
-        percenstValue: 0,
-        type: TypeUp.beginShips,
-        value: 100));
-    list.add(Upgrade.from(TypeUp.tic, 5)); // скорость отклика врага
+    final list = <Upgrade>[
+      Upgrade.from(TypeUp.shipSpeed, 5), // скорость кораблей
+      Upgrade.from(TypeUp.shipDurability, 5), // прочность кораблей
+      Upgrade.from(TypeUp.shipBuildSpeed, 5), // скорость прироста кораблей
+      Upgrade.from(TypeUp.resourceIncomeSpeed, 5), // скорость прироста ресурсов
+      Upgrade.from(TypeUp.shieldDurability, 5), // прочность щита
+      // Начальное значение кораблей на базе в начале игры
+      Upgrade(
+          level: 0,
+          nextScore: scoreMultiplier,
+          nextValue: 10,
+          percenstValue: 0,
+          type: TypeUp.beginShips,
+          value: 100),
+      Upgrade.from(TypeUp.tic, 5), // скорость отклика врага
+    ];
+
     return AllUpgrade(list: list, score: 0, allScore: 0);
   }
 
@@ -66,23 +68,23 @@ class AllUpgrade {
   }
 
   double shipSpeed() {
-    return (list[0].value * (1 + list[0].percenstValue / 100));
+    return list[0].value * (1 + list[0].percenstValue / 100);
   }
 
   double shipDurability() {
-    return (list[1].value * (1 + list[1].percenstValue / 100));
+    return list[1].value * (1 + list[1].percenstValue / 100);
   }
 
   double shipBuildSpeed() {
-    return (list[2].value * (1 + list[2].percenstValue / 100));
+    return list[2].value * (1 + list[2].percenstValue / 100);
   }
 
   double resourceIncomeSpeed() {
-    return (list[3].value * (1 + list[3].percenstValue / 100));
+    return list[3].value * (1 + list[3].percenstValue / 100);
   }
 
   double shieldDurability() {
-    return (list[4].value * (1 + list[4].percenstValue / 100));
+    return list[4].value * (1 + list[4].percenstValue / 100);
   }
 
   int beginShips() {
@@ -90,20 +92,20 @@ class AllUpgrade {
   }
 
   double tic() {
-    return (list[6].value * (1 + list[6].percenstValue / 100));
+    return list[6].value * (1 + list[6].percenstValue / 100);
   }
 
   /// метод для чужих апгрейд всех параметров после каждого боя
-  toAllUpgrade() {
-    for (var item in list) {
+  void toAllUpgrade() {
+    for (final item in list) {
       toUpgrade(item.type, isEnemy: true);
     }
   }
 
   // Метод для апгрейда параметра
-  toUpgrade(TypeUp type, {bool isEnemy = false}) {
-    int index = list.indexWhere((element) => element.type == type);
-    Upgrade upgrade = list[index];
+  void toUpgrade(TypeUp type, {bool isEnemy = false}) {
+    final index = list.indexWhere((element) => element.type == type);
+    final upgrade = list[index];
     upgrade.level++;
     upgrade.percenstValue += isEnemy
         ? Get.find<UserRepository>().game.level.enemyPercent
@@ -232,12 +234,12 @@ class Upgrade {
 
   factory Upgrade.fromJson(Map<String, dynamic> json) {
     return Upgrade(
-      type: TypeUp.values[json['type']],
-      value: json['value'],
-      level: json['level'],
-      nextValue: json['nextValue'],
-      nextScore: json['nextScore'],
-      percenstValue: json['percenstValue'],
+      type: TypeUp.values[json['type'] as int],
+      value: json['value'] as double,
+      level: json['level'] as int,
+      nextValue: json['nextValue'] as int,
+      nextScore: json['nextScore'] as int,
+      percenstValue: json['percenstValue'] as int,
     );
   }
 

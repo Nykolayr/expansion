@@ -6,17 +6,11 @@ const politicUrl = 'https://flutter.dev';
 /// путь где находится описание объектов для карт
 const pathAssetScenes = 'assets/scenes';
 
-/// координаты верхнего главного объекта
-const Size centerTop = Size(0, 0);
-
-/// координаты нижнего главного объекта
-const Size centerDown = Size(0, 0);
-
 /// размеры эталлоного устройства
 const Size standardDeviceSize = Size(392.7, 850.9);
 
 /// размер устройства
-Size deviceSize = const Size(0, 0);
+Size deviceSize = Size.zero;
 // шаг по оси х (5 позиций)
 final double stepX = standardDeviceSize.width / 6;
 // шаг по оси х (7 позиций)

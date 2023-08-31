@@ -4,17 +4,16 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/line_buttons.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import '../../utils/text.dart';
-import 'bloc/splash_bloc.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -23,8 +22,8 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<SplashBloc, SplashState>(builder: (context, state) {
-        double widht = deviceSize.width / 3;
-        double height = widht / 3 + 10;
+        final widht = deviceSize.width / 3;
+        final height = widht / 3 + 10;
         return Scaffold(
           body: Stack(
             children: [
@@ -38,7 +37,6 @@ class SplashPage extends StatelessWidget {
               ),
               Center(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: 20.h,
@@ -58,14 +56,14 @@ class SplashPage extends StatelessWidget {
                       height: 20.h,
                     ),
                     Text(
-                      tr("space"),
+                      tr('space'),
                       style: AppText.baseTextShadow.copyWith(fontSize: 42.sp),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     Text(
-                      tr("EXPANSION"),
+                      tr('EXPANSION'),
                       style: AppText.baseTextShadow.copyWith(fontSize: 52.sp),
                     ),
                   ],
@@ -111,7 +109,7 @@ class SplashPage extends StatelessWidget {
 
 class Loader extends StatelessWidget {
   final SplashState state;
-  const Loader(this.state, {Key? key}) : super(key: key);
+  const Loader(this.state, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +118,7 @@ class Loader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Get.find<UserRepository>().game.isSplash
-              ? Column(
+          if (Get.find<UserRepository>().game.isSplash) Column(
                   children: [
                     AnimatedContainer(
                       curve: Curves.fastOutSlowIn,
@@ -164,8 +161,7 @@ class Loader extends StatelessWidget {
                       style: AppText.baseText.copyWith(color: AppColor.white),
                     ),
                   ],
-                )
-              : const SizedBox.shrink(),
+                ) else const SizedBox.shrink(),
           SizedBox(
             height: 25.h,
           ),

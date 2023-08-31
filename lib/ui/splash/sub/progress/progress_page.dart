@@ -14,7 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ProgressPage extends StatelessWidget {
-  const ProgressPage({Key? key}) : super(key: key);
+  const ProgressPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ProgressPage extends StatelessWidget {
                     height: 15.h,
                   ),
                   Text(
-                    tr("guestWarning"),
+                    tr('guestWarning'),
                     style: AppText.baseBody16,
                     textAlign: TextAlign.center,
                   ),
@@ -60,7 +60,7 @@ class ProgressPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("progress")),
+          appButtonBack(tr('progress')),
           BlocBuilder<ProgressBloc, ProgressState>(builder: (context, state) {
             return Container(
               width: deviceSize.width,
@@ -115,7 +115,7 @@ class ProgressPage extends StatelessWidget {
                               height: 25.h,
                             ),
                             Text(
-                              tr("Достижения других игроков"),
+                              tr('Достижения других игроков'),
                               style: AppText.baseBodyBold16,
                               textAlign: TextAlign.center,
                             ),

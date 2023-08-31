@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 
 class WinLostModal extends StatelessWidget {
   final BuildContext context;
-  const WinLostModal(this.context, {Key? key}) : super(key: key);
+  const WinLostModal(this.context, {super.key});
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -40,7 +40,7 @@ class WinLostModal extends StatelessWidget {
                       mapClassic:
                           Get.find<UserRepository>().user.mapClassic + 1);
               await Get.find<UserRepository>().saveUser();
-              router.pushReplacement('/');
+              await router.pushReplacement('/');
             },
           ),
         SizedBox(
@@ -67,7 +67,7 @@ class WinLostModal extends StatelessWidget {
 class YesNoModal extends StatelessWidget {
   final BuildContext context;
   final String title;
-  const YesNoModal(this.context, this.title, {Key? key}) : super(key: key);
+  const YesNoModal(this.context, this.title, {super.key});
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -105,7 +105,7 @@ class TextFieldModel extends StatelessWidget {
   final BuildContext context;
   final String title;
   final TextEditingController nameController = TextEditingController();
-  TextFieldModel(this.context, this.title, {Key? key}) : super(key: key);
+  TextFieldModel(this.context, this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +122,7 @@ class TextFieldModel extends StatelessWidget {
           style: const TextStyle(fontSize: 22, color: Colors.white),
           decoration: const InputDecoration(
             border: InputBorder.none,
-            hintText: "Введите логин",
+            hintText: 'Введите логин',
             fillColor: Color.fromARGB(26, 255, 255, 255),
             filled: true,
           ),

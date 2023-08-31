@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:computer/computer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
@@ -5,16 +7,13 @@ import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/firebase_options.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/value.dart';
 import 'package:firebase_core/firebase_core.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:ui' as ui;
-
-import 'utils/value.dart';
 // ignore: non_constant_identifier_names
 
 void main() async {
@@ -23,19 +22,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .whenComplete(() async {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
     // Добавляем два isolate
-    Computer computerTic = Computer.create();
+    final computerTic = Computer.create();
     await computerTic.turnOn();
     Get.put(() => computerTic);
     await Get.putAsync(() async {
-      UserRepository userRepository = await UserRepository.getInstance();
+      final userRepository = await UserRepository.getInstance();
       return userRepository;
     });
     runApp(
@@ -62,8 +61,6 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp.router(
             title: 'Space expansion',
             debugShowCheckedModeBanner: false,
-            debugShowMaterialGrid: false,
-            showSemanticsDebugger: false,
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
@@ -75,7 +72,7 @@ class MyApp extends StatelessWidget {
               textTheme: GoogleFonts.kellySlabTextTheme(),
             ),
             builder: (context, child) {
-              String name = Get.find<UserRepository>().user.name;
+              final name = Get.find<UserRepository>().user.name;
               if (name == 'guest') {
                 Get.find<UserRepository>().user =
                     Get.find<UserRepository>().user.copyWith(name: tr(name));
@@ -83,18 +80,18 @@ class MyApp extends StatelessWidget {
               deviceSize = Size(MediaQuery.of(context).size.width,
                   MediaQuery.of(context).size.height);
               Get.putAsync(() async {
-                GameRepository gameRepository = GameRepository();
+                final gameRepository = GameRepository();
                 await gameRepository.init();
                 return gameRepository;
               });
               final mq = MediaQuery.of(context);
-              double fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
+              final fontScale = mq.textScaleFactor.clamp(0.9, 1.1);
               return Directionality(
                 textDirection: ui.TextDirection.ltr,
                 child: MediaQuery(
                   data: mq.copyWith(textScaleFactor: fontScale),
                   child: Scaffold(
-                    body: child!,
+                    body: child,
                   ),
                 ),
               );

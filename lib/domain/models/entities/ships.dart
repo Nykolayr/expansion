@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
@@ -6,7 +8,6 @@ import 'package:expansion/ui/widgets/widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,12 +19,12 @@ class ShipSimple extends EntitesObject {
   double angle;
   PointFly fly;
   ShipSimple({
+    required super.coordinates,
+    required this.target,
     super.index = 0,
     super.size = 30,
     super.ships = 0,
     super.typeStatus = TypeStatus.our,
-    required super.coordinates,
-    required this.target,
   })  : angle = angleToPoint(coordinates, target),
         fly = PointFly(Point(coordinates.x, coordinates.y));
 
@@ -36,8 +37,8 @@ class ShipSimple extends EntitesObject {
 
   @override
   Widget build(
-      {int index = 0,
-      required BuildContext context,
+      {required BuildContext context,
+      int index = 0,
       Function(int sender)? onAccept}) {
     if (coordinates == target) {
       context.read<MapsBloc>().add(MapsEndEvent());
@@ -123,23 +124,24 @@ class Ship extends EntitesObject {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          isAttack
-              ? IconRotate(size: size)
-              : Transform.rotate(
-                  angle: angle,
-                  child: Container(
-                    height: size,
-                    width: size,
-                    padding: const EdgeInsets.all(4),
-                    decoration: typeStatus.boxDecor,
-                    child: SvgPicture.asset(
-                      typeStatus.shipImage,
-                      colorFilter:
-                          ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
-                      width: 40.w,
-                    ),
-                  ),
+          if (isAttack)
+            IconRotate(size: size)
+          else
+            Transform.rotate(
+              angle: angle,
+              child: Container(
+                height: size,
+                width: size,
+                padding: const EdgeInsets.all(4),
+                decoration: typeStatus.boxDecor,
+                child: SvgPicture.asset(
+                  typeStatus.shipImage,
+                  colorFilter:
+                      ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
+                  width: 40.w,
                 ),
+              ),
+            ),
           Positioned(
             bottom: 0,
             child: Container(
@@ -174,33 +176,33 @@ class PointFly {
   PointFly(this.coordinates);
 
   double distanceTo(PointFly other) {
-    num dx = coordinates.x - other.coordinates.x;
-    num dy = coordinates.y - other.coordinates.y;
+    final dx = coordinates.x - other.coordinates.x;
+    final dy = coordinates.y - other.coordinates.y;
     return sqrt(dx * dx + dy * dy);
   }
 
   PointFly moveTowards(PointFly target, double distance) {
-    double totalDistance = distanceTo(target);
+    final totalDistance = distanceTo(target);
     if (totalDistance <= distance) {
       return target;
     }
-    double ratio = distance / totalDistance;
-    double dx = (target.coordinates.x - coordinates.x) * ratio;
-    double dy = (target.coordinates.y - coordinates.y) * ratio;
+    final ratio = distance / totalDistance;
+    final dx = (target.coordinates.x - coordinates.x) * ratio;
+    final dy = (target.coordinates.y - coordinates.y) * ratio;
     return PointFly(Point(coordinates.x + dx, coordinates.y + dy));
   }
 }
 
 /// проверяет, произошло ли столкновение с вражеским отрядом кораблей
 int? checkCollisionShip(Ship shipOur) {
-  GameRepository gameData = Get.find<GameRepository>();
-  for (EntitesObject ship in gameData.ships) {
+  final gameData = Get.find<GameRepository>();
+  for (final ship in gameData.ships) {
     if (ship.typeStatus == shipOur.typeStatus ||
         ship.typeStatus == TypeStatus.asteroid ||
         ship.index == shipOur.index) continue;
-    Point point = ship.coordinates;
-    PointFly baseFly = PointFly(point);
-    double distance = shipOur.fly.distanceTo(baseFly);
+    final point = ship.coordinates;
+    final baseFly = PointFly(point);
+    final distance = shipOur.fly.distanceTo(baseFly);
     if (distance < shipOur.size / 2 + ship.size / 2 - 1) {
       // print('typeStatus1 ${ship.index} ${shipOur.index} == $distance');
       // print('typeStatus2 ${ship.typeStatus} ${shipOur.typeStatus} == ');

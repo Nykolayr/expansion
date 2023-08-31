@@ -1,8 +1,8 @@
 import 'package:expansion/ui/battle/battle_page.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/battle/widgets/help.dart';
-import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
+import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/help_game/help_game.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/maps/maps_page.dart';

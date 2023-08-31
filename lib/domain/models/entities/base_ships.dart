@@ -27,39 +27,39 @@ class BaseShip extends BaseObject {
     required super.index,
   });
   factory BaseShip.fromJson(Map<String, dynamic> json) {
-    TypeStatus typeStatus = TypeStatus.values
+    final typeStatus = TypeStatus.values
         .firstWhere((e) => e.toString() == 'TypeStatus.${json["typeStatus"]}');
 
-    final int x = json['coordinates']['x'];
-    final int y = json['coordinates']['y'];
-    final size = json['size'];
-    final num pozY =
+    final x = (json['coordinates'] as Map<String, dynamic>)['x'] as int;
+    final y = (json['coordinates'] as Map<String, dynamic>)['y'] as int;
+    final size = json['size'] as int;
+    final pozY =
         (y == 1) ? (80 - size / 2) : (deviceSize.height - 80 - size / 2);
     return BaseShip(
       coordinates: Point((stepX * x - size / 2).w, pozY.h),
-      shild: json['shild'],
+      shild: json['shild'] as double,
       ships: typeStatus.beginShips,
       speedBuild: typeStatus.speedBuildShip,
       speedResources: typeStatus.speedResources,
-      resources: 0.0,
-      maxShips: json['maxShips'],
+      resources: 0,
+      maxShips: json['maxShips'] as int,
       typeStatus: typeStatus,
       size: size.toDouble(),
-      path: json['path'],
+      path: json['path'] as String,
       index: 0,
     );
   }
   Map<String, dynamic> toJson() => {
-        "coordinates": coordinates,
-        "maxShips": maxShips,
-        "shild": shild,
-        "ships": ships,
-        "speedBuild": speedBuild,
-        "speedResources": speedResources,
-        "size": size,
-        "resources": resources,
-        "typeStatus": typeStatus,
-        "path": path,
+        'coordinates': coordinates,
+        'maxShips': maxShips,
+        'shild': shild,
+        'ships': ships,
+        'speedBuild': speedBuild,
+        'speedResources': speedResources,
+        'size': size,
+        'resources': resources,
+        'typeStatus': typeStatus,
+        'path': path,
       };
 
   @override
@@ -83,9 +83,9 @@ class BaseShip extends BaseObject {
               ),
               child: DragTarget<int>(
                 builder: (
-                  BuildContext context,
-                  List<dynamic> accepted,
-                  List<dynamic> rejected,
+                  context,
+                  accepted,
+                  rejected,
                 ) {
                   return Container(
                     padding: const EdgeInsets.all(2),
@@ -99,7 +99,7 @@ class BaseShip extends BaseObject {
                     ),
                   );
                 },
-                onAccept: (int sender) {
+                onAccept: (sender) {
                   if (Get.find<GameRepository>().bases[sender].typeStatus ==
                       TypeStatus.our) onAccept!(sender);
                 },

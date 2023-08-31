@@ -1,31 +1,30 @@
-import "package:easy_localization/easy_localization.dart";
-import "package:expansion/domain/models/upgrade.dart";
-import "package:expansion/domain/repository/user_repository.dart";
-import "package:expansion/routers/routers.dart";
-import "package:expansion/ui/battle/widgets/modal.dart";
-import "package:expansion/ui/widgets/messages.dart";
-import "package:expansion/utils/colors.dart";
-import "package:expansion/utils/text.dart";
-import "package:expansion/utils/value.dart";
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_svg/svg.dart";
+import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/models/upgrade.dart';
+import 'package:expansion/domain/repository/user_repository.dart';
+import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/battle/widgets/modal.dart';
+import 'package:expansion/ui/widgets/messages.dart';
+import 'package:expansion/utils/colors.dart';
+import 'package:expansion/utils/text.dart';
+import 'package:expansion/utils/value.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import "package:get/get.dart";
+import 'package:get/get.dart';
 
 class ButtonSide extends StatelessWidget {
   final Direct direct;
   final String? title;
   final Function()? function;
-  const ButtonSide(this.direct, {this.function, this.title, Key? key})
-      : super(key: key);
+  const ButtonSide(this.direct, {this.function, this.title, super.key});
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width / 3;
-    double height = widht / 3.h;
-    String text = title ?? direct.title;
-    Function()? fun = function ??
+    final widht = deviceSize.width / 3;
+    final height = widht / 3.h;
+    final text = title ?? direct.title;
+    final fun = function ??
         () async {
           if (Direct.rightBottom == direct &&
               Get.find<UserRepository>().user.isBegin) {
@@ -38,7 +37,7 @@ class ButtonSide extends StatelessWidget {
             return;
           }
           if (Direct.leftBottom == direct) {
-            bool? result = await showModalBottom(
+            final result = await showModalBottom(
                 context, YesNoModal(context, tr('attempt_new_game')));
             if (result != null && result) {
               if (context.mounted) {
@@ -47,7 +46,7 @@ class ButtonSide extends StatelessWidget {
                 Get.find<UserRepository>().user = Get.find<UserRepository>()
                     .user
                     .copyWith(isBegin: true, score: 0, mapClassic: 1);
-                Get.find<UserRepository>().saveUser();
+                await Get.find<UserRepository>().saveUser();
                 router.go(direct.router);
               }
               return;
@@ -64,7 +63,6 @@ class ButtonSide extends StatelessWidget {
           child: Stack(
             children: [
               Align(
-                alignment: Alignment.center,
                 child: SvgPicture.asset(
                   direct.puthIn,
                   fit: BoxFit.fill,
@@ -78,7 +76,6 @@ class ButtonSide extends StatelessWidget {
                   right: direct.isLeft ? 8.w : 0.w,
                 ),
                 child: Align(
-                  alignment: Alignment.center,
                   child: Text(
                     text,
                     style: AppText.baseText.copyWith(
@@ -101,8 +98,7 @@ class ButtonLongSimple extends StatelessWidget {
   final Function() function;
   final String? photo;
   const ButtonLongSimple(
-      {required this.function, required this.title, this.photo, Key? key})
-      : super(key: key);
+      {required this.function, required this.title, this.photo, super.key});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -116,21 +112,22 @@ class ButtonLongSimple extends StatelessWidget {
         ),
         decoration: const BoxDecoration(
             image:
-                DecorationImage(image: svg.Svg("assets/svg/bottom_long.svg"))),
+                DecorationImage(image: svg.Svg('assets/svg/bottom_long.svg'))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (photo != null)
               Row(
                 children: [
-                  photo!.contains('svg')
-                      ? SvgPicture.asset(
-                          photo!,
-                          height: 20.0,
-                          colorFilter: const ColorFilter.mode(
-                              AppColor.darkYeloow, BlendMode.srcIn),
-                        )
-                      : Image.asset(photo!, height: 15.0),
+                  if (photo!.contains('svg'))
+                    SvgPicture.asset(
+                      photo!,
+                      height: 20,
+                      colorFilter: const ColorFilter.mode(
+                          AppColor.darkYeloow, BlendMode.srcIn),
+                    )
+                  else
+                    Image.asset(photo!, height: 15),
                   SizedBox(width: 10.w),
                 ],
               ),
@@ -159,12 +156,11 @@ class ButtonLong extends StatelessWidget {
       required this.title,
       this.isWidth = false,
       this.photo,
-      Key? key})
-      : super(key: key);
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    double widht = deviceSize.width - 90.w;
+    var widht = deviceSize.width - 90.w;
     if (isWidth) {
       widht = widht + 60.w;
     }
@@ -176,9 +172,8 @@ class ButtonLong extends StatelessWidget {
           child: Stack(
             children: [
               Align(
-                alignment: Alignment.center,
                 child: SvgPicture.asset(
-                  "assets/svg/bottom_long.svg",
+                  'assets/svg/bottom_long.svg',
                   width: widht,
                   fit: BoxFit.fitWidth,
                 ),
@@ -190,7 +185,6 @@ class ButtonLong extends StatelessWidget {
                   right: isWidth ? 0 : 8.w,
                 ),
                 child: Align(
-                  alignment: Alignment.center,
                   child: Text(
                     title,
                     style: AppText.baseText.copyWith(
@@ -200,23 +194,24 @@ class ButtonLong extends StatelessWidget {
                   ),
                 ),
               ),
-              photo != null
-                  ? Container(
-                      padding: EdgeInsets.only(
-                          top: 11
-                              .h), // Можете настроить нужные вам значения padding
-                      child: Align(
+              if (photo != null)
+                Container(
+                    padding: EdgeInsets.only(
+                        top: 11
+                            .h), // Можете настроить нужные вам значения padding
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FractionallySizedBox(
                         alignment: Alignment.centerLeft,
-                        child: FractionallySizedBox(
-                          alignment: Alignment.centerLeft,
-                          widthFactor:
-                              0.15, // Можете настроить нужные вам значения widthFactor для ограничения ширины изображения
-                          child: photo!.contains('svg')
-                              ? SvgPicture.asset(photo!, height: 15.0)
-                              : Image.asset(photo!, height: 15.0),
-                        ),
-                      ))
-                  : const SizedBox.shrink(),
+                        widthFactor:
+                            0.15, // Можете настроить нужные вам значения widthFactor для ограничения ширины изображения
+                        child: photo!.contains('svg')
+                            ? SvgPicture.asset(photo!, height: 15)
+                            : Image.asset(photo!, height: 15),
+                      ),
+                    ))
+              else
+                const SizedBox.shrink(),
             ],
           ),
         ),
@@ -250,21 +245,21 @@ extension DirectExtention on Direct {
   String get puthIn {
     switch (this) {
       case Direct.leftBottom:
-        return "assets/svg/bottom_in.svg";
+        return 'assets/svg/bottom_in.svg';
       case Direct.rightBottom:
-        return "assets/svg/bottom_right_in.svg";
+        return 'assets/svg/bottom_right_in.svg';
       case Direct.leftTop:
-        return "assets/svg/top_in.svg";
+        return 'assets/svg/top_in.svg';
       case Direct.rightTop:
-        return "assets/svg/top_right_in.svg";
+        return 'assets/svg/top_right_in.svg';
       case Direct.meddleBottom:
-        return "assets/svg/bottom_middle_in.svg";
+        return 'assets/svg/bottom_middle_in.svg';
       case Direct.titl:
-        return "assets/svg/bottom_middle_in.svg";
+        return 'assets/svg/bottom_middle_in.svg';
       case Direct.meddleTop:
-        return "assets/svg/top_middle_in.svg";
+        return 'assets/svg/top_middle_in.svg';
       default:
-        return "";
+        return '';
     }
   }
 
@@ -294,41 +289,41 @@ extension DirectExtention on Direct {
   String get router {
     switch (this) {
       case Direct.leftBottom:
-        return "/new_game";
+        return '/new_game';
       case Direct.rightBottom:
         return (Get.find<UserRepository>().user.mapClassic > 1 &&
                 Get.find<UserRepository>().user.isBegin)
-            ? "/maps"
-            : "/battle";
+            ? '/maps'
+            : '/battle';
       case Direct.leftTop:
-        return "/profile";
+        return '/profile';
       case Direct.rightTop:
-        return "/progress";
+        return '/progress';
       case Direct.meddleBottom:
-        return "/update";
+        return '/update';
       case Direct.meddleTop:
-        return "/settings";
+        return '/settings';
       default:
-        return "/settings";
+        return '/settings';
     }
   }
 
   String get title {
     switch (this) {
       case Direct.leftBottom:
-        return tr("new_game");
+        return tr('new_game');
       case Direct.rightBottom:
-        return tr("сontinue");
+        return tr('сontinue');
       case Direct.leftTop:
-        return tr("profile");
+        return tr('profile');
       case Direct.rightTop:
-        return tr("progress");
+        return tr('progress');
       case Direct.meddleBottom:
-        return tr("upgrades");
+        return tr('upgrades');
       case Direct.meddleTop:
-        return tr("settings");
+        return tr('settings');
       default:
-        return "";
+        return '';
     }
   }
 }

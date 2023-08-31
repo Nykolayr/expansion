@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileLoginPage extends StatelessWidget {
-  const ProfileLoginPage({Key? key}) : super(key: key);
+  const ProfileLoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ProfileLoginPage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("profilelogin")),
+          appButtonBack(tr('profilelogin')),
           BlocBuilder<ProfileLoginBloc, ProfileLoginState>(
               builder: (context, state) {
             return Container(
@@ -68,7 +68,7 @@ class ProfileLoginPage extends StatelessWidget {
                   ButtonLong(
                       title: tr('login'),
                       // ignore: avoid_print
-                      function: () => print("Вход в аккаунт какое то")),
+                      function: () => print('Вход в аккаунт какое то')),
                   SizedBox(
                     height: 15.h,
                   ),

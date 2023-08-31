@@ -13,13 +13,13 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
     on<ChangeLang>(_onLang);
   }
 
-  _onSound(ChangeSound event, Emitter<SettingState> emit) async {
+  Future<void> _onSound(ChangeSound event, Emitter<SettingState> emit) async {
     emit(SettingInitial());
-    Get.find<UserRepository>().saveUser();
+    await Get.find<UserRepository>().saveUser();
     emit(SettingChange());
   }
 
-  _onLang(ChangeLang event, Emitter<SettingState> emit) async {
+  Future<void> _onLang(ChangeLang event, Emitter<SettingState> emit) async {
     emit(SettingInitial());
     Get.find<UserRepository>().setLang(event.lang);
     emit(SettingChange());

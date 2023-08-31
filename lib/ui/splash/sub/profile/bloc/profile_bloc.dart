@@ -13,23 +13,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ChangeName>(_onChangeName);
     on<SignOut>(_onSignOut);
   }
-  _onSignOut(SignOut event, Emitter<ProfileState> emit) async {
+  Future<void> _onSignOut(SignOut event, Emitter<ProfileState> emit) async {
     Get.find<UserRepository>().initUser();
     emit(state.copyWith(user: Get.find<UserRepository>().user));
   }
 
-  _onChangeUser(ChangeUser event, Emitter<ProfileState> emit) async {
+  Future<void> _onChangeUser(
+      ChangeUser event, Emitter<ProfileState> emit) async {
     emit(state.copyWith(isLoading: true));
-    Get.find<UserRepository>().loadFromBase(event.uid);
+    await Get.find<UserRepository>().loadFromBase(event.uid);
     await Get.find<UserRepository>().saveUser();
     emit(state.copyWith(
         user: Get.find<UserRepository>().user, isLoading: false));
   }
 
-  _onChangeName(ChangeName event, Emitter<ProfileState> emit) async {
+  Future<void> _onChangeName(
+      ChangeName event, Emitter<ProfileState> emit) async {
     Get.find<UserRepository>().user =
         Get.find<UserRepository>().user.copyWith(name: event.name);
-    Get.find<UserRepository>().saveUser();
+    await Get.find<UserRepository>().saveUser();
     emit(state.copyWith(user: Get.find<UserRepository>().user));
   }
 }

@@ -13,23 +13,23 @@ class BeginBloc extends Bloc<BeginEvent, BeginState> {
     on<ChangeUniver>(_onUniver);
     on<ChangeHint>(_onHint);
   }
-  _onLevel(ChangeLevel event, Emitter<BeginState> emit) async {
+  Future<void> _onLevel(ChangeLevel event, Emitter<BeginState> emit) async {
     Get.find<UserRepository>().game =
         Get.find<UserRepository>().game.copyWith(level: event.level);
     setChange(emit);
   }
 
-  _onUniver(ChangeUniver event, Emitter<BeginState> emit) async {
+  Future<void> _onUniver(ChangeUniver event, Emitter<BeginState> emit) async {
     Get.find<UserRepository>().game =
         Get.find<UserRepository>().game.copyWith(univer: event.univer);
     setChange(emit);
   }
 
-  _onHint(ChangeHint event, Emitter<BeginState> emit) async {
+  Future<void> _onHint(ChangeHint event, Emitter<BeginState> emit) async {
     setChange(emit);
   }
 
-  setChange(Emitter<BeginState> emit) {
+  void setChange(Emitter<BeginState> emit) {
     emit(BeginInitial());
     Get.find<UserRepository>().saveUser();
     emit(BeginChange());

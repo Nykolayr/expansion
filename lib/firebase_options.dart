@@ -2,7 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -67,8 +67,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '847683646254',
     projectId: 'expansion-1e30e',
     storageBucket: 'expansion-1e30e.appspot.com',
-    androidClientId: '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
-    iosClientId: '847683646254-vh620ojnps098ukg5mc6oltt75e2dvjn.apps.googleusercontent.com',
+    androidClientId:
+        '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
+    iosClientId:
+        '847683646254-vh620ojnps098ukg5mc6oltt75e2dvjn.apps.googleusercontent.com',
     iosBundleId: 'com.example.expansion',
   );
 
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '847683646254',
     projectId: 'expansion-1e30e',
     storageBucket: 'expansion-1e30e.appspot.com',
-    androidClientId: '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
-    iosClientId: '847683646254-47eov3fcbg1q2e82cpldn3io8m0g4rsg.apps.googleusercontent.com',
+    androidClientId:
+        '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
+    iosClientId:
+        '847683646254-47eov3fcbg1q2e82cpldn3io8m0g4rsg.apps.googleusercontent.com',
     iosBundleId: 'com.example.expansion.RunnerTests',
   );
 }

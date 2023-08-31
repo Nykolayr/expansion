@@ -11,19 +11,23 @@ class MapsBloc extends Bloc<MapsEvent, MapsState> {
     on<MapsShowEvent>(_onMapsShowEvent);
   }
 
-  _onNextEvent(MapsBeginEvent event, Emitter<MapsState> emit) async {
+  Future<void> _onNextEvent(
+      MapsBeginEvent event, Emitter<MapsState> emit) async {
     emit(state.copyWith(isBegin: true));
   }
 
-  _onMapsShowEvent(MapsShowEvent event, Emitter<MapsState> emit) async {
+  Future<void> _onMapsShowEvent(
+      MapsShowEvent event, Emitter<MapsState> emit) async {
     emit(state.copyWith(isShow: true));
   }
 
-  _onMapsMoveEvent(MapsMoveEvent event, Emitter<MapsState> emit) async {
+  Future<void> _onMapsMoveEvent(
+      MapsMoveEvent event, Emitter<MapsState> emit) async {
     emit(state.copyWith(isMove: true));
   }
 
-  _onMapsEndEvent(MapsEndEvent event, Emitter<MapsState> emit) async {
+  Future<void> _onMapsEndEvent(
+      MapsEndEvent event, Emitter<MapsState> emit) async {
     await Future.delayed(const Duration(milliseconds: 3000));
     emit(state.copyWith(isNext: true));
   }

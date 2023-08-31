@@ -23,19 +23,19 @@ class GameRepository extends GetxController {
   }
   GameRepository._internal();
 
-  init() async {
-    String? data = await LocalData().loadJsonMaps();
+  Future<void> init() async {
+    final data = await LocalData().loadJsonMaps();
 
     if (data != '{}' && data != '') {
-      List json = jsonDecode(data!);
-      scenes = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+      final json = jsonDecode(data!) as List<Map<String, dynamic>>;
+      scenes = json.map(Scene.fromJson).toList();
     } else {
-      List<dynamic> json = await Api.loadJsonScenes();
-      List<Scene> temp = List<Scene>.from(json.map((x) => Scene.fromJson(x)));
+      final json = jsonDecode(data!) as List<Map<String, dynamic>>;
+      final temp = json.map(Scene.fromJson).toList();
       // переделываем все сцены по 5 штук змейкой
-      int l = temp.length ~/ 10 + 1;
-      int k = 0;
-      int s = 4;
+      final l = temp.length ~/ 10 + 1;
+      var k = 0;
+      var s = 4;
 
       outerloop:
       for (var m = 0; m < l; m++) {
@@ -45,7 +45,7 @@ class GameRepository extends GetxController {
           k++;
           if (k > temp.length - 1) break outerloop;
         }
-        int j = k + s;
+        var j = k + s;
         if (j > temp.length) {
           j = temp.length - 1;
           s = temp.length - k;
@@ -59,17 +59,14 @@ class GameRepository extends GetxController {
       }
 
       for (var index = 0; index < scenes.length; index++) {
-        TypeScene typeScene = TypeScene.first;
+        var typeScene = TypeScene.first;
         switch (index % 5) {
           case 1:
             typeScene = TypeScene.second;
-            break;
           case 2:
             typeScene = TypeScene.third;
-            break;
           case 3:
             typeScene = TypeScene.fourth;
-            break;
           case 4:
             typeScene = TypeScene.fifth;
         }
@@ -79,23 +76,24 @@ class GameRepository extends GetxController {
     }
   }
 
-  loadMap() async {
+  Future<void> loadMap() async {
     bases.clear();
     ships.clear();
-    Map<String, dynamic> json =
+    final json =
         await Api.loadJsonBase(Get.find<UserRepository>().user.mapClassic);
-    List<Base> planets =
-        List<Base>.from(json["neutral"].map((x) => Base.fromJson(x)));
+    final jsonObj = json!['neutral'] as List<Map<String, dynamic>>;
 
-    BaseShip enemyMainShip = BaseShip.fromJson(json["mainShipEnemy"]);
-    BaseShip ourMainShip = BaseShip.fromJson(json["mainShipOur"]);
-    for (int k = 0; k < planets.length; k++) {
-      planets[k].index = k;
+    final planets = jsonObj.map(Base.fromJson);
+
+    final enemyMainShip =
+        BaseShip.fromJson(json['mainShipEnemy'] as Map<String, dynamic>);
+    final ourMainShip =
+        BaseShip.fromJson(json['mainShipOur'] as Map<String, dynamic>);
+    for (var k = 0; k < planets.length; k++) {
+      planets.elementAt(k).index = k;
     }
     enemyMainShip.index = planets.length;
     ourMainShip.index = planets.length + 1;
-    bases.addAll(planets);
-    bases.add(enemyMainShip);
-    bases.add(ourMainShip);
+    bases.addAll([...planets, enemyMainShip, ourMainShip]);
   }
 }

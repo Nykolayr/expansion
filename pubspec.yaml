@@ -52,16 +52,21 @@ dependencies:
   firebase_auth: ^4.7.3 #https://pub.dev/packages/firebase_auth
   cloud_firestore: ^4.8.5 #https://pub.dev/packages/cloud_firestore
   get: ^4.6.5 #https://pub.dev/packages/get
+  build_runner: ^2.4.6 #https://pub.flutter-io.cn/packages/build_runner
   rect_getter: ^1.1.0 #https://pub.dev/packages/rect_getter 
+  surf_lint_rules: ^3.0.0 #https://pub.dev/packages/surf_lint_rules
+  surf_logger: ^1.1.0 #https://pub.dev/packages/surf_logger
+  bottom_sheet: ^4.0.0 #https://pub.dev/packages/bottom_sheet
+  render_metrics: ^2.0.2 #https://pub.dev/packages/render_metrics
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  # flutter_lints: ^2.0.0
   freezed: ^2.4.2 #https://pub.dev/packages/freezed
-  build_runner: ^2.4.6 #https://pub.flutter-io.cn/packages/build_runner
   json_serializable: ^6.7.1 #https://pub.dev/packages/json_serializable
   # flutter pub run build_runner build --delete-conflicting-outputs.
+  
 
 
 # flutter pub run flutter_launcher_icons:main
@@ -78,6 +83,7 @@ flutter_native_splash:
   # image: assets/splash.png
   background_image: "assets/splash.png"
   # color: "0D2D54"
+
 
 flutter:
   uses-material-design: true

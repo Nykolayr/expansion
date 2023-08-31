@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
@@ -18,7 +17,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class UpdatePage extends StatelessWidget {
-  const UpdatePage({Key? key}) : super(key: key);
+  const UpdatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class UpdatePage extends StatelessWidget {
         child: ButtonLongSimple(
           title: tr('reset_ugrades'),
           function: () async {
-            bool? result = await showModalBottom(
+            final result = await showModalBottom(
                 context, YesNoModal(context, tr('want_ugrades')));
             if (result != null && result) {
               if (context.mounted) {
@@ -50,14 +49,14 @@ class UpdatePage extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          appButtonBack(tr("upgrades")),
+          appButtonBack(tr('upgrades')),
           BlocBuilder<UpdateBloc, UpdateState>(builder: (context, state) {
             return Container(
               width: deviceSize.width,
               padding: const EdgeInsets.only(top: 75, right: 20, left: 20),
               child: Column(
                 children: [
-                  titleWithSvg(tr("score", args: [
+                  titleWithSvg(tr('score', args: [
                     Get.find<UserRepository>().upOur.score.toString()
                   ])),
                   SizedBox(height: 30.h),
@@ -65,7 +64,7 @@ class UpdatePage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          for (Upgrade item in state.upgrade.list)
+                          for (final item in state.upgrade.list)
                             upgradeAdding(item, context)
                         ],
                       ),

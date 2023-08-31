@@ -47,7 +47,6 @@ class AppColor {
         color: Colors.yellow,
         spreadRadius: 3,
         blurRadius: 3,
-        offset: Offset(0, 0),
       ),
     ],
   );
@@ -59,7 +58,6 @@ class AppColor {
         color: Colors.yellow,
         spreadRadius: 1.5,
         blurRadius: 1.5,
-        offset: Offset(0, 0),
       ),
     ],
   );

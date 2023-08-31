@@ -13,7 +13,7 @@ class FireworkScreen extends StatefulWidget {
 }
 
 class FireworkScreenState extends State<FireworkScreen> {
-  play() {
+  void play() {
     widget.controllerCenter.play();
   }
 
@@ -30,11 +30,12 @@ class FireworkScreenState extends State<FireworkScreen> {
     final fullAngle = degToRad(360);
     path.moveTo(size.width, halfWidth);
 
-    for (double step = 0; step < fullAngle; step += degreesPerStep) {
-      path.lineTo(halfWidth + externalRadius * cos(step),
-          halfWidth + externalRadius * sin(step));
-      path.lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
-          halfWidth + internalRadius * sin(step + halfDegreesPerStep));
+    for (var step = 0.0; step < fullAngle; step += degreesPerStep) {
+      path
+        ..lineTo(halfWidth + externalRadius * cos(step),
+            halfWidth + externalRadius * sin(step))
+        ..lineTo(halfWidth + internalRadius * cos(step + halfDegreesPerStep),
+            halfWidth + internalRadius * sin(step + halfDegreesPerStep));
     }
     path.close();
     return path;
@@ -46,7 +47,6 @@ class FireworkScreenState extends State<FireworkScreen> {
       child: Stack(
         children: <Widget>[
           Align(
-            alignment: Alignment.center,
             child: ConfettiWidget(
               confettiController: widget.controllerCenter,
               blastDirectionality: BlastDirectionality

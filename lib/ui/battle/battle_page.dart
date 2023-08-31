@@ -51,11 +51,11 @@ class _BattlePageState extends State<BattlePage> {
     return WillPopScope(
       onWillPop: () async {
         bloc.add(PauseEvent());
-        bool? result = await showModalBottom(
+        final result = await showModalBottom(
             context, YesNoModal(context, '${tr('exit_menu')}?'));
         if (result != null && result) {
           bloc.add(CloseEvent());
-          router.pushReplacement('/');
+          await router.pushReplacement('/');
           return Future.value(true);
         } else {
           return Future.value(false);
@@ -120,20 +120,20 @@ class _BattlePageState extends State<BattlePage> {
                     return Stack(
                       children: [
                         ...state.bases.map((item) {
-                          int index = state.bases.indexOf(item);
+                          final index = state.bases.indexOf(item);
                           return item.build(
                             index: state.bases.indexOf(item),
                             context: context,
                             onAccept: (sender) =>
                                 bloc.add(SendEvent(index, sender)),
                           );
-                        }).toList(),
+                        }),
                         ...state.ships.map((item) {
                           return item.build(
                             index: item.index,
                             context: context,
                           );
-                        }).toList(),
+                        }),
                         Positioned(
                           top: 10.h,
                           left: 30.w,
@@ -166,11 +166,11 @@ class _BattlePageState extends State<BattlePage> {
                               iconPath: 'assets/svg/exit.svg',
                               click: () async {
                                 bloc.add(PauseEvent());
-                                bool? result = await showModalBottom(context,
+                                final result = await showModalBottom(context,
                                     YesNoModal(context, '${tr('exit_menu')}?'));
                                 if (result != null && result) {
                                   bloc.add(CloseEvent());
-                                  router.pushReplacement('/');
+                                  await router.pushReplacement('/');
                                   return;
                                 }
                               }),
@@ -182,13 +182,13 @@ class _BattlePageState extends State<BattlePage> {
                               iconPath: 'assets/svg/restart.svg',
                               click: () async {
                                 bloc.add(PauseEvent());
-                                bool? result = await showModalBottom(context,
+                                final result = await showModalBottom(context,
                                     YesNoModal(context, '${tr('replay')}?'));
                                 if (result != null && result) {
                                   bloc.add(CloseEvent());
                                   await Future.delayed(
                                       const Duration(milliseconds: 200));
-                                  router.pushReplacement('/battle');
+                                  await router.pushReplacement('/battle');
                                   return;
                                 }
                               }),
@@ -250,7 +250,7 @@ class _BattlePageState extends State<BattlePage> {
   }
 }
 
-Widget getTextInCard(text) {
+Widget getTextInCard(String text) {
   return Card(
     elevation: 10,
     color: AppColor.darkBlue,

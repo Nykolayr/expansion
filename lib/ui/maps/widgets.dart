@@ -1,7 +1,7 @@
-import 'package:expansion/utils/colors.dart';
-import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
+import 'package:expansion/utils/colors.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LinePainter extends CustomPainter {
@@ -28,12 +28,10 @@ class LinePainter extends CustomPainter {
   }
 }
 
-
-
 /// функция загрузки картинки из assets для canvas
 Future<ui.Image> loadImage(String asset) async {
-  ByteData data = await rootBundle.load(asset);
-  ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-  ui.FrameInfo fi = await codec.getNextFrame();
+  final data = await rootBundle.load(asset);
+  final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+  final fi = await codec.getNextFrame();
   return fi.image;
 }

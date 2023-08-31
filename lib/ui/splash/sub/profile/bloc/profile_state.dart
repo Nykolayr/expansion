@@ -9,7 +9,7 @@ class ProfileState extends Equatable {
   List<Object> get props => [user, isLoading];
 
   factory ProfileState.initial() =>
-      ProfileState(user: Get.find<UserRepository>().user, isLoading: false);
+      ProfileState(user: Get.find<UserRepository>().user);
   ProfileState copyWith({UserGame? user, bool? isLoading}) => ProfileState(
       user: user ?? this.user, isLoading: isLoading ?? this.isLoading);
 }

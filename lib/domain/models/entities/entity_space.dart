@@ -1,6 +1,5 @@
 import 'package:expansion/domain/models/entities/entities.dart';
-
-import '../../../utils/value.dart';
+import 'package:expansion/utils/value.dart';
 
 /// Абстрактный класс объект база(наша, враг и нейтралы),  есть 4 фактора
 /// speedBuild скорость изготовление кораблей - повышается постройкой
@@ -36,7 +35,7 @@ abstract class BaseObject extends EntitesObject {
     required super.index,
   });
 
-  Future showIsNotMove() async {
+  Future<void> showIsNotMove() async {
     isNotMove = true;
     await Future.delayed(const Duration(milliseconds: 500));
     isNotMove = false;
@@ -47,14 +46,14 @@ abstract class BaseObject extends EntitesObject {
   }
 
   void upShild() {
-    int levelShild = (shild / typeStatus.minShild).round();
-    resources -= 100 * (1 << (levelShild));
+    final levelShild = (shild / typeStatus.minShild).round();
+    resources -= 100 * (1 << levelShild);
     shild += typeStatus.minShild;
   }
 
   void upSpeedBuild() {
-    int levelSpeed = (speedBuild / typeStatus.speedBuildShip).round();
-    resources -= 100 * (1 << (levelSpeed));
+    final levelSpeed = (speedBuild / typeStatus.speedBuildShip).round();
+    resources -= 100 * (1 << levelSpeed);
     speedBuild += typeStatus.speedBuildShip / 3;
   }
 

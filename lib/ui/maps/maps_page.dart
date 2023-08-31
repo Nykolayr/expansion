@@ -8,6 +8,7 @@ import 'package:expansion/domain/models/user/user.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
+import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';
@@ -18,7 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:rect_getter/rect_getter.dart';
-import '../battle/widgets/widgets.dart';
+import 'package:surf_logger/surf_logger.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
@@ -65,7 +66,7 @@ class _MapsPageState extends State<MapsPage> {
                 style: AppText.baseBody16),
             ButtonLongSimple(
               title: tr('expansion'),
-              function: () => nextMissions(),
+              function: nextMissions,
             ),
           ],
         ),
@@ -89,7 +90,7 @@ class _MapsPageState extends State<MapsPage> {
                   fit: BoxFit.fill,
                 ),
               ),
-              appButtonBack(tr("maps")),
+              appButtonBack(tr('maps')),
               Padding(
                 padding: EdgeInsets.only(top: top),
                 child: GridView.builder(
@@ -99,13 +100,11 @@ class _MapsPageState extends State<MapsPage> {
                       : const BouncingScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5, // Количество элементов в ряду
-                      mainAxisSpacing: 0.0, // Отступы между рядами
-                      crossAxisSpacing: 0.0, // Отступы между элементами в ряду
                       mainAxisExtent: 120),
                   itemCount: scenes.length,
                   itemBuilder: (context, index) {
-                    var globalKey = RectGetter.createGlobalKey();
-                    int id = scenes[index].id;
+                    final globalKey = RectGetter.createGlobalKey();
+                    final id = scenes[index].id;
                     try {
                       if (id == current &&
                           state.isBegin &&
@@ -113,12 +112,11 @@ class _MapsPageState extends State<MapsPage> {
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
-                          Rect? rect = RectGetter.getRectFromKey(globalKey);
-                          double dx =
-                              (scenes[id].typeScene == TypeScene.fifth ||
-                                      scenes[id].typeScene == TypeScene.first)
-                                  ? 20.w
-                                  : 35.w;
+                          final rect = RectGetter.getRectFromKey(globalKey);
+                          final dx = (scenes[id].typeScene == TypeScene.fifth ||
+                                  scenes[id].typeScene == TypeScene.first)
+                              ? 20.w
+                              : 35.w;
                           to = Point(
                             rect!.center.dx - dx,
                             rect.center.dy +
@@ -133,12 +131,11 @@ class _MapsPageState extends State<MapsPage> {
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
-                          Rect? rect = RectGetter.getRectFromKey(globalKey);
-                          double dx =
-                              (scenes[id].typeScene == TypeScene.fifth ||
-                                      scenes[id].typeScene == TypeScene.first)
-                                  ? -20.w
-                                  : 10.w;
+                          final rect = RectGetter.getRectFromKey(globalKey);
+                          final dx = (scenes[id].typeScene == TypeScene.fifth ||
+                                  scenes[id].typeScene == TypeScene.first)
+                              ? -20.w
+                              : 10.w;
                           from = Point(
                             rect!.center.dx + dx,
                             rect.center.dy +
@@ -147,8 +144,9 @@ class _MapsPageState extends State<MapsPage> {
                           );
                         });
                       }
-                      // ignore: empty_catches
-                    } catch (e) {}
+                    } on Exception catch (e) {
+                      Logger.e('RectGetter error == ', e);
+                    }
                     return RectGetter(
                       key: globalKey,
                       child: GestureDetector(
@@ -178,7 +176,7 @@ class _MapsPageState extends State<MapsPage> {
                       decoration: TypeStatus.our.boxDecor
                           .copyWith(color: AppColor.green),
                       child: Image.asset(
-                        "assets/images/our.png",
+                        'assets/images/our.png',
                         width: 35.w,
                       ),
                     ),
@@ -191,16 +189,17 @@ class _MapsPageState extends State<MapsPage> {
     );
   }
 
-  nextMissions() async {
+  Future<void> nextMissions() async {
     if (bloc.state.isBegin) return;
 
     bloc.add(MapsBeginEvent());
-    double scrollTo = (current ~/ 5 - 1) * 120.h;
+    final scrollTo = (current ~/ 5 - 1) * 120.h;
     controller.jumpTo(scrollTo);
     await Future.delayed(const Duration(milliseconds: 300));
     bloc.add(MapsShowEvent());
     await Future.delayed(const Duration(milliseconds: 100));
-    bloc.add(MapsMoveEvent());
-    bloc.add(MapsEndEvent());
+    bloc
+      ..add(MapsMoveEvent())
+      ..add(MapsEndEvent());
   }
 }

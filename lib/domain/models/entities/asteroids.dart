@@ -37,15 +37,15 @@ class Asteroid extends EntitesObject {
   factory Asteroid.fromRandom(int index) {
     // Выбор случайного края поля
     // 0 - верхний край, 1 - правый край, 2 - нижний край, 3 - левый край
-    int edge = Random().nextInt(4);
-    PointFly fly = spawnObjectOnEdge(edge);
-    int edgeAnother = 0;
+    final edge = Random().nextInt(4);
+    final fly = spawnObjectOnEdge(edge);
+    var edgeAnother = 0;
     do {
       edgeAnother = Random().nextInt(4);
     } while (edgeAnother == edge);
-    PointFly target = spawnObjectOnEdge(edgeAnother);
-    int size = Random().nextInt(15) + 20;
-    int imageIndex = Random().nextInt(6) + 1;
+    final target = spawnObjectOnEdge(edgeAnother);
+    final size = Random().nextInt(15) + 20;
+    final imageIndex = Random().nextInt(6) + 1;
     return Asteroid(
       index: index,
       target: target,
@@ -90,7 +90,7 @@ class Asteroid extends EntitesObject {
             .add(ArriveAsteroidEvent(index, indexBase, indexShip));
       });
     }
-    ImageAnimation animation = ImageAnimation(
+    final animation = ImageAnimation(
       animationsGame: AnimationsGame.explosion,
       numberOfImages: 9,
       duration: 200,
@@ -118,7 +118,7 @@ class Field {
 }
 
 PointFly spawnObjectOnEdge(int edge) {
-  Field field = Field(
+  final field = Field(
     const Point(0, 0),
     Point(deviceSize.height, deviceSize.width),
   );
@@ -133,44 +133,40 @@ PointFly spawnObjectOnEdge(int edge) {
           random.nextDouble() * (field.bottomRight.x - field.topLeft.x) -
           50;
       y = field.topLeft.y;
-      break;
 
     case 1: // Правый край
       x = field.bottomRight.x;
       y = field.topLeft.y +
           random.nextDouble() * (field.bottomRight.y - field.topLeft.y) -
           50;
-      break;
 
     case 2: // Нижний край
       x = field.topLeft.x +
           random.nextDouble() * (field.bottomRight.x - field.topLeft.x) -
           50;
       y = field.bottomRight.y;
-      break;
 
     case 3: // Левый край
       x = field.topLeft.x;
       y = field.topLeft.y +
           random.nextDouble() * (field.bottomRight.y - field.topLeft.y) -
           50;
-      break;
   }
   return PointFly(Point(x, y));
 }
 
 /// проверяет, произошло ли столкновение с отрядом кораблей
-int? checkCollisionBase(Asteroid ast, {isBase = true}) {
-  GameRepository gameData = Get.find<GameRepository>();
-  for (EntitesObject base in isBase ? gameData.bases : gameData.ships) {
+int? checkCollisionBase(Asteroid ast, {bool isBase = true}) {
+  final gameData = Get.find<GameRepository>();
+  for (final base in isBase ? gameData.bases : gameData.ships) {
     if (base.typeStatus == TypeStatus.asteroid) continue;
 
-    Point point = isBase
+    final point = isBase
         ? Point(base.coordinates.y + base.size / 2,
             base.coordinates.x + base.size / 2)
         : base.coordinates;
-    PointFly baseFly = PointFly(point);
-    double distance = ast.fly.distanceTo(baseFly);
+    final baseFly = PointFly(point);
+    final distance = ast.fly.distanceTo(baseFly);
 
     if (distance < ast.size / 2 + base.size / 2 - 1) {
       return base.index; // Столкновение произошло

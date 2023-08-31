@@ -29,42 +29,41 @@ class UserRepository extends GetxController {
   static Future<UserRepository> create() async {
     late UserRepository userRepository;
 
-    String? data = await LocalData().loadJsonUser();
+    final data = await LocalData().loadJsonUser();
 
     if (data != '{}' && data != '') {
-      userRepository = UserRepository.fromJson(jsonDecode(data!));
+      final json = jsonDecode(data!) as Map<String, dynamic>;
+      userRepository = UserRepository.fromJson(json);
     } else {
-      List<String> locale = Platform.localeName.split('_');
+      final locale = Platform.localeName.split('_');
       userRepository = UserRepository._();
       switch (locale[0]) {
         case 'ru':
           userRepository.settings = userRepository.settings.copyWith(
             lang: Lang.ru,
           );
-          break;
         case 'en':
           userRepository.settings = userRepository.settings.copyWith(
             lang: Lang.en,
           );
-          break;
       }
-      userRepository.saveUser();
+      await userRepository.saveUser();
     }
 
     return userRepository;
   }
 
-  Future loadFromBase(String id) async {
-    Map<String, dynamic> data = await BaseData().loadJson(id: id);
+  Future<void> loadFromBase(String id) async {
+    final data = await BaseData().loadJson(id: id);
     _instance = UserRepository.fromJson(data);
   }
 
   UserRepository.fromJson(Map<String, dynamic> json)
-      : user = UserGame.fromJson(json['user']),
-        settings = Settings.fromJson(json['settings']),
-        game = Game.fromJson(json['game']),
-        upEnemy = AllUpgrade.fromJson(json['upEnemy']),
-        upOur = AllUpgrade.fromJson(json['upOur']);
+      : user = UserGame.fromJson(json['user'] as Map<String, dynamic>),
+        settings = Settings.fromJson(json['settings'] as Map<String, dynamic>),
+        game = Game.fromJson(json['game'] as Map<String, dynamic>),
+        upEnemy = AllUpgrade.fromJson(json['upEnemy'] as Map<String, dynamic>),
+        upOur = AllUpgrade.fromJson(json['upOur'] as Map<String, dynamic>);
 
   Map<String, dynamic> toJson() => {
         'user': user,
@@ -74,15 +73,16 @@ class UserRepository extends GetxController {
         'upOur': upOur,
       };
 
-  setScore(int score) {
-    upOur.allScore += score;
-    upOur.score += score;
+  void setScore(int score) {
+    upOur
+      ..allScore += score
+      ..score += score;
     user = user.copyWith(score: upOur.allScore);
     upEnemy.toAllUpgrade();
     saveUser();
   }
 
-  initUser() {
+  void initUser() {
     user = UserGame.init();
     user = user.copyWith(name: tr('guest'));
     settings = const Settings();
@@ -100,17 +100,17 @@ class UserRepository extends GetxController {
     await LocalData().saveJsonUser(toJson());
   }
 
-  setLang(Lang lang) {
+  void setLang(Lang lang) {
     settings = settings.copyWith(lang: lang);
     saveUser();
   }
 
-  setLevel(Level level) {
+  void setLevel(Level level) {
     game = game.copyWith(level: level);
     saveUser();
   }
 
-  setUniver(Univer univer) {
+  void setUniver(Univer univer) {
     game = game.copyWith(univer: univer);
     saveUser();
   }

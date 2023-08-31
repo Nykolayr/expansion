@@ -14,10 +14,9 @@ import 'package:get/get.dart';
 
 /// функция вывода строки для улучшения
 Widget upgradeAdding(Upgrade upgrade, BuildContext context) {
-  int maxLevel = Get.find<UserRepository>().upOur.maxLevel + 1;
-  double size =
-      ((deviceSize.width - 40 - maxLevel * 10) / (maxLevel + 1)).r - 1;
-  TypeUp type = upgrade.type;
+  final maxLevel = Get.find<UserRepository>().upOur.maxLevel + 1;
+  final size = ((deviceSize.width - 40 - maxLevel * 10) / (maxLevel + 1)).r - 1;
+  final type = upgrade.type;
   Widget getUpLevel(int k, int index) {
     return Opacity(
       opacity: k > index ? 0.2 : 1,

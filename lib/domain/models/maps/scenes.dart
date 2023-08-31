@@ -6,8 +6,8 @@ import 'package:expansion/utils/text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
+import 'package:get/get.dart';
 
 class Scene {
   int id = 0;
@@ -30,34 +30,36 @@ class Scene {
   });
   factory Scene.fromJson(Map<String, dynamic> json) {
     return Scene(
-      id: json['id'] ?? 0,
-      nameRu: json['nameRu'],
-      nameEn: json['nameEn'],
-      battleRu: json['battleRu'],
-      battleEn: json['battleEn'],
-      descriptionRu: json['descriptionRu'],
-      descriptionEn: json['descriptionEn'],
+      id: (json['id'] as Map<String, dynamic>) as int? ?? 0,
+      nameRu: (json['nameRu'] as Map<String, dynamic>) as String? ?? '',
+      nameEn: (json['nameEn'] as Map<String, dynamic>) as String? ?? '',
+      battleRu: (json['battleRu'] as Map<String, dynamic>) as String? ?? '',
+      battleEn: (json['battleEn'] as Map<String, dynamic>) as String? ?? '',
+      descriptionRu:
+          (json['descriptionRu'] as Map<String, dynamic>) as String? ?? '',
+      descriptionEn:
+          (json['descriptionEn'] as Map<String, dynamic>) as String? ?? '',
       typeScene: json['typeScene'] == null
           ? TypeScene.first
-          : TypeScene.values.byName(json['typeScene']),
+          : TypeScene.values.byName(json['typeScene'] as String),
     );
   }
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "nameRu": nameRu,
-        "nameEn": nameEn,
-        "battleRu": battleRu,
-        "battleEn": battleEn,
-        "descriptionRu": descriptionRu,
-        "descriptionEn": descriptionEn,
-        "typeScene": typeScene.name,
+        'id': id,
+        'nameRu': nameRu,
+        'nameEn': nameEn,
+        'battleRu': battleRu,
+        'battleEn': battleEn,
+        'descriptionRu': descriptionRu,
+        'descriptionEn': descriptionEn,
+        'typeScene': typeScene.name,
       };
   Widget build({
     required int index,
     required BuildContext context,
   }) {
-    int current = Get.find<UserRepository>().user.mapClassic - 1;
-    String infoText = context.locale == const Locale('ru') ? nameEn : nameRu;
+    final current = Get.find<UserRepository>().user.mapClassic - 1;
+    final infoText = context.locale == const Locale('ru') ? nameEn : nameRu;
     Widget info =
         Text((id + 1).toString(), style: AppText.baseBodyBoldYellow18);
     if (current == id) {
@@ -69,7 +71,7 @@ class Scene {
               const ColorFilter.mode(AppColor.darkYeloow, BlendMode.srcIn),
           width: 15.w);
     }
-    bool isOddLine = (index ~/ 5).isEven;
+    final isOddLine = (index ~/ 5).isEven;
     return GestureDetector(
       child: Opacity(
         opacity: id > current + 3 ? 0.4 : 1,
@@ -88,7 +90,7 @@ class Scene {
                   padding: EdgeInsets.only(bottom: 25.h),
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: svg.Svg("assets/svg/scene.svg"))),
+                          image: svg.Svg('assets/svg/scene.svg'))),
                   child: info,
                 ),
                 Text(
@@ -133,7 +135,7 @@ enum TypeScene {
   Offset get leftBegin {
     switch (this) {
       case TypeScene.first:
-        return const Offset(0, 0);
+        return Offset.zero;
       case TypeScene.second:
       case TypeScene.fourth:
         return Offset(-20.w, 40.h);
@@ -146,7 +148,7 @@ enum TypeScene {
   Offset get leftEnd {
     switch (this) {
       case TypeScene.first:
-        return const Offset(0, 0);
+        return Offset.zero;
       case TypeScene.second:
       case TypeScene.fourth:
         return Offset(18.w, 75.h);
@@ -161,7 +163,7 @@ enum TypeScene {
       case TypeScene.second:
       case TypeScene.third:
       case TypeScene.fourth:
-        return const Offset(0, 0);
+        return Offset.zero;
       case TypeScene.first:
       case TypeScene.fifth:
         return Offset(40.w, 50.h);
@@ -173,7 +175,7 @@ enum TypeScene {
       case TypeScene.second:
       case TypeScene.third:
       case TypeScene.fourth:
-        return const Offset(0, 0);
+        return Offset.zero;
       case TypeScene.first:
       case TypeScene.fifth:
         return Offset(40.w, 120.h);

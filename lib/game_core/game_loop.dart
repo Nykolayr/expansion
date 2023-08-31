@@ -2,17 +2,16 @@ import 'dart:isolate';
 
 bool _running = true;
 
-void mainLoop(SendPort sendPort) async {
-  const double fps = 50;
-  const double second = 1000;
-  const double updateTime = second / fps;
+Future<void> mainLoop(SendPort sendPort) async {
+  const fps = 50;
+  const second = 1000;
+  const updateTime = second / fps;
   // ignore: unused_local_variable
-  double updates = 0;
+  var updates = 0;
 
-  Stopwatch loopWatch = Stopwatch();
-  loopWatch.start();
-  Stopwatch timerWatch = Stopwatch();
-  timerWatch.start();
+  final loopWatch = Stopwatch()..start();
+
+  final timerWatch = Stopwatch()..start();
 
   while (_running) {
     if (loopWatch.elapsedMilliseconds > updateTime) {
