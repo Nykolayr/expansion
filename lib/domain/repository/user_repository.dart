@@ -31,8 +31,9 @@ class UserRepository extends GetxController {
 
     final data = await LocalData().loadJsonUser();
 
-    if (data != '{}' && data != '') {
-      final json = jsonDecode(data!) as Map<String, dynamic>;
+
+    if (data.isNotEmpty) {
+      final json = jsonDecode(data) as Map<String, dynamic>;
       userRepository = UserRepository.fromJson(json);
     } else {
       final locale = Platform.localeName.split('_');

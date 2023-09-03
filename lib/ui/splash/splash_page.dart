@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
@@ -118,50 +116,52 @@ class Loader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          if (Get.find<UserRepository>().game.isSplash) Column(
-                  children: [
-                    AnimatedContainer(
-                      curve: Curves.fastOutSlowIn,
-                      width: (state.count > 96 || state.isSuccess)
-                          ? 0
-                          : deviceSize.width - 20,
-                      duration: const Duration(seconds: 2),
-                      child: Card(
-                        elevation: 10,
-                        color: AppColor.darkBlue,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                              color: AppColor.darkYeloow, width: 2.w),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 25, horizontal: 10),
-                        child: Container(
-                            height: (state.count > 83)
-                                ? 55.h
-                                : state.isSuccess
-                                    ? deviceSize.height / 2
-                                    : null,
-                            padding: const EdgeInsets.all(15),
-                            child: (state.count > 83 || state.isSuccess)
-                                ? const SizedBox.shrink()
-                                : AnimatedTextKit(
-                                    totalRepeatCount: 1,
-                                    animatedTexts: [
-                                      TyperAnimatedText(tr('pretext'),
-                                          textStyle: AppText.baseText.copyWith(
-                                              fontSize: 20.sp,
-                                              color: AppColor.white)),
-                                    ],
-                                  )),
-                      ),
+          if (Get.find<UserRepository>().game.isSplash)
+            Column(
+              children: [
+                AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  width: (state.count > 96 || state.isSuccess)
+                      ? 0
+                      : deviceSize.width - 20,
+                  duration: const Duration(seconds: 2),
+                  child: Card(
+                    elevation: 10,
+                    color: AppColor.darkBlue,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: AppColor.darkYeloow, width: 2.w),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    Text(
-                      tr('load'),
-                      style: AppText.baseText.copyWith(color: AppColor.white),
-                    ),
-                  ],
-                ) else const SizedBox.shrink(),
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 25, horizontal: 10),
+                    child: Container(
+                        height: (state.count > 83)
+                            ? 55.h
+                            : state.isSuccess
+                                ? deviceSize.height / 2
+                                : null,
+                        padding: const EdgeInsets.all(15),
+                        child: (state.count > 83 || state.isSuccess)
+                            ? const SizedBox.shrink()
+                            : AnimatedTextKit(
+                                totalRepeatCount: 1,
+                                animatedTexts: [
+                                  TyperAnimatedText(tr('pretext'),
+                                      textStyle: AppText.baseText.copyWith(
+                                          fontSize: 20.sp,
+                                          color: AppColor.white)),
+                                ],
+                              )),
+                  ),
+                ),
+                Text(
+                  tr('load'),
+                  style: AppText.baseText.copyWith(color: AppColor.white),
+                ),
+              ],
+            )
+          else
+            const SizedBox.shrink(),
           SizedBox(
             height: 25.h,
           ),

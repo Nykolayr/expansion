@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:get/get.dart';
+import 'package:surf_logger/surf_logger.dart';
 
 /// класс для отлеживания очков и апгрейда
 /// различных параметров игрока
@@ -14,11 +15,14 @@ class AllUpgrade {
 
   AllUpgrade({required this.score, required this.allScore, required this.list});
   factory AllUpgrade.fromJson(Map<String, dynamic> json) {
-    final jsonObject = json['list'] as List<Map<String, dynamic>>;
+    final listJson = json['list'] as List<dynamic>;
+    // ignore: avoid_dynamic_calls
+    Logger.d('temp == ${listJson[0].runtimeType} == ${listJson[0]}');
     return AllUpgrade(
         score: json['score'] as int,
         allScore: json['allScore'] as int,
-        list: jsonObject.map(Upgrade.fromJson).toList());
+        list: List<Upgrade>.from(
+            listJson.map((x) => Upgrade.fromJson(x as Map<String, dynamic>))));
   }
   factory AllUpgrade.initialOur() {
     final list = <Upgrade>[

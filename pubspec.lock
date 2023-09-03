@@ -941,14 +941,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
-  rect_getter:
-    dependency: "direct main"
-    description:
-      name: rect_getter
-      sha256: "1c71e4ab5fb7d83d2b14a8338f979bc9ae57eefba786e7fbc91f6746dac2193d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0"
   render_metrics:
     dependency: "direct main"
     description:
@@ -1106,6 +1098,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  surf_util:
+    dependency: "direct main"
+    description:
+      name: surf_util
+      sha256: ecf528ed7291a7f648f1277dcbdba30abff8e1acdb5f68d1ed17b0f00441f17f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   synchronized:
     dependency: transitive
     description:
@@ -1315,5 +1315,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.1.0 <4.0.0"
   flutter: ">=3.10.0"

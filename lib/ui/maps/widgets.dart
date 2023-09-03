@@ -16,7 +16,7 @@ class LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppColor.darkYeloow
+      ..color = AppColor.red
       ..strokeWidth = 3;
 
     canvas.drawLine(Offset(begin.dx, begin.dy), Offset(end.dx, end.dy), paint);

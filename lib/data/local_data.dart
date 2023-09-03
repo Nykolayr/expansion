@@ -11,15 +11,9 @@ class LocalData {
     await prefs.setString(key, jsonEncode(json));
   }
 
-  Future<String?> loadJsonUser([String key = 'user']) async {
+  Future<String> loadJsonUser([String key = 'user']) async {
     final prefs = await SharedPreferences.getInstance();
-    final setKeys = prefs.getKeys();
-    if (setKeys.contains(key)) {
-      return prefs.getString(key);
-    } else {
-      await saveJsonUser({}, key);
-      return '';
-    }
+    return prefs.getString(key) ?? '';
   }
 
   Future<void> saveJsonMaps(List<Scene> scenes, [String key = 'maps']) async {
@@ -27,14 +21,8 @@ class LocalData {
     await prefs.setString(key, jsonEncode(scenes));
   }
 
-  Future<String?> loadJsonMaps([String key = 'maps']) async {
+  Future<String> loadJsonMaps([String key = 'maps']) async {
     final prefs = await SharedPreferences.getInstance();
-    final setKeys = prefs.getKeys();
-    if (setKeys.contains(key)) {
-      return prefs.getString(key);
-    } else {
-      await saveJsonUser({}, key);
-      return '';
-    }
+    return prefs.getString(key) ?? '';
   }
 }

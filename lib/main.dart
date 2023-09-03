@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:surf_logger/surf_logger.dart';
 // ignore: non_constant_identifier_names
 
 void main() async {
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
               textTheme: GoogleFonts.kellySlabTextTheme(),
             ),
             builder: (context, child) {
+              Logger.addStrategy(DebugLogStrategy());
               final name = Get.find<UserRepository>().user.name;
               if (name == 'guest') {
                 Get.find<UserRepository>().user =

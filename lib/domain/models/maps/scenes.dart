@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:get/get.dart';
+import 'package:surf_logger/surf_logger.dart';
 
 class Scene {
   int id = 0;
@@ -30,15 +31,13 @@ class Scene {
   });
   factory Scene.fromJson(Map<String, dynamic> json) {
     return Scene(
-      id: (json['id'] as Map<String, dynamic>) as int? ?? 0,
-      nameRu: (json['nameRu'] as Map<String, dynamic>) as String? ?? '',
-      nameEn: (json['nameEn'] as Map<String, dynamic>) as String? ?? '',
-      battleRu: (json['battleRu'] as Map<String, dynamic>) as String? ?? '',
-      battleEn: (json['battleEn'] as Map<String, dynamic>) as String? ?? '',
-      descriptionRu:
-          (json['descriptionRu'] as Map<String, dynamic>) as String? ?? '',
-      descriptionEn:
-          (json['descriptionEn'] as Map<String, dynamic>) as String? ?? '',
+      id: json['id'] as int? ?? 0,
+      nameRu: json['nameRu'] as String? ?? '',
+      nameEn: json['nameEn'] as String? ?? '',
+      battleRu: json['battleRu'] as String? ?? '',
+      battleEn: json['battleEn'] as String? ?? '',
+      descriptionRu: json['descriptionRu'] as String? ?? '',
+      descriptionEn: json['descriptionEn'] as String? ?? '',
       typeScene: json['typeScene'] == null
           ? TypeScene.first
           : TypeScene.values.byName(json['typeScene'] as String),
@@ -63,6 +62,7 @@ class Scene {
     Widget info =
         Text((id + 1).toString(), style: AppText.baseBodyBoldYellow18);
     if (current == id) {
+      Logger.d(' current >>>>>>>>>>>>>>>>>>>>== $current');
       info = SvgPicture.asset('assets/svg/target.svg', width: 25.w);
     }
     if (current < id) {
@@ -77,10 +77,6 @@ class Scene {
         opacity: id > current + 3 ? 0.4 : 1,
         child: Stack(
           children: [
-            CustomPaint(
-              painter: LinePainter(
-                  begin: typeScene.leftBegin, end: typeScene.leftEnd),
-            ),
             Column(
               children: [
                 Container(
@@ -100,12 +96,10 @@ class Scene {
                 ),
               ],
             ),
-            if ((isOddLine && typeScene == TypeScene.fifth) ||
-                (!isOddLine && typeScene == TypeScene.first))
-              CustomPaint(
-                painter: LinePainter(
-                    begin: typeScene.rightBegin, end: typeScene.rightEnd),
-              ),
+            // if ((isOddLine && typeScene == TypeScene.fifth) ||
+            //     (!isOddLine && typeScene == TypeScene.first))
+            if (!isOddLine) CustomPaint(painter: typeScene.lineEven),
+            if (isOddLine) CustomPaint(painter: typeScene.lineOdd),
           ],
         ),
       ),
@@ -132,53 +126,31 @@ enum TypeScene {
     }
   }
 
-  Offset get leftBegin {
+  LinePainter get lineEven {
     switch (this) {
       case TypeScene.first:
-        return Offset.zero;
+        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(40.w, 160.h));
       case TypeScene.second:
       case TypeScene.fourth:
-        return Offset(-20.w, 40.h);
+        return LinePainter(begin: Offset(40.w, 75.h), end: Offset(-40.w, 40.h));
       case TypeScene.third:
+        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(-40.w, 75.h));
       case TypeScene.fifth:
-        return Offset(-20.w, 75.h);
+        return LinePainter(
+            begin: Offset(40.w, 40.h), end: Offset(40.w, -120.h));
     }
   }
 
-  Offset get leftEnd {
+  LinePainter get lineOdd {
     switch (this) {
       case TypeScene.first:
-        return Offset.zero;
+        return LinePainter(begin: Offset.zero, end: Offset.zero);
       case TypeScene.second:
       case TypeScene.fourth:
-        return Offset(18.w, 75.h);
+        return LinePainter(begin: Offset(40.w, 75.h), end: Offset(-40.w, 40.h));
       case TypeScene.third:
       case TypeScene.fifth:
-        return Offset(18.w, 40.h);
-    }
-  }
-
-  Offset get rightBegin {
-    switch (this) {
-      case TypeScene.second:
-      case TypeScene.third:
-      case TypeScene.fourth:
-        return Offset.zero;
-      case TypeScene.first:
-      case TypeScene.fifth:
-        return Offset(40.w, 50.h);
-    }
-  }
-
-  Offset get rightEnd {
-    switch (this) {
-      case TypeScene.second:
-      case TypeScene.third:
-      case TypeScene.fourth:
-        return Offset.zero;
-      case TypeScene.first:
-      case TypeScene.fifth:
-        return Offset(40.w, 120.h);
+        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(-40.w, 75.h));
     }
   }
 }

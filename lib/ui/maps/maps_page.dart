@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:rect_getter/rect_getter.dart';
+import 'package:render_metrics/render_metrics.dart';
 import 'package:surf_logger/surf_logger.dart';
 
 class MapsPage extends StatefulWidget {
@@ -29,10 +29,11 @@ class MapsPage extends StatefulWidget {
 }
 
 class _MapsPageState extends State<MapsPage> {
-  List<Scene> scenes = Get.find<GameRepository>().scenes;
+  final scenes = List<Scene>.from(Get.find<GameRepository>().scenes.toList());
   UserGame user = Get.find<UserRepository>().user;
   ScrollController controller = ScrollController();
   int current = Get.find<UserRepository>().user.mapClassic - 1;
+  final renderManager = RenderParametersManager<dynamic>();
   late MapsBloc bloc;
   Point from = const Point(0, 0);
   Point to = const Point(0, 0);
@@ -99,11 +100,9 @@ class _MapsPageState extends State<MapsPage> {
                       ? const NeverScrollableScrollPhysics()
                       : const BouncingScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 5, // Количество элементов в ряду
-                      mainAxisExtent: 120),
+                      crossAxisCount: 5, mainAxisExtent: 120),
                   itemCount: scenes.length,
                   itemBuilder: (context, index) {
-                    final globalKey = RectGetter.createGlobalKey();
                     final id = scenes[index].id;
                     try {
                       if (id == current &&
@@ -112,16 +111,15 @@ class _MapsPageState extends State<MapsPage> {
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
-                          final rect = RectGetter.getRectFromKey(globalKey);
+                          final rect =
+                              renderManager.getRenderData(index)!.center;
                           final dx = (scenes[id].typeScene == TypeScene.fifth ||
                                   scenes[id].typeScene == TypeScene.first)
                               ? 20.w
                               : 35.w;
                           to = Point(
-                            rect!.center.dx - dx,
-                            rect.center.dy +
-                                scenes[id].typeScene.padding -
-                                35.h,
+                            rect.x - dx,
+                            rect.y + scenes[id].typeScene.padding - 35.h,
                           );
                         });
                       }
@@ -131,24 +129,24 @@ class _MapsPageState extends State<MapsPage> {
                           !state.isMove) {
                         Future.delayed(const Duration(milliseconds: 100),
                             () async {
-                          final rect = RectGetter.getRectFromKey(globalKey);
+                          final rect =
+                              renderManager.getRenderData(index)!.center;
                           final dx = (scenes[id].typeScene == TypeScene.fifth ||
                                   scenes[id].typeScene == TypeScene.first)
                               ? -20.w
                               : 10.w;
                           from = Point(
-                            rect!.center.dx + dx,
-                            rect.center.dy +
-                                scenes[id].typeScene.padding -
-                                30.h,
+                            rect.x + dx,
+                            rect.y + scenes[id].typeScene.padding - 30.h,
                           );
                         });
                       }
                     } on Exception catch (e) {
                       Logger.e('RectGetter error == ', e);
                     }
-                    return RectGetter(
-                      key: globalKey,
+                    return RenderMetricsObject(
+                      id: index,
+                      manager: renderManager,
                       child: GestureDetector(
                           onTap: () {
                             if (current != id || !user.isBegin) return;
@@ -194,7 +192,9 @@ class _MapsPageState extends State<MapsPage> {
 
     bloc.add(MapsBeginEvent());
     final scrollTo = (current ~/ 5 - 1) * 120.h;
-    controller.jumpTo(scrollTo);
+
+    Logger.d(' scrollTo == $scrollTo');
+    if (scrollTo < 120.h) controller.jumpTo(scrollTo);
     await Future.delayed(const Duration(milliseconds: 300));
     bloc.add(MapsShowEvent());
     await Future.delayed(const Duration(milliseconds: 100));
