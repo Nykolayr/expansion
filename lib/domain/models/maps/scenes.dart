@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/maps/widgets.dart';
@@ -96,8 +94,17 @@ class Scene {
                 ),
               ],
             ),
-            if (!isOddLine) CustomPaint(painter: typeScene.lineEven),
-            if (isOddLine) CustomPaint(painter: typeScene.lineOdd),
+            if (!isOddLine && id != 100 && id != 99)
+              CustomPaint(
+                  painter: LinePainter(
+                      begin: typeScene.flyEven.begin,
+                      end: typeScene.flyEven.end)),
+            if (isOddLine && id != 100 && id != 99)
+              CustomPaint(
+                  painter: LinePainter(
+                      begin: typeScene.flyOdd.begin,
+                      end: typeScene.flyOdd.end)),
+            // typeScene.lineEven
           ],
         ),
       ),
@@ -124,67 +131,37 @@ enum TypeScene {
     }
   }
 
-  LinePainter get lineEven {
-    switch (this) {
-      case TypeScene.first:
-        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(40.w, 120.h));
-      case TypeScene.second:
-      case TypeScene.fourth:
-        return LinePainter(begin: Offset(40.w, 75.h), end: Offset(-40.w, 40.h));
-      case TypeScene.third:
-        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(-40.w, 75.h));
-      case TypeScene.fifth:
-        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(-40.w, 75.h));
-    }
-  }
-
-  LinePainter get lineOdd {
-    switch (this) {
-      case TypeScene.first:
-      case TypeScene.third:
-        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(120.w, 77.h));
-      case TypeScene.second:
-      case TypeScene.fourth:
-        return LinePainter(begin: Offset(40.w, 77.h), end: Offset(120.w, 40.h));
-      case TypeScene.fifth:
-        return LinePainter(begin: Offset(40.w, 40.h), end: Offset(40.w, 120.h));
-    }
-  }
-
   FlyTarget get flyEven {
     switch (this) {
       case TypeScene.first:
-        return FlyTarget(from: Point(336.w, 240.h), to: Point(257.w, 275.h));
+        return FlyTarget(begin: Offset(40.w, 40.h), end: Offset(40.w, 160.h));
       case TypeScene.second:
-        return FlyTarget(from: Point(257.w, 275.h), to: Point(179.w, 240.h));
-      case TypeScene.third:
-        return FlyTarget(from: Point(179.w, 240.h), to: Point(100.w, 275.h));
       case TypeScene.fourth:
-        return FlyTarget(from: Point(100.w, 275.h), to: Point(22.w, 240.h));
+        return FlyTarget(begin: Offset(40.w, 75.h), end: Offset(-37.w, 40.h));
+      case TypeScene.third:
+        return FlyTarget(begin: Offset(40.w, 40.h), end: Offset(-37.w, 75.h));
       case TypeScene.fifth:
-        return FlyTarget(from: Point(22.w, 240.h), to: Point(22.w, 360.h));
+        return FlyTarget(begin: Offset(40.w, 40.h), end: Offset(-37.w, 75.h));
     }
   }
 
   FlyTarget get flyOdd {
     switch (this) {
       case TypeScene.first:
-        return FlyTarget(from: Point(30.w, 120.h), to: Point(100.w, 155.h));
-      case TypeScene.second:
-        return FlyTarget(from: Point(100.w, 155.h), to: Point(179.w, 120.h));
       case TypeScene.third:
-        return FlyTarget(from: Point(179.w, 120.h), to: Point(257.w, 155.h));
+        return FlyTarget(begin: Offset(42.w, 40.h), end: Offset(120.w, 77.h));
+      case TypeScene.second:
       case TypeScene.fourth:
-        return FlyTarget(from: Point(257.w, 155.h), to: Point(336.w, 120.h));
+        return FlyTarget(begin: Offset(40.w, 77.h), end: Offset(120.w, 40.h));
       case TypeScene.fifth:
-        return FlyTarget(from: Point(336.w, 120.h), to: Point(336.w, 240.h));
+        return FlyTarget(begin: Offset(40.w, 40.h), end: Offset(42.w, 160.h));
     }
   }
 }
 
 /// класс для AnimatedPositioned движения объекта
 class FlyTarget {
-  Point from;
-  Point to;
-  FlyTarget({required this.from, required this.to});
+  Offset begin;
+  Offset end;
+  FlyTarget({required this.begin, required this.end});
 }

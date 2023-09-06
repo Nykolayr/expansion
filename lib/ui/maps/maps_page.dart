@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:render_metrics/render_metrics.dart';
 import 'package:surf_logger/surf_logger.dart';
 
 class MapsPage extends StatefulWidget {
@@ -31,16 +32,21 @@ class _MapsPageState extends State<MapsPage> {
   final scenes = List<Scene>.from(Get.find<GameRepository>().scenes.toList());
   UserGame user = Get.find<UserRepository>().user;
   ScrollController controller = ScrollController();
-  final current = Get.find<UserRepository>().user.mapClassic - 1;
+  int current = Get.find<UserRepository>().user.mapClassic - 1;
+  final renderManager = RenderParametersManager<dynamic>();
   late MapsBloc bloc;
-  FlyTarget fly = FlyTarget(from: const Point(0, 0), to: const Point(0, 0));
+  Point from = const Point(0, 0);
+  Point to = const Point(0, 0);
   double top = 70.h;
   @override
   void initState() {
     bloc = context.read<MapsBloc>();
-    final scrollTo = ((current - 1) ~/ 5) * 120.h;
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (scrollTo > 100.h) controller.jumpTo(scrollTo);
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      final scrollTo = ((current - 1) ~/ 5 - 2) * 120.h;
+      Logger.d('scrollTo $scrollTo == ${controller.offset}');
+      if (scrollTo < controller.offset || scrollTo > 239.h) {
+        controller.jumpTo(scrollTo);
+      }
     });
 
     super.initState();
@@ -106,44 +112,29 @@ class _MapsPageState extends State<MapsPage> {
                   itemCount: scenes.length,
                   itemBuilder: (context, index) {
                     final id = scenes[index].id;
-                    if (id == current &&
-                        state.isBegin &&
-                        !state.isNext &&
-                        !state.isMove) {
-                      final isOddLine = ((current - 1) ~/ 5).isEven;
-
-                      Logger.d(
-                          'to ==  $index == $id == ${current - 1} == ${scenes[current - 1].typeScene} } ');
-                      fly = isOddLine
-                          ? scenes[current - 1].typeScene.flyOdd
-                          : scenes[current - 1].typeScene.flyEven;
-                      Logger.d(
-                          'index from == $isOddLine == ${fly.from} == ${fly.to}  ');
-                    }
-                    return GestureDetector(
-                      onTap: () {
-                        if (current != id || !user.isBegin) return;
-                        nextMissions();
-                      },
-                      child: scenes[index].build(
-                        index: index,
-                        context: context,
-                      ),
+                    return RenderMetricsObject(
+                      id: index,
+                      manager: renderManager,
+                      child: GestureDetector(
+                          onTap: () {
+                            if (current != id || !user.isBegin) return;
+                            nextMissions();
+                          },
+                          child: scenes[index].build(
+                            index: index,
+                            context: context,
+                          )),
                     );
                   },
                 ),
               ),
               if (state.isShow)
                 AnimatedPositioned(
-                  top: !state.isMove
-                      ? fly.from.y.toDouble()
-                      : fly.to.y.toDouble(),
-                  left: !state.isMove
-                      ? fly.from.x.toDouble()
-                      : fly.to.x.toDouble(),
+                  top: !state.isMove ? from.y.toDouble() : to.y.toDouble(),
+                  left: !state.isMove ? from.x.toDouble() : to.x.toDouble(),
                   duration: const Duration(seconds: 3),
                   child: Transform.rotate(
-                    angle: angleToPoint(fly.from, fly.to),
+                    angle: angleToPoint(from, to),
                     child: Container(
                       height: 35.h,
                       width: 35.w,
@@ -167,10 +158,19 @@ class _MapsPageState extends State<MapsPage> {
   Future<void> nextMissions() async {
     if (bloc.state.isBegin) return;
     bloc.add(MapsBeginEvent());
-    final scrollTo = ((current - 1) ~/ 5) * 120.h;
-
-    Logger.d(' scrollTo == $scrollTo');
-    if (scrollTo > 100.h) controller.jumpTo(scrollTo);
+    final scrollTo = ((current - 1) ~/ 5 - 2) * 120.h;
+    Logger.d('isOddLine $scrollTo');
+    if (scrollTo < controller.offset) controller.jumpTo(scrollTo);
+    final index = scenes.indexWhere((element) => element.id == current - 1);
+    final isOddLine = (index ~/ 5).isEven;
+    final fly = isOddLine
+        ? scenes[index].typeScene.flyOdd
+        : scenes[index].typeScene.flyEven;
+    Future.delayed(const Duration(milliseconds: 200), () async {
+      final rect = renderManager.getRenderData(index)!.center;
+      from = Point(rect.x + fly.begin.dx - 60.w, rect.y + fly.begin.dy - 80.h);
+      to = Point(rect.x + fly.end.dx - 60.w, rect.y + fly.end.dy - 80.h);
+    });
     await Future.delayed(const Duration(milliseconds: 300));
     bloc.add(MapsShowEvent());
     await Future.delayed(const Duration(milliseconds: 100));
