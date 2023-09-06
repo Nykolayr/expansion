@@ -10,7 +10,7 @@ class ImageAnimation extends StatefulWidget {
   final double size;
 
   const ImageAnimation({
-    required this.animationsGame,
+    required this.animationsGame ,
     required this.numberOfImages,
     required this.duration,
     required this.size,
