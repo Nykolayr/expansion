@@ -33,6 +33,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.2"
+  app_runner:
+    dependency: "direct main"
+    description:
+      name: app_runner
+      sha256: cbd6b35640d60f90938a7c830a80bfc2d656b3118ba67089ab9a78f7186a39b0
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0+1"
   archive:
     dependency: transitive
     description:
@@ -949,6 +957,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  sbp:
+    dependency: "direct main"
+    description:
+      name: sbp
+      sha256: b8193c564aff16e39364447346f4be9a77d9a06b4fe564261476e6639ce6e5d0
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.8"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1158,10 +1174,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "781bd58a1eb16069412365c98597726cd8810ae27435f04b3b4d3a470bacd61e"
+      sha256: "47e208a6711459d813ba18af120d9663c20bdf6985d6ad39fe165d2538378d27"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.12"
+    version: "6.1.14"
   url_launcher_android:
     dependency: transitive
     description:

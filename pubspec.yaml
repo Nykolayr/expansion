@@ -39,7 +39,7 @@ dependencies:
   freezed_annotation: ^2.4.1 #https://pub.dev/packages/freezed_annotation
   animated_text_kit: ^4.2.2 #https://pub.dev/packages/animated_text_kit
   page_transition: ^2.0.9 #https://pub.dev/packages/page_transition
-  url_launcher: ^6.1.12 #https://pub.dev/packages/url_launcher
+  url_launcher: ^6.1.14 #https://pub.dev/packages/url_launcher
   computer: ^3.2.1 #https://pub.dev/packages/computer
   json_annotation: ^4.8.1 # https://pub.flutter-io.cn/packages/json_annotation/install
   flutter_screenutil: ^5.8.4 # https://pub.dev/packages/flutter_screenutil
@@ -57,7 +57,10 @@ dependencies:
   bottom_sheet: ^4.0.0 #https://pub.dev/packages/bottom_sheet
   render_metrics: ^2.0.2 #https://pub.dev/packages/render_metrics
   surf_util: ^1.0.3
+  sbp: ^0.0.8 #https://pub.dev/packages/sbp
+  app_runner: ^2.2.0+1 #https://pub.dev/packages/app_runner
 
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

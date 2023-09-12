@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 
 class Base extends BaseObject {
   SizeBase sizeBase;
-  int timeCapture;
 
   Base({
     required super.coordinates,
@@ -25,7 +24,6 @@ class Base extends BaseObject {
     required super.resources,
     required super.typeStatus,
     required this.sizeBase,
-    required this.timeCapture,
     required super.size,
     required super.index,
   });
@@ -40,7 +38,6 @@ class Base extends BaseObject {
       coordinates: Point((stepX * x - size / 2).w, (stepY * y - size / 2).h),
       ships: sizeBase.add.maxShips,
       sizeBase: sizeBase,
-      timeCapture: sizeBase.add.timeCapture,
       maxShips: sizeBase.add.maxShips,
       shild: sizeBase.add.shild,
       speedBuild: sizeBase.add.speedBuild,
@@ -123,32 +120,38 @@ class Base extends BaseObject {
 }
 
 enum SizeBase {
-  base,
-  midleBase;
+  smallBase,
+  midleBase,
+  base;
 
   BaseAdd get add {
     switch (this) {
-      case SizeBase.base:
+      case SizeBase.midleBase:
         return BaseAdd(
-          description: 'Нейтральный объект',
-          pictire: 'assets/images/bases/base1.png',
+                    pictire: 'assets/images/bases/base1.png',
+          maxShips: 120,
+          shild: 0,
+          speedBuild: 0,
+          speedResources: 0,
+          size: 75,
+        );
+      case SizeBase.smallBase:
+        return BaseAdd(
+                    pictire: 'assets/images/bases/base2.png',
           maxShips: 100,
           shild: 0,
           speedBuild: 0,
           speedResources: 0,
           size: 60,
-          timeCapture: 100,
         );
-      case SizeBase.midleBase:
+      case SizeBase.base:
         return BaseAdd(
-          description: 'Нейтральный средний объект',
-          pictire: 'assets/images/bases/base2.png',
-          maxShips: 130,
+                    pictire: 'assets/images/bases/base3.png',
+          maxShips: 150,
           shild: 0,
           speedBuild: 0,
           speedResources: 0,
-          size: 80,
-          timeCapture: 100,
+          size: 90,
         );
     }
   }
@@ -157,22 +160,18 @@ enum SizeBase {
 /// дополнительный базовый класс для base для  enum
 class BaseAdd {
   String pictire;
-  String description;
   int maxShips;
   double shild;
   double speedBuild;
   double speedResources;
   double size;
-  int timeCapture;
 
   BaseAdd({
-    required this.description,
     required this.pictire,
     required this.maxShips,
     required this.shild,
     required this.speedBuild,
     required this.speedResources,
     required this.size,
-    required this.timeCapture,
   });
 }

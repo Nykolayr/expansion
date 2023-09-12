@@ -3,11 +3,11 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/battle/widgets/help.dart';
 import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
-import 'package:expansion/ui/help_game/help_game.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/maps/maps_page.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
+import 'package:expansion/ui/splash/sub/donate/donate.dart';
 import 'package:expansion/ui/splash/sub/profile/bloc/profile_bloc.dart';
 import 'package:expansion/ui/splash/sub/profile/profile_page.dart';
 import 'package:expansion/ui/splash/sub/profile_login/bloc/profile_login_bloc.dart';
@@ -55,16 +55,6 @@ final GoRouter router = GoRouter(
           ),
         ),
         GoRoute(
-          name: 'helpGame',
-          path: 'helpGame',
-          pageBuilder: (context, state) => buildPageWithDefaultTransition(
-            type: PageTransitionType.topToBottom,
-            context: context,
-            state: state,
-            child: const HelpGamePage(),
-          ),
-        ),
-        GoRoute(
           name: 'settings',
           path: 'settings',
           pageBuilder: (context, state) => buildPageWithDefaultTransition(
@@ -75,6 +65,16 @@ final GoRouter router = GoRouter(
               create: (_) => SettingBloc(),
               child: const SettingsPage(),
             ),
+          ),
+        ),
+        GoRoute(
+          name: 'donate',
+          path: 'donate',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.topToBottom,
+            context: context,
+            state: state,
+            child: const DonatePage(),
           ),
         ),
         GoRoute(

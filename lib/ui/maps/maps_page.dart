@@ -19,7 +19,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:render_metrics/render_metrics.dart';
-import 'package:surf_logger/surf_logger.dart';
 
 class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
@@ -43,7 +42,6 @@ class _MapsPageState extends State<MapsPage> {
     bloc = context.read<MapsBloc>();
     Future.delayed(const Duration(milliseconds: 100), () async {
       final scrollTo = ((current - 1) ~/ 5 - 2) * 120.h;
-      Logger.d('scrollTo $scrollTo == ${controller.offset}');
       if (scrollTo < controller.offset || scrollTo > 239.h) {
         controller.jumpTo(scrollTo);
       }
@@ -159,7 +157,6 @@ class _MapsPageState extends State<MapsPage> {
     if (bloc.state.isBegin) return;
     bloc.add(MapsBeginEvent());
     final scrollTo = ((current - 1) ~/ 5 - 2) * 120.h;
-    Logger.d('isOddLine $scrollTo');
     if (scrollTo < controller.offset) controller.jumpTo(scrollTo);
     final index = scenes.indexWhere((element) => element.id == current - 1);
     final isOddLine = (index ~/ 5).isEven;

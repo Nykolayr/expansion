@@ -98,5 +98,13 @@
     "attempt_new_game": "Do you really want to start a new game? All progress will be reset to zero.",
     "maps": "Map of the company",
     "expansion": "Continue expansion!",
-    "started": "Let's go!"
+    "started": "Let's go!",
+    "guide_game": "Game Reference",
+    "about_game": "About the game",
+    "title_donat": "Game development support",
+    "text_donat": "Support the development of the game! Your donation will help us improve the gameplay, add new features and create more content. Make your contribution to the development and become a part of our gaming team. Everyone who supports the game will have the opportunity to offer their improvements and enter the list of project participants!",
+    "sub_donat": "When paying, specify your ID  or name so that we put you in the list of project participants",
+    "button_donat": "Support the game!",
+    "text_id": "Your ID has been copied",
+    "copy_id": "Copy ID"
 }

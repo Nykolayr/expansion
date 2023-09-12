@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
+import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/splash/sub/settings/bloc/setting_bloc.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
@@ -83,8 +84,25 @@ class SettingsPage extends StatelessWidget {
                     height: 40.h,
                   ),
                   ButtonLong(
+                    title: tr('title_donat'),
+                    function: () => router.push('/donate'),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  ButtonLong(
+                    title: tr('guide_game'),
+                    function: () => router.push('/help'),
+                  ),
+                  SizedBox(
+                    height: 30.h,
+                  ),
+                  ButtonLong(
                     title: tr('politica'),
                     function: () => showPolitic(context),
+                  ),
+                  SizedBox(
+                    height: 30.h,
                   ),
                 ],
               ),

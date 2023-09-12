@@ -94,7 +94,6 @@ class ProfilePage extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              // TODO: реализовать редактирование имени в модалке
                               await showModalBottom(
                                 context,
                                 TextFieldModel(context, '${tr('username')}?'),
