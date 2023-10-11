@@ -1,6 +1,10 @@
 import 'dart:math';
 
+import 'package:expansion/domain/models/entities/asteroids.dart';
+import 'package:expansion/domain/models/entities/base.dart';
+import 'package:expansion/domain/models/entities/base_ships.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
+import 'package:expansion/ui/widgets/build_widgets.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,12 +26,6 @@ abstract class EntitesObject {
   });
 
   void update() {}
-
-  Widget build({
-    required int index,
-    required BuildContext context,
-    Function(int sender) onAccept,
-  });
 }
 
 enum TypeStatus {
@@ -35,6 +33,25 @@ enum TypeStatus {
   enemy,
   neutral,
   asteroid;
+
+  Widget build({
+    required int index,
+    required EntitesObject item,
+    required Function(int index)? onAccept,
+  }) {
+    switch (this) {
+      case TypeStatus.our:
+      case TypeStatus.enemy:
+        return item is Base
+            ? BaseView(index: index, base: item, onAccept: onAccept)
+            : BaseShipView(
+                index: index, baseShip: item as BaseShip, onAccept: onAccept);
+      case TypeStatus.neutral:
+        return BaseView(index: index, base: item as Base, onAccept: onAccept);
+      case TypeStatus.asteroid:
+        return AsteroidView(asteroid: item as Asteroid);
+    }
+  }
 
   double get minShild {
     switch (this) {

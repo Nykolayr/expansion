@@ -2,11 +2,7 @@ import 'dart:math';
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
-import 'package:expansion/ui/widgets/animations_sprites.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 /// класс астероид, характеризуется точками откуда и куда,
@@ -70,43 +66,6 @@ class Asteroid extends EntitesObject {
     if (indexBase != null || indexShip != null) {
       isAttack = true;
     }
-  }
-
-  @override
-  Widget build(
-      {required int index,
-      required BuildContext context,
-      Function(int index)? onAccept}) {
-    if (coordinates == target.coordinates && !isAttack) {
-      context
-          .read<BattleBloc>()
-          .add(ArriveAsteroidEvent(index, indexBase, indexShip));
-    }
-    if (isAttack && !isSend) {
-      isSend = true;
-      Future.delayed(const Duration(seconds: 1), () {
-        context
-            .read<BattleBloc>()
-            .add(ArriveAsteroidEvent(index, indexBase, indexShip));
-      });
-    }
-    final animation = ImageAnimation(
-      animationsGame: AnimationsGame.explosion,
-      numberOfImages: 9,
-      duration: 200,
-      size: size,
-    );
-
-    return Positioned(
-      top: coordinates.x - size / 2,
-      left: coordinates.y - size / 2,
-      child: isAttack
-          ? animation
-          : Image.asset(
-              imagePath,
-              width: size,
-            ),
-    );
   }
 }
 

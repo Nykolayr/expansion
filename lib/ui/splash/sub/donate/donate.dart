@@ -12,9 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:sbp/data/c2bmembers_data.dart';
 import 'package:sbp/models/c2bmembers_model.dart';
-// import 'package:sbp/sbp.dart';
 import 'package:surf_logger/surf_logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 

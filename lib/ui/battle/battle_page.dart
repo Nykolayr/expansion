@@ -2,6 +2,8 @@
 
 import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expansion/domain/models/entities/asteroids.dart';
+import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
@@ -9,6 +11,7 @@ import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/battle/widgets/fier_works.dart';
 import 'package:expansion/ui/battle/widgets/modal.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
+import 'package:expansion/ui/widgets/build_widgets.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/ui/widgets/messages.dart';
 import 'package:expansion/utils/colors.dart';
@@ -121,19 +124,18 @@ class _BattlePageState extends State<BattlePage> {
                       children: [
                         ...state.bases.map((item) {
                           final index = state.bases.indexOf(item);
-                          return item.build(
+                          return item.typeStatus.build(
                             index: state.bases.indexOf(item),
-                            context: context,
+                            item: item,
                             onAccept: (sender) =>
                                 bloc.add(SendEvent(index, sender)),
                           );
                         }),
-                        ...state.ships.map((item) {
-                          return item.build(
-                            index: item.index,
-                            context: context,
-                          );
-                        }),
+                        ...state.ships.map(
+                          (item) => (item is Ship)
+                              ? ShipView(ship: item)
+                              : AsteroidView(asteroid: item as Asteroid),
+                        ),
                         Positioned(
                           top: 10.h,
                           left: 30.w,

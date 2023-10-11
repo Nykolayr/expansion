@@ -1,15 +1,8 @@
 import 'dart:math';
-
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
-import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:expansion/ui/widgets/widgets.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 class Base extends BaseObject {
   SizeBase sizeBase;
@@ -60,63 +53,6 @@ class Base extends BaseObject {
         'resources': resources,
         'typeStatus': typeStatus,
       };
-
-  @override
-  Widget build({
-    required int index,
-    required BuildContext context,
-    Function(int sender)? onAccept,
-  }) {
-    return Positioned(
-      top: coordinates.y.toDouble(),
-      left: coordinates.x.toDouble(),
-      child: Draggable<int>(
-        data: index,
-        feedback: SizedBox(
-          width: size,
-          height: size,
-        ),
-        child: DragTarget<int>(
-          builder: (
-            context,
-            accepted,
-            rejected,
-          ) {
-            return Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  height: sizeBase.add.size,
-                  width: sizeBase.add.size,
-                  decoration: typeStatus.boxDecor,
-                  child: Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: shild > 0 ? AppColor.shildBox : null,
-                    child: Image.asset(sizeBase.add.pictire),
-                  ),
-                ),
-                getInfo(this),
-                if (isNotMove)
-                  Positioned(
-                    child: SvgPicture.asset(
-                      'assets/svg/cursor.svg',
-                      width: size * 0.6,
-                      colorFilter:
-                          const ColorFilter.mode(AppColor.red, BlendMode.srcIn),
-                    ),
-                  ),
-              ],
-            );
-          },
-          onAccept: (sender) {
-            if (Get.find<GameRepository>().bases[sender].typeStatus ==
-                TypeStatus.our) onAccept!(sender);
-          },
-        ),
-      ),
-    );
-  }
 }
 
 enum SizeBase {
@@ -128,7 +64,7 @@ enum SizeBase {
     switch (this) {
       case SizeBase.midleBase:
         return BaseAdd(
-                    pictire: 'assets/images/bases/base1.png',
+          pictire: 'assets/images/bases/base1.png',
           maxShips: 120,
           shild: 0,
           speedBuild: 0,
@@ -137,7 +73,7 @@ enum SizeBase {
         );
       case SizeBase.smallBase:
         return BaseAdd(
-                    pictire: 'assets/images/bases/base2.png',
+          pictire: 'assets/images/bases/base2.png',
           maxShips: 100,
           shild: 0,
           speedBuild: 0,
@@ -146,7 +82,7 @@ enum SizeBase {
         );
       case SizeBase.base:
         return BaseAdd(
-                    pictire: 'assets/images/bases/base3.png',
+          pictire: 'assets/images/bases/base3.png',
           maxShips: 150,
           shild: 0,
           speedBuild: 0,

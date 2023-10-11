@@ -2,67 +2,8 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
-import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
-import 'package:expansion/ui/widgets/widgets.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
-/// класс корабля для отображение на других картах, движение
-class ShipSimple extends EntitesObject {
-  Point target;
-  double angle;
-  PointFly fly;
-  ShipSimple({
-    required super.coordinates,
-    required this.target,
-    super.index = 0,
-    super.size = 30,
-    super.ships = 0,
-    super.typeStatus = TypeStatus.our,
-  })  : angle = angleToPoint(coordinates, target),
-        fly = PointFly(Point(coordinates.x, coordinates.y));
-
-  @override
-  void update() {
-    fly = fly.moveTowards(
-        PointFly(Point(target.x, target.y)), typeStatus.shipSpeed * 2);
-    coordinates = fly.coordinates;
-  }
-
-  @override
-  Widget build(
-      {required BuildContext context,
-      int index = 0,
-      Function(int sender)? onAccept}) {
-    if (coordinates == target) {
-      context.read<MapsBloc>().add(MapsEndEvent());
-    }
-    return Positioned(
-      top: coordinates.x - size / 2,
-      left: coordinates.y - size / 2,
-      child: Transform.rotate(
-        angle: angle,
-        child: Container(
-          height: size,
-          width: size,
-          padding: const EdgeInsets.all(4),
-          decoration: typeStatus.boxDecor,
-          child: SvgPicture.asset(
-            typeStatus.shipImage,
-            colorFilter: ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
-            width: 30.w,
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 /// класс корабля для отображение в битве
 class Ship extends EntitesObject {
@@ -101,68 +42,6 @@ class Ship extends EntitesObject {
     if (indexShip != null) {
       isAttack = true;
     }
-  }
-
-  @override
-  Widget build(
-      {required int? index,
-      required BuildContext context,
-      Function()? click,
-      Function(int sender)? onAccept}) {
-    if (coordinates == target.coordinates && !isAttack) {
-      context
-          .read<BattleBloc>()
-          .add(ArriveShipsEvent(index!, toIndex, indexShip));
-    }
-    if (isAttack && !isSend && indexShip != null && index != null) {
-      isSend = true;
-      context.read<BattleBloc>().add(BattleShipsEvent(indexShip!, index));
-    }
-    return Positioned(
-      top: coordinates.x - size / 2,
-      left: coordinates.y - size / 2,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          if (isAttack)
-            IconRotate(size: size)
-          else
-            Transform.rotate(
-              angle: angle,
-              child: Container(
-                height: size,
-                width: size,
-                padding: const EdgeInsets.all(4),
-                decoration: typeStatus.boxDecor,
-                child: SvgPicture.asset(
-                  typeStatus.shipImage,
-                  colorFilter:
-                      ColorFilter.mode(typeStatus.color, BlendMode.srcIn),
-                  width: 40.w,
-                ),
-              ),
-            ),
-          Positioned(
-            bottom: 0,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                color: typeStatus.color,
-              ),
-              child: Text(
-                ships.toString(),
-                style: TextStyle(
-                  color: AppColor.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 

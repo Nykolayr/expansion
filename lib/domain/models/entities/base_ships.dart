@@ -2,14 +2,8 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/entity_space.dart';
-import 'package:expansion/domain/repository/game_repository.dart';
-import 'package:expansion/ui/widgets/widgets.dart';
-import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 class BaseShip extends BaseObject {
   String path;
@@ -61,66 +55,4 @@ class BaseShip extends BaseObject {
         'typeStatus': typeStatus,
         'path': path,
       };
-
-  @override
-  Widget build({
-    required int index,
-    required BuildContext context,
-    Function(int sender)? onAccept,
-  }) {
-    return Positioned(
-      top: coordinates.y.toDouble(),
-      left: coordinates.x.toDouble(),
-      child: GestureDetector(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Draggable<int>(
-              data: index,
-              feedback: SizedBox(
-                width: size,
-                height: size,
-              ),
-              child: DragTarget<int>(
-                builder: (
-                  context,
-                  accepted,
-                  rejected,
-                ) {
-                  return Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: typeStatus.boxDecor,
-                    height: size,
-                    width: size,
-                    child: Container(
-                      padding: const EdgeInsets.all(7),
-                      decoration: shild > 0 ? AppColor.shildBox : null,
-                      child: Image.asset(path),
-                    ),
-                  );
-                },
-                onAccept: (sender) {
-                  if (Get.find<GameRepository>().bases[sender].typeStatus ==
-                      TypeStatus.our) onAccept!(sender);
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 5,
-              child: getInfo(this),
-            ),
-            if (isNotMove)
-              Positioned(
-                child: SvgPicture.asset(
-                  'assets/svg/cursor.svg',
-                  width: size * 0.6,
-                  colorFilter:
-                      const ColorFilter.mode(AppColor.red, BlendMode.srcIn),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
 }
