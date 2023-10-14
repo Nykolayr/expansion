@@ -6,6 +6,12 @@ const politicUrl = 'https://flutter.dev';
 /// путь где находится описание объектов для карт
 const pathAssetScenes = 'assets/scenes';
 
+/// размерность экрана битвы по горизонтали
+const rowBattle = 5;
+
+/// размерность экрана битвы по вертикали
+const columnBattle = 8;
+
 /// размеры эталлоного устройства
 const Size standardDeviceSize = Size(392.7, 850.9);
 
@@ -29,3 +35,5 @@ const delSpeedBuild = 12;
 // Множитель, который определяет диапазон очков
 // также начальное значение для апгрейда
 const int scoreMultiplier = 200;
+// размер корабля
+const double shipSize = 40;

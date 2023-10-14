@@ -5,6 +5,8 @@ import 'package:expansion/ui/begin/begin_page.dart';
 import 'package:expansion/ui/begin/bloc/begin_bloc.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
 import 'package:expansion/ui/maps/maps_page.dart';
+import 'package:expansion/ui/scenarios/bloc/scenarios_bloc.dart';
+import 'package:expansion/ui/scenarios/edit_scenarios.dart';
 import 'package:expansion/ui/splash/bloc/splash_bloc.dart';
 import 'package:expansion/ui/splash/splash_page.dart';
 import 'package:expansion/ui/splash/sub/donate/donate.dart';
@@ -153,6 +155,19 @@ final GoRouter router = GoRouter(
             child: BlocProvider(
               create: (_) => BeginBloc(),
               child: const BeginPage(),
+            ),
+          ),
+        ),
+        GoRoute(
+          name: 'scenarios',
+          path: 'scenarios',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.rightToLeft,
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (_) => ScenariosBloc(),
+              child: const ScenariosPage(),
             ),
           ),
         ),

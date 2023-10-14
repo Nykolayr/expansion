@@ -1,5 +1,5 @@
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/ui/widgets/widgets.dart';
@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 
 Future<void> setStateEnemy(BattleBloc block) async {
   final bases = Get.find<GameRepository>().bases;
-  final basesNeutral = <BaseObject>[];
-  final basesEnemy = <BaseObject>[];
-  final basesOur = <BaseObject>[];
-  final basesFromAttack = <BaseObject>[];
-  final basesToAttack = <BaseObject>[];
-  final basesFromSuppot = <BaseObject>[];
-  final basesToSuppot = <BaseObject>[];
+  final basesNeutral = <Base>[];
+  final basesEnemy = <Base>[];
+  final basesOur = <Base>[];
+  final basesFromAttack = <Base>[];
+  final basesToAttack = <Base>[];
+  final basesFromSuppot = <Base>[];
+  final basesToSuppot = <Base>[];
 
   //отправка кораблей
   void sendShips(List<int> list, int toIndex) {
@@ -23,7 +23,7 @@ Future<void> setStateEnemy(BattleBloc block) async {
   }
 
 // проверка baз, которые смогут отправить корабли для захвата
-  List<int> isAttacCheck(BaseObject enemyBase) {
+  List<int> isAttacCheck(Base enemyBase) {
     final attackBaseIndex = <int>[];
     final forceEnemy = enemyBase.ships + enemyBase.shild + 5;
     var forceOur = 0;
@@ -62,7 +62,7 @@ Future<void> setStateEnemy(BattleBloc block) async {
   }
 
 // заполнение basesFromAttack, basesToAttack перед атакой
-  void fillingAttack(List<BaseObject> basesEnemy) {
+  void fillingAttack(List<Base> basesEnemy) {
     for (final baseE in basesEnemy) {
       for (final baseO in basesOur) {
         if (getBase(baseE.coordinates, baseO.coordinates) == null) {
@@ -126,6 +126,6 @@ Future<void> setStateEnemy(BattleBloc block) async {
   }
 }
 
-void sortBaseShips(List<BaseObject> bases) {
+void sortBaseShips(List<Base> bases) {
   bases.sort((a, b) => (a.ships + a.shild).compareTo(b.ships + b.shild));
 }

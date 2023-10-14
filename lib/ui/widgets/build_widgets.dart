@@ -1,7 +1,6 @@
 import 'package:expansion/domain/models/entities/asteroids.dart';
-import 'package:expansion/domain/models/entities/base.dart';
-import 'package:expansion/domain/models/entities/base_ships.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
@@ -80,74 +79,6 @@ class ShipView extends StatelessWidget {
   }
 }
 
-/// вид корабля матки, верстка
-class BaseShipView extends StatelessWidget {
-  final int index;
-  final BaseShip baseShip;
-  final Function(int index)? onAccept;
-
-  const BaseShipView(
-      {required this.index, required this.baseShip, this.onAccept, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: baseShip.coordinates.y.toDouble(),
-      left: baseShip.coordinates.x.toDouble(),
-      child: GestureDetector(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Draggable<int>(
-              data: index,
-              feedback: SizedBox(
-                width: baseShip.size,
-                height: baseShip.size,
-              ),
-              child: DragTarget<int>(
-                builder: (
-                  context,
-                  accepted,
-                  rejected,
-                ) {
-                  return Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: baseShip.typeStatus.boxDecor,
-                    height: baseShip.size,
-                    width: baseShip.size,
-                    child: Container(
-                      padding: const EdgeInsets.all(7),
-                      decoration: baseShip.shild > 0 ? AppColor.shildBox : null,
-                      child: Image.asset(baseShip.path),
-                    ),
-                  );
-                },
-                onAccept: (sender) {
-                  if (Get.find<GameRepository>().bases[sender].typeStatus ==
-                      TypeStatus.our) onAccept!(sender);
-                },
-              ),
-            ),
-            Positioned(
-              bottom: 5,
-              child: getInfo(baseShip),
-            ),
-            if (baseShip.isNotMove)
-              Positioned(
-                child: SvgPicture.asset(
-                  'assets/svg/cursor.svg',
-                  width: baseShip.size * 0.6,
-                  colorFilter:
-                      const ColorFilter.mode(AppColor.red, BlendMode.srcIn),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 /// вид базы, верстка
 class BaseView extends StatelessWidget {
   final int index;
@@ -179,13 +110,13 @@ class BaseView extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(2),
-                  height: base.sizeBase.add.size,
-                  width: base.sizeBase.add.size,
+                  height: base.size,
+                  width: base.size,
                   decoration: base.typeStatus.boxDecor,
                   child: Container(
                     padding: const EdgeInsets.all(5),
                     decoration: base.shild > 0 ? AppColor.shildBox : null,
-                    child: Image.asset(base.sizeBase.add.pictire),
+                    child: Image.asset(base.image),
                   ),
                 ),
                 getInfo(base),

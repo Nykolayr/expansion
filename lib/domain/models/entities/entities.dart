@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/domain/models/entities/base.dart';
-import 'package:expansion/domain/models/entities/base_ships.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/ui/widgets/build_widgets.dart';
 import 'package:expansion/utils/colors.dart';
@@ -42,12 +41,9 @@ enum TypeStatus {
     switch (this) {
       case TypeStatus.our:
       case TypeStatus.enemy:
-        return item is Base
-            ? BaseView(index: index, base: item, onAccept: onAccept)
-            : BaseShipView(
-                index: index, baseShip: item as BaseShip, onAccept: onAccept);
       case TypeStatus.neutral:
         return BaseView(index: index, base: item as Base, onAccept: onAccept);
+
       case TypeStatus.asteroid:
         return AsteroidView(asteroid: item as Asteroid);
     }

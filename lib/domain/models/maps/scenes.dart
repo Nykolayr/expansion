@@ -18,6 +18,7 @@ class Scene {
   String descriptionRu = '';
   String descriptionEn = '';
   TypeScene typeScene = TypeScene.first;
+  
   Scene({
     required this.id,
     required this.nameRu,

@@ -7,7 +7,7 @@ import 'package:equatable/equatable.dart';
 import 'package:expansion/domain/models/enemy_intelect.dart';
 import 'package:expansion/domain/models/entities/asteroids.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/domain/models/entities/ships.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
@@ -42,7 +42,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   int ticEnemy = 0;
   int ticAsteroid = 0;
   int ticTime = 0;
-  late BaseObject mainBase;
+  late Base mainBase;
   ReceivePort receivePort = ReceivePort();
   Future<void> _onBattleShipsEvent(
       BattleShipsEvent event, Emitter<BattleState> emit) async {
@@ -225,7 +225,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
         typeStatus: fromBase.typeStatus,
         distance: 0,
         distanceCurrent: 0,
-        size: 40,
+        size: shipSize,
       ));
       fromBase.ships = 0;
     }
@@ -338,8 +338,7 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
 
 /// проверяет есть ли база на пути между базой с point1 и базой point2
 /// возращает базу которая на пути, если нет, то возращает null
-BaseObject? getBase(Point point1, Point point2) {
-  const shipSize = 30;
+Base? getBase(Point point1, Point point2) {
   final gameData = Get.find<GameRepository>();
   var bases = gameData.bases;
   bases = bases
@@ -360,12 +359,10 @@ BaseObject? getBase(Point point1, Point point2) {
   // Имитируем движение корабля с заданным шагом
   const stepSize = 0.1; // Задаем размер шага
   var traveledDistance = 0.0;
-
   while (traveledDistance < distance) {
     // Перемещаем корабль на шаг в направлении к point2
     x += directionX * stepSize;
     y += directionY * stepSize;
-
     // Проверяем, пересекается ли корабль с каким-либо объектом Base
     for (final base in bases) {
       final centersDistance =

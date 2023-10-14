@@ -1,6 +1,5 @@
 import 'package:drop_cap_text/drop_cap_text.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/utils/text.dart';
 import 'package:expansion/utils/value.dart';
@@ -36,8 +35,8 @@ class HelpPage extends StatelessWidget {
                     style: AppText.baseText.copyWith(fontSize: 15.sp),
                   ),
                   SizedBox(height: 25.h),
-                  lineHelp(SizeBase.smallBase.add.pictire,
-                      SizeBase.midleBase.add.pictire, tr('help_base')),
+                  lineHelp('assets/images/bases/base1.png',
+                      'assets/images/bases/base2.png', tr('help_base')),
                   SizedBox(height: 25.h),
                   lineHelp('assets/images/enemy.png', 'assets/images/our.png',
                       tr('help_main_base')),

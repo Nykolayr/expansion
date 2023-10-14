@@ -1,7 +1,7 @@
 part of 'battle_bloc.dart';
 
 class BattleState {
-  final List<BaseObject> bases;
+  final List<Base> bases;
   final List<EntitesObject> ships;
   final int score;
   final bool isWin;
@@ -28,7 +28,7 @@ class BattleState {
         isBegin: true,
       );
   BattleState copyWith({
-    List<BaseObject>? bases,
+    List<Base>? bases,
     List<EntitesObject>? ships,
     int? score,
     bool? isWin,

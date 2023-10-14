@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:expansion/Api/api.dart';
+import 'package:expansion/api/api.dart';
 import 'package:expansion/data/local_data.dart';
 import 'package:expansion/domain/models/entities/base.dart';
-import 'package:expansion/domain/models/entities/base_ships.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
 import 'package:expansion/domain/models/maps/scenes.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:get/get.dart';
@@ -13,7 +11,7 @@ import 'package:get/get.dart';
 /// класс игровых сущностей которые загружаются из апи или ассета
 ///  List<Planet> - список планет, system - название системы и звезды
 class GameRepository extends GetxController {
-  List<BaseObject> bases = [];
+  List<Base> bases = [];
   List<EntitesObject> ships = [];
   List<Scene> scenes = [];
 
@@ -86,15 +84,8 @@ class GameRepository extends GetxController {
 
     final planets = List<Base>.from(
         listJson.map((x) => Base.fromJson(x as Map<String, dynamic>)));
-    final enemyMainShip =
-        BaseShip.fromJson(json['mainShipEnemy'] as Map<String, dynamic>);
-    final ourMainShip =
-        BaseShip.fromJson(json['mainShipOur'] as Map<String, dynamic>);
     for (var k = 0; k < planets.length; k++) {
       planets.elementAt(k).index = k;
     }
-    enemyMainShip.index = planets.length;
-    ourMainShip.index = planets.length + 1;
-    bases.addAll([...planets, enemyMainShip, ourMainShip]);
   }
 }

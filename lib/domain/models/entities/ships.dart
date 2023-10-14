@@ -83,8 +83,6 @@ int? checkCollisionShip(Ship shipOur) {
     final baseFly = PointFly(point);
     final distance = shipOur.fly.distanceTo(baseFly);
     if (distance < shipOur.size / 2 + ship.size / 2 - 1) {
-      // print('typeStatus1 ${ship.index} ${shipOur.index} == $distance');
-      // print('typeStatus2 ${ship.typeStatus} ${shipOur.typeStatus} == ');
       return ship.index; // Столкновение произошло
     }
   }

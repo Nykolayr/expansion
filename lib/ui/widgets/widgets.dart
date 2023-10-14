@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
-import 'package:expansion/domain/models/entities/entity_space.dart';
+import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget getInfo(BaseObject base) {
+Widget getInfo(Base base) {
   final isUpShild = getIsUpShild(base);
   final isUpSpeed = getIsUpSpeed(base);
   return SizedBox(
@@ -105,7 +105,7 @@ class UpLevel extends StatelessWidget {
 
 class CircleInfo extends StatelessWidget {
   final InfoStatus infoStatus;
-  final BaseObject base;
+  final Base base;
   const CircleInfo({required this.base, required this.infoStatus, super.key});
 
   @override
@@ -158,7 +158,7 @@ Widget titleWithSvg(String text) {
 }
 
 /// проверяет, хватает ли ресурсов на следующий ап щита базы
-bool getIsUpShild(BaseObject base) {
+bool getIsUpShild(Base base) {
   if (base.typeStatus == TypeStatus.neutral ||
       base.typeStatus == TypeStatus.asteroid) return false;
   final levelShild = (base.shild / base.typeStatus.minShild).round();
@@ -169,7 +169,7 @@ bool getIsUpShild(BaseObject base) {
 }
 
 /// проверяет, хватает ли ресурсов на следующий ап ускорения постройки кораблей базы
-bool getIsUpSpeed(BaseObject base) {
+bool getIsUpSpeed(Base base) {
   if (base.typeStatus == TypeStatus.neutral ||
       base.typeStatus == TypeStatus.asteroid) return false;
   final levelSpeed =
@@ -196,7 +196,7 @@ enum InfoStatus {
     }
   }
 
-  String infoText(BaseObject base) {
+  String infoText(Base base) {
     switch (this) {
       case InfoStatus.shild:
         return base.shild.toStringAsFixed(0);

@@ -157,17 +157,20 @@ class _MapsPageState extends State<MapsPage> {
     if (bloc.state.isBegin) return;
     bloc.add(MapsBeginEvent());
     final scrollTo = ((current - 1) ~/ 5 - 2) * 120.h;
-    if (scrollTo < controller.offset) controller.jumpTo(scrollTo);
+
+    if (scrollTo > controller.offset) {
+      controller.jumpTo(scrollTo);
+      await Future.delayed(const Duration(milliseconds: 400));
+    }
     final index = scenes.indexWhere((element) => element.id == current - 1);
     final isOddLine = (index ~/ 5).isEven;
     final fly = isOddLine
         ? scenes[index].typeScene.flyOdd
         : scenes[index].typeScene.flyEven;
-    Future.delayed(const Duration(milliseconds: 200), () async {
-      final rect = renderManager.getRenderData(index)!.center;
-      from = Point(rect.x + fly.begin.dx - 60.w, rect.y + fly.begin.dy - 80.h);
-      to = Point(rect.x + fly.end.dx - 60.w, rect.y + fly.end.dy - 80.h);
-    });
+    await Future.delayed(const Duration(milliseconds: 100));
+    final rect = renderManager.getRenderData(index)!.center;
+    from = Point(rect.x + fly.begin.dx - 60.w, rect.y + fly.begin.dy - 80.h);
+    to = Point(rect.x + fly.end.dx - 60.w, rect.y + fly.end.dy - 80.h);
     await Future.delayed(const Duration(milliseconds: 300));
     bloc.add(MapsShowEvent());
     await Future.delayed(const Duration(milliseconds: 100));

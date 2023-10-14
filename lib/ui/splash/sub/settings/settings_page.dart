@@ -21,6 +21,16 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var counter = 0;
+
+    void handleClick() {
+      if (counter < 5) {
+        counter++;
+      } else {
+        router.go('/scenarios');
+      }
+    }
+
     context.watch<SettingBloc>();
     return Scaffold(
       body: Stack(
@@ -103,6 +113,14 @@ class SettingsPage extends StatelessWidget {
                   ),
                   SizedBox(
                     height: 30.h,
+                  ),
+                  GestureDetector(
+                    onTap: handleClick,
+                    child: Container(
+                      width: 400,
+                      height: 50,
+                      color: Colors.transparent,
+                    ),
                   ),
                 ],
               ),
