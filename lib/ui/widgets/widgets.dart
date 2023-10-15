@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/base.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';

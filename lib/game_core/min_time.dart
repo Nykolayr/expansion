@@ -1,5 +1,5 @@
-import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/base.dart';
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/ui/battle/bloc/battle_bloc.dart';
 import 'package:expansion/utils/value.dart';

@@ -1,7 +1,9 @@
 import 'dart:math';
 import 'package:expansion/domain/models/entities/base.dart';
 import 'package:expansion/domain/models/entities/entities.dart';
+import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// вспомагательный класс базы для маркирования на карте битвы
@@ -46,6 +48,16 @@ enum TypeBase {
   midleBase,
   base;
 
+  bool get isMainShip {
+    switch (this) {
+      case TypeBase.ourMainShip:
+      case TypeBase.enemyMainShip:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   TypeStatus get status {
     switch (this) {
       case TypeBase.ourMainShip:
@@ -56,6 +68,31 @@ enum TypeBase {
       case TypeBase.midleBase:
       case TypeBase.base:
         return TypeStatus.neutral;
+    }
+  }
+
+  BoxDecoration get colorShild {
+    switch (this) {
+      case TypeBase.ourMainShip:
+      case TypeBase.enemyMainShip:
+        return AppColor.shildBox;
+      case TypeBase.smallBase:
+      case TypeBase.midleBase:
+      case TypeBase.base:
+        return AppColor.notShildBox;
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case TypeBase.ourMainShip:
+        return AppColor.green;
+      case TypeBase.enemyMainShip:
+        return AppColor.red;
+      case TypeBase.smallBase:
+      case TypeBase.midleBase:
+      case TypeBase.base:
+        return AppColor.white;
     }
   }
 

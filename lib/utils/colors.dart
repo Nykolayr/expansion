@@ -39,6 +39,12 @@ class AppColor {
         width: 2,
         color: blue,
       ));
+  static BoxDecoration notShildBox = BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        width: 2,
+        color: Colors.transparent,
+      ));
   static BoxDecoration buttonCircleBox = const BoxDecoration(
     color: AppColor.darkBlue,
     shape: BoxShape.circle,

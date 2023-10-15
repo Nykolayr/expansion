@@ -8,39 +8,40 @@ dependencies:
     flutter:
         sdk: flutter
     cupertino_icons: ^1.0.5
-    flutter_bloc: ^8.1.3
-    equatable: ^2.0.5
-    flutter_svg: ^2.0.7
-    easy_localization: ^3.0.2
-    flutter_native_splash: ^2.3.2
-    shared_preferences: ^2.2.0
-    audioplayers: ^5.1.0
-    flutter_launcher_icons: ^0.13.1
-    go_router: ^10.1.0
-    google_fonts: ^5.1.0
-    freezed_annotation: ^2.4.1
-    animated_text_kit: ^4.2.2
-    page_transition: ^2.0.9
-    url_launcher: ^6.1.14
-    computer: ^3.2.1
-    json_annotation: ^4.8.1
-    flutter_screenutil: ^5.8.4
-    drop_cap_text: ^1.1.3
-    confetti: ^0.7.0
-    firebase_core: ^2.15.1
-    google_sign_in: ^6.1.4
-    flutter_svg_provider: ^1.0.6
-    firebase_auth: ^4.7.3
-    cloud_firestore: ^4.8.5
-    get: ^4.6.5
-    build_runner: ^2.4.6
-    surf_lint_rules: ^3.0.0
-    surf_logger: ^1.1.0
-    bottom_sheet: ^4.0.0
-    render_metrics: ^2.0.2
-    surf_util: ^1.0.3
-    sbp: ^0.0.8
-    app_runner: ^2.2.0+1
+    flutter_bloc: ^8.1.3  #https://pub.dev/packages/flutter_bloc
+    equatable: ^2.0.5  #https://pub.dev/packages/equatable
+    flutter_svg: ^2.0.7  #https://pub.dev/packages/flutter_svg
+    easy_localization: ^3.0.2  #https://pub.dev/packages/easy_localization
+    flutter_native_splash: ^2.3.2  #https://pub.dev/packages/flutter_native_splash
+    shared_preferences: ^2.2.0  #https://pub.dev/packages/shared_preferences
+    audioplayers: ^5.1.0  #https://pub.dev/packages/audioplayers
+    flutter_launcher_icons: ^0.13.1  #https://pub.dev/packages/flutter_launcher_icons
+    go_router: ^10.1.0  #https://pub.dev/packages/go_router
+    google_fonts: ^5.1.0     #https://pub.dev/packages/google_fonts
+    freezed_annotation: ^2.4.1  #https://pub.dev/packages/freezed_annotation
+    animated_text_kit: ^4.2.2  #https://pub.dev/packages/animated_text_kit
+    page_transition: ^2.0.9  #https://pub.dev/packages/page_transition
+    url_launcher: ^6.1.14   #https://pub.dev/packages/url_launcher
+    computer: ^3.2.1  #https://pub.dev/packages/computer
+    json_annotation: ^4.8.1  #https://pub.dev/packages/json_annotation
+    flutter_screenutil: ^5.8.4  #https://pub.dev/packages/flutter_screenutil
+    drop_cap_text: ^1.1.3  #https://pub.dev/packages/drop_cap_text
+    confetti: ^0.7.0  #https://pub.dev/packages/confetti
+    firebase_core: ^2.15.1  #https://pub.dev/packages/firebase_core
+    google_sign_in: ^6.1.4  #https://pub.dev/packages/google_sign_in
+    flutter_svg_provider: ^1.0.6  #https://pub.dev/packages/flutter_svg_provider 
+    firebase_auth: ^4.7.3   #https://pub.dev/packages/firebase_auth
+    cloud_firestore: ^4.8.5   #https://pub.dev/packages/cloud_firestore
+    get: ^4.6.5  #https://pub.dev/packages/get
+    build_runner: ^2.4.6  #https://pub.dev/packages/build_runner
+    surf_lint_rules: ^3.0.0  #https://pub.dev/packages/surf_lint_rules
+    surf_logger: ^1.1.0  #https://pub.dev/packages/surf_logger
+    bottom_sheet: ^4.0.0  #https://pub.dev/packages/bottom_sheet
+    render_metrics: ^2.0.2  #https://pub.dev/packages/render_metrics
+    surf_util: ^1.0.3   #https://pub.dev/packages/surf_util
+    sbp: ^0.0.8      #https://pub.dev/packages/sbp
+    app_runner: ^2.2.0+1  #https://pub.dev/packages/app_runner
+    popup_menu: ^2.0.0 #https://pub.dev/packages/popup_menu
 dev_dependencies:
     flutter_test:
         sdk: flutter

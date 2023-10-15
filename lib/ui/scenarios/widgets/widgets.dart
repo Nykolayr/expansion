@@ -1,7 +1,9 @@
+import 'package:expansion/domain/models/entities/entities.dart';
 import 'package:expansion/domain/models/entities/types_bases.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:popup_menu/popup_menu.dart';
 
 class CellScenarios extends StatefulWidget {
   final int x;
@@ -19,6 +21,21 @@ class CellScenarios extends StatefulWidget {
 }
 
 class _CellScenariosState extends State<CellScenarios> {
+  late PopupMenu menu;
+  GlobalKey btnKey = GlobalKey();
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void onClickMenu(MenuItemProvider item) {
+    widget.mapBattleList[widget.y][widget.x]!.typeStatus =
+        TypeStatus.values.byName(item.menuTitle);
+    widget.onPut();
+  }
+
+  void onDismiss() {}
+
   @override
   Widget build(BuildContext context) {
     return DragTarget<BaseMap>(
@@ -27,18 +44,28 @@ class _CellScenariosState extends State<CellScenarios> {
         accepted,
         rejected,
       ) {
-        return Container(
-          width: 65,
-          height: 65,
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              border: Border.all(
-            color: AppColor.white,
-            width: 1.w,
-          )),
-          child: Center(
-            child: BaseDrag(
-              baseMap: widget.mapBattleList[widget.y][widget.x],
+        return GestureDetector(
+          onLongPress: () {
+            if (widget.mapBattleList[widget.y][widget.x] != null &&
+                !widget
+                    .mapBattleList[widget.y][widget.x]!.typeBase.isMainShip) {
+              popupMenu();
+            }
+          },
+          child: Container(
+            key: btnKey,
+            width: 65,
+            height: 65,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border: Border.all(
+              color: AppColor.white,
+              width: 1.w,
+            )),
+            child: Center(
+              child: BaseDrag(
+                baseMap: widget.mapBattleList[widget.y][widget.x],
+              ),
             ),
           ),
         );
@@ -58,6 +85,24 @@ class _CellScenariosState extends State<CellScenarios> {
       },
     );
   }
+
+  void popupMenu() {
+    PopupMenu(
+      config: const MenuConfig(
+        backgroundColor: AppColor.darkBlue,
+        lineColor: AppColor.red,
+      ),
+      context: context,
+      items: [
+        for (int i = 0; i < TypeStatus.values.length - 1; i++)
+          MenuItem(
+            title: TypeStatus.values[i].name,
+          )
+      ],
+      onClickMenu: onClickMenu,
+      onDismiss: onDismiss,
+    ).show(widgetKey: btnKey);
+  }
 }
 
 class BaseDrag extends StatelessWidget {
@@ -70,9 +115,14 @@ class BaseDrag extends StatelessWidget {
         ? const SizedBox.shrink()
         : Container(
             width: 65,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(2),
             margin: const EdgeInsets.only(right: 7),
-            child: Image.asset(baseMap!.typeBase.image),
+            decoration: baseMap!.typeStatus.boxDecor,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: baseMap!.typeBase.colorShild,
+              child: Image.asset(baseMap!.typeBase.image),
+            ),
           );
     return Draggable<BaseMap>(
       data: baseMap,
