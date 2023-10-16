@@ -31,7 +31,6 @@ class UserRepository extends GetxController {
 
     final data = await LocalData().loadJsonUser();
 
-
     if (data.isNotEmpty) {
       final json = jsonDecode(data) as Map<String, dynamic>;
       userRepository = UserRepository.fromJson(json);
@@ -55,7 +54,7 @@ class UserRepository extends GetxController {
   }
 
   Future<void> loadFromBase(String id) async {
-    final data = await BaseData().loadJson(id: id);
+    final data = await BaseData().loadUserJson(id: id);
     _instance = UserRepository.fromJson(data);
   }
 
@@ -96,7 +95,7 @@ class UserRepository extends GetxController {
 
   Future<void> saveUser() async {
     if (user.isRegistration) {
-      await BaseData().saveJson(json: toJson(), user: user);
+      await BaseData().saveUserJson(json: toJson(), user: user);
     }
     await LocalData().saveJsonUser(toJson());
   }

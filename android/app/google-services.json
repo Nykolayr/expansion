@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:847683646254:android:b312e2befe32060e2300bf",
         "android_client_info": {
-          "package_name": "com.example.expansion"
+          "package_name": "com.ryjov.expansion"
         }
       },
       "oauth_client": [
@@ -17,12 +17,12 @@
           "client_id": "847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.expansion",
+            "package_name": "com.ryjov.expansion",
             "certificate_hash": "7a5e02a1addbdc6ec3f375b6ebd513712fde1bbc"
           }
         },
         {
-          "client_id": "847683646254-l5bl6c8qq83ja87lkk86cvdrm1tqi348.apps.googleusercontent.com",
+          "client_id": "847683646254-6j4jn13rj2qds3vdlpdau50h42u1mp76.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "847683646254-l5bl6c8qq83ja87lkk86cvdrm1tqi348.apps.googleusercontent.com",
+              "client_id": "847683646254-6j4jn13rj2qds3vdlpdau50h42u1mp76.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "847683646254-47eov3fcbg1q2e82cpldn3io8m0g4rsg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ryjov.expansion.RunnerTests"
+              }
             }
           ]
         }

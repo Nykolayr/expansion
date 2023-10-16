@@ -1,13 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:expansion/domain/repository/user_repository.dart';
-import 'package:expansion/ui/maps/widgets.dart';
-import 'package:expansion/utils/colors.dart';
-import 'package:expansion/utils/text.dart';
+import 'dart:convert';
+
+import 'package:expansion/domain/models/entities/types_bases.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import 'package:get/get.dart';
 
 class Scene {
   int id = 0;
@@ -18,7 +13,7 @@ class Scene {
   String descriptionRu = '';
   String descriptionEn = '';
   TypeScene typeScene = TypeScene.first;
-  
+  List<List<BaseMap?>> mapBattleList = [];
   Scene({
     required this.id,
     required this.nameRu,
@@ -28,19 +23,31 @@ class Scene {
     required this.descriptionRu,
     required this.descriptionEn,
     required this.typeScene,
+    required this.mapBattleList,
   });
-  factory Scene.fromJson(Map<String, dynamic> json) {
+
+  factory Scene.fromJson(Map<String, dynamic> jsonMap) {
     return Scene(
-      id: json['id'] as int? ?? 0,
-      nameRu: json['nameRu'] as String? ?? '',
-      nameEn: json['nameEn'] as String? ?? '',
-      battleRu: json['battleRu'] as String? ?? '',
-      battleEn: json['battleEn'] as String? ?? '',
-      descriptionRu: json['descriptionRu'] as String? ?? '',
-      descriptionEn: json['descriptionEn'] as String? ?? '',
-      typeScene: json['typeScene'] == null
+      id: jsonMap['id'] as int? ?? 0,
+      nameRu: jsonMap['nameRu'] as String? ?? '',
+      nameEn: jsonMap['nameEn'] as String? ?? '',
+      battleRu: jsonMap['battleRu'] as String? ?? '',
+      battleEn: jsonMap['battleEn'] as String? ?? '',
+      descriptionRu: jsonMap['descriptionRu'] as String? ?? '',
+      descriptionEn: jsonMap['descriptionEn'] as String? ?? '',
+      typeScene: jsonMap['typeScene'] == null
           ? TypeScene.first
-          : TypeScene.values.byName(json['typeScene'] as String),
+          : TypeScene.values.byName(jsonMap['typeScene'] as String),
+      mapBattleList: jsonMap['mapBattleList'] != null
+          ? (json.decode(jsonMap['mapBattleList'] as String) as List<dynamic>)
+              .map((row) {
+              return (row as List<dynamic>).map((item) {
+                return item != null
+                    ? BaseMap.fromJson(item as Map<String, dynamic>)
+                    : null;
+              }).toList();
+            }).toList()
+          : [],
     );
   }
   Map<String, dynamic> toJson() => {
@@ -52,65 +59,10 @@ class Scene {
         'descriptionRu': descriptionRu,
         'descriptionEn': descriptionEn,
         'typeScene': typeScene.name,
+        'mapBattleList': json.encode(mapBattleList.map((row) {
+          return row.map((item) => item?.toJson()).toList();
+        }).toList()),
       };
-  Widget build({
-    required int index,
-    required BuildContext context,
-  }) {
-    final current = Get.find<UserRepository>().user.mapClassic - 1;
-    final infoText = context.locale == const Locale('ru') ? nameEn : nameRu;
-    Widget info =
-        Text((id + 1).toString(), style: AppText.baseBodyBoldYellow18);
-    if (current == id) {
-      info = SvgPicture.asset('assets/svg/target.svg', width: 25.w);
-    }
-    if (current < id) {
-      info = SvgPicture.asset('assets/svg/lock.svg',
-          colorFilter:
-              const ColorFilter.mode(AppColor.darkYeloow, BlendMode.srcIn),
-          width: 15.w);
-    }
-    final isOddLine = (index ~/ 5).isEven;
-    return GestureDetector(
-      child: Opacity(
-        opacity: id > current + 3 ? 0.4 : 1,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: typeScene.padding),
-                  alignment: Alignment.center,
-                  height: 55.w,
-                  padding: EdgeInsets.only(bottom: 25.h),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: svg.Svg('assets/svg/scene.svg'))),
-                  child: info,
-                ),
-                Text(
-                  current + 1 > id ? infoText : '???????',
-                  style: AppText.baseBodyBold12,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-            if (!isOddLine && id != 100 && id != 99)
-              CustomPaint(
-                  painter: LinePainter(
-                      begin: typeScene.flyEven.begin,
-                      end: typeScene.flyEven.end)),
-            if (isOddLine && id != 100 && id != 99)
-              CustomPaint(
-                  painter: LinePainter(
-                      begin: typeScene.flyOdd.begin,
-                      end: typeScene.flyOdd.end)),
-            // typeScene.lineEven
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 enum TypeScene {

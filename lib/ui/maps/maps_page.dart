@@ -10,6 +10,7 @@ import 'package:expansion/domain/repository/user_repository.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/ui/battle/widgets/widgets.dart';
 import 'package:expansion/ui/maps/bloc/maps_bloc.dart';
+import 'package:expansion/ui/maps/widgets.dart';
 import 'package:expansion/ui/widgets/buttons.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/text.dart';
@@ -114,14 +115,12 @@ class _MapsPageState extends State<MapsPage> {
                       id: index,
                       manager: renderManager,
                       child: GestureDetector(
-                          onTap: () {
-                            if (current != id || !user.isBegin) return;
-                            nextMissions();
-                          },
-                          child: scenes[index].build(
-                            index: index,
-                            context: context,
-                          )),
+                        onTap: () {
+                          if (current != id || !user.isBegin) return;
+                          nextMissions();
+                        },
+                        child: SceneView(index: index, scene: scenes[index]),
+                      ),
                     );
                   },
                 ),

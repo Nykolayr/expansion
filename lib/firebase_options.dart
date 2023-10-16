@@ -71,7 +71,7 @@ class DefaultFirebaseOptions {
         '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
     iosClientId:
         '847683646254-vh620ojnps098ukg5mc6oltt75e2dvjn.apps.googleusercontent.com',
-    iosBundleId: 'com.example.expansion',
+    iosBundleId: 'com.ryjov.expansion',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -84,6 +84,6 @@ class DefaultFirebaseOptions {
         '847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com',
     iosClientId:
         '847683646254-47eov3fcbg1q2e82cpldn3io8m0g4rsg.apps.googleusercontent.com',
-    iosBundleId: 'com.example.expansion.RunnerTests',
+    iosBundleId: 'com.ryjov.expansion.RunnerTests',
   );
 }
