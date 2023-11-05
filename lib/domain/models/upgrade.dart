@@ -142,25 +142,7 @@ enum TypeUp {
   beginShips,
   tic;
 
-  String get text {
-    switch (this) {
-      case TypeUp.shipSpeed:
-        return tr(name);
-      case TypeUp.shipDurability:
-        return tr(name);
-      case TypeUp.shipBuildSpeed:
-        return tr(name);
-      case TypeUp.resourceIncomeSpeed:
-        return tr(name);
-      case TypeUp.shieldDurability:
-        return tr(name);
-      case TypeUp.beginShips:
-        return tr(name);
-      case TypeUp.tic:
-        return tr(name);
-    }
-  }
-
+  String get text => tr(name);
   String get image {
     switch (this) {
       case TypeUp.shipSpeed:

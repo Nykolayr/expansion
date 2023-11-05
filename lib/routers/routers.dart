@@ -23,8 +23,11 @@ import 'package:expansion/ui/splash/sub/update/bloc/update_bloc.dart';
 import 'package:expansion/ui/splash/sub/update/update_page.dart';
 import 'package:expansion/utils/function.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
@@ -169,6 +172,16 @@ final GoRouter router = GoRouter(
               create: (_) => ScenariosBloc(),
               child: const ScenariosPage(),
             ),
+          ),
+        ),
+        GoRoute(
+          name: 'logs',
+          path: 'logs',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+            type: PageTransitionType.rightToLeft,
+            context: context,
+            state: state,
+            child: TalkerScreen(talker: Get.find<Talker>()),
           ),
         ),
         GoRoute(

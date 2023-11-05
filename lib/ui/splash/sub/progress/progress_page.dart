@@ -19,7 +19,6 @@ class ProgressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.watch<ProgressBloc>();
-    yourDataList.sort((a, b) => b.score.compareTo(a.score));
 
     return Scaffold(
       bottomNavigationBar: Get.find<UserRepository>().user.isRegistration

@@ -21,13 +21,6 @@ class WinLostModal extends StatelessWidget {
         SizedBox(
           height: 20.h,
         ),
-        // Text(
-        //   tr('next_step'),
-        //   style: AppText.baseTitle,
-        // ),
-        // SizedBox(
-        //   height: 25.h,
-        // ),
         if (context.read<BattleBloc>().state.isWin)
           ButtonLong(
             title: tr('continue'),

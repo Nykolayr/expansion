@@ -22,6 +22,8 @@ class GameRepository extends GetxController {
   GameRepository._internal();
 
   Future<void> init() async {
+    return;
+
     final data = await LocalData().loadJsonMaps();
     var listJson = [];
     if (data.isNotEmpty) {

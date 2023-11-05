@@ -5,8 +5,9 @@ import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/utils/value.dart';
 import 'package:get/get.dart';
 
-/// класс астероид, характеризуется точками откуда и куда,
-/// сколько сил
+/// Класс астероида, наследуется от базового класса игровых
+/// объектов [EntitesObject].
+/// Содержит свойства, описывающие состояние и поведение астероида.
 class Asteroid extends EntitesObject {
   PointFly target; // координаты цели
   PointFly fly; // текущие координаты астероида
@@ -57,6 +58,11 @@ class Asteroid extends EntitesObject {
   }
 
   @override
+
+  /// Обновляет положение астероида в каждом кадре.
+  /// Проверяет наличие столкновений с базами и кораблями,
+  /// устанавливая для параметра "Атака" значение true
+  /// в случае возникновения столкновения.
   void update() {
     if (isAttack) return;
     fly = fly.moveTowards(target, speed * 1);
@@ -69,6 +75,8 @@ class Asteroid extends EntitesObject {
   }
 }
 
+/// Определяет границы игрового поля.
+/// Используется для генерации объектов на экране.
 class Field {
   final Point topLeft;
   final Point bottomRight;
@@ -76,6 +84,17 @@ class Field {
   Field(this.topLeft, this.bottomRight);
 }
 
+/// Генерирует случайную точку появления объекта на одной из границ экрана.
+///
+/// Параметры:
+///
+/// * `edge` - номер границы экрана:
+///   0 - верхняя граница,
+///   1 - правая граница,
+///   2 - нижняя граница,
+///   3 - левая граница.
+///
+/// Возвращает объект `PointFly` со случайными координатами x и y на заданной границе.
 PointFly spawnObjectOnEdge(int edge) {
   final field = Field(
     const Point(0, 0),

@@ -8,9 +8,10 @@ import 'package:expansion/domain/models/setting/settings.dart';
 import 'package:expansion/domain/models/upgrade.dart';
 import 'package:expansion/domain/models/user/user.dart';
 import 'package:get/get.dart';
+import 'package:surf_logger/surf_logger.dart';
 
 class UserRepository extends GetxController {
-  UserGame user = UserGame.init();
+  UserGame user = UserGame();
   Settings settings = const Settings();
   Game game = const Game();
 
@@ -73,18 +74,39 @@ class UserRepository extends GetxController {
         'upOur': upOur,
       };
 
-  void setScore(int score) {
+  /// Устанавливает очки для классического режима игры.
+  /// Обновляет счетчики очков в объектах upOur и user,
+  /// вызывает обновление противника upEnemy.toAllUpgrade()
+  /// и сохраняет изменения в хранилище saveUser().
+  void setScoreClassic(int score) {
     upOur
       ..allScore += score
       ..score += score;
-    user = user.copyWith(score: upOur.allScore);
+    user.scoreClassic = score;
     upEnemy.toAllUpgrade();
     saveUser();
   }
 
+  /// Устанавливает счет для режима случайной игры.
+  /// Обновляет счетчики очков в объектах upOur и user,
+  /// вызывает обновление противника upEnemy.toAllUpgrade()
+  /// и сохраняет изменения в хранилище saveUser().
+  void setScoreRandom(int score) {
+    upOur
+      ..allScore += score
+      ..score += score;
+    user.scoreRandom = score;
+    upEnemy.toAllUpgrade();
+    saveUser();
+  }
+
+  /// Инициализирует пользователя по умолчанию.
+  /// Создает объекты user, settings, game,
+  /// устанавливает начальные значения для противника и нашего юзера.
+  /// Вызывает сохранение.
   void initUser() {
-    user = UserGame.init();
-    user = user.copyWith(name: tr('guest'));
+    user = UserGame();
+    user.name = tr('guest');
     settings = const Settings();
     game = const Game();
     game = game.copyWith(isSplash: false);
@@ -93,18 +115,23 @@ class UserRepository extends GetxController {
     saveUser();
   }
 
+  /// Сохраняет данные пользователя в хранилище.
+  /// Если пользователь зарегистрирован, сохраняет данные в базу [BaseData].
+  /// В любом случае сохраняет данные локально в [LocalData].
   Future<void> saveUser() async {
-    if (user.isRegistration) {
-      await BaseData().saveUserJson(json: toJson(), user: user);
-    }
-    await LocalData().saveJsonUser(toJson());
+    // if (user.isRegistration) {
+    //   await BaseData().saveUserJson(json: toJson(), user: user);
+    // }
+    // await LocalData().saveJsonUser(toJson());
   }
 
+  /// меняет язык приложения.
   void setLang(Lang lang) {
     settings = settings.copyWith(lang: lang);
     saveUser();
   }
 
+  /// меняет уровень игры
   void setLevel(Level level) {
     game = game.copyWith(level: level);
     saveUser();

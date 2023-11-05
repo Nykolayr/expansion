@@ -1,48 +1,48 @@
 {
   "project_info": {
-    "project_number": "847683646254",
-    "project_id": "expansion-1e30e",
-    "storage_bucket": "expansion-1e30e.appspot.com"
+    "project_number": "962797678906",
+    "project_id": "space-expansion-8ac9a",
+    "storage_bucket": "space-expansion-8ac9a.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847683646254:android:b312e2befe32060e2300bf",
+        "mobilesdk_app_id": "1:962797678906:android:3b5b819a7564ee2adce003",
         "android_client_info": {
-          "package_name": "com.ryjov.expansion"
+          "package_name": "com.ryjovs.expansion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "847683646254-68po48b4niamtob1mh36snjf5l81im2f.apps.googleusercontent.com",
+          "client_id": "962797678906-q5nibpqib9uvml664a2j2ls0i4js9mbb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.ryjov.expansion",
+            "package_name": "com.ryjovs.expansion",
             "certificate_hash": "7a5e02a1addbdc6ec3f375b6ebd513712fde1bbc"
           }
         },
         {
-          "client_id": "847683646254-6j4jn13rj2qds3vdlpdau50h42u1mp76.apps.googleusercontent.com",
+          "client_id": "962797678906-cm62drbijo0ku6sb2cqujkk67kiqean0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBETsw0ZH_hesX-O4LC1KjJaWFBXzbdWd8"
+          "current_key": "AIzaSyAWVlHPIds-JTFMYCTEzD6OGSHpWOOzj2o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "847683646254-6j4jn13rj2qds3vdlpdau50h42u1mp76.apps.googleusercontent.com",
+              "client_id": "962797678906-cm62drbijo0ku6sb2cqujkk67kiqean0.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "847683646254-47eov3fcbg1q2e82cpldn3io8m0g4rsg.apps.googleusercontent.com",
+              "client_id": "962797678906-2vvpicpadrqj4ne2vfk33jjp3q5crr4g.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.ryjov.expansion.RunnerTests"
+                "bundle_id": "com.ryjovs.expansion"
               }
             }
           ]

@@ -150,7 +150,7 @@ class ProfilePage extends StatelessWidget {
                   photoURL: user.photoURL ?? 'assets/avatar_icon.png',
                   name: user.displayName ?? tr('guest'),
                   isRegistration: true,
-                  id: user.uid,
+                  uid: user.uid,
                 );
         await Get.find<UserRepository>().saveUser();
         if (context.mounted) {

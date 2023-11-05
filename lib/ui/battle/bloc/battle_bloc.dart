@@ -315,7 +315,8 @@ class BattleBloc extends Bloc<BattleEvent, BattleState> {
   Future<void> _onClose(CloseEvent event, Emitter<BattleState> emit) async =>
       receivePort.close();
   Future<void> _onAddScore(AddScore event, Emitter<BattleState> emit) async =>
-      Get.find<UserRepository>().setScore(calculateScore(mainBase, ticTime));
+      Get.find<UserRepository>()
+          .setScoreClassic(calculateScore(mainBase, ticTime));
   void checkWinLose() {
     var basesEnemy = 0;
     var basesOur = 0;

@@ -5,25 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 List<UserGame> yourDataList = [
-  const UserGame(name: 'прикольный ник', score: 405, id: '2'),
-  const UserGame(name: 'обычный игрок', score: 405, id: '5'),
-  const UserGame(name: 'Лучший человек', score: 405, id: '6'),
-  const UserGame(name: 'Антон', score: 405, id: '12'),
-  const UserGame(name: 'Nen', score: 405, id: '11'),
-  const UserGame(name: 'treplo', score: 405, id: '15'),
-  const UserGame(name: 'Star', score: 405, id: '18'),
-  const UserGame(name: 'mer', score: 405, id: '111'),
-  const UserGame(name: 'grunt', score: 405, id: '222'),
-  const UserGame(name: 'letro', score: 405, id: '333'),
-  const UserGame(name: 'stuppid', score: 405, id: '4444'),
-  const UserGame(name: 'seven', score: 405, id: '5555'),
-  const UserGame(name: 'truestep', score: 405, id: '888'),
-  const UserGame(name: 'Cool', score: 405, id: '99'),
+  UserGame(name: 'прикольный ник', scoreClassic: 405, id: 2),
+  UserGame(name: 'обычный игрок', scoreClassic: 405, id: 5),
+  UserGame(name: 'Лучший человек', scoreClassic: 405, id: 6),
+  UserGame(name: 'Антон', scoreClassic: 405, id: 12),
+  UserGame(name: 'Nen', scoreClassic: 405, id: 11),
+  UserGame(name: 'treplo', scoreClassic: 405, id: 15),
+  UserGame(name: 'Star', scoreClassic: 405, id: 18),
+  UserGame(name: 'mer', scoreClassic: 405, id: 111),
+  UserGame(name: 'grunt', scoreClassic: 405, id: 222),
+  UserGame(name: 'letro', scoreClassic: 405, id: 333),
+  UserGame(name: 'stuppid', scoreClassic: 405, id: 4444),
+  UserGame(name: 'seven', scoreClassic: 405, id: 5555),
+  UserGame(name: 'truestep', scoreClassic: 405, id: 888),
+  UserGame(name: 'Cool', scoreClassic: 405, id: 99),
 ];
 
 class NameAndScoreWidget extends StatelessWidget {
   final UserGame user;
-  final String id;
+  final int id;
   final int index;
 
   const NameAndScoreWidget({
@@ -43,7 +43,9 @@ class NameAndScoreWidget extends StatelessWidget {
           child: Text(
             '$index. ${user.name}',
             style: TextStyle(
-              color: user.id == id ? AppColor.red : AppColor.darkYeloow,
+              color: user.id == int.parse(id.toString())
+                  ? AppColor.red
+                  : AppColor.darkYeloow,
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,
             ),
@@ -53,9 +55,11 @@ class NameAndScoreWidget extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(right: 10.h), // Отступ слева
           child: Text(
-            tr('scorename', args: [user.score.toString()]),
+            tr('scorename', args: [user.scoreClassic.toString()]),
             style: TextStyle(
-              color: user.id == id ? AppColor.red : AppColor.darkYeloow,
+              color: user.id == int.parse(id.toString())
+                  ? AppColor.red
+                  : AppColor.darkYeloow,
               fontSize: 16.sp,
               fontWeight: FontWeight.w700,
             ),

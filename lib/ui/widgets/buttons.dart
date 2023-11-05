@@ -45,7 +45,7 @@ class ButtonSide extends StatelessWidget {
                 Get.find<UserRepository>().upOur = AllUpgrade.initialOur();
                 Get.find<UserRepository>().user = Get.find<UserRepository>()
                     .user
-                    .copyWith(isBegin: true, score: 0, mapClassic: 1);
+                    .copyWith(isBegin: true, scoreClassic: 0, mapClassic: 1);
                 await Get.find<UserRepository>().saveUser();
                 router.go(direct.router);
               }

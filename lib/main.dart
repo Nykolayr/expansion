@@ -1,56 +1,30 @@
 import 'dart:ui' as ui;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computer/computer.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:expansion/domain/repository/game_repository.dart';
 import 'package:expansion/domain/repository/maps_repository.dart';
 import 'package:expansion/domain/repository/user_repository.dart';
-import 'package:expansion/firebase_options.dart';
 import 'package:expansion/routers/routers.dart';
 import 'package:expansion/utils/colors.dart';
 import 'package:expansion/utils/value.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:surf_logger/surf_logger.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 // ignore: non_constant_identifier_names
 
 const isEdit = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // await Firebase.initializeApp(
+  //     name: 'expansion', options: DefaultFirebaseOptions.currentPlatform);
+
   await EasyLocalization.ensureInitialized();
-  const fatalError = true;
-  // Non-async exceptions
-  FlutterError.onError = (errorDetails) {
-    if (fatalError) {
-      // If you want to record a "fatal" exception
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-      // ignore: dead_code
-    } else {
-      // If you want to record a "non-fatal" exception
-      FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-    }
-  };
-  // Async exceptions
-  PlatformDispatcher.instance.onError = (error, stack) {
-    if (fatalError) {
-      // If you want to record a "fatal" exception
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      // ignore: dead_code
-    } else {
-      // If you want to record a "non-fatal" exception
-      FirebaseCrashlytics.instance.recordError(error, stack);
-    }
-    return true;
-  };
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .whenComplete(() async {
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -66,6 +40,11 @@ void main() async {
       final userRepository = await UserRepository.getInstance();
       return userRepository;
     });
+    Get.put(() async {
+      final talker = TalkerFlutter.init();
+      return talker;
+    });
+
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('ru', 'RU'), Locale('en', 'US')],
@@ -105,8 +84,7 @@ class MyApp extends StatelessWidget {
               Logger.addStrategy(DebugLogStrategy());
               final name = Get.find<UserRepository>().user.name;
               if (name == 'guest') {
-                Get.find<UserRepository>().user =
-                    Get.find<UserRepository>().user.copyWith(name: tr(name));
+                Get.find<UserRepository>().user.name = tr(name);
               }
               deviceSize = Size(MediaQuery.of(context).size.width,
                   MediaQuery.of(context).size.height);

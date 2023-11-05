@@ -1,10 +1,15 @@
 import 'dart:ui';
 
-/// адресс где находится политика безопасности
-const politicUrl = 'https://flutter.dev';
+/// разные переменные Value.
+class Values {
+  static const String baseUrl = 'http://127.0.0.1:3000';
 
-/// путь где находится описание объектов для карт
-const pathAssetScenes = 'assets/scenes';
+  /// адресс где находится политика безопасности
+  static const politicUrl = 'https://flutter.dev';
+
+  /// путь где находится описание объектов для карт
+  static const pathAssetScenes = 'assets/scenes';
+}
 
 /// размерность экрана битвы по горизонтали
 const rowBattle = 5;

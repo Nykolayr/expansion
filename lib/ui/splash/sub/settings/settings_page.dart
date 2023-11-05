@@ -110,6 +110,15 @@ class SettingsPage extends StatelessWidget {
                       title: tr('edit'),
                       function: () => router.go('/scenarios'),
                     ),
+                  if (isEdit)
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                  if (isEdit)
+                    ButtonLong(
+                      title: 'logs',
+                      function: () => router.go('/logs'),
+                    ),
                   SizedBox(
                     height: 30.h,
                   ),

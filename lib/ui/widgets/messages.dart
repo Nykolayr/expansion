@@ -78,7 +78,7 @@ ${tr('part2')}
 
 ${tr('part3')}
  ''';
-  final url = Uri.parse(politicUrl);
+  final url = Uri.parse(Values.politicUrl);
 
   return showModal(
       context,

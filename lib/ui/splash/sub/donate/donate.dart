@@ -26,7 +26,7 @@ class DonatePage extends StatefulWidget {
 class _DonatePageState extends State<DonatePage> {
   String url = 'https://qr.nspk.ru/AS10003P3RH0LJ2A9ROO038L6NT5RU1M';
 
-  String id = '';
+  int id = 0;
   List<C2bmemberModel> informations = [];
 
   @override
@@ -76,14 +76,14 @@ class _DonatePageState extends State<DonatePage> {
                 SizedBox(
                   height: 30.h,
                 ),
-                Text(tr('sub_donat', args: [id]),
+                Text(tr('sub_donat', args: [id.toString()]),
                     style: AppText.baseTitle18.copyWith(color: AppColor.white)),
                 SizedBox(
                   height: 30.h,
                 ),
                 GestureDetector(
                   onTap: () {
-                    Clipboard.setData(ClipboardData(text: id));
+                    Clipboard.setData(ClipboardData(text: id.toString()));
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       backgroundColor: AppColor.darkBlue,
                       duration: const Duration(seconds: 5),
