@@ -1,0 +1,33 @@
+---
+description: GoRouter navigation conventions
+globs: ["lib/presentation/router/**/*.dart"]
+alwaysApply: true
+---
+
+# GoRouter Navigation Rules
+
+## Setup File
+Создай файл `lib/presentation/router/app_router.dart` с конфигурацией GoRouter.
+
+## Routes Definition
+- Определяй маршруты через `GoRoute` с параметрами `path`, `name`, `builder`
+- Для экранов с вкладками используй `ShellRoute`
+- Используй `redirect` для проверки авторизации
+
+## Navigation Methods
+| Действие | Метод |
+|----------|-------|
+| Переход на экран | `context.push()` или `context.go()` |
+| С заменой истории | `context.replace()` |
+| Назад | `context.pop()` |
+| С параметрами | `context.push('/user/${userId}')` |
+| С extra данными | `context.push('/details', extra: object)` |
+
+## Typed Routes
+Создавай extension на `BuildContext` для type-safe навигации:
+- `context.goToHome()`
+- `context.goToLogin()`
+- `context.goToUserProfile(String userId)`
+
+## Dependencies
+Добавь `go_router` в `pubspec.yaml`

@@ -1,0 +1,54 @@
+name: expansion
+description: Space expansion — космическая стратегия (iOS/Android).
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  flutter_bloc: ^9.1.1
+  get_it: ^9.2.1
+  go_router: ^17.1.0
+  dio: ^5.9.2
+  shared_preferences: ^2.5.4
+  equatable: ^2.0.8
+  dartz: ^0.10.1
+  flutter_easylogger: ^2.3.3
+  gap: ^3.0.1
+  flutter_secure_storage: ^10.0.0
+  logger: ^2.7.0
+  flutter_svg: ^2.2.4
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  google_fonts: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/images/
+    - assets/svg/
+  fonts:
+    - family: KellySlab
+      fonts:
+        - asset: assets/fonts/KellySlab-Regular.ttf
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: assets/icon_512.png
+  remove_alpha_ios: true

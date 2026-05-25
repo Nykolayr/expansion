@@ -1,0 +1,9 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Expansion",
+  "@appTitle": {
+    "description": "Название приложения в списке задач ОС"
+  },
+  "homeTitle": "Космическое расширение",
+  "homeMessage": "Каркас готов: Clean Architecture, BLoC, GetIt, GoRouter.\nДальше — перенос игровых экранов и ассетов."
+}

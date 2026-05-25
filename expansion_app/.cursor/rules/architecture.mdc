@@ -1,0 +1,67 @@
+---
+description: Clean Architecture — классические слои (data / domain / presentation)
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# Clean Architecture Rules
+
+Стек фиксирован: **Clean Architecture + BLoC + GetIt + go_router + Dio** (см. остальные правила в `.cursor/rules/`).
+
+## Folder Structure
+Всегда используй **классическую слойную** структуру папок в `lib/`:
+
+```text
+lib/
+├── core/                    # Ядро приложения
+│   ├── constants/
+│   ├── themes/
+│   ├── ui/                  # AppFeedbackService, ключ ScaffoldMessenger
+│   ├── utils/
+│   ├── extensions/
+│   ├── di/                  # injection_container.dart
+│   ├── network/
+│   └── error/
+├── data/
+│   ├── datasources/
+│   │   ├── local/
+│   │   └── remote/
+│   ├── models/
+│   ├── repositories/
+│   └── mappers/
+├── domain/
+│   ├── entities/
+│   ├── repositories/
+│   └── usecases/
+└── presentation/
+    ├── bloc/
+    ├── pages/
+    ├── widgets/
+    └── router/
+```
+
+В шаблоне в `lib/` уже создан **каркас каталогов** (пустые папки с `.gitkeep`). При необходимости его можно расширять; правила описывают **целевую** структуру.
+
+## Dependency Rules
+- **Domain слой НЕ зависит от data и presentation**: запрещены импорты `data/` и `presentation/` в `domain/`
+- **Data слой зависит от domain**: может импортировать `domain/entities/` и `domain/repositories/`
+- **Presentation слой зависит от domain**: может импортировать `domain/entities/` и `domain/usecases/`
+
+## Repository Pattern
+Всегда создавай два файла для каждого репозитория:
+1. `domain/repositories/feature_repository.dart` — абстрактный интерфейс
+2. `data/repositories/feature_repository_impl.dart` — имплементация
+
+## Use Cases
+- Каждый use case выполняет одну конкретную бизнес-задачу
+- Use case принимает параметры через конструктор
+- Возвращает `Future<Either<Failure, T>>` (из пакета `dartz`)
+
+## Entities vs Models
+- **Entities**: `lib/domain/entities/` — чистые бизнес-объекты (plain Dart), могут иметь методы; **без** зависимости от JSON/API.
+- **Models**: `lib/data/models/` — DTO для API/кэша:
+  - поля `final`;
+  - `fromJson(Map<String, dynamic> json)`;
+  - `Map<String, dynamic> toJson()`;
+  - `toEntity()` → соответствующая entity;
+  - без `json_serializable`, `freezed`, `build_runner` и любого кодогена (см. `flutter-best-practices.mdc`).

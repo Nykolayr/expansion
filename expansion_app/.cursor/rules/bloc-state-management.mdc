@@ -1,0 +1,28 @@
+---
+description: Состояние UI и фич — только BLoC/Cubit + sl; без BlocProvider
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# BLoC / Cubit (жёстко)
+
+## State management
+- **Вся** пользовательская / фичевая **модель состояния** — **`Cubit<State>`** или **`Bloc<Event,State>`** из `flutter_bloc` + **иммутабельные** `State` (Equatable, `copyWith` где надо).
+- **Запрещено** для **нового** кода: **`ChangeNotifier`**, **`ValueNotifier`** как **носитель бизнес-состояния** списков/форм/флагов, `ListenableBuilder` / `AnimatedList` для **этого** состояния, самописные `notifyListeners` вместо `emit`.
+- **Исключение (только `core/`, не распространять)**: тонкие **мосты** с `Listenable` для `go_router` / `Dio` — **не** плодить копий; по возможности вынести в `Cubit` отдельной задачей.
+
+## DI и UI
+- BLoC/Cubit **регистрируются** в `injection_container.dart` (см. `dependency-injection.mdc`).
+- В виджетах: **`bloc: sl<SomeCubit>()`** в `BlocBuilder` / `BlocListener` / `BlocConsumer`.
+- **`BlocProvider` / `MultiBlocProvider` для фич** — **не использовать**; источник истины — GetIt.
+- `GoRouter` `refreshListenable`: **существующие** `Listenable` из `core` — ок; **новые** ad-hoc `Listenable` для фич — по возможности **не** добавлять.
+
+## Структура файлов
+- `lib/presentation/bloc/<feature>/`: `*_cubit.dart` (или `*_bloc.dart`), `*_state.dart`, при BLoC — `*_event.dart`.
+- BLoC: `on<Event>`; **Cubit** с методами — нормально, если нет взрыва событий.
+
+## Список + Equatable
+- **`emit` только с новым списком** — не мутировать `state.items` на месте, не `add` в тот же `List` и снова `emit(state)`.
+
+## Репозиторий vs Cubit
+- **Репозиторий** в `data` — **не** зависит от `presentation/bloc`; при необходимости **интерфейс** в `data` / `domain`, реализация в Cubit, **один** инстанс под два типа в GetIt.

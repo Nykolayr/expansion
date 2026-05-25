@@ -1,0 +1,6 @@
+{
+  "@@locale": "en",
+  "appTitle": "Expansion",
+  "homeTitle": "Space Expansion",
+  "homeMessage": "Scaffold ready: Clean Architecture, BLoC, GetIt, GoRouter.\nNext — game screens and assets."
+}

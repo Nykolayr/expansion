@@ -1,0 +1,66 @@
+---
+description: Flutter/Dart стиль, импорты, без кодогена — версии зависимостей из pubspec.yaml
+globs: ["*.dart", "pubspec.yaml", "android/**/*", "ios/**/*"]
+alwaysApply: true
+---
+
+# Flutter Best Practices
+
+Версии **SDK** и **пакетов** не дублируй в этом правиле — ориентируйся на корневой **`pubspec.yaml`** текущего проекта.
+
+## Naming Conventions
+- **Файлы**: `snake_case.dart`
+- **Классы**: `PascalCase`
+- **Переменные и функции**: `camelCase`
+- **Константы**: `camelCase` (локальные) или `SCREAMING_SNAKE_CASE` (глобальные)
+- **Приватные члены**: префикс `_`
+
+## Performance
+- Используй **`const`** для виджетов, стилей, декораций, где возможно.
+- Не возвращай виджеты из методов внутри `build()` — выноси в отдельные виджеты.
+- Длинные списки — `ListView.builder`.
+- Пустой отступ — `const SizedBox()`, а не пустой `Container()`.
+
+## Widget Architecture
+- Stateless vs Stateful — осознанно.
+- Отдельный файл, если виджет переиспользуется, сложный или **> ~50** строк.
+- Страница (Page) — `StatelessWidget`, если нет локального состояния (кроме форм и явного UI-state).
+- Для экранов в `lib/presentation/pages/` и виджетов в `lib/presentation/widgets/` дополнительно см. **`presentation-widgets.mdc`** и реестр **`lib/presentation/widgets/WIDGET_INVENTORY.md`**.
+
+## Error Handling
+- Ожидаемые сбои — `try/catch` с логированием; не глотай исключения.
+
+## Async и BuildContext
+- После `await` перед `setState` или использованием `context` проверяй **`mounted`** (в `StatefulWidget`).
+
+```dart
+void _loadData() async {
+  final data = await repository.getData();
+  if (!mounted) return;
+  setState(() => _data = data);
+}
+```
+
+- **Не передавай** `BuildContext` в репозитории и use cases.
+
+## Deprecated API
+- Не используй устаревшие API в новом коде; при warning в IDE замени на актуальную альтернативу.
+
+## Platform permissions
+Нативные фичи (камера, геолокация, пуши и т.д.) — объяви permissions в:
+- Android: `android/app/src/main/AndroidManifest.xml`
+- iOS: `ios/Runner/Info.plist`
+
+Комментируй в манифесте/ plist, для какой фичи permission.
+
+## Imports
+- Только **абсолютные** импорты: `package:<name>/...`, где `<name>` — значение **`name:`** из `pubspec.yaml` этого проекта (при копировании шаблона меняешь `name` и при необходимости делаешь поиск по старому имени пакета).
+- Не используй относительные пути вида `../../`.
+- Порядок: `dart:` → `package:flutter` → сторонние `package:` → локальные `package:<name>/`.
+
+## Models — без кодогена
+- Не используй **json_serializable**, **build_runner**, **freezed** и прочие генераторы для моделей.
+- Ручной разбор: `Map<String, dynamic>`, `fromJson` / `toJson`, при необходимости ручной `copyWith` или `Equatable` (см. `architecture.mdc`).
+
+## Commits
+- Маленькие атомарные коммиты; префиксы на английском: `feat:`, `fix:`, `refactor:`, `docs:`.

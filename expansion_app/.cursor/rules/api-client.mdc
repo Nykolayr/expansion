@@ -1,0 +1,38 @@
+---
+description: Dio API client with error handling
+globs: ["lib/core/network/**/*.dart", "lib/data/datasources/remote/**/*.dart"]
+alwaysApply: true
+---
+
+# Dio API Client Rules
+
+## Setup File
+Создай файл `lib/core/network/dio_client.dart` с классом DioClient, который:
+- Инициализирует Dio с BaseOptions (baseUrl, таймауты, headers)
+- Настраивает перехватчики (interceptors):
+  - Добавление токена авторизации в заголовки
+  - Логирование запросов/ответов (только для dev)
+
+## Error Handling Models
+Создай иерархию исключений в `lib/core/error/exceptions.dart`:
+- Базовый абстрактный класс `ServerException`
+- Конкретные исключения: `BadRequestException`, `UnauthorizedException`, `NotFoundException`, `InternalServerErrorException`, `NoInternetConnectionException`, `TimeoutException`
+
+## Error Handler
+Создай `lib/core/error/error_handler.dart` с функцией, которая:
+- Принимает `DioException`
+- Определяет тип ошибки по `error.type` (таймауты, отсутствие интернета)
+- Парсит статус код ответа (400, 401, 404, 500 и т.д.)
+- Возвращает соответствующее исключение из иерархии
+
+## Data Source Implementation
+Для каждого remote data source:
+- Класс-имплементация принимает `DioClient` через конструктор
+- Каждый метод обернут в `try-catch`
+- При `DioException` вызывается `ErrorHandler.handle()` и выбрасывается полученное исключение
+
+## Repository Integration
+Репозиторий:
+- Вызывает методы remote data source в `try-catch`
+- При `ServerException` возвращает `Left(ServerFailure(e.message))`
+- При успехе возвращает `Right(data)`

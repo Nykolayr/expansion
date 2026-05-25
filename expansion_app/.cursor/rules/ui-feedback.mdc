@@ -1,0 +1,18 @@
+---
+description: SnackBar только через AppFeedbackService и AppFeedbackKind (success/warning/error)
+globs: ["lib/**/*.dart"]
+alwaysApply: true
+---
+
+# Пользовательские сообщения (SnackBar)
+
+- **Не вызывать** `ScaffoldMessenger.of(context).showSnackBar` напрямую в страницах, блоках и шторках.
+- Использовать **`AppFeedbackService`** из GetIt: `sl<AppFeedbackService>().show(text, kind: ...)`.
+- Типы сообщений — enum **`AppFeedbackKind`** в `lib/core/ui/app_feedback_kind.dart`:
+  - **`success`** — зелёный SnackBar;
+  - **`warning`** — жёлтый/янтарный;
+  - **`error`** — красный (ошибки сервера, сеть, неизвестная ошибка).
+- Валидация формы «заполните поле» → обычно **`warning`**.
+- Успешная операция → **`success`**.
+- Исключения и сбои → **`error`**.
+- `MaterialApp` уже подключён к **`appScaffoldMessengerKey`** в `main.dart` — не дублировать ключи.

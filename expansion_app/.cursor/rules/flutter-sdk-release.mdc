@@ -1,0 +1,33 @@
+---
+description: Flutter SDK, релиз Android/iOS, сторы — смотреть чеклисты в .cursor/
+globs: ["pubspec.yaml", "android/**/*", "ios/**/*", ".cursor/*.md"]
+alwaysApply: false
+---
+
+# SDK и релизы (шаблон digitalsquare)
+
+Версии SDK и пакетов — только из **`pubspec.yaml`** проекта.
+
+## Документация в `.cursor/`
+
+| Файл | Когда |
+|------|--------|
+| `flutter_upgrade_checklist.md` | `flutter upgrade`, Dart 3.12 / Flutter 3.44 |
+| `android_release.md` | AAB/APK, D:\Temp, подпись |
+| `rustore_aab_signature.md` | PEPK + PEM для RuStore AAB |
+| `edge_to_edge_play_checklist.md` | Предупреждения Play по system bars |
+
+## Жёсткие правила релиза
+
+- **Один** `upload-keystore.jks` на Google Play и RuStore — не создавать отдельный ключ для RuStore.
+- **`applicationId`** при первой публикации в сторе должен совпадать с Gradle; смена package = новая карточка в RuStore или миграция через поддержку.
+- Release: `key.properties` + `signingConfigs` release — не debug для стора.
+- Перед стором: поднять `version` в `pubspec.yaml`, `flutter analyze`, релизная сборка.
+
+## Android Gradle (Flutter 3.44+)
+
+При ошибках Kotlin plugin — [migrate-to-built-in-kotlin](https://docs.flutter.dev/release/breaking-changes/migrate-to-built-in-kotlin/for-app-developers).
+
+## WebView / InAppWebView
+
+При артефактах скролла на Android — рассмотреть HCPP ([platform views](https://docs.flutter.dev/platform-integration/android/platform-views)).

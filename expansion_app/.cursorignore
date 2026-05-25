@@ -1,0 +1,10 @@
+﻿# Cursor: не индексировать генерируемое и тяжёлые каталоги.
+.dart_tool/
+build/
+.packages
+.idea/
+**/android/.gradle/
+**/android/app/build/
+**/ios/Pods/
+**/ios/.symlinks/
+coverage/
