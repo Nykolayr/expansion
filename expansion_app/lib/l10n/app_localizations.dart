@@ -104,17 +104,113 @@ abstract class AppLocalizations {
   /// **'Expansion'**
   String get appTitle;
 
-  /// No description provided for @homeTitle.
+  /// Первая строка заголовка на splash
   ///
   /// In ru, this message translates to:
-  /// **'Космическое расширение'**
-  String get homeTitle;
+  /// **'КОСМИЧЕСКАЯ'**
+  String get splashTitleSpace;
 
-  /// No description provided for @homeMessage.
+  /// Вторая строка заголовка на splash
   ///
   /// In ru, this message translates to:
-  /// **'Каркас готов: Clean Architecture, BLoC, GetIt, GoRouter.\nДальше — перенос игровых экранов и ассетов.'**
-  String get homeMessage;
+  /// **'ЭКСПАНСИЯ'**
+  String get splashTitleExpansion;
+
+  /// No description provided for @splashPretext.
+  ///
+  /// In ru, this message translates to:
+  /// **'2222 год. Перенаселение Земли, голод и нехватка ресурсов вынудили человечество осваивать планеты Солнечной системы. Тем временем со спутников сообщили: Плутон захвачен пришельцами. Наша экспансия столкнулась с чужой. Руководить этим непростым делом решили доверить вам — бывшему военному. Судьба человечества в ваших руках!'**
+  String get splashPretext;
+
+  /// No description provided for @splashLoadLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'загрузка...'**
+  String get splashLoadLabel;
+
+  /// No description provided for @splashBeginGame.
+  ///
+  /// In ru, this message translates to:
+  /// **'Начать новую игру'**
+  String get splashBeginGame;
+
+  /// No description provided for @splashMenuProfile.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get splashMenuProfile;
+
+  /// No description provided for @splashMenuSettings.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get splashMenuSettings;
+
+  /// No description provided for @splashMenuProgress.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогресс'**
+  String get splashMenuProgress;
+
+  /// No description provided for @splashMenuNewGame.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая игра'**
+  String get splashMenuNewGame;
+
+  /// No description provided for @splashMenuUpgrades.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшения'**
+  String get splashMenuUpgrades;
+
+  /// No description provided for @splashMenuContinue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить'**
+  String get splashMenuContinue;
+
+  /// No description provided for @splashFeatureSoon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Раздел в разработке — скоро будет доступен.'**
+  String get splashFeatureSoon;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Настройки'**
+  String get settingsTitle;
+
+  /// No description provided for @settingsSectionGeneral.
+  ///
+  /// In ru, this message translates to:
+  /// **'Общие'**
+  String get settingsSectionGeneral;
+
+  /// No description provided for @settingsReplayIntro.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать вступление снова'**
+  String get settingsReplayIntro;
+
+  /// No description provided for @settingsReplayIntroHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть экран с полной историей'**
+  String get settingsReplayIntroHint;
+
+  /// No description provided for @splashDontShowAgain.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не показывать при следующей загрузке'**
+  String get splashDontShowAgain;
+
+  /// No description provided for @introStoryTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'История'**
+  String get introStoryTitle;
 }
 
 class _AppLocalizationsDelegate

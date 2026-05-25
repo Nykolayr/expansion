@@ -1,9 +1,10 @@
-﻿import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expansion/core/network/dio_client.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/core/storage/secure_storage_service.dart';
+import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 
 /// Глобальный контейнер зависимостей. Регистрации добавляй в [initDependencies].
 final sl = GetIt.instance;
@@ -19,6 +20,8 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);
 
   sl.registerLazySingleton<SecureStorageService>(SecureStorageService.new);
+
+  sl.registerSingleton<SplashCubit>(SplashCubit(prefs));
 
   // Дальше: data sources → repositories → use cases → registerFactory<BLoC>(...)
 }

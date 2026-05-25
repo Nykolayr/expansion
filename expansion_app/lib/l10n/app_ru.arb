@@ -4,6 +4,28 @@
   "@appTitle": {
     "description": "Название приложения в списке задач ОС"
   },
-  "homeTitle": "Космическое расширение",
-  "homeMessage": "Каркас готов: Clean Architecture, BLoC, GetIt, GoRouter.\nДальше — перенос игровых экранов и ассетов."
+  "splashTitleSpace": "КОСМИЧЕСКАЯ",
+  "@splashTitleSpace": {
+    "description": "Первая строка заголовка на splash"
+  },
+  "splashTitleExpansion": "ЭКСПАНСИЯ",
+  "@splashTitleExpansion": {
+    "description": "Вторая строка заголовка на splash"
+  },
+  "splashPretext": "2222 год. Перенаселение Земли, голод и нехватка ресурсов вынудили человечество осваивать планеты Солнечной системы. Тем временем со спутников сообщили: Плутон захвачен пришельцами. Наша экспансия столкнулась с чужой. Руководить этим непростым делом решили доверить вам — бывшему военному. Судьба человечества в ваших руках!",
+  "splashLoadLabel": "загрузка...",
+  "splashBeginGame": "Начать новую игру",
+  "splashMenuProfile": "Профиль",
+  "splashMenuSettings": "Настройки",
+  "splashMenuProgress": "Прогресс",
+  "splashMenuNewGame": "Новая игра",
+  "splashMenuUpgrades": "Улучшения",
+  "splashMenuContinue": "Продолжить",
+  "splashFeatureSoon": "Раздел в разработке — скоро будет доступен.",
+  "settingsTitle": "Настройки",
+  "settingsSectionGeneral": "Общие",
+  "settingsReplayIntro": "Показать вступление снова",
+  "settingsReplayIntroHint": "Открыть экран с полной историей",
+  "splashDontShowAgain": "Не показывать при следующей загрузке",
+  "introStoryTitle": "История"
 }

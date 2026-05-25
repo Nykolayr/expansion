@@ -1,6 +1,22 @@
 {
   "@@locale": "en",
   "appTitle": "Expansion",
-  "homeTitle": "Space Expansion",
-  "homeMessage": "Scaffold ready: Clean Architecture, BLoC, GetIt, GoRouter.\nNext — game screens and assets."
+  "splashTitleSpace": "SPACE",
+  "splashTitleExpansion": "EXPANSION",
+  "splashPretext": "In 2222, overpopulation on Earth, famine, and scarce resources forced humanity to settle the Solar System. Then satellites reported that aliens had taken Pluto. Our expansion met theirs. They entrusted you—a former officer—to lead this fight. The fate of humanity is in your hands.",
+  "splashLoadLabel": "load...",
+  "splashBeginGame": "Start a new game",
+  "splashMenuProfile": "Profile",
+  "splashMenuSettings": "Settings",
+  "splashMenuProgress": "Progress",
+  "splashMenuNewGame": "New game",
+  "splashMenuUpgrades": "Upgrades",
+  "splashMenuContinue": "Continue",
+  "splashFeatureSoon": "This section is coming soon.",
+  "settingsTitle": "Settings",
+  "settingsSectionGeneral": "General",
+  "settingsReplayIntro": "Show intro again",
+  "settingsReplayIntroHint": "Open the full story screen",
+  "splashDontShowAgain": "Don't show on next launch",
+  "introStoryTitle": "Story"
 }

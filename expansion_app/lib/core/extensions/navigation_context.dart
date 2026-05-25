@@ -7,6 +7,9 @@ import 'package:go_router/go_router.dart';
 extension AppNavigationX on BuildContext {
   void goHome() => go('/');
 
-  /// Пример: после добавления маршрута `/login`
-  // void goToLogin() => go('/login');
+  void goToSplash() => go('/');
+
+  void goToSettings() => push('/settings');
+
+  void goToIntroStory() => push('/intro-story');
 }

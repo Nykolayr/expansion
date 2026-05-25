@@ -12,9 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bootstrapLogger();
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
 
   await initDependencies();
