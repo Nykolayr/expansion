@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:expansion/core/constants/battle_assets.dart';
 import 'package:expansion/core/constants/game_layout.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/entities/battle_asteroid.dart';
-import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
+import 'package:expansion/presentation/widgets/battle/battle_base_view.dart';
+import 'package:expansion/presentation/widgets/battle/battle_entity_sprite.dart';
 
 class BattleFieldGrid extends StatelessWidget {
   const BattleFieldGrid({
@@ -34,6 +36,7 @@ class BattleFieldGrid extends StatelessWidget {
           final cellH =
               (constraints.maxHeight - _spacing * (kBattleRows - 1)) /
                   kBattleRows;
+          final spriteSize = (cellW < cellH ? cellW : cellH) * 0.72;
 
           return Stack(
             clipBehavior: Clip.none,
@@ -70,7 +73,12 @@ class BattleFieldGrid extends StatelessWidget {
                       ),
                       child: base == null
                           ? null
-                          : Center(child: _BaseChip(base: base)),
+                          : Center(
+                              child: BattleBaseView(
+                                base: base,
+                                spriteSize: spriteSize,
+                              ),
+                            ),
                     ),
                   );
                 },
@@ -111,6 +119,8 @@ class _FleetMarker extends StatelessWidget {
   final double cellW;
   final double cellH;
 
+  static const double _markerSize = 28;
+
   @override
   Widget build(BuildContext context) {
     final from = snapshot.baseById(fleet.fromBaseId);
@@ -123,10 +133,10 @@ class _FleetMarker extends StatelessWidget {
     final toX = _cellLeft(to.x) + cellW / 2;
     final toY = _cellTop(to.y) + cellH / 2;
 
-    final left = fromX + (toX - fromX) * t - 10;
-    final top = fromY + (toY - fromY) * t - 10;
+    final left = fromX + (toX - fromX) * t - _markerSize / 2;
+    final top = fromY + (toY - fromY) * t - _markerSize / 2;
 
-    final color = switch (fleet.side) {
+    final hudColor = switch (fleet.side) {
       BattleSide.player => Colors.cyanAccent,
       BattleSide.enemy => Colors.redAccent,
       BattleSide.neutral => Colors.amber,
@@ -135,27 +145,33 @@ class _FleetMarker extends StatelessWidget {
     return Positioned(
       left: left,
       top: top,
-      child: Container(
-        width: 20,
-        height: 20,
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.9),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: color.withValues(alpha: 0.5),
-              blurRadius: 6,
+      child: SizedBox(
+        width: _markerSize,
+        height: _markerSize,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.center,
+          children: [
+            BattleEntitySprite(
+              assetPath: BattleAssets.fleetSprite(fleet.side),
+              size: _markerSize,
+              fallback: Container(
+                decoration: BoxDecoration(
+                  color: hudColor.withValues(alpha: 0.9),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+            Text(
+              '${fleet.ships}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 9,
+                fontWeight: FontWeight.bold,
+                shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+              ),
             ),
           ],
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          '${fleet.ships}',
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 8,
-            fontWeight: FontWeight.bold,
-          ),
         ),
       ),
     );
@@ -177,75 +193,48 @@ class _AsteroidMarker extends StatelessWidget {
   final double cellW;
   final double cellH;
 
+  static const double _markerSize = 30;
+
   @override
   Widget build(BuildContext context) {
     final t = asteroid.progress.clamp(0.0, 1.0);
     final cx = asteroid.fromX + (asteroid.toX - asteroid.fromX) * t;
     final cy = asteroid.fromY + (asteroid.toY - asteroid.fromY) * t;
-    final left = (cx - 1) * (cellW + BattleFieldGrid._spacing) + cellW / 2 - 11;
-    final top = (cy - 1) * (cellH + BattleFieldGrid._spacing) + cellH / 2 - 11;
+    final left =
+        (cx - 1) * (cellW + BattleFieldGrid._spacing) + cellW / 2 - _markerSize / 2;
+    final top =
+        (cy - 1) * (cellH + BattleFieldGrid._spacing) + cellH / 2 - _markerSize / 2;
 
     return Positioned(
       left: left,
       top: top,
-      child: Container(
-        width: 22,
-        height: 22,
-        decoration: BoxDecoration(
-          color: Colors.orange.shade700.withValues(alpha: 0.95),
-          shape: BoxShape.circle,
-          border: Border.all(color: Colors.deepOrange, width: 2),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          '${asteroid.power}',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 8,
-            fontWeight: FontWeight.bold,
-          ),
+      child: SizedBox(
+        width: _markerSize,
+        height: _markerSize,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            BattleEntitySprite(
+              assetPath: BattleAssets.asteroid(asteroid.visualIndex),
+              size: _markerSize,
+              fallback: Icon(
+                Icons.brightness_7,
+                color: Colors.orange.shade700,
+                size: _markerSize * 0.9,
+              ),
+            ),
+            Text(
+              '${asteroid.power}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 8,
+                fontWeight: FontWeight.bold,
+                shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class _BaseChip extends StatelessWidget {
-  const _BaseChip({required this.base});
-
-  final BattleBase base;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = switch (base.side) {
-      BattleSide.player => Colors.cyanAccent,
-      BattleSide.enemy => Colors.redAccent,
-      BattleSide.neutral => Colors.amber,
-    };
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.hub, color: color, size: 22),
-        Text(
-          '${base.ships}',
-          style: TextStyle(
-            color: color,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        if (base.shield > 0)
-          Text(
-            '⛨${base.shield.round()}',
-            style: TextStyle(color: color.withValues(alpha: 0.85), fontSize: 9),
-          ),
-        if (base.side == BattleSide.player)
-          Text(
-            '⚙${base.resources.round()}',
-            style: TextStyle(color: color.withValues(alpha: 0.75), fontSize: 8),
-          ),
-      ],
     );
   }
 }

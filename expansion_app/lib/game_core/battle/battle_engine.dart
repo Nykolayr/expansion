@@ -58,6 +58,7 @@ class BattleEngine {
           ships: ships,
           shield: stats.shield,
           maxShips: stats.maxShips,
+          neutralKind: placed.neutralKind,
           resources: resources,
           speedBuild: stats.speedBuild,
           speedResources: stats.speedResources,
@@ -231,6 +232,7 @@ class BattleEngine {
     final from = _cellOnEdge(fromEdge, rng);
     final to = _cellOnEdge(toEdge, rng);
     final power = 20 + rng.nextInt(16);
+    final visualIndex = rng.nextInt(6) + 1;
 
     _asteroids.add(
       BattleAsteroid(
@@ -240,6 +242,7 @@ class BattleEngine {
         toX: to.$1,
         toY: to.$2,
         power: power,
+        visualIndex: visualIndex,
       ),
     );
   }

@@ -9,6 +9,7 @@ class BattleAsteroid extends Equatable {
     required this.toX,
     required this.toY,
     required this.power,
+    this.visualIndex = 1,
     this.progress = 0,
   });
 
@@ -18,6 +19,7 @@ class BattleAsteroid extends Equatable {
   final int toX;
   final int toY;
   final int power;
+  final int visualIndex;
   final double progress;
 
   BattleAsteroid copyWith({double? progress}) {
@@ -28,10 +30,12 @@ class BattleAsteroid extends Equatable {
       toX: toX,
       toY: toY,
       power: power,
+      visualIndex: visualIndex,
       progress: progress ?? this.progress,
     );
   }
 
   @override
-  List<Object?> get props => [id, fromX, fromY, toX, toY, power, progress];
+  List<Object?> get props =>
+      [id, fromX, fromY, toX, toY, power, visualIndex, progress];
 }

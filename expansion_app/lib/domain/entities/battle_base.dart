@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/enums/battle_side.dart';
+import 'package:expansion/domain/enums/neutral_base_kind.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 
 /// База на поле боя (состояние одной партии).
@@ -13,6 +14,7 @@ class BattleBase extends Equatable {
     required this.ships,
     required this.shield,
     this.maxShips = 200,
+    this.neutralKind,
     this.resources = 0,
     this.speedBuild = 0.1,
     this.speedResources = 0.1,
@@ -29,6 +31,7 @@ class BattleBase extends Equatable {
   final int ships;
   final double shield;
   final int maxShips;
+  final NeutralBaseKind? neutralKind;
   final double resources;
   final double speedBuild;
   final double speedResources;
@@ -60,6 +63,7 @@ class BattleBase extends Equatable {
     double? shield,
     BattleSide? side,
     int? maxShips,
+    NeutralBaseKind? neutralKind,
     double? resources,
     double? speedBuild,
     double? speedResources,
@@ -76,6 +80,7 @@ class BattleBase extends Equatable {
       ships: ships ?? this.ships,
       shield: shield ?? this.shield,
       maxShips: maxShips ?? this.maxShips,
+      neutralKind: neutralKind ?? this.neutralKind,
       resources: resources ?? this.resources,
       speedBuild: speedBuild ?? this.speedBuild,
       speedResources: speedResources ?? this.speedResources,
@@ -96,6 +101,7 @@ class BattleBase extends Equatable {
         ships,
         shield,
         maxShips,
+        neutralKind,
         resources,
         speedBuild,
         speedResources,

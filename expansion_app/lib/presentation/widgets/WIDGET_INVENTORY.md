@@ -26,6 +26,8 @@
 | `maps/map_scene_tile.dart` | Узел миссии на карте кампании |
 | `maps/campaign_map_grid.dart` | Сетка 5×N + панель описания миссии |
 | `battle/battle_field_grid.dart` | Поле боя 5×8, тап по клеткам |
+| `battle/battle_entity_sprite.dart` | `Image.asset` спрайта с fallback |
+| `battle/battle_base_view.dart` | Спрайт базы + HUD корабли/щит/ресурсы |
 | `battle/battle_tactical_panel.dart` | Панель тактических улучшений выбранной базы |
 | `upgrades/meta_upgrade_tile.dart` | Строка мета-апгрейда с кнопкой покупки |
 | `dialogs/game_confirm_dialog.dart` | Диалог подтверждения (сброс кампании) |

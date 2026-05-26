@@ -143,7 +143,7 @@ Legacy API (`apiserver/routes.js`):
 - [x] Репозитории: контент SQLite, гость prefs
 - [x] `MapsCubit` + карта 5×8 рядов, описание, «Экспансия» → `/battle?extra=sceneId`
 - [ ] Новые сюжетные тексты вместо legacy JSON (§15) — по мере контента
-- [ ] `assets/images/`, `audio/` — фаза 3 / отдельный перенос
+- [x] `assets/images/` бой (базы, астероиды); [ ] `audio/` — позже
 - [ ] `/upgrades` скелет — фаза 4
 
 ### Фаза 3 — Бой MVP (3–5 нед.) — в работе
@@ -159,7 +159,7 @@ Legacy API (`apiserver/routes.js`):
 - [x] Астероиды (спавн с краёв поля, урон базам)
 - [x] Тактические апгрейды на базе (ресурсы, щит / постройка / лимит)
 - [x] Isolate game loop (~50 FPS, тики в [BattleCubit])
-- [ ] Спрайты legacy
+- [x] Спрайты боя: `our/enemy`, нейтрали `bases/`, астероиды `ast1…6`
 - [ ] Баланс playtest
 
 ### Фаза 4 — Begin + прогресс (1–2 нед.) ✅
