@@ -61,6 +61,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsReplayIntroHint => 'Open the full story screen';
 
   @override
+  String get settingsLanguage => 'Interface language';
+
+  @override
+  String get settingsLanguageHint => 'Applies to all screens';
+
+  @override
+  String get settingsLanguageRu => 'Russian';
+
+  @override
+  String get settingsLanguageEn => 'English';
+
+  @override
   String get splashDontShowAgain => 'Don\'t show on next launch';
 
   @override

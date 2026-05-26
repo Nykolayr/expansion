@@ -1,7 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/core/logging/bootstrap_logger.dart';
 import 'package:expansion/core/themes/app_theme.dart';
 import 'package:expansion/core/ui/app_scaffold_messenger_key.dart';
@@ -23,30 +25,25 @@ class ExpansionApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      scaffoldMessengerKey: appScaffoldMessengerKey,
-      debugShowCheckedModeBanner: false,
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      theme: AppTheme.game(),
-      localeResolutionCallback: (locale, supportedLocales) {
-        if (locale == null) {
-          return const Locale('ru');
-        }
-        for (final supported in supportedLocales) {
-          if (supported.languageCode == locale.languageCode) {
-            return supported;
-          }
-        }
-        return const Locale('ru');
+    return BlocBuilder<AppLocaleCubit, Locale>(
+      bloc: sl<AppLocaleCubit>(),
+      builder: (context, locale) {
+        return MaterialApp.router(
+          scaffoldMessengerKey: appScaffoldMessengerKey,
+          debugShowCheckedModeBanner: false,
+          onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+          theme: AppTheme.game(),
+          locale: locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: AppLocalizations.supportedLocales,
+          routerConfig: appRouter,
+        );
       },
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: appRouter,
     );
   }
 }

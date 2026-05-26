@@ -2,6 +2,7 @@
 abstract final class PrefsKeys {
   /// Показывать вступительный текст и полосу загрузки на splash (legacy `game.isSplash`).
   static const String splashShowIntro = 'splash_show_intro';
+  static const String appLocale = 'app_locale';
 
   static const String guestMapClassic = 'guest_map_classic';
   static const String guestScoreClassic = 'guest_score_classic';

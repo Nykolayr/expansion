@@ -200,6 +200,30 @@ abstract class AppLocalizations {
   /// **'Открыть экран с полной историей'**
   String get settingsReplayIntroHint;
 
+  /// No description provided for @settingsLanguage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Язык интерфейса'**
+  String get settingsLanguage;
+
+  /// No description provided for @settingsLanguageHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Применяется ко всем экранам'**
+  String get settingsLanguageHint;
+
+  /// No description provided for @settingsLanguageRu.
+  ///
+  /// In ru, this message translates to:
+  /// **'Русский'**
+  String get settingsLanguageRu;
+
+  /// No description provided for @settingsLanguageEn.
+  ///
+  /// In ru, this message translates to:
+  /// **'English'**
+  String get settingsLanguageEn;
+
   /// No description provided for @splashDontShowAgain.
   ///
   /// In ru, this message translates to:

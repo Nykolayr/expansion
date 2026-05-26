@@ -16,6 +16,7 @@ import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
 import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
+import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_cubit.dart';
 
@@ -28,6 +29,9 @@ Future<void> initDependencies() async {
   sl.registerSingleton<SharedPreferences>(prefs);
 
   sl.registerLazySingleton<AppFeedbackService>(AppFeedbackService.new);
+
+  sl.registerSingleton<AppLocaleCubit>(AppLocaleCubit(sl<SharedPreferences>()));
+  await sl<AppLocaleCubit>().load();
 
   sl.registerLazySingleton<DioClient>(DioClient.new);
   sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);

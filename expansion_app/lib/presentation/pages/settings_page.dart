@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
+import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 
-/// Настройки (пока минимальный набор; расширять по мере переноса legacy).
+/// Настройки (язык, вступление; звук — позже).
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
@@ -20,10 +23,7 @@ class SettingsPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            GameAssets.splashBackground,
-            fit: BoxFit.cover,
-          ),
+          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -39,6 +39,48 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
                     const Gap(12),
+                    BlocBuilder<AppLocaleCubit, Locale>(
+                      bloc: sl<AppLocaleCubit>(),
+                      builder: (context, locale) {
+                        return Card(
+                          color: ExpansionColors.background.withValues(
+                            alpha: 0.92,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: ExpansionColors.accent,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.language,
+                                  color: ExpansionColors.accent,
+                                ),
+                                title: Text(loc.settingsLanguage),
+                                subtitle: Text(loc.settingsLanguageHint),
+                              ),
+                              _LanguageTile(
+                                label: loc.settingsLanguageRu,
+                                selected: locale.languageCode == 'ru',
+                                onTap: () => sl<AppLocaleCubit>()
+                                    .setLocale(const Locale('ru')),
+                              ),
+                              _LanguageTile(
+                                label: loc.settingsLanguageEn,
+                                selected: locale.languageCode == 'en',
+                                onTap: () => sl<AppLocaleCubit>()
+                                    .setLocale(const Locale('en')),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    const Gap(16),
                     Card(
                       color: ExpansionColors.background.withValues(alpha: 0.92),
                       shape: RoundedRectangleBorder(
@@ -53,10 +95,7 @@ class SettingsPage extends StatelessWidget {
                           Icons.auto_stories_outlined,
                           color: ExpansionColors.accent,
                         ),
-                        title: Text(
-                          loc.settingsReplayIntro,
-                          style: theme.textTheme.bodyLarge,
-                        ),
+                        title: Text(loc.settingsReplayIntro),
                         subtitle: Text(
                           loc.settingsReplayIntroHint,
                           style: theme.textTheme.bodySmall?.copyWith(
@@ -73,6 +112,29 @@ class SettingsPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _LanguageTile extends StatelessWidget {
+  const _LanguageTile({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(label),
+      trailing: selected
+          ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
+          : null,
+      onTap: onTap,
     );
   }
 }

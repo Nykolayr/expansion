@@ -61,6 +61,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsReplayIntroHint => 'Открыть экран с полной историей';
 
   @override
+  String get settingsLanguage => 'Язык интерфейса';
+
+  @override
+  String get settingsLanguageHint => 'Применяется ко всем экранам';
+
+  @override
+  String get settingsLanguageRu => 'Русский';
+
+  @override
+  String get settingsLanguageEn => 'English';
+
+  @override
   String get splashDontShowAgain => 'Не показывать при следующей загрузке';
 
   @override
