@@ -48,6 +48,40 @@
   "battleTapHint": "Тап: своя база → цель. Нужна прямая линия без препятствий.",
   "battleVictoryTitle": "Победа",
   "battleVictoryBody": "Система под контролем. Следующая миссия открыта на карте.",
+  "battleVictoryBodyWithScore": "Система под контролем. Награда: {score} очков. Следующая миссия на карте.",
+  "@battleVictoryBodyWithScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "metaUpgradeScore": "Очки: {score}",
+  "@metaUpgradeScore": {
+    "placeholders": { "score": { "type": "int" } }
+  },
+  "metaUpgradeShipSpeed": "Скорость флота",
+  "metaUpgradeShipDurability": "Сила атаки",
+  "metaUpgradeShipBuildSpeed": "Постройка кораблей",
+  "metaUpgradeResourceIncome": "Доход ресурсов",
+  "metaUpgradeShield": "Прочность щита",
+  "metaUpgradeBeginShips": "Стартовые корабли",
+  "metaUpgradeLevel": "Ур. {level} (+{percent}%)",
+  "@metaUpgradeLevel": {
+    "placeholders": {
+      "level": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "metaUpgradeBuy": "{cost}",
+  "@metaUpgradeBuy": {
+    "placeholders": { "cost": { "type": "int" } }
+  },
+  "metaUpgradeMax": "Макс.",
+  "metaUpgradePurchased": "Улучшение куплено",
+  "metaUpgradeNotEnough": "Недостаточно очков",
+  "progressCurrentMission": "Текущая миссия",
+  "progressCompleted": "Пройдено миссий",
+  "progressScore": "Очки",
+  "progressEnemyPower": "Сила чужих (кампания)",
   "battleDefeatTitle": "Поражение",
   "battleDefeatBody": "Флот разбит. Попробуйте снова или снизьте сложность.",
   "battleContinue": "Продолжить",

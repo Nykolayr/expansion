@@ -133,6 +133,65 @@ class AppLocalizationsRu extends AppLocalizations {
       'Система под контролем. Следующая миссия открыта на карте.';
 
   @override
+  String battleVictoryBodyWithScore(int score) {
+    return 'Система под контролем. Награда: $score очков. Следующая миссия на карте.';
+  }
+
+  @override
+  String metaUpgradeScore(int score) {
+    return 'Очки: $score';
+  }
+
+  @override
+  String get metaUpgradeShipSpeed => 'Скорость флота';
+
+  @override
+  String get metaUpgradeShipDurability => 'Сила атаки';
+
+  @override
+  String get metaUpgradeShipBuildSpeed => 'Постройка кораблей';
+
+  @override
+  String get metaUpgradeResourceIncome => 'Доход ресурсов';
+
+  @override
+  String get metaUpgradeShield => 'Прочность щита';
+
+  @override
+  String get metaUpgradeBeginShips => 'Стартовые корабли';
+
+  @override
+  String metaUpgradeLevel(int level, int percent) {
+    return 'Ур. $level (+$percent%)';
+  }
+
+  @override
+  String metaUpgradeBuy(int cost) {
+    return '$cost';
+  }
+
+  @override
+  String get metaUpgradeMax => 'Макс.';
+
+  @override
+  String get metaUpgradePurchased => 'Улучшение куплено';
+
+  @override
+  String get metaUpgradeNotEnough => 'Недостаточно очков';
+
+  @override
+  String get progressCurrentMission => 'Текущая миссия';
+
+  @override
+  String get progressCompleted => 'Пройдено миссий';
+
+  @override
+  String get progressScore => 'Очки';
+
+  @override
+  String get progressEnemyPower => 'Сила чужих (кампания)';
+
+  @override
   String get battleDefeatTitle => 'Поражение';
 
   @override

@@ -53,8 +53,9 @@ class _BattlePageState extends State<BattlePage> {
     final loc = AppLocalizations.of(context)!;
     final won = outcome == BattleOutcome.playerWin;
 
+    var reward = 0;
     if (won) {
-      await sl<BattleCubit>().completeAfterVictory();
+      reward = await sl<BattleCubit>().completeAfterVictory();
     }
 
     if (!mounted) return;
@@ -64,7 +65,9 @@ class _BattlePageState extends State<BattlePage> {
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
         title: Text(won ? loc.battleVictoryTitle : loc.battleDefeatTitle),
-        content: Text(won ? loc.battleVictoryBody : loc.battleDefeatBody),
+        content: Text(
+          won ? loc.battleVictoryBodyWithScore(reward) : loc.battleDefeatBody,
+        ),
         actions: [
           TextButton(
             onPressed: () {

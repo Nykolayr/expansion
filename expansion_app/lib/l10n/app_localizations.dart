@@ -332,6 +332,108 @@ abstract class AppLocalizations {
   /// **'Система под контролем. Следующая миссия открыта на карте.'**
   String get battleVictoryBody;
 
+  /// No description provided for @battleVictoryBodyWithScore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Система под контролем. Награда: {score} очков. Следующая миссия на карте.'**
+  String battleVictoryBodyWithScore(int score);
+
+  /// No description provided for @metaUpgradeScore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очки: {score}'**
+  String metaUpgradeScore(int score);
+
+  /// No description provided for @metaUpgradeShipSpeed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скорость флота'**
+  String get metaUpgradeShipSpeed;
+
+  /// No description provided for @metaUpgradeShipDurability.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сила атаки'**
+  String get metaUpgradeShipDurability;
+
+  /// No description provided for @metaUpgradeShipBuildSpeed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Постройка кораблей'**
+  String get metaUpgradeShipBuildSpeed;
+
+  /// No description provided for @metaUpgradeResourceIncome.
+  ///
+  /// In ru, this message translates to:
+  /// **'Доход ресурсов'**
+  String get metaUpgradeResourceIncome;
+
+  /// No description provided for @metaUpgradeShield.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прочность щита'**
+  String get metaUpgradeShield;
+
+  /// No description provided for @metaUpgradeBeginShips.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стартовые корабли'**
+  String get metaUpgradeBeginShips;
+
+  /// No description provided for @metaUpgradeLevel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ур. {level} (+{percent}%)'**
+  String metaUpgradeLevel(int level, int percent);
+
+  /// No description provided for @metaUpgradeBuy.
+  ///
+  /// In ru, this message translates to:
+  /// **'{cost}'**
+  String metaUpgradeBuy(int cost);
+
+  /// No description provided for @metaUpgradeMax.
+  ///
+  /// In ru, this message translates to:
+  /// **'Макс.'**
+  String get metaUpgradeMax;
+
+  /// No description provided for @metaUpgradePurchased.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшение куплено'**
+  String get metaUpgradePurchased;
+
+  /// No description provided for @metaUpgradeNotEnough.
+  ///
+  /// In ru, this message translates to:
+  /// **'Недостаточно очков'**
+  String get metaUpgradeNotEnough;
+
+  /// No description provided for @progressCurrentMission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущая миссия'**
+  String get progressCurrentMission;
+
+  /// No description provided for @progressCompleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пройдено миссий'**
+  String get progressCompleted;
+
+  /// No description provided for @progressScore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очки'**
+  String get progressScore;
+
+  /// No description provided for @progressEnemyPower.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сила чужих (кампания)'**
+  String get progressEnemyPower;
+
   /// No description provided for @battleDefeatTitle.
   ///
   /// In ru, this message translates to:

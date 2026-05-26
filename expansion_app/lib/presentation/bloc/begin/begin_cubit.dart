@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expansion/core/logging/app_log.dart';
 import 'package:expansion/domain/entities/guest_profile.dart';
+import 'package:expansion/domain/entities/player_meta_progress.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/begin/begin_state.dart';
@@ -31,6 +32,7 @@ class BeginCubit extends Cubit<BeginState> {
         scoreClassic: 0,
         difficulty: state.difficulty,
         firstBattleCompleted: false,
+        meta: PlayerMetaProgress.fresh(),
       ),
     );
 

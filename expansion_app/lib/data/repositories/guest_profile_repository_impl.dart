@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:expansion/core/constants/prefs_keys.dart';
+import 'package:expansion/data/models/player_meta_progress_codec.dart';
 import 'package:expansion/domain/entities/guest_profile.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
@@ -21,6 +22,9 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       firstBattleCompleted:
           _prefs.getBool(PrefsKeys.guestFirstBattleCompleted) ?? false,
       displayName: _prefs.getString(PrefsKeys.guestDisplayName) ?? 'Гость',
+      meta: PlayerMetaProgressCodec.decode(
+        _prefs.getString(PrefsKeys.guestMetaProgress),
+      ),
     );
   }
 
@@ -37,6 +41,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       profile.firstBattleCompleted,
     );
     await _prefs.setString(PrefsKeys.guestDisplayName, profile.displayName);
+    await _prefs.setString(
+      PrefsKeys.guestMetaProgress,
+      PlayerMetaProgressCodec.encode(profile.meta),
+    );
   }
 
   @override

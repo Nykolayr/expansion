@@ -133,6 +133,65 @@ class AppLocalizationsEn extends AppLocalizations {
       'System secured. The next mission is on the map.';
 
   @override
+  String battleVictoryBodyWithScore(int score) {
+    return 'System secured. Reward: $score points. Next mission on the map.';
+  }
+
+  @override
+  String metaUpgradeScore(int score) {
+    return 'Points: $score';
+  }
+
+  @override
+  String get metaUpgradeShipSpeed => 'Fleet speed';
+
+  @override
+  String get metaUpgradeShipDurability => 'Attack power';
+
+  @override
+  String get metaUpgradeShipBuildSpeed => 'Ship production';
+
+  @override
+  String get metaUpgradeResourceIncome => 'Resource income';
+
+  @override
+  String get metaUpgradeShield => 'Shield strength';
+
+  @override
+  String get metaUpgradeBeginShips => 'Starting ships';
+
+  @override
+  String metaUpgradeLevel(int level, int percent) {
+    return 'Lv $level (+$percent%)';
+  }
+
+  @override
+  String metaUpgradeBuy(int cost) {
+    return '$cost';
+  }
+
+  @override
+  String get metaUpgradeMax => 'Max';
+
+  @override
+  String get metaUpgradePurchased => 'Upgrade purchased';
+
+  @override
+  String get metaUpgradeNotEnough => 'Not enough points';
+
+  @override
+  String get progressCurrentMission => 'Current mission';
+
+  @override
+  String get progressCompleted => 'Missions completed';
+
+  @override
+  String get progressScore => 'Points';
+
+  @override
+  String get progressEnemyPower => 'Alien pressure (campaign)';
+
+  @override
   String get battleDefeatTitle => 'Defeat';
 
   @override

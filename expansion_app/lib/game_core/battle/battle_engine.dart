@@ -4,6 +4,7 @@ import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_layout.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
+import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
@@ -17,23 +18,34 @@ class BattleEngine {
     required List<BattleBase> bases,
     required this.gridRows,
     required this.gridCols,
+    this.bonuses = MetaBattleBonuses.none,
   })  : _bases = List.of(bases),
         _fleets = [];
 
-  factory BattleEngine.fromLayout(BattleLayout layout) {
+  factory BattleEngine.fromLayout(
+    BattleLayout layout, {
+    MetaBattleBonuses bonuses = MetaBattleBonuses.none,
+  }) {
     var nextId = 0;
     final bases = <BattleBase>[];
 
     for (final placed in layout.placements) {
       final side = _sideForRole(placed.role);
       final stats = _parseStats(placed.statsJson);
+      var ships = stats.ships;
+      if (side == BattleSide.player &&
+          placed.role == PlacementRole.playerMain &&
+          bonuses.beginShipsBonus > 0) {
+        ships += bonuses.beginShipsBonus;
+      }
+
       bases.add(
         BattleBase(
           id: nextId++,
           x: placed.position.x,
           y: placed.position.y,
           side: side,
-          ships: stats.ships,
+          ships: ships,
           shield: stats.shield,
           maxShips: stats.maxShips,
         ),
@@ -45,20 +57,29 @@ class BattleEngine {
       bases: bases,
       gridRows: layout.gridRows,
       gridCols: layout.gridCols,
+      bonuses: bonuses,
     );
   }
 
   final int sceneId;
   final int gridRows;
   final int gridCols;
+  final MetaBattleBonuses bonuses;
   final List<BattleBase> _bases;
   final List<BattleFleet> _fleets;
   int _tick = 0;
   int _growthCounter = 0;
   int _nextFleetId = 1;
 
-  static const int _growthIntervalTicks = 12;
-  static const double _fleetProgressPerTick = 0.06;
+  static const double _baseFleetProgressPerTick = 0.06;
+
+  double get _fleetProgressPerTick =>
+      _baseFleetProgressPerTick * bonuses.fleetSpeed;
+
+  int get _growthIntervalTicks =>
+      (_growthIntervalBase / bonuses.growthSpeed).round().clamp(4, 24);
+
+  static const int _growthIntervalBase = 12;
 
   BattleSnapshot snapshot() => BattleSnapshot(
         sceneId: sceneId,
@@ -165,8 +186,15 @@ class BattleEngine {
       return;
     }
 
-    var remaining = fleetSize.toDouble();
+    final attackPower = attackerSide == BattleSide.player
+        ? bonuses.attackPower
+        : 1.0;
+    var remaining = fleetSize * attackPower;
     var shield = target.shield;
+    if (target.side == BattleSide.player) {
+      shield *= bonuses.shieldDefense;
+    }
+
     if (shield > 0) {
       if (shield >= remaining) {
         _updateBase(toId, target.copyWith(shield: shield - remaining));

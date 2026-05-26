@@ -8,4 +8,5 @@ abstract final class PrefsKeys {
   static const String guestDifficulty = 'guest_difficulty';
   static const String guestFirstBattleCompleted = 'guest_first_battle_completed';
   static const String guestDisplayName = 'guest_display_name';
+  static const String guestMetaProgress = 'guest_meta_progress';
 }

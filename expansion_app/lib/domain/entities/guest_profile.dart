@@ -1,21 +1,24 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:expansion/domain/entities/player_meta_progress.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 
 class GuestProfile extends Equatable {
-  const GuestProfile({
+  GuestProfile({
     this.mapClassic = 1,
     this.scoreClassic = 0,
     this.difficulty = GameDifficulty.average,
     this.firstBattleCompleted = false,
     this.displayName = 'Гость',
-  });
+    PlayerMetaProgress? meta,
+  }) : meta = meta ?? PlayerMetaProgress.fresh();
 
   final int mapClassic;
   final int scoreClassic;
   final GameDifficulty difficulty;
   final bool firstBattleCompleted;
   final String displayName;
+  final PlayerMetaProgress meta;
 
   GuestProfile copyWith({
     int? mapClassic,
@@ -23,6 +26,7 @@ class GuestProfile extends Equatable {
     GameDifficulty? difficulty,
     bool? firstBattleCompleted,
     String? displayName,
+    PlayerMetaProgress? meta,
   }) {
     return GuestProfile(
       mapClassic: mapClassic ?? this.mapClassic,
@@ -31,6 +35,7 @@ class GuestProfile extends Equatable {
       firstBattleCompleted:
           firstBattleCompleted ?? this.firstBattleCompleted,
       displayName: displayName ?? this.displayName,
+      meta: meta ?? this.meta,
     );
   }
 
@@ -41,5 +46,6 @@ class GuestProfile extends Equatable {
         difficulty,
         firstBattleCompleted,
         displayName,
+        meta,
       ];
 }

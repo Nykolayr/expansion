@@ -17,6 +17,7 @@ import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
+import 'package:expansion/presentation/bloc/upgrades/upgrades_cubit.dart';
 
 /// Глобальный контейнер зависимостей. Регистрации добавляй в [initDependencies].
 final sl = GetIt.instance;
@@ -75,5 +76,9 @@ Future<void> initDependencies() async {
       sl<CampaignRepository>(),
       sl<GuestProfileRepository>(),
     ),
+  );
+
+  sl.registerSingleton<UpgradesCubit>(
+    UpgradesCubit(sl<GuestProfileRepository>()),
   );
 }

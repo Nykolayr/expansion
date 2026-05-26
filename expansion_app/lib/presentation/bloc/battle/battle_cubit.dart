@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expansion/core/logging/app_log.dart';
 import 'package:expansion/data/repositories/battle_session_loader.dart';
+import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
@@ -33,6 +34,7 @@ class BattleCubit extends Cubit<BattleState> {
   GameDifficulty _difficulty = GameDifficulty.average;
   int _enemyTickCounter = 0;
   Random? _battleRng;
+  MetaBattleBonuses _bonuses = MetaBattleBonuses.none;
 
   Future<void> loadMission(int sceneId) async {
     await _stopTimer();
@@ -52,7 +54,8 @@ class BattleCubit extends Cubit<BattleState> {
       _difficulty = guest.difficulty;
       _battleRng = Random(sceneId * 9973 + guest.mapClassic);
 
-      final engine = await _loader.loadEngine(sceneId);
+      _bonuses = MetaBattleBonuses.fromProgress(guest.meta);
+      final engine = await _loader.loadEngine(sceneId, bonuses: _bonuses);
       if (engine == null) {
         emit(
           state.copyWith(
@@ -128,15 +131,19 @@ class BattleCubit extends Cubit<BattleState> {
     emit(state.copyWith(clearSelection: true));
   }
 
-  Future<void> completeAfterVictory() async {
+  Future<int> completeAfterVictory() async {
     final guest = await _guest.load();
     final nextMission = state.sceneId + 1;
+    final reward = 40 + state.sceneId * 15;
     await _guest.save(
       guest.copyWith(
         mapClassic: nextMission.clamp(1, 40),
         firstBattleCompleted: true,
+        scoreClassic: guest.scoreClassic + reward,
+        meta: guest.meta.afterVictory(),
       ),
     );
+    return reward;
   }
 
   Future<void> disposeBattle() async {
@@ -159,8 +166,8 @@ class BattleCubit extends Cubit<BattleState> {
     _enemyTickCounter++;
 
     final config = BattleDifficultyConfig.forDifficulty(_difficulty);
-    final jitter = (config.ticksPerEnemyTurn * (0.85 + rng.nextDouble() * 0.3))
-        .round();
+    final baseTicks = config.ticksPerEnemyTurn / _bonuses.enemyTurnDivider;
+    final jitter = (baseTicks * (0.85 + rng.nextDouble() * 0.3)).round();
 
     if (_enemyTickCounter >= jitter) {
       _enemyTickCounter = 0;

@@ -39,6 +39,40 @@
   "battleTapHint": "Tap: your base → target. Line of sight must be clear.",
   "battleVictoryTitle": "Victory",
   "battleVictoryBody": "System secured. The next mission is on the map.",
+  "battleVictoryBodyWithScore": "System secured. Reward: {score} points. Next mission on the map.",
+  "@battleVictoryBodyWithScore": {
+    "placeholders": {
+      "score": { "type": "int" }
+    }
+  },
+  "metaUpgradeScore": "Points: {score}",
+  "@metaUpgradeScore": {
+    "placeholders": { "score": { "type": "int" } }
+  },
+  "metaUpgradeShipSpeed": "Fleet speed",
+  "metaUpgradeShipDurability": "Attack power",
+  "metaUpgradeShipBuildSpeed": "Ship production",
+  "metaUpgradeResourceIncome": "Resource income",
+  "metaUpgradeShield": "Shield strength",
+  "metaUpgradeBeginShips": "Starting ships",
+  "metaUpgradeLevel": "Lv {level} (+{percent}%)",
+  "@metaUpgradeLevel": {
+    "placeholders": {
+      "level": { "type": "int" },
+      "percent": { "type": "int" }
+    }
+  },
+  "metaUpgradeBuy": "{cost}",
+  "@metaUpgradeBuy": {
+    "placeholders": { "cost": { "type": "int" } }
+  },
+  "metaUpgradeMax": "Max",
+  "metaUpgradePurchased": "Upgrade purchased",
+  "metaUpgradeNotEnough": "Not enough points",
+  "progressCurrentMission": "Current mission",
+  "progressCompleted": "Missions completed",
+  "progressScore": "Points",
+  "progressEnemyPower": "Alien pressure (campaign)",
   "battleDefeatTitle": "Defeat",
   "battleDefeatBody": "Fleet lost. Try again or lower the difficulty.",
   "battleContinue": "Continue",
