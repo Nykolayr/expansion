@@ -25,5 +25,16 @@
   "profileTitle": "Profile",
   "progressTitle": "Progress",
   "screenPlaceholderBody": "This section is under development. Content and logic come in later phases.",
-  "bootstrapInitFailed": "Could not prepare the local database. Please restart the app."
+  "bootstrapInitFailed": "Could not prepare the local database. Please restart the app.",
+  "mapsStartBattle": "Expand",
+  "mapsDescriptionFallback": "System recon in progress. Prepare for battle.",
+  "mapsLoadFailed": "Could not load the campaign map.",
+  "battleScenePlaceholder": "Mission {sceneId}. Battle gameplay — phase 3.",
+  "@battleScenePlaceholder": {
+    "placeholders": {
+      "sceneId": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -15,7 +15,8 @@ extension AppNavigationX on BuildContext {
 
   void goToBegin() => push('/begin');
 
-  void goToBattle() => push('/battle');
+  void goToBattle({required int sceneId}) =>
+      push('/battle', extra: sceneId);
 
   void goToProfile() => push('/profile');
 

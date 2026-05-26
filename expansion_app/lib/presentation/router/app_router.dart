@@ -52,7 +52,9 @@ final GoRouter appRouter = GoRouter(
       path: '/battle',
       name: 'battle',
       builder: (BuildContext context, GoRouterState state) {
-        return const BattlePage();
+        final extra = state.extra;
+        final sceneId = extra is int ? extra : null;
+        return BattlePage(sceneId: sceneId);
       },
     ),
     GoRoute(

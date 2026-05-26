@@ -13,6 +13,7 @@ import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
 import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
@@ -58,7 +59,7 @@ class _SplashPageState extends State<SplashPage> {
       case SplashMenuDirect.leftBottom:
         context.goToBegin();
       case SplashMenuDirect.rightBottom:
-        context.goToMaps();
+        _onContinue();
       case SplashMenuDirect.middleBottom:
         sl<AppFeedbackService>().show(
           AppLocalizations.of(context)!.splashFeatureSoon,
@@ -69,6 +70,16 @@ class _SplashPageState extends State<SplashPage> {
 
   void _onBeginGame() {
     context.goToBegin();
+  }
+
+  Future<void> _onContinue() async {
+    final guest = await sl<GuestProfileRepository>().load();
+    if (!mounted) return;
+    if (guest.firstBattleCompleted) {
+      context.goToMaps();
+    } else {
+      context.goToBegin();
+    }
   }
 
   void _onIntroFinished(SplashState state) {

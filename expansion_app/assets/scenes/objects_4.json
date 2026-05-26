@@ -1,0 +1,124 @@
+{
+   "mainShipEnemy": {
+      "coordinates": {
+         "x": 3,
+         "y": 1
+      },
+      "description": "Это вражеский корабль",
+      "shild": 100.0,
+      "ships": 100,
+      "speedBuild": 0.1,
+      "inicialShips": 100,
+      "speedResources": 0.1,
+      "maxShips": 200,
+      "typeStatus": "enemy",
+      "size": 100,
+      "path": "assets/images/enemy.png"
+   },
+   "mainShipOur": {
+      "coordinates": {
+         "x": 3,
+         "y": 7
+      },
+      "description": "Это наш корабль",
+      "shild": 100.0,
+      "ships": 100,
+      "speedBuild": 0.1,
+      "inicialShips": 100,
+      "speedResources": 0.1,
+      "maxShips": 200,
+      "typeStatus": "our",
+      "size": 100,
+      "path": "assets/images/our.png"
+   },
+   "neutral": [
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 2
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 2
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 3
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 3
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 4
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 5
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 6
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 6
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 7
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 7
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      }
+   ]
+}

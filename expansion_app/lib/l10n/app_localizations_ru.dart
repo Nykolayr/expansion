@@ -88,4 +88,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get bootstrapInitFailed =>
       'Не удалось подготовить локальную базу. Повторите запуск приложения.';
+
+  @override
+  String get mapsStartBattle => 'Экспансия';
+
+  @override
+  String get mapsDescriptionFallback =>
+      'Разведка системы продолжается. Готовьтесь к бою.';
+
+  @override
+  String get mapsLoadFailed => 'Не удалось загрузить карту кампании.';
+
+  @override
+  String battleScenePlaceholder(int sceneId) {
+    return 'Миссия $sceneId. Бой — в разработке (фаза 3).';
+  }
 }

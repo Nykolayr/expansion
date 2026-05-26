@@ -3,10 +3,8 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:expansion/core/constants/game_database_constants.dart';
 import 'package:expansion/core/logging/app_log.dart';
+import 'package:expansion/data/datasources/local/game_database_migrations.dart';
 
-/// Локальная SQLite для игрового контента (сцены, уровни, объекты карты).
-///
-/// Схема и сиды — фаза 2; сейчас только открытие пустой БД под будущие таблицы.
 class GameDatabase {
   Database? _db;
 
@@ -37,14 +35,10 @@ class GameDatabase {
       path,
       version: GameDatabaseConstants.schemaVersion,
       onCreate: (Database db, int version) async {
-        AppLog.trace('game db onCreate v=$version (no tables yet)', tag: 'GameDb');
+        await GameDatabaseMigrations.onCreate(db, version);
+        AppLog.trace('game db onCreate v=$version', tag: 'GameDb');
       },
-      onUpgrade: (Database db, int oldVersion, int newVersion) async {
-        AppLog.trace(
-          'game db onUpgrade $oldVersion -> $newVersion',
-          tag: 'GameDb',
-        );
-      },
+      onUpgrade: GameDatabaseMigrations.onUpgrade,
     );
   }
 }

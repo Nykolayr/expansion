@@ -23,6 +23,8 @@
 | `splash/splash_pretext_typer.dart` | Печать вступительного текста посимвольно |
 | `app_bar/game_screen_back_bar.dart` | Заголовок экрана с кнопкой «назад» |
 | `layout/game_screen_scaffold.dart` | Фон + back bar + тело или `placeholderMessage` |
+| `maps/map_scene_tile.dart` | Узел миссии на карте кампании |
+| `maps/campaign_map_grid.dart` | Сетка 5×N + панель описания миссии |
 
-Страницы-скелеты: `maps_page`, `begin_page`, `battle_page`, `profile_page`, `progress_page`.
+Страницы: `maps_page` (карта 40 миссий), скелеты `begin_page`, `battle_page`, `profile_page`, `progress_page`.
 | `splash/splash_menu_direct.dart` | Enum позиций кнопок и пути SVG |

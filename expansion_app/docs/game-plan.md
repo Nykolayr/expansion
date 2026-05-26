@@ -9,7 +9,7 @@
 
 **Космическая RTS в реальном времени** (портрет):
 
-- Кампания: карта ~**101** звезда/миссия (`assets/scenes/scenes.json` + `objects_N.json` на каждый уровень).
+- Кампания v1: **40** миссий (`objects_1…40`); расширение до 101+ — позже. См. [`game-concept.md`](game-concept.md).
 - Бой: сетка **5×8**, базы, корабли, астероиды, щиты, апгрейды, AI противника.
 - Режимы вселенной: classic / generated / strategic (`Game.Univer`).
 - Сложность: easy / average / difficult (скорость AI, тиков, кораблей).
@@ -133,18 +133,23 @@ Legacy API (`apiserver/routes.js`):
 - [x] `AppBootstrapCubit` на splash вместо фиксированных 2 с (bootstrap + полоса)
 - [ ] Профиль гостя в prefs — **отложено** (модели на фазе 2)
 
-### Фаза 2 — Данные и кампания (2–3 нед.)
+### Фаза 2 — Данные и кампания (2–3 нед.) ✅
 
-- [ ] Таблицы SQLite + миграции (сцены, layout, meta версии)
-- [ ] Сид из `assets/scenes/` (`scenes.json`, `objects_N.json`) в БД
-- [ ] Скопировать `assets/scenes/`, `assets/images/`, `audio/` (лицензия/вес)
-- [ ] Domain + data: модели и репозитории (пересмотр legacy)
-- [ ] `MapsCubit` + экран карты (скролл, текущая миссия, описание)
-- [ ] Переход maps → battle с передачей `sceneId`
+**Модели — новые с нуля** (см. `game-concept.md` §16; legacy не копируем):
+
+- [x] Domain: `CampaignScene`, `BattleLayout`, `PlacedBase`, `GuestProfile`, enum’ы
+- [x] SQLite v2: `campaign_scenes`, `battle_placements`, `content_meta`
+- [x] Сид из `assets/scenes/` (40 миссий, змейка, `objects_1…40`)
+- [x] Репозитории: контент SQLite, гость prefs
+- [x] `MapsCubit` + карта 5×8 рядов, описание, «Экспансия» → `/battle?extra=sceneId`
+- [ ] Новые сюжетные тексты вместо legacy JSON (§15) — по мере контента
+- [ ] `assets/images/`, `audio/` — фаза 3 / отдельный перенос
+- [ ] `/upgrades` скелет — фаза 4
 
 ### Фаза 3 — Бой MVP (3–5 нед.) — критический путь
 
-- [ ] Порт логики `GameRepository` / состояние боя в `BattleCubit` + репозиторий
+- [ ] `BattleSnapshot` / тактические апгрейды на базе (отдельно от `MetaUpgrade`)
+- [ ] Логика боя по мотивам legacy, но на новых моделях — `BattleCubit` + репозиторий
 - [ ] Isolate game loop, синхронизация с UI
 - [ ] Отрисовка поля 5×8, базы, корабли (минимальная графика)
 - [ ] Жест: выбор базы → отправка флота
@@ -200,7 +205,7 @@ Legacy API (`apiserver/routes.js`):
 
 ## 9. Следующий конкретный шаг
 
-**Фаза 2** — схема SQLite, сиды из `assets/scenes/`, domain-модели `Scene` и экран карты кампании.
+**Фаза 2** — по [`game-concept.md`](game-concept.md) v1.0: схема SQLite, 40 сцен, domain-модели, сиды, карта кампании.
 
 ---
 

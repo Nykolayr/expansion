@@ -88,4 +88,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bootstrapInitFailed =>
       'Could not prepare the local database. Please restart the app.';
+
+  @override
+  String get mapsStartBattle => 'Expand';
+
+  @override
+  String get mapsDescriptionFallback =>
+      'System recon in progress. Prepare for battle.';
+
+  @override
+  String get mapsLoadFailed => 'Could not load the campaign map.';
+
+  @override
+  String battleScenePlaceholder(int sceneId) {
+    return 'Mission $sceneId. Battle gameplay — phase 3.';
+  }
 }

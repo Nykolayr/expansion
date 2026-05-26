@@ -46,6 +46,7 @@ flutter:
     - assets/splash.png
     - assets/images/
     - assets/svg/
+    - assets/scenes/
   fonts:
     - family: KellySlab
       fonts:

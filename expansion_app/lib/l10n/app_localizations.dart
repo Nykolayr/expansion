@@ -253,6 +253,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Не удалось подготовить локальную базу. Повторите запуск приложения.'**
   String get bootstrapInitFailed;
+
+  /// No description provided for @mapsStartBattle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Экспансия'**
+  String get mapsStartBattle;
+
+  /// No description provided for @mapsDescriptionFallback.
+  ///
+  /// In ru, this message translates to:
+  /// **'Разведка системы продолжается. Готовьтесь к бою.'**
+  String get mapsDescriptionFallback;
+
+  /// No description provided for @mapsLoadFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить карту кампании.'**
+  String get mapsLoadFailed;
+
+  /// No description provided for @battleScenePlaceholder.
+  ///
+  /// In ru, this message translates to:
+  /// **'Миссия {sceneId}. Бой — в разработке (фаза 3).'**
+  String battleScenePlaceholder(int sceneId);
 }
 
 class _AppLocalizationsDelegate
