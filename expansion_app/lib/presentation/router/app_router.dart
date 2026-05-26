@@ -6,6 +6,7 @@ import 'package:expansion/presentation/pages/intro_story_page.dart';
 import 'package:expansion/presentation/pages/maps_page.dart';
 import 'package:expansion/presentation/pages/profile_page.dart';
 import 'package:expansion/presentation/pages/progress_page.dart';
+import 'package:expansion/presentation/pages/upgrades_page.dart';
 import 'package:expansion/presentation/pages/settings_page.dart';
 import 'package:expansion/presentation/pages/splash_page.dart';
 
@@ -69,6 +70,13 @@ final GoRouter appRouter = GoRouter(
       name: 'progress',
       builder: (BuildContext context, GoRouterState state) {
         return const ProgressPage();
+      },
+    ),
+    GoRoute(
+      path: '/upgrades',
+      name: 'upgrades',
+      builder: (BuildContext context, GoRouterState state) {
+        return const UpgradesPage();
       },
     ),
   ],

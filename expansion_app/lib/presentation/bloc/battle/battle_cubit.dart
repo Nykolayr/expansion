@@ -104,6 +104,7 @@ class BattleCubit extends Cubit<BattleState> {
   void tapCell(int x, int y) {
     final engine = _engine;
     if (engine == null || !state.isPlaying) return;
+    if (state.snapshot!.fleets.isNotEmpty) return;
 
     final tapped = engine.snapshot().baseAt(x, y);
     if (tapped != null && tapped.side == BattleSide.player) {

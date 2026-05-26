@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 
 /// Снимок поля для UI и AI (иммутабельный после каждого хода).
@@ -9,6 +10,7 @@ class BattleSnapshot extends Equatable {
     required this.sceneId,
     required this.tick,
     required this.bases,
+    required this.fleets,
     required this.gridRows,
     required this.gridCols,
   });
@@ -16,6 +18,7 @@ class BattleSnapshot extends Equatable {
   final int sceneId;
   final int tick;
   final List<BattleBase> bases;
+  final List<BattleFleet> fleets;
   final int gridRows;
   final int gridCols;
 
@@ -43,5 +46,5 @@ class BattleSnapshot extends Equatable {
   }
 
   @override
-  List<Object?> get props => [sceneId, tick, bases, gridRows, gridCols];
+  List<Object?> get props => [sceneId, tick, bases, fleets, gridRows, gridCols];
 }

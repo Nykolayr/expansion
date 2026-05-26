@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_layout.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
@@ -9,14 +10,15 @@ import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 
 enum BattleOutcome { playerWin, playerLose }
 
-/// Правила боя (без Flutter). MVP: флот приходит и разрешается сразу.
+/// Правила боя (без Flutter). Флоты летят по тикам, затем разрешается бой.
 class BattleEngine {
   BattleEngine({
     required this.sceneId,
     required List<BattleBase> bases,
     required this.gridRows,
     required this.gridCols,
-  }) : _bases = List.of(bases);
+  })  : _bases = List.of(bases),
+        _fleets = [];
 
   factory BattleEngine.fromLayout(BattleLayout layout) {
     var nextId = 0;
@@ -50,15 +52,19 @@ class BattleEngine {
   final int gridRows;
   final int gridCols;
   final List<BattleBase> _bases;
+  final List<BattleFleet> _fleets;
   int _tick = 0;
   int _growthCounter = 0;
+  int _nextFleetId = 1;
 
   static const int _growthIntervalTicks = 12;
+  static const double _fleetProgressPerTick = 0.06;
 
   BattleSnapshot snapshot() => BattleSnapshot(
         sceneId: sceneId,
         tick: _tick,
         bases: List.unmodifiable(_bases),
+        fleets: List.unmodifiable(_fleets),
         gridRows: gridRows,
         gridCols: gridCols,
       );
@@ -79,12 +85,22 @@ class BattleEngine {
     final from = _base(fromId)!;
     final fleetSize = from.ships;
     _updateBase(fromId, from.copyWith(ships: 0));
-    _resolveFleetArrival(attackerSide: from.side, toId: toId, fleetSize: fleetSize);
+    _fleets.add(
+      BattleFleet(
+        id: _nextFleetId++,
+        fromBaseId: fromId,
+        toBaseId: toId,
+        ships: fleetSize,
+        side: from.side,
+        progress: 0,
+      ),
+    );
     return true;
   }
 
   void tick() {
     _tick++;
+    _advanceFleets();
     _growthCounter++;
     if (_growthCounter < _growthIntervalTicks) return;
     _growthCounter = 0;
@@ -93,6 +109,29 @@ class BattleEngine {
       final b = _bases[i];
       if (b.ships >= b.maxShips) continue;
       _bases[i] = b.copyWith(ships: (b.ships + 1).clamp(0, b.maxShips));
+    }
+  }
+
+  void _advanceFleets() {
+    final arrived = <BattleFleet>[];
+
+    for (var i = 0; i < _fleets.length; i++) {
+      final fleet = _fleets[i];
+      final nextProgress = fleet.progress + _fleetProgressPerTick;
+      if (nextProgress >= 1) {
+        arrived.add(fleet);
+      } else {
+        _fleets[i] = fleet.copyWith(progress: nextProgress);
+      }
+    }
+
+    for (final fleet in arrived) {
+      _fleets.remove(fleet);
+      _resolveFleetArrival(
+        attackerSide: fleet.side,
+        toId: fleet.toBaseId,
+        fleetSize: fleet.ships,
+      );
     }
   }
 
@@ -113,12 +152,15 @@ class BattleEngine {
     required int toId,
     required int fleetSize,
   }) {
-    final target = _base(toId)!;
+    final target = _base(toId);
+    if (target == null) return;
 
     if (target.side == attackerSide) {
       _updateBase(
         toId,
-        target.copyWith(ships: (target.ships + fleetSize).clamp(0, target.maxShips)),
+        target.copyWith(
+          ships: (target.ships + fleetSize).clamp(0, target.maxShips),
+        ),
       );
       return;
     }

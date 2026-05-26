@@ -24,6 +24,7 @@
   "battleTitle": "Battle",
   "profileTitle": "Profile",
   "progressTitle": "Progress",
+  "upgradesTitle": "Upgrades",
   "screenPlaceholderBody": "This section is under development. Content and logic come in later phases.",
   "bootstrapInitFailed": "Could not prepare the local database. Please restart the app.",
   "mapsStartBattle": "Expand",

@@ -33,6 +33,7 @@
   "battleTitle": "Бой",
   "profileTitle": "Профиль",
   "progressTitle": "Прогресс",
+  "upgradesTitle": "Улучшения",
   "screenPlaceholderBody": "Раздел в разработке. Контент и логика — на следующих этапах.",
   "bootstrapInitFailed": "Не удалось подготовить локальную базу. Повторите запуск приложения.",
   "mapsStartBattle": "Экспансия",

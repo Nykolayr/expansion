@@ -242,6 +242,12 @@ abstract class AppLocalizations {
   /// **'Прогресс'**
   String get progressTitle;
 
+  /// No description provided for @upgradesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшения'**
+  String get upgradesTitle;
+
   /// No description provided for @screenPlaceholderBody.
   ///
   /// In ru, this message translates to:

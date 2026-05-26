@@ -21,4 +21,6 @@ extension AppNavigationX on BuildContext {
   void goToProfile() => push('/profile');
 
   void goToProgress() => push('/progress');
+
+  void goToUpgrades() => push('/upgrades');
 }

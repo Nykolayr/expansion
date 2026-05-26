@@ -82,6 +82,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressTitle => 'Progress';
 
   @override
+  String get upgradesTitle => 'Upgrades';
+
+  @override
   String get screenPlaceholderBody =>
       'This section is under development. Content and logic come in later phases.';
 

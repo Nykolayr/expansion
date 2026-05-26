@@ -61,10 +61,7 @@ class _SplashPageState extends State<SplashPage> {
       case SplashMenuDirect.rightBottom:
         _onContinue();
       case SplashMenuDirect.middleBottom:
-        sl<AppFeedbackService>().show(
-          AppLocalizations.of(context)!.splashFeatureSoon,
-          kind: AppFeedbackKind.warning,
-        );
+        context.goToUpgrades();
     }
   }
 
