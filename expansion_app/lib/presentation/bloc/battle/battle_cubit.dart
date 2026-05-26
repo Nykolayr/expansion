@@ -8,6 +8,7 @@ import 'package:expansion/data/repositories/battle_session_loader.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/game_core/ai/battle_intent.dart';
@@ -15,6 +16,8 @@ import 'package:expansion/game_core/ai/enemy_commander.dart';
 import 'package:expansion/game_core/ai/enemy_personality.dart';
 import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
+import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
+import 'package:expansion/game_core/game_loop/battle_tick_loop.dart';
 import 'package:expansion/presentation/bloc/battle/battle_state.dart';
 
 class BattleCubit extends Cubit<BattleState> {
@@ -30,14 +33,14 @@ class BattleCubit extends Cubit<BattleState> {
 
   final EnemyCommander _enemyCommander = const EnemyCommander();
   BattleEngine? _engine;
-  Timer? _tickTimer;
+  final BattleTickLoop _tickLoop = BattleTickLoop();
   GameDifficulty _difficulty = GameDifficulty.average;
   int _enemyTickCounter = 0;
   Random? _battleRng;
   MetaBattleBonuses _bonuses = MetaBattleBonuses.none;
 
   Future<void> loadMission(int sceneId) async {
-    await _stopTimer();
+    await _stopLoop();
     _engine = null;
     emit(
       state.copyWith(
@@ -68,7 +71,7 @@ class BattleCubit extends Cubit<BattleState> {
 
       final scenes = await _campaign.getCampaignScenes();
       final scene = scenes.where((s) => s.id == sceneId).firstOrNull;
-      _engine = engine;
+      _engine = engine..bindRandom(_battleRng!);
 
       emit(
         state.copyWith(
@@ -81,10 +84,8 @@ class BattleCubit extends Cubit<BattleState> {
       );
 
       _enemyTickCounter = 0;
-      _tickTimer = Timer.periodic(
-        const Duration(milliseconds: 50),
-        (_) => _onTick(),
-      );
+      await _tickLoop.start(_onTick);
+      AppLog.trace('battle tick loop started (isolate)', tag: 'Battle');
     } catch (e, stackTrace) {
       AppLog.error('battle load failed', error: e, stackTrace: stackTrace);
       emit(
@@ -107,7 +108,7 @@ class BattleCubit extends Cubit<BattleState> {
   void tapCell(int x, int y) {
     final engine = _engine;
     if (engine == null || !state.isPlaying) return;
-    if (state.snapshot!.fleets.isNotEmpty) return;
+    if (state.snapshot!.hasActiveProjectiles) return;
 
     final tapped = engine.snapshot().baseAt(x, y);
     if (tapped != null && tapped.side == BattleSide.player) {
@@ -131,6 +132,25 @@ class BattleCubit extends Cubit<BattleState> {
     emit(state.copyWith(clearSelection: true));
   }
 
+  int tacticalCostFor(int baseId, TacticalUpgradeType type) {
+    final engine = _engine;
+    final base = engine?.snapshot().baseById(baseId);
+    if (engine == null || base == null) return 0;
+    return engine.tacticalUpgradeCost(base, type);
+  }
+
+  TacticalUpgradeResult? purchaseTacticalUpgrade(TacticalUpgradeType type) {
+    final engine = _engine;
+    final baseId = state.selectedBaseId;
+    if (engine == null || baseId == null || !state.isPlaying) return null;
+
+    final result = engine.applyTacticalUpgrade(baseId, type);
+    if (result == TacticalUpgradeResult.success) {
+      _emitPlaying();
+    }
+    return result;
+  }
+
   Future<int> completeAfterVictory() async {
     final guest = await _guest.load();
     final nextMission = state.sceneId + 1;
@@ -147,14 +167,13 @@ class BattleCubit extends Cubit<BattleState> {
   }
 
   Future<void> disposeBattle() async {
-    await _stopTimer();
+    await _stopLoop();
     _engine = null;
     emit(const BattleState());
   }
 
-  Future<void> _stopTimer() async {
-    _tickTimer?.cancel();
-    _tickTimer = null;
+  Future<void> _stopLoop() async {
+    await _tickLoop.stop();
   }
 
   void _onTick() {
@@ -209,7 +228,7 @@ class BattleCubit extends Cubit<BattleState> {
   void _checkOutcome() {
     final result = _engine?.outcome();
     if (result == null) return;
-    _stopTimer();
+    unawaited(_stopLoop());
     emit(
       state.copyWith(
         status: BattleStatus.ended,

@@ -2,12 +2,14 @@ import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/entities/player_meta_progress.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/univer_kind.dart';
 
 class GuestProfile extends Equatable {
   GuestProfile({
     this.mapClassic = 1,
     this.scoreClassic = 0,
     this.difficulty = GameDifficulty.average,
+    this.univerKind = UniverKind.classic,
     this.firstBattleCompleted = false,
     this.displayName = 'Гость',
     PlayerMetaProgress? meta,
@@ -16,6 +18,7 @@ class GuestProfile extends Equatable {
   final int mapClassic;
   final int scoreClassic;
   final GameDifficulty difficulty;
+  final UniverKind univerKind;
   final bool firstBattleCompleted;
   final String displayName;
   final PlayerMetaProgress meta;
@@ -24,6 +27,7 @@ class GuestProfile extends Equatable {
     int? mapClassic,
     int? scoreClassic,
     GameDifficulty? difficulty,
+    UniverKind? univerKind,
     bool? firstBattleCompleted,
     String? displayName,
     PlayerMetaProgress? meta,
@@ -32,6 +36,7 @@ class GuestProfile extends Equatable {
       mapClassic: mapClassic ?? this.mapClassic,
       scoreClassic: scoreClassic ?? this.scoreClassic,
       difficulty: difficulty ?? this.difficulty,
+      univerKind: univerKind ?? this.univerKind,
       firstBattleCompleted:
           firstBattleCompleted ?? this.firstBattleCompleted,
       displayName: displayName ?? this.displayName,
@@ -44,6 +49,7 @@ class GuestProfile extends Equatable {
         mapClassic,
         scoreClassic,
         difficulty,
+        univerKind,
         firstBattleCompleted,
         displayName,
         meta,

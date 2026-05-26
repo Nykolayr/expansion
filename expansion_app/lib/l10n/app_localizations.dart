@@ -308,6 +308,78 @@ abstract class AppLocalizations {
   /// **'Спасти человечество'**
   String get beginStartMission;
 
+  /// No description provided for @beginUniverHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вселенная (режим кампании)'**
+  String get beginUniverHint;
+
+  /// No description provided for @beginUniverClassic.
+  ///
+  /// In ru, this message translates to:
+  /// **'Классическая'**
+  String get beginUniverClassic;
+
+  /// No description provided for @beginUniverClassicHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'40 миссий кампании'**
+  String get beginUniverClassicHint;
+
+  /// No description provided for @beginUniverGenerated.
+  ///
+  /// In ru, this message translates to:
+  /// **'Случайная'**
+  String get beginUniverGenerated;
+
+  /// No description provided for @beginUniverStrategic.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стратегическая'**
+  String get beginUniverStrategic;
+
+  /// No description provided for @beginUniverComingSoon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скоро'**
+  String get beginUniverComingSoon;
+
+  /// No description provided for @beginResetConfirmTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Начать заново?'**
+  String get beginResetConfirmTitle;
+
+  /// No description provided for @beginResetConfirmBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогресс кампании, очки и улучшения будут сброшены. Это нельзя отменить.'**
+  String get beginResetConfirmBody;
+
+  /// No description provided for @beginResetConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сбросить и начать'**
+  String get beginResetConfirm;
+
+  /// No description provided for @beginResetCancel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отмена'**
+  String get beginResetCancel;
+
+  /// No description provided for @progressDifficulty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сложность'**
+  String get progressDifficulty;
+
+  /// No description provided for @progressUniver.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вселенная'**
+  String get progressUniver;
+
   /// No description provided for @battleBriefingFallback.
   ///
   /// In ru, this message translates to:
@@ -319,6 +391,72 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Тап: своя база → цель. Нужна прямая линия без препятствий.'**
   String get battleTapHint;
+
+  /// No description provided for @battleTacticalTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшения базы'**
+  String get battleTacticalTitle;
+
+  /// No description provided for @battleTacticalResources.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ресурсы: {amount}'**
+  String battleTacticalResources(int amount);
+
+  /// No description provided for @tacticalUpgradeShield.
+  ///
+  /// In ru, this message translates to:
+  /// **'Усилить щит (+20)'**
+  String get tacticalUpgradeShield;
+
+  /// No description provided for @tacticalUpgradeBuild.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ускорить постройку'**
+  String get tacticalUpgradeBuild;
+
+  /// No description provided for @tacticalUpgradeMaxShips.
+  ///
+  /// In ru, this message translates to:
+  /// **'Расширить лимит кораблей'**
+  String get tacticalUpgradeMaxShips;
+
+  /// No description provided for @battleTacticalBuy.
+  ///
+  /// In ru, this message translates to:
+  /// **'{cost}'**
+  String battleTacticalBuy(int cost);
+
+  /// No description provided for @battleTacticalMaxLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Макс.'**
+  String get battleTacticalMaxLabel;
+
+  /// No description provided for @battleTacticalSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшение применено'**
+  String get battleTacticalSuccess;
+
+  /// No description provided for @battleTacticalNotEnough.
+  ///
+  /// In ru, this message translates to:
+  /// **'Недостаточно ресурсов на базе'**
+  String get battleTacticalNotEnough;
+
+  /// No description provided for @battleTacticalMax.
+  ///
+  /// In ru, this message translates to:
+  /// **'Достигнут максимум улучшений'**
+  String get battleTacticalMax;
+
+  /// No description provided for @battleTacticalBusy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дождитесь завершения полёта флота или астероида'**
+  String get battleTacticalBusy;
 
   /// No description provided for @battleVictoryTitle.
   ///

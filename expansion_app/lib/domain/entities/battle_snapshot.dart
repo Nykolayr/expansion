@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:expansion/domain/entities/battle_asteroid.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
@@ -11,6 +12,7 @@ class BattleSnapshot extends Equatable {
     required this.tick,
     required this.bases,
     required this.fleets,
+    this.asteroids = const [],
     required this.gridRows,
     required this.gridCols,
   });
@@ -19,8 +21,12 @@ class BattleSnapshot extends Equatable {
   final int tick;
   final List<BattleBase> bases;
   final List<BattleFleet> fleets;
+  final List<BattleAsteroid> asteroids;
   final int gridRows;
   final int gridCols;
+
+  bool get hasActiveProjectiles =>
+      fleets.isNotEmpty || asteroids.isNotEmpty;
 
   Iterable<BattleBase> get playerBases =>
       bases.where((b) => b.side == BattleSide.player);
@@ -46,5 +52,6 @@ class BattleSnapshot extends Equatable {
   }
 
   @override
-  List<Object?> get props => [sceneId, tick, bases, fleets, gridRows, gridCols];
+  List<Object?> get props =>
+      [sceneId, tick, bases, fleets, asteroids, gridRows, gridCols];
 }

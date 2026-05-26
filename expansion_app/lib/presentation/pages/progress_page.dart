@@ -4,6 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
+import 'package:expansion/core/extensions/univer_kind_l10n.dart';
+import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/univer_kind.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
@@ -20,6 +23,8 @@ class _ProgressPageState extends State<ProgressPage> {
   int _score = 0;
   int _completed = 0;
   int _enemyPower = 0;
+  GameDifficulty _difficulty = GameDifficulty.average;
+  UniverKind _univer = UniverKind.classic;
   bool _loading = true;
 
   @override
@@ -36,6 +41,8 @@ class _ProgressPageState extends State<ProgressPage> {
       _score = guest.scoreClassic;
       _completed = (guest.mapClassic - 1).clamp(0, 40);
       _enemyPower = guest.meta.enemyPowerLevel;
+      _difficulty = guest.difficulty;
+      _univer = guest.univerKind;
       _loading = false;
     });
   }
@@ -65,6 +72,16 @@ class _ProgressPageState extends State<ProgressPage> {
                           ),
                           const Gap(12),
                           _StatCard(
+                            title: loc.progressUniver,
+                            value: _univer.label(loc),
+                          ),
+                          const Gap(12),
+                          _StatCard(
+                            title: loc.progressDifficulty,
+                            value: _difficultyLabel(loc),
+                          ),
+                          const Gap(12),
+                          _StatCard(
                             title: loc.progressCompleted,
                             value: '$_completed',
                           ),
@@ -86,6 +103,17 @@ class _ProgressPageState extends State<ProgressPage> {
         ],
       ),
     );
+  }
+
+  String _difficultyLabel(AppLocalizations loc) {
+    switch (_difficulty) {
+      case GameDifficulty.easy:
+        return loc.beginDifficultyEasy;
+      case GameDifficulty.average:
+        return loc.beginDifficultyAverage;
+      case GameDifficulty.difficult:
+        return loc.beginDifficultyHard;
+    }
   }
 }
 

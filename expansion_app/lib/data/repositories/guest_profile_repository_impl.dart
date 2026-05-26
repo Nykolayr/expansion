@@ -4,6 +4,7 @@ import 'package:expansion/core/constants/prefs_keys.dart';
 import 'package:expansion/data/models/player_meta_progress_codec.dart';
 import 'package:expansion/domain/entities/guest_profile.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/univer_kind.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 
 class GuestProfileRepositoryImpl implements GuestProfileRepository {
@@ -18,6 +19,9 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       scoreClassic: _prefs.getInt(PrefsKeys.guestScoreClassic) ?? 0,
       difficulty: GameDifficulty.fromStorage(
         _prefs.getString(PrefsKeys.guestDifficulty),
+      ),
+      univerKind: UniverKind.fromStorage(
+        _prefs.getString(PrefsKeys.guestUniverKind),
       ),
       firstBattleCompleted:
           _prefs.getBool(PrefsKeys.guestFirstBattleCompleted) ?? false,
@@ -35,6 +39,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     await _prefs.setString(
       PrefsKeys.guestDifficulty,
       profile.difficulty.name,
+    );
+    await _prefs.setString(
+      PrefsKeys.guestUniverKind,
+      profile.univerKind.name,
     );
     await _prefs.setBool(
       PrefsKeys.guestFirstBattleCompleted,

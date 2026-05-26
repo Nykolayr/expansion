@@ -5,12 +5,15 @@ import 'package:gap/gap.dart';
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
+import 'package:expansion/core/extensions/univer_kind_l10n.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/univer_kind.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/begin/begin_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
 
 class BeginPage extends StatefulWidget {
   const BeginPage({super.key});
@@ -27,6 +30,16 @@ class _BeginPageState extends State<BeginPage> {
   }
 
   Future<void> _onStart() async {
+    final loc = AppLocalizations.of(context)!;
+    final confirmed = await showGameConfirmDialog(
+      context,
+      title: loc.beginResetConfirmTitle,
+      message: loc.beginResetConfirmBody,
+      confirmLabel: loc.beginResetConfirm,
+      cancelLabel: loc.beginResetCancel,
+    );
+    if (!confirmed || !mounted) return;
+
     final cubit = sl<BeginCubit>();
     await cubit.startNewCampaign();
     if (!mounted) return;
@@ -53,6 +66,20 @@ class _BeginPageState extends State<BeginPage> {
                     child: ListView(
                       padding: const EdgeInsets.all(24),
                       children: [
+                        Text(
+                          loc.beginUniverHint,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const Gap(12),
+                        for (final kind in UniverKind.values)
+                          _UniverTile(
+                            label: kind.label(loc),
+                            subtitle: kind.hint(loc),
+                            selected: state.univerKind == kind,
+                            enabled: kind.isPlayable,
+                            onTap: () => sl<BeginCubit>().selectUniver(kind),
+                          ),
+                        const Gap(24),
                         Text(
                           loc.beginDifficultyHint,
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -91,6 +118,48 @@ class _BeginPageState extends State<BeginPage> {
             },
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _UniverTile extends StatelessWidget {
+  const _UniverTile({
+    required this.label,
+    required this.subtitle,
+    required this.selected,
+    required this.enabled,
+    required this.onTap,
+  });
+
+  final String label;
+  final String subtitle;
+  final bool selected;
+  final bool enabled;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Card(
+        color: ExpansionColors.background.withValues(alpha: 0.9),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: selected ? ExpansionColors.accent : ExpansionColors.grey,
+            width: selected ? 2 : 1,
+          ),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: ListTile(
+          enabled: enabled,
+          title: Text(label),
+          subtitle: Text(subtitle),
+          trailing: selected
+              ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
+              : null,
+          onTap: enabled ? onTap : null,
+        ),
       ),
     );
   }

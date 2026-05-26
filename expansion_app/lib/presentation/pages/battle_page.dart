@@ -12,7 +12,10 @@ import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
 import 'package:expansion/presentation/bloc/battle/battle_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/presentation/widgets/battle/battle_field_grid.dart';
+import 'package:expansion/presentation/widgets/battle/battle_tactical_panel.dart';
 
 class BattlePage extends StatefulWidget {
   const BattlePage({super.key, this.sceneId});
@@ -40,6 +43,14 @@ class _BattlePageState extends State<BattlePage> {
   void dispose() {
     sl<BattleCubit>().disposeBattle();
     super.dispose();
+  }
+
+  BattleBase? _selectedPlayerBase(BattleState state) {
+    final id = state.selectedBaseId;
+    if (id == null || state.snapshot == null) return null;
+    final base = state.snapshot!.baseById(id);
+    if (base == null || base.side != BattleSide.player) return null;
+    return base;
   }
 
   String _briefing(BattleState state, AppLocalizations loc) {
@@ -142,6 +153,7 @@ class _BattlePageState extends State<BattlePage> {
                     ),
                     const Gap(8),
                     Expanded(
+                      flex: 3,
                       child: Padding(
                         padding: const EdgeInsets.all(12),
                         child: BattleFieldGrid(
@@ -151,6 +163,15 @@ class _BattlePageState extends State<BattlePage> {
                         ),
                       ),
                     ),
+                    if (_selectedPlayerBase(state) != null)
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                        child: BattleTacticalPanel(
+                          base: _selectedPlayerBase(state)!,
+                          projectilesActive:
+                              state.snapshot!.hasActiveProjectiles,
+                        ),
+                      ),
                   ],
                 ],
               );

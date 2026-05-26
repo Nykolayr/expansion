@@ -26,7 +26,9 @@
 | `maps/map_scene_tile.dart` | Узел миссии на карте кампании |
 | `maps/campaign_map_grid.dart` | Сетка 5×N + панель описания миссии |
 | `battle/battle_field_grid.dart` | Поле боя 5×8, тап по клеткам |
+| `battle/battle_tactical_panel.dart` | Панель тактических улучшений выбранной базы |
 | `upgrades/meta_upgrade_tile.dart` | Строка мета-апгрейда с кнопкой покупки |
+| `dialogs/game_confirm_dialog.dart` | Диалог подтверждения (сброс кампании) |
 
 Страницы: `maps_page` (карта 40 миссий), скелеты `begin_page`, `battle_page`, `profile_page`, `progress_page`.
 | `splash/splash_menu_direct.dart` | Enum позиций кнопок и пути SVG |

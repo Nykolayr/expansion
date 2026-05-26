@@ -119,11 +119,86 @@ class AppLocalizationsEn extends AppLocalizations {
   String get beginStartMission => 'Save humanity';
 
   @override
+  String get beginUniverHint => 'Universe (campaign mode)';
+
+  @override
+  String get beginUniverClassic => 'Classic';
+
+  @override
+  String get beginUniverClassicHint => '40-mission campaign';
+
+  @override
+  String get beginUniverGenerated => 'Random';
+
+  @override
+  String get beginUniverStrategic => 'Strategic';
+
+  @override
+  String get beginUniverComingSoon => 'Coming soon';
+
+  @override
+  String get beginResetConfirmTitle => 'Start over?';
+
+  @override
+  String get beginResetConfirmBody =>
+      'Campaign progress, points, and upgrades will be reset. This cannot be undone.';
+
+  @override
+  String get beginResetConfirm => 'Reset and start';
+
+  @override
+  String get beginResetCancel => 'Cancel';
+
+  @override
+  String get progressDifficulty => 'Difficulty';
+
+  @override
+  String get progressUniver => 'Universe';
+
+  @override
   String get battleBriefingFallback => 'Capture all enemy bases.';
 
   @override
   String get battleTapHint =>
       'Tap: your base → target. Line of sight must be clear.';
+
+  @override
+  String get battleTacticalTitle => 'Base upgrades';
+
+  @override
+  String battleTacticalResources(int amount) {
+    return 'Resources: $amount';
+  }
+
+  @override
+  String get tacticalUpgradeShield => 'Reinforce shield (+20)';
+
+  @override
+  String get tacticalUpgradeBuild => 'Faster production';
+
+  @override
+  String get tacticalUpgradeMaxShips => 'Raise ship cap';
+
+  @override
+  String battleTacticalBuy(int cost) {
+    return '$cost';
+  }
+
+  @override
+  String get battleTacticalMaxLabel => 'Max';
+
+  @override
+  String get battleTacticalSuccess => 'Upgrade applied';
+
+  @override
+  String get battleTacticalNotEnough => 'Not enough resources on this base';
+
+  @override
+  String get battleTacticalMax => 'Upgrade cap reached';
+
+  @override
+  String get battleTacticalBusy =>
+      'Wait until fleets or asteroids finish moving';
 
   @override
   String get battleVictoryTitle => 'Victory';

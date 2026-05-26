@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:expansion/core/constants/game_layout.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
+import 'package:expansion/domain/entities/battle_asteroid.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
@@ -82,6 +83,13 @@ class BattleFieldGrid extends StatelessWidget {
                   cellH: cellH,
                 ),
               ),
+              ...snapshot.asteroids.map(
+                (asteroid) => _AsteroidMarker(
+                  asteroid: asteroid,
+                  cellW: cellW,
+                  cellH: cellH,
+                ),
+              ),
             ],
           );
         },
@@ -158,6 +166,50 @@ class _FleetMarker extends StatelessWidget {
   double _cellTop(int y) => (y - 1) * (cellH + BattleFieldGrid._spacing);
 }
 
+class _AsteroidMarker extends StatelessWidget {
+  const _AsteroidMarker({
+    required this.asteroid,
+    required this.cellW,
+    required this.cellH,
+  });
+
+  final BattleAsteroid asteroid;
+  final double cellW;
+  final double cellH;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = asteroid.progress.clamp(0.0, 1.0);
+    final cx = asteroid.fromX + (asteroid.toX - asteroid.fromX) * t;
+    final cy = asteroid.fromY + (asteroid.toY - asteroid.fromY) * t;
+    final left = (cx - 1) * (cellW + BattleFieldGrid._spacing) + cellW / 2 - 11;
+    final top = (cy - 1) * (cellH + BattleFieldGrid._spacing) + cellH / 2 - 11;
+
+    return Positioned(
+      left: left,
+      top: top,
+      child: Container(
+        width: 22,
+        height: 22,
+        decoration: BoxDecoration(
+          color: Colors.orange.shade700.withValues(alpha: 0.95),
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.deepOrange, width: 2),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          '${asteroid.power}',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 8,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _BaseChip extends StatelessWidget {
   const _BaseChip({required this.base});
 
@@ -187,6 +239,11 @@ class _BaseChip extends StatelessWidget {
           Text(
             '⛨${base.shield.round()}',
             style: TextStyle(color: color.withValues(alpha: 0.85), fontSize: 9),
+          ),
+        if (base.side == BattleSide.player)
+          Text(
+            '⚙${base.resources.round()}',
+            style: TextStyle(color: color.withValues(alpha: 0.75), fontSize: 8),
           ),
       ],
     );

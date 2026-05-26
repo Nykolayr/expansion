@@ -119,11 +119,86 @@ class AppLocalizationsRu extends AppLocalizations {
   String get beginStartMission => 'Спасти человечество';
 
   @override
+  String get beginUniverHint => 'Вселенная (режим кампании)';
+
+  @override
+  String get beginUniverClassic => 'Классическая';
+
+  @override
+  String get beginUniverClassicHint => '40 миссий кампании';
+
+  @override
+  String get beginUniverGenerated => 'Случайная';
+
+  @override
+  String get beginUniverStrategic => 'Стратегическая';
+
+  @override
+  String get beginUniverComingSoon => 'Скоро';
+
+  @override
+  String get beginResetConfirmTitle => 'Начать заново?';
+
+  @override
+  String get beginResetConfirmBody =>
+      'Прогресс кампании, очки и улучшения будут сброшены. Это нельзя отменить.';
+
+  @override
+  String get beginResetConfirm => 'Сбросить и начать';
+
+  @override
+  String get beginResetCancel => 'Отмена';
+
+  @override
+  String get progressDifficulty => 'Сложность';
+
+  @override
+  String get progressUniver => 'Вселенная';
+
+  @override
   String get battleBriefingFallback => 'Захватите все вражеские базы.';
 
   @override
   String get battleTapHint =>
       'Тап: своя база → цель. Нужна прямая линия без препятствий.';
+
+  @override
+  String get battleTacticalTitle => 'Улучшения базы';
+
+  @override
+  String battleTacticalResources(int amount) {
+    return 'Ресурсы: $amount';
+  }
+
+  @override
+  String get tacticalUpgradeShield => 'Усилить щит (+20)';
+
+  @override
+  String get tacticalUpgradeBuild => 'Ускорить постройку';
+
+  @override
+  String get tacticalUpgradeMaxShips => 'Расширить лимит кораблей';
+
+  @override
+  String battleTacticalBuy(int cost) {
+    return '$cost';
+  }
+
+  @override
+  String get battleTacticalMaxLabel => 'Макс.';
+
+  @override
+  String get battleTacticalSuccess => 'Улучшение применено';
+
+  @override
+  String get battleTacticalNotEnough => 'Недостаточно ресурсов на базе';
+
+  @override
+  String get battleTacticalMax => 'Достигнут максимум улучшений';
+
+  @override
+  String get battleTacticalBusy =>
+      'Дождитесь завершения полёта флота или астероида';
 
   @override
   String get battleVictoryTitle => 'Победа';

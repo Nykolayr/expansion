@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/enums/battle_side.dart';
+import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 
 /// База на поле боя (состояние одной партии).
 class BattleBase extends Equatable {
@@ -12,6 +13,13 @@ class BattleBase extends Equatable {
     required this.ships,
     required this.shield,
     this.maxShips = 200,
+    this.resources = 0,
+    this.speedBuild = 0.1,
+    this.speedResources = 0.1,
+    this.shieldUpgradeLevel = 0,
+    this.buildUpgradeLevel = 0,
+    this.maxShipsUpgradeLevel = 0,
+    this.growthAccumulator = 0,
   });
 
   final int id;
@@ -21,13 +29,44 @@ class BattleBase extends Equatable {
   final int ships;
   final double shield;
   final int maxShips;
+  final double resources;
+  final double speedBuild;
+  final double speedResources;
+  final int shieldUpgradeLevel;
+  final int buildUpgradeLevel;
+  final int maxShipsUpgradeLevel;
+  final int growthAccumulator;
+
+  static const int maxTacticalLevel = 5;
 
   int get power => ships + shield.round();
+
+  int tacticalLevelFor(TacticalUpgradeType type) {
+    switch (type) {
+      case TacticalUpgradeType.shield:
+        return shieldUpgradeLevel;
+      case TacticalUpgradeType.buildSpeed:
+        return buildUpgradeLevel;
+      case TacticalUpgradeType.maxShips:
+        return maxShipsUpgradeLevel;
+    }
+  }
+
+  bool isTacticalMaxed(TacticalUpgradeType type) =>
+      tacticalLevelFor(type) >= maxTacticalLevel;
 
   BattleBase copyWith({
     int? ships,
     double? shield,
     BattleSide? side,
+    int? maxShips,
+    double? resources,
+    double? speedBuild,
+    double? speedResources,
+    int? shieldUpgradeLevel,
+    int? buildUpgradeLevel,
+    int? maxShipsUpgradeLevel,
+    int? growthAccumulator,
   }) {
     return BattleBase(
       id: id,
@@ -36,10 +75,33 @@ class BattleBase extends Equatable {
       side: side ?? this.side,
       ships: ships ?? this.ships,
       shield: shield ?? this.shield,
-      maxShips: maxShips,
+      maxShips: maxShips ?? this.maxShips,
+      resources: resources ?? this.resources,
+      speedBuild: speedBuild ?? this.speedBuild,
+      speedResources: speedResources ?? this.speedResources,
+      shieldUpgradeLevel: shieldUpgradeLevel ?? this.shieldUpgradeLevel,
+      buildUpgradeLevel: buildUpgradeLevel ?? this.buildUpgradeLevel,
+      maxShipsUpgradeLevel:
+          maxShipsUpgradeLevel ?? this.maxShipsUpgradeLevel,
+      growthAccumulator: growthAccumulator ?? this.growthAccumulator,
     );
   }
 
   @override
-  List<Object?> get props => [id, x, y, side, ships, shield, maxShips];
+  List<Object?> get props => [
+        id,
+        x,
+        y,
+        side,
+        ships,
+        shield,
+        maxShips,
+        resources,
+        speedBuild,
+        speedResources,
+        shieldUpgradeLevel,
+        buildUpgradeLevel,
+        maxShipsUpgradeLevel,
+        growthAccumulator,
+      ];
 }
