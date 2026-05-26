@@ -18,5 +18,12 @@
   "settingsReplayIntro": "Show intro again",
   "settingsReplayIntroHint": "Open the full story screen",
   "splashDontShowAgain": "Don't show on next launch",
-  "introStoryTitle": "Story"
+  "introStoryTitle": "Story",
+  "mapsTitle": "Campaign map",
+  "beginTitle": "New game",
+  "battleTitle": "Battle",
+  "profileTitle": "Profile",
+  "progressTitle": "Progress",
+  "screenPlaceholderBody": "This section is under development. Content and logic come in later phases.",
+  "bootstrapInitFailed": "Could not prepare the local database. Please restart the app."
 }

@@ -27,5 +27,12 @@
   "settingsReplayIntro": "Показать вступление снова",
   "settingsReplayIntroHint": "Открыть экран с полной историей",
   "splashDontShowAgain": "Не показывать при следующей загрузке",
-  "introStoryTitle": "История"
+  "introStoryTitle": "История",
+  "mapsTitle": "Карта кампании",
+  "beginTitle": "Новая игра",
+  "battleTitle": "Бой",
+  "profileTitle": "Профиль",
+  "progressTitle": "Прогресс",
+  "screenPlaceholderBody": "Раздел в разработке. Контент и логика — на следующих этапах.",
+  "bootstrapInitFailed": "Не удалось подготовить локальную базу. Повторите запуск приложения."
 }

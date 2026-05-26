@@ -211,6 +211,48 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'История'**
   String get introStoryTitle;
+
+  /// No description provided for @mapsTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Карта кампании'**
+  String get mapsTitle;
+
+  /// No description provided for @beginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новая игра'**
+  String get beginTitle;
+
+  /// No description provided for @battleTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Бой'**
+  String get battleTitle;
+
+  /// No description provided for @profileTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Профиль'**
+  String get profileTitle;
+
+  /// No description provided for @progressTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогресс'**
+  String get progressTitle;
+
+  /// No description provided for @screenPlaceholderBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Раздел в разработке. Контент и логика — на следующих этапах.'**
+  String get screenPlaceholderBody;
+
+  /// No description provided for @bootstrapInitFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось подготовить локальную базу. Повторите запуск приложения.'**
+  String get bootstrapInitFailed;
 }
 
 class _AppLocalizationsDelegate

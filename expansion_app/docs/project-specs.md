@@ -73,6 +73,11 @@ Legacy API: Express + MySQL/Mongo (`expansion_old/apiserver`). В клиенте
 - Карта кампании: `ListView.builder` / ленивая загрузка сцен.
 - Impeller на iOS по умолчанию; на Android следить за GPU-профилем в DevTools.
 
+## План разработки
+
+Подробный поэтапный план (экраны, бой, кампания, API): **[`docs/game-plan.md`](game-plan.md)**.  
+Концепция продукта (согласование): **[`docs/game-concept.md`](game-concept.md)**.
+
 ## Ссылки
 
 - Legacy код: `D:\Projects\expansion_old\expansion`

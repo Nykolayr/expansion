@@ -22,6 +22,7 @@
 | `splash/splash_loader_panel.dart` | Карточка вступления и полоса загрузки |
 | `splash/splash_pretext_typer.dart` | Печать вступительного текста посимвольно |
 | `app_bar/game_screen_back_bar.dart` | Заголовок экрана с кнопкой «назад» |
+| `layout/game_screen_scaffold.dart` | Фон + back bar + тело или `placeholderMessage` |
 
-Страницы: `pages/intro_story_page.dart` — отдельный экран вступительной истории.
+Страницы-скелеты: `maps_page`, `begin_page`, `battle_page`, `profile_page`, `progress_page`.
 | `splash/splash_menu_direct.dart` | Enum позиций кнопок и пути SVG |

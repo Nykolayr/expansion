@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:expansion/presentation/pages/battle_page.dart';
+import 'package:expansion/presentation/pages/begin_page.dart';
 import 'package:expansion/presentation/pages/intro_story_page.dart';
+import 'package:expansion/presentation/pages/maps_page.dart';
+import 'package:expansion/presentation/pages/profile_page.dart';
+import 'package:expansion/presentation/pages/progress_page.dart';
 import 'package:expansion/presentation/pages/settings_page.dart';
 import 'package:expansion/presentation/pages/splash_page.dart';
 
@@ -27,6 +32,41 @@ final GoRouter appRouter = GoRouter(
       name: 'introStory',
       builder: (BuildContext context, GoRouterState state) {
         return const IntroStoryPage();
+      },
+    ),
+    GoRoute(
+      path: '/maps',
+      name: 'maps',
+      builder: (BuildContext context, GoRouterState state) {
+        return const MapsPage();
+      },
+    ),
+    GoRoute(
+      path: '/begin',
+      name: 'begin',
+      builder: (BuildContext context, GoRouterState state) {
+        return const BeginPage();
+      },
+    ),
+    GoRoute(
+      path: '/battle',
+      name: 'battle',
+      builder: (BuildContext context, GoRouterState state) {
+        return const BattlePage();
+      },
+    ),
+    GoRoute(
+      path: '/profile',
+      name: 'profile',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ProfilePage();
+      },
+    ),
+    GoRoute(
+      path: '/progress',
+      name: 'progress',
+      builder: (BuildContext context, GoRouterState state) {
+        return const ProgressPage();
       },
     ),
   ],

@@ -65,4 +65,27 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get introStoryTitle => 'История';
+
+  @override
+  String get mapsTitle => 'Карта кампании';
+
+  @override
+  String get beginTitle => 'Новая игра';
+
+  @override
+  String get battleTitle => 'Бой';
+
+  @override
+  String get profileTitle => 'Профиль';
+
+  @override
+  String get progressTitle => 'Прогресс';
+
+  @override
+  String get screenPlaceholderBody =>
+      'Раздел в разработке. Контент и логика — на следующих этапах.';
+
+  @override
+  String get bootstrapInitFailed =>
+      'Не удалось подготовить локальную базу. Повторите запуск приложения.';
 }

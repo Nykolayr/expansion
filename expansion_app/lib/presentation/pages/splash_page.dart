@@ -11,6 +11,8 @@ import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/core/ui/app_feedback_kind.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
+import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
 import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
@@ -46,22 +48,27 @@ class _SplashPageState extends State<SplashPage> {
 
   void _onMenuTap(SplashMenuDirect direct) {
     AppLog.trace('splash menu tap: $direct', tag: 'Splash');
-    if (direct == SplashMenuDirect.middleTop) {
-      context.goToSettings();
-      return;
+    switch (direct) {
+      case SplashMenuDirect.leftTop:
+        context.goToProfile();
+      case SplashMenuDirect.middleTop:
+        context.goToSettings();
+      case SplashMenuDirect.rightTop:
+        context.goToProgress();
+      case SplashMenuDirect.leftBottom:
+        context.goToBegin();
+      case SplashMenuDirect.rightBottom:
+        context.goToMaps();
+      case SplashMenuDirect.middleBottom:
+        sl<AppFeedbackService>().show(
+          AppLocalizations.of(context)!.splashFeatureSoon,
+          kind: AppFeedbackKind.warning,
+        );
     }
-    sl<AppFeedbackService>().show(
-      AppLocalizations.of(context)!.splashFeatureSoon,
-      kind: AppFeedbackKind.warning,
-    );
   }
 
-  Future<void> _onBeginGame() async {
-    if (!mounted) return;
-    sl<AppFeedbackService>().show(
-      AppLocalizations.of(context)!.splashFeatureSoon,
-      kind: AppFeedbackKind.warning,
-    );
+  void _onBeginGame() {
+    context.goToBegin();
   }
 
   void _onIntroFinished(SplashState state) {
@@ -77,11 +84,27 @@ class _SplashPageState extends State<SplashPage> {
     final size = MediaQuery.sizeOf(context);
     final menuSlotHeight = size.width / 3 / 3 + 10;
 
-    return BlocListener<SplashCubit, SplashState>(
-      bloc: sl<SplashCubit>(),
-      listenWhen: (previous, current) =>
-          !previous.isSuccess && current.isSuccess,
-      listener: (context, state) => _onIntroFinished(state),
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<SplashCubit, SplashState>(
+          bloc: sl<SplashCubit>(),
+          listenWhen: (previous, current) =>
+              !previous.isSuccess && current.isSuccess,
+          listener: (context, state) => _onIntroFinished(state),
+        ),
+        BlocListener<AppBootstrapCubit, AppBootstrapState>(
+          bloc: sl<AppBootstrapCubit>(),
+          listenWhen: (previous, current) =>
+              previous.status != AppBootstrapStatus.failed &&
+              current.status == AppBootstrapStatus.failed,
+          listener: (context, state) {
+            sl<AppFeedbackService>().show(
+              AppLocalizations.of(context)!.bootstrapInitFailed,
+              kind: AppFeedbackKind.error,
+            );
+          },
+        ),
+      ],
       child: BlocBuilder<SplashCubit, SplashState>(
         bloc: sl<SplashCubit>(),
         builder: (context, state) {

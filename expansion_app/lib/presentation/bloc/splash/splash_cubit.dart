@@ -6,10 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expansion/core/constants/prefs_keys.dart';
 import 'package:expansion/core/constants/splash_intro_timing.dart';
 import 'package:expansion/core/logging/app_log.dart';
+import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit(this._prefs)
+  SplashCubit(this._prefs, this._bootstrap)
       : super(
           SplashState.initial(
             showIntro: _prefs.getBool(PrefsKeys.splashShowIntro) ?? true,
@@ -17,6 +18,7 @@ class SplashCubit extends Cubit<SplashState> {
         );
 
   final SharedPreferences _prefs;
+  final AppBootstrapCubit _bootstrap;
   static const int _startCount = 98;
 
   Completer<void>? _typingDoneCompleter;
@@ -27,6 +29,8 @@ class SplashCubit extends Cubit<SplashState> {
     emit(SplashState.initial(showIntro: showIntro));
     AppLog.trace('splash load start intro=$showIntro', tag: 'Splash');
 
+    final bootstrapFuture = _runBootstrap();
+
     if (showIntro) {
       await _typingDoneCompleter!.future;
       AppLog.trace('splash intro text done, hold 1s', tag: 'Splash');
@@ -34,11 +38,12 @@ class SplashCubit extends Cubit<SplashState> {
         const Duration(milliseconds: SplashIntroTiming.holdFullTextMs),
       );
       if (isClosed) return;
-      await _finishProgressBar();
+      await Future.wait<void>([
+        _finishProgressBar(),
+        bootstrapFuture,
+      ]);
     } else {
-      await _runProgressForDuration(
-        const Duration(milliseconds: SplashIntroTiming.skipIntroLoadMs),
-      );
+      await _runProgressUntil(bootstrapFuture);
     }
 
     if (isClosed) return;
@@ -81,6 +86,14 @@ class SplashCubit extends Cubit<SplashState> {
     AppLog.trace('splash intro typing complete', tag: 'Splash');
   }
 
+  Future<void> _runBootstrap() async {
+    try {
+      await _bootstrap.initialize();
+    } catch (_) {
+      AppLog.trace('splash continues after bootstrap error', tag: 'Splash');
+    }
+  }
+
   Future<void> _finishProgressBar() async {
     final fromCount = state.count.clamp(0, _startCount);
     if (fromCount <= 0) {
@@ -101,20 +114,29 @@ class SplashCubit extends Cubit<SplashState> {
     }
   }
 
-  Future<void> _runProgressForDuration(Duration total) async {
+  /// Полоса загрузки до завершения [task] (bootstrap вместо фиксированных 2 с).
+  Future<void> _runProgressUntil(Future<void> task) async {
     final startedAt = DateTime.now();
     const tick = Duration(milliseconds: 40);
+    var taskDone = false;
+    unawaited(
+      task.whenComplete(() {
+        taskDone = true;
+      }),
+    );
 
     while (true) {
       if (isClosed) return;
 
-      final elapsed = DateTime.now().difference(startedAt);
-      if (elapsed >= total) {
+      if (taskDone) {
         emit(state.copyWith(count: 0));
         return;
       }
 
-      final ratio = elapsed.inMilliseconds / total.inMilliseconds;
+      final elapsed = DateTime.now().difference(startedAt);
+      final ratio = (elapsed.inMilliseconds /
+              SplashIntroTiming.skipIntroLoadMs.inMilliseconds)
+          .clamp(0.0, 0.95);
       final count =
           (_startCount * (1 - ratio)).round().clamp(0, _startCount);
       emit(state.copyWith(count: count));

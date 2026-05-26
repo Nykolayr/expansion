@@ -11,6 +11,6 @@ abstract final class SplashIntroTiming {
   /// Какую долю полосы заполнять во время печати (остальное — в конце).
   static const double typingBarShare = 0.22;
 
-  /// Имитация загрузки без вступительного текста (до API).
-  static const int skipIntroLoadMs = 2000;
+  /// Верхняя граница длительности полосы без вступления, если bootstrap затянулся.
+  static const Duration skipIntroLoadMs = Duration(seconds: 2);
 }

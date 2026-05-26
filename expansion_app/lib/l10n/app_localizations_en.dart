@@ -65,4 +65,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get introStoryTitle => 'Story';
+
+  @override
+  String get mapsTitle => 'Campaign map';
+
+  @override
+  String get beginTitle => 'New game';
+
+  @override
+  String get battleTitle => 'Battle';
+
+  @override
+  String get profileTitle => 'Profile';
+
+  @override
+  String get progressTitle => 'Progress';
+
+  @override
+  String get screenPlaceholderBody =>
+      'This section is under development. Content and logic come in later phases.';
+
+  @override
+  String get bootstrapInitFailed =>
+      'Could not prepare the local database. Please restart the app.';
 }
