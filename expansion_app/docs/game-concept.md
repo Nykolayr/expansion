@@ -105,8 +105,28 @@ flowchart TD
 
 ### 5.5 Техника
 
-- Isolate game loop → `BattleCubit`.
+- Isolate game loop → `BattleCubit` (после MVP-среза на таймере).
 - Отрисовка: сначала простые спрайты/формы; оптимизация — `RepaintBoundary`, кэш.
+
+### 5.7 Управление чужими (AI) — отдельный модуль
+
+Legacy: один файл `setStateEnemy`, почти без случайности → враг «как машина».
+
+**Архитектура v1:**
+
+```text
+lib/game_core/
+  battle/           # правила поля, отправка, захват, win/lose
+  ai/
+    battle_intent.dart      # SendFleet, UpgradeBase, …
+    enemy_personality.dart  # веса, шум, «сомнение»
+    enemy_commander.dart    # snapshot + RNG → список intents
+```
+
+- `BattleCubit` только **применяет** intents и тикает движок; AI **не** знает про Flutter.
+- **Случайность:** сид = `sceneId + tickBucket`; взвешенный выбор цели; shuffle кандидатов; jitter интервала хода; на easy — чаще субоптимальные ходы.
+- Сложность: `ticEnemy` + параметры `EnemyPersonality` из `GameDifficulty`.
+- Кампания акт III («зеркало»): позже отдельный пресет personality.
 
 ### 5.6 Сетка: «мало ли 5×8?» и увеличение поля
 

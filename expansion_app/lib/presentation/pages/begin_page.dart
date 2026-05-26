@@ -1,18 +1,130 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
+import 'package:expansion/core/constants/game_assets.dart';
+import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/extensions/navigation_context.dart';
+import 'package:expansion/core/themes/expansion_colors.dart';
+import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/l10n/app_localizations.dart';
-import 'package:expansion/presentation/widgets/layout/game_screen_scaffold.dart';
+import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
+import 'package:expansion/presentation/bloc/begin/begin_state.dart';
+import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 
-/// Новая игра: сложность и вселенная (скелет, фаза 4).
-class BeginPage extends StatelessWidget {
+class BeginPage extends StatefulWidget {
   const BeginPage({super.key});
+
+  @override
+  State<BeginPage> createState() => _BeginPageState();
+}
+
+class _BeginPageState extends State<BeginPage> {
+  @override
+  void initState() {
+    super.initState();
+    sl<BeginCubit>().load();
+  }
+
+  Future<void> _onStart() async {
+    final cubit = sl<BeginCubit>();
+    await cubit.startNewCampaign();
+    if (!mounted) return;
+    context.goToBattle(sceneId: 1);
+  }
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return GameScreenScaffold(
-      title: loc.beginTitle,
-      placeholderMessage: loc.screenPlaceholderBody,
+
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
+          BlocBuilder<BeginCubit, BeginState>(
+            bloc: sl<BeginCubit>(),
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GameScreenBackBar(title: loc.beginTitle),
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.all(24),
+                      children: [
+                        Text(
+                          loc.beginDifficultyHint,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const Gap(16),
+                        _DifficultyTile(
+                          label: loc.beginDifficultyEasy,
+                          selected: state.difficulty == GameDifficulty.easy,
+                          onTap: () => sl<BeginCubit>()
+                              .selectDifficulty(GameDifficulty.easy),
+                        ),
+                        _DifficultyTile(
+                          label: loc.beginDifficultyAverage,
+                          selected:
+                              state.difficulty == GameDifficulty.average,
+                          onTap: () => sl<BeginCubit>()
+                              .selectDifficulty(GameDifficulty.average),
+                        ),
+                        _DifficultyTile(
+                          label: loc.beginDifficultyHard,
+                          selected:
+                              state.difficulty == GameDifficulty.difficult,
+                          onTap: () => sl<BeginCubit>()
+                              .selectDifficulty(GameDifficulty.difficult),
+                        ),
+                        const Gap(24),
+                        FilledButton(
+                          onPressed: state.isSaving ? null : _onStart,
+                          child: Text(loc.beginStartMission),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DifficultyTile extends StatelessWidget {
+  const _DifficultyTile({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: ExpansionColors.background.withValues(alpha: 0.9),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: selected ? ExpansionColors.accent : ExpansionColors.grey,
+          width: selected ? 2 : 1,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        title: Text(label),
+        trailing: selected
+            ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
+            : null,
+        onTap: onTap,
+      ),
     );
   }
 }

@@ -6,11 +6,14 @@ import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/core/storage/secure_storage_service.dart';
 import 'package:expansion/data/datasources/local/campaign_local_datasource.dart';
 import 'package:expansion/data/datasources/local/game_database.dart';
+import 'package:expansion/data/repositories/battle_session_loader.dart';
 import 'package:expansion/data/repositories/campaign_repository_impl.dart';
 import 'package:expansion/data/repositories/guest_profile_repository_impl.dart';
 import 'package:expansion/data/seed/campaign_content_seeder.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
+import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
+import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
@@ -58,5 +61,19 @@ Future<void> initDependencies() async {
 
   sl.registerSingleton<MapsCubit>(
     MapsCubit(sl<CampaignRepository>(), sl<GuestProfileRepository>()),
+  );
+
+  sl.registerLazySingleton<BattleSessionLoader>(
+    () => BattleSessionLoader(sl<CampaignRepository>()),
+  );
+
+  sl.registerSingleton<BeginCubit>(BeginCubit(sl<GuestProfileRepository>()));
+
+  sl.registerSingleton<BattleCubit>(
+    BattleCubit(
+      sl<BattleSessionLoader>(),
+      sl<CampaignRepository>(),
+      sl<GuestProfileRepository>(),
+    ),
   );
 }

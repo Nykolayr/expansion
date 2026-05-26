@@ -146,14 +146,17 @@ Legacy API (`apiserver/routes.js`):
 - [ ] `assets/images/`, `audio/` — фаза 3 / отдельный перенос
 - [ ] `/upgrades` скелет — фаза 4
 
-### Фаза 3 — Бой MVP (3–5 нед.) — критический путь
+### Фаза 3 — Бой MVP (3–5 нед.) — в работе
 
-- [ ] `BattleSnapshot` / тактические апгрейды на базе (отдельно от `MetaUpgrade`)
-- [ ] Логика боя по мотивам legacy, но на новых моделях — `BattleCubit` + репозиторий
-- [ ] Isolate game loop, синхронизация с UI
-- [ ] Отрисовка поля 5×8, базы, корабли (минимальная графика)
-- [ ] Жест: выбор базы → отправка флота
-- [ ] Победа / поражение → модалка → возврат на карту, `mapClassic++`
+- [x] `BattleSnapshot`, `BattleBase`, `BattleEngine`
+- [x] **`EnemyCommander`** + `BattleIntent` + `EnemyPersonality` (RNG)
+- [x] `BattleCubit` + таймер тиков (isolate — позже)
+- [x] `/begin` — сложность → бой миссии 1
+- [x] Поле 5×8, тап: база → цель → отправка (MVP-графика)
+- [x] Победа / поражение → диалог → карта, `mapClassic++`, `firstBattleCompleted`
+- [ ] Анимация флотов, астероиды, тактические апгрейды на базе
+- [ ] Isolate game loop, спрайты legacy
+- [ ] Баланс playtest
 
 ### Фаза 4 — Begin + прогресс (1–2 нед.)
 

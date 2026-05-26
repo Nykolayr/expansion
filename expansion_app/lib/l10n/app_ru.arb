@@ -38,6 +38,18 @@
   "mapsStartBattle": "Экспансия",
   "mapsDescriptionFallback": "Разведка системы продолжается. Готовьтесь к бою.",
   "mapsLoadFailed": "Не удалось загрузить карту кампании.",
+  "beginDifficultyHint": "Выберите сложность. От неё зависит темп и непредсказуемость чужих.",
+  "beginDifficultyEasy": "Лёгкая",
+  "beginDifficultyAverage": "Средняя",
+  "beginDifficultyHard": "Сложная",
+  "beginStartMission": "Спасти человечество",
+  "battleBriefingFallback": "Захватите все вражеские базы.",
+  "battleTapHint": "Тап: своя база → цель. Нужна прямая линия без препятствий.",
+  "battleVictoryTitle": "Победа",
+  "battleVictoryBody": "Система под контролем. Следующая миссия открыта на карте.",
+  "battleDefeatTitle": "Поражение",
+  "battleDefeatBody": "Флот разбит. Попробуйте снова или снизьте сложность.",
+  "battleContinue": "Продолжить",
   "battleScenePlaceholder": "Миссия {sceneId}. Бой — в разработке (фаза 3).",
   "@battleScenePlaceholder": {
     "placeholders": {

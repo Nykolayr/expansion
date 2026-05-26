@@ -100,6 +100,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapsLoadFailed => 'Could not load the campaign map.';
 
   @override
+  String get beginDifficultyHint =>
+      'Choose difficulty. It affects alien pace and unpredictability.';
+
+  @override
+  String get beginDifficultyEasy => 'Easy';
+
+  @override
+  String get beginDifficultyAverage => 'Average';
+
+  @override
+  String get beginDifficultyHard => 'Hard';
+
+  @override
+  String get beginStartMission => 'Save humanity';
+
+  @override
+  String get battleBriefingFallback => 'Capture all enemy bases.';
+
+  @override
+  String get battleTapHint =>
+      'Tap: your base → target. Line of sight must be clear.';
+
+  @override
+  String get battleVictoryTitle => 'Victory';
+
+  @override
+  String get battleVictoryBody =>
+      'System secured. The next mission is on the map.';
+
+  @override
+  String get battleDefeatTitle => 'Defeat';
+
+  @override
+  String get battleDefeatBody =>
+      'Fleet lost. Try again or lower the difficulty.';
+
+  @override
+  String get battleContinue => 'Continue';
+
+  @override
   String battleScenePlaceholder(int sceneId) {
     return 'Mission $sceneId. Battle gameplay — phase 3.';
   }

@@ -29,6 +29,18 @@
   "mapsStartBattle": "Expand",
   "mapsDescriptionFallback": "System recon in progress. Prepare for battle.",
   "mapsLoadFailed": "Could not load the campaign map.",
+  "beginDifficultyHint": "Choose difficulty. It affects alien pace and unpredictability.",
+  "beginDifficultyEasy": "Easy",
+  "beginDifficultyAverage": "Average",
+  "beginDifficultyHard": "Hard",
+  "beginStartMission": "Save humanity",
+  "battleBriefingFallback": "Capture all enemy bases.",
+  "battleTapHint": "Tap: your base → target. Line of sight must be clear.",
+  "battleVictoryTitle": "Victory",
+  "battleVictoryBody": "System secured. The next mission is on the map.",
+  "battleDefeatTitle": "Defeat",
+  "battleDefeatBody": "Fleet lost. Try again or lower the difficulty.",
+  "battleContinue": "Continue",
   "battleScenePlaceholder": "Mission {sceneId}. Battle gameplay — phase 3.",
   "@battleScenePlaceholder": {
     "placeholders": {

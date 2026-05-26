@@ -100,6 +100,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mapsLoadFailed => 'Не удалось загрузить карту кампании.';
 
   @override
+  String get beginDifficultyHint =>
+      'Выберите сложность. От неё зависит темп и непредсказуемость чужих.';
+
+  @override
+  String get beginDifficultyEasy => 'Лёгкая';
+
+  @override
+  String get beginDifficultyAverage => 'Средняя';
+
+  @override
+  String get beginDifficultyHard => 'Сложная';
+
+  @override
+  String get beginStartMission => 'Спасти человечество';
+
+  @override
+  String get battleBriefingFallback => 'Захватите все вражеские базы.';
+
+  @override
+  String get battleTapHint =>
+      'Тап: своя база → цель. Нужна прямая линия без препятствий.';
+
+  @override
+  String get battleVictoryTitle => 'Победа';
+
+  @override
+  String get battleVictoryBody =>
+      'Система под контролем. Следующая миссия открыта на карте.';
+
+  @override
+  String get battleDefeatTitle => 'Поражение';
+
+  @override
+  String get battleDefeatBody =>
+      'Флот разбит. Попробуйте снова или снизьте сложность.';
+
+  @override
+  String get battleContinue => 'Продолжить';
+
+  @override
   String battleScenePlaceholder(int sceneId) {
     return 'Миссия $sceneId. Бой — в разработке (фаза 3).';
   }

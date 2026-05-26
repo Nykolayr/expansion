@@ -272,6 +272,78 @@ abstract class AppLocalizations {
   /// **'Не удалось загрузить карту кампании.'**
   String get mapsLoadFailed;
 
+  /// No description provided for @beginDifficultyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите сложность. От неё зависит темп и непредсказуемость чужих.'**
+  String get beginDifficultyHint;
+
+  /// No description provided for @beginDifficultyEasy.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лёгкая'**
+  String get beginDifficultyEasy;
+
+  /// No description provided for @beginDifficultyAverage.
+  ///
+  /// In ru, this message translates to:
+  /// **'Средняя'**
+  String get beginDifficultyAverage;
+
+  /// No description provided for @beginDifficultyHard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сложная'**
+  String get beginDifficultyHard;
+
+  /// No description provided for @beginStartMission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасти человечество'**
+  String get beginStartMission;
+
+  /// No description provided for @battleBriefingFallback.
+  ///
+  /// In ru, this message translates to:
+  /// **'Захватите все вражеские базы.'**
+  String get battleBriefingFallback;
+
+  /// No description provided for @battleTapHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тап: своя база → цель. Нужна прямая линия без препятствий.'**
+  String get battleTapHint;
+
+  /// No description provided for @battleVictoryTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Победа'**
+  String get battleVictoryTitle;
+
+  /// No description provided for @battleVictoryBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Система под контролем. Следующая миссия открыта на карте.'**
+  String get battleVictoryBody;
+
+  /// No description provided for @battleDefeatTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поражение'**
+  String get battleDefeatTitle;
+
+  /// No description provided for @battleDefeatBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Флот разбит. Попробуйте снова или снизьте сложность.'**
+  String get battleDefeatBody;
+
+  /// No description provided for @battleContinue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить'**
+  String get battleContinue;
+
   /// No description provided for @battleScenePlaceholder.
   ///
   /// In ru, this message translates to:
