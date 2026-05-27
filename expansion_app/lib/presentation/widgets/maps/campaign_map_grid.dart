@@ -3,6 +3,10 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
+import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
+import 'package:expansion/presentation/widgets/maps/campaign_map_layout.dart';
+import 'package:expansion/presentation/widgets/maps/campaign_map_path_painter.dart';
 import 'package:expansion/presentation/widgets/maps/map_scene_tile.dart';
 
 class CampaignMapGrid extends StatelessWidget {
@@ -15,8 +19,6 @@ class CampaignMapGrid extends StatelessWidget {
     super.key,
   });
 
-  static const int _columns = 5;
-
   final List<CampaignScene> scenes;
   final int currentMissionId;
   final int? selectedSceneId;
@@ -25,42 +27,62 @@ class CampaignMapGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: _columns,
-        mainAxisExtent: 108,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-      ),
-      itemCount: scenes.length,
-      itemBuilder: (context, index) {
-        final scene = scenes[index];
-        final tileState = _resolveState(scene);
-        final locked = scene.id > currentMissionId;
+    final loc = AppLocalizations.of(context)!;
+    final ordered = List<CampaignScene>.from(scenes)
+      ..sort((a, b) => a.id.compareTo(b.id));
 
-        return MapSceneTile(
-          scene: scene,
-          title: resolveTitle(scene),
-          tileState: tileState,
-          onTap: locked ? null : () => onSceneTap(scene),
-        );
-      },
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: IgnorePointer(
+            child: CustomPaint(
+              painter: CampaignMapPathPainter(
+                missionCount: ordered.length,
+                currentMissionId: currentMissionId,
+              ),
+            ),
+          ),
+        ),
+        GridView.builder(
+          padding: CampaignMapLayout.padding,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: CampaignMapLayout.columns,
+            mainAxisExtent: CampaignMapLayout.cellExtent,
+            crossAxisSpacing: CampaignMapLayout.crossSpacing,
+            mainAxisSpacing: CampaignMapLayout.mainAxisSpacing,
+          ),
+          itemCount: ordered.length,
+          itemBuilder: (context, index) {
+            final scene = ordered[index];
+            final locked = scene.id > currentMissionId;
+            final selected = scene.id == selectedSceneId;
+            // Мишень на выбранной (по умолчанию — текущая); палец на текущей,
+            // только если мишень перенесли на другую пройденную систему.
+            final showTarget = selected;
+            final targetOnOtherMission =
+                selectedSceneId != null &&
+                selectedSceneId != currentMissionId;
+            final showCurrentGoal =
+                scene.id == currentMissionId && targetOnOtherMission;
+            final completed =
+                scene.id < currentMissionId && !showTarget && !showCurrentGoal;
+
+            return MapSceneTile(
+              scene: scene,
+              title: resolveTitle(scene),
+              unknownTitle: loc.mapsUnknownSystem,
+              isLocked: locked,
+              showTarget: showTarget,
+              showCurrentGoal: showCurrentGoal,
+              isCompleted: completed,
+              onTap: locked ? null : () => onSceneTap(scene),
+            );
+          },
+        ),
+      ],
     );
   }
 
-  MapSceneTileState _resolveState(CampaignScene scene) {
-    if (scene.id > currentMissionId) {
-      return MapSceneTileState.locked;
-    }
-    if (scene.id == selectedSceneId) {
-      return MapSceneTileState.selected;
-    }
-    if (scene.id == currentMissionId) {
-      return MapSceneTileState.current;
-    }
-    return MapSceneTileState.completed;
-  }
 }
 
 /// Панель описания выбранной миссии.
@@ -97,13 +119,18 @@ class CampaignMissionPanel extends StatelessWidget {
           Text(
             description,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: ExpansionColors.black,
+                  color: ExpansionColors.white,
+                  fontSize: 15,
+                  height: 1.35,
+                  shadows: const [
+                    Shadow(color: Colors.black87, blurRadius: 6),
+                  ],
                 ),
           ),
           const Gap(12),
-          FilledButton(
+          GameLongButton(
+            label: startLabel,
             onPressed: canStart ? onStart : null,
-            child: Text(startLabel),
           ),
         ],
       ),

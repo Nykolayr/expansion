@@ -50,11 +50,11 @@ final GoRouter appRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/battle',
+      path: '/battle/:sceneId',
       name: 'battle',
       builder: (BuildContext context, GoRouterState state) {
-        final extra = state.extra;
-        final sceneId = extra is int ? extra : null;
+        final raw = state.pathParameters['sceneId'];
+        final sceneId = int.tryParse(raw ?? '') ?? 1;
         return BattlePage(sceneId: sceneId);
       },
     ),

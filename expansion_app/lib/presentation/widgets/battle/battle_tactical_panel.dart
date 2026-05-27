@@ -11,6 +11,7 @@ import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
+import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 
 class BattleTacticalPanel extends StatelessWidget {
   const BattleTacticalPanel({
@@ -121,9 +122,10 @@ class _UpgradeRow extends StatelessWidget {
           if (maxed)
             Text(loc.battleTacticalMaxLabel)
           else
-            FilledButton.tonal(
+            GameCompactSkewButton(
+              label: loc.battleTacticalBuy(cost),
               onPressed: enabled ? onPressed : null,
-              child: Text(loc.battleTacticalBuy(cost)),
+              width: 96,
             ),
         ],
       ),

@@ -21,6 +21,23 @@ abstract final class BattleLineOfSight {
     return true;
   }
 
+  /// Первая чужая база на прямой между [from] и [to] (не включая концы).
+  static (int x, int y)? blockerCell(
+    BattleSnapshot snapshot,
+    BattleBase from,
+    BattleBase to,
+  ) {
+    for (final cell in _cellsOnLine(from.x, from.y, to.x, to.y)) {
+      final occupant = snapshot.baseAt(cell.$1, cell.$2);
+      if (occupant != null &&
+          occupant.id != from.id &&
+          occupant.id != to.id) {
+        return cell;
+      }
+    }
+    return null;
+  }
+
   static Iterable<(int, int)> _cellsOnLine(int x0, int y0, int x1, int y1) sync* {
     var x = x0;
     var y = y0;

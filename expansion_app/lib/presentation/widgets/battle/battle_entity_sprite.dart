@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-/// Спрайт сущности боя; при отсутствии файла — [fallback].
+import 'package:expansion/core/logging/app_log.dart';
+
+/// PNG-спрайт сущности боя (базы, астероиды).
 class BattleEntitySprite extends StatelessWidget {
   const BattleEntitySprite({
     required this.assetPath,
     required this.size,
-    this.fallback,
     super.key,
   });
 
   final String assetPath;
   final double size;
-  final Widget? fallback;
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +21,24 @@ class BattleEntitySprite extends StatelessWidget {
       height: size,
       fit: BoxFit.contain,
       filterQuality: FilterQuality.medium,
+      gaplessPlayback: true,
       errorBuilder: (context, error, stackTrace) {
-        return fallback ??
-            Icon(
-              Icons.broken_image_outlined,
-              size: size * 0.7,
-              color: Colors.white54,
-            );
+        AppLog.error(
+          'battle sprite missing: $assetPath',
+          error: error,
+          stackTrace: stackTrace,
+        );
+        return SizedBox(
+          width: size,
+          height: size,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.redAccent, width: 2),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Icon(Icons.image_not_supported, color: Colors.red),
+          ),
+        );
       },
     );
   }

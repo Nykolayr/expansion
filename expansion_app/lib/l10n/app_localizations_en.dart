@@ -115,6 +115,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapsLoadFailed => 'Could not load the campaign map.';
 
   @override
+  String get mapsMissionCompleted => 'Done';
+
+  @override
+  String get mapsUnknownSystem => '???????';
+
+  @override
   String get beginDifficultyHint =>
       'Choose difficulty. It affects alien pace and unpredictability.';
 
@@ -171,8 +177,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get battleBriefingFallback => 'Capture all enemy bases.';
 
   @override
-  String get battleTapHint =>
-      'Tap: your base → target. Line of sight must be clear.';
+  String get battleDragHint =>
+      'Drag from your base to the target. Tap your base for upgrades.';
+
+  @override
+  String get battleTacticalSwipeHint => 'Swipe down or tap ✕ to close';
+
+  @override
+  String get battleTacticalClose => 'Close';
+
+  @override
+  String get battleSendFailed =>
+      'Cannot send fleet: select your base, wait for flights to finish, or check line of sight.';
 
   @override
   String get battleTacticalTitle => 'Base upgrades';

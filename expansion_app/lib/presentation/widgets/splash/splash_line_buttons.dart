@@ -9,11 +9,13 @@ class SplashLineButtons extends StatelessWidget {
   const SplashLineButtons({
     required this.isTop,
     required this.onMenuTap,
+    this.continueEnabled = true,
     super.key,
   });
 
   final bool isTop;
   final void Function(SplashMenuDirect direct) onMenuTap;
+  final bool continueEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,8 @@ class SplashLineButtons extends StatelessWidget {
                 title: titles[i],
                 slotWidth: slotWidth,
                 slotHeight: slotHeight,
+                enabled: directs[i] != SplashMenuDirect.rightBottom ||
+                    continueEnabled,
                 onPressed: () => onMenuTap(directs[i]),
               ),
             ),

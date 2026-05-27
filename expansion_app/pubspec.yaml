@@ -31,6 +31,7 @@ dependencies:
   google_fonts: ^6.2.1
   sqflite: ^2.4.2
   path: ^1.9.1
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +46,9 @@ flutter:
   assets:
     - assets/splash.png
     - assets/images/
+    - assets/images/bases/
+    - assets/images/asteroids/
+    - assets/images/explosion/
     - assets/svg/
     - assets/scenes/
   fonts:

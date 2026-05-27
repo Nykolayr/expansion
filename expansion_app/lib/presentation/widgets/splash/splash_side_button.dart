@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/presentation/widgets/splash/splash_menu_direct.dart';
 
@@ -12,49 +13,56 @@ class SplashSideButton extends StatelessWidget {
     required this.onPressed,
     required this.slotWidth,
     required this.slotHeight,
+    this.enabled = true,
     super.key,
   });
 
   final SplashMenuDirect direct;
   final String title;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
+  final bool enabled;
   final double slotWidth;
   final double slotHeight;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: SizedBox(
-        width: slotWidth,
-        height: slotHeight,
-        child: Stack(
-          children: [
-            Align(
-              child: SvgPicture.asset(
-                direct.svgPath(),
-                fit: BoxFit.fill,
+    final active = enabled && onPressed != null;
+
+    return Opacity(
+      opacity: active ? 1 : 0.45,
+      child: GestureDetector(
+        onTap: active ? onPressed : null,
+        child: SizedBox(
+          width: slotWidth,
+          height: slotHeight,
+          child: Stack(
+            children: [
+              Align(
+                child: SvgPicture.asset(
+                  direct.svgPath(),
+                  fit: BoxFit.fill,
+                  width: slotWidth,
+                  height: slotHeight,
+                ),
+              ),
+              Container(
                 width: slotWidth,
                 height: slotHeight,
-              ),
-            ),
-            Container(
-              width: slotWidth,
-              height: slotHeight,
-              padding: EdgeInsets.only(
-                left: direct.labelPaddingLeft,
-                right: direct.isLabelLeft ? 0 : 8,
-              ),
-              child: Align(
-                child: Text(
-                  title,
-                  style: ExpansionTextStyles.bodyAccent(context, 15).copyWith(
-                    color: direct.labelColor,
+                padding: EdgeInsets.only(
+                  left: direct.labelPaddingLeft,
+                  right: direct.isLabelLeft ? 0 : 8,
+                ),
+                child: Align(
+                  child: Text(
+                    title,
+                    style: ExpansionTextStyles.bodyAccent(context, 15).copyWith(
+                      color: active ? direct.labelColor : ExpansionColors.grey,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

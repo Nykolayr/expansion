@@ -13,7 +13,6 @@ import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
-import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
 import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
@@ -44,6 +43,8 @@ class _SplashPageState extends State<SplashPage> {
     if (!cubit.state.isSuccess) {
       final introLength = AppLocalizations.of(context)!.splashPretext.length;
       cubit.start(introTextLength: introLength);
+    } else {
+      cubit.refreshMenuProgress();
     }
   }
 
@@ -69,14 +70,9 @@ class _SplashPageState extends State<SplashPage> {
     context.goToBegin();
   }
 
-  Future<void> _onContinue() async {
-    final guest = await sl<GuestProfileRepository>().load();
-    if (!mounted) return;
-    if (guest.firstBattleCompleted) {
-      context.goToMaps();
-    } else {
-      context.goToBegin();
-    }
+  void _onContinue() {
+    if (!sl<SplashCubit>().state.canContinue) return;
+    context.goToMaps();
   }
 
   void _onIntroFinished(SplashState state) {
@@ -118,6 +114,8 @@ class _SplashPageState extends State<SplashPage> {
         builder: (context, state) {
           final showIntroControls = state.showIntro && !state.isSuccess;
           final showLoader = !state.isSuccess;
+          final showBigNewGame = state.isSuccess && !state.canContinue;
+          final showBottomMenuRow = state.isSuccess && state.canContinue;
 
         return Scaffold(
           body: Stack(
@@ -141,6 +139,7 @@ class _SplashPageState extends State<SplashPage> {
                           ? SplashLineButtons(
                               isTop: true,
                               onMenuTap: _onMenuTap,
+                              continueEnabled: state.canContinue,
                             )
                           : const SizedBox.shrink(),
                     ),
@@ -212,15 +211,18 @@ class _SplashPageState extends State<SplashPage> {
                   height: state.isSuccess ? menuSlotHeight + 40 : 0,
                   width: size.width,
                   child: state.isSuccess
-                      ? (state.showIntro
+                      ? (showBigNewGame
                           ? SplashLongButton(
-                              title: loc.splashBeginGame,
+                              title: loc.splashMenuNewGame,
                               onPressed: _onBeginGame,
                             )
-                          : SplashLineButtons(
-                              isTop: false,
-                              onMenuTap: _onMenuTap,
-                            ))
+                          : showBottomMenuRow
+                              ? SplashLineButtons(
+                                  isTop: false,
+                                  onMenuTap: _onMenuTap,
+                                  continueEnabled: true,
+                                )
+                              : const SizedBox.shrink())
                       : const SizedBox.shrink(),
                 ),
               ),

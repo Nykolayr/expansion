@@ -6,11 +6,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expansion/core/constants/prefs_keys.dart';
 import 'package:expansion/core/constants/splash_intro_timing.dart';
 import 'package:expansion/core/logging/app_log.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
 
 class SplashCubit extends Cubit<SplashState> {
-  SplashCubit(this._prefs, this._bootstrap)
+  SplashCubit(this._prefs, this._bootstrap, this._guest)
       : super(
           SplashState.initial(
             showIntro: _prefs.getBool(PrefsKeys.splashShowIntro) ?? true,
@@ -19,6 +20,7 @@ class SplashCubit extends Cubit<SplashState> {
 
   final SharedPreferences _prefs;
   final AppBootstrapCubit _bootstrap;
+  final GuestProfileRepository _guest;
   static const int _startCount = 98;
 
   Completer<void>? _typingDoneCompleter;
@@ -47,14 +49,31 @@ class SplashCubit extends Cubit<SplashState> {
     }
 
     if (isClosed) return;
+    final guest = await _guest.load();
+    if (isClosed) return;
     emit(
       state.copyWith(
         isSuccess: true,
         introTypingComplete: true,
         count: 0,
+        canContinue: guest.hasCampaignProgress,
       ),
     );
-    AppLog.trace('splash load done', tag: 'Splash');
+    AppLog.trace(
+      'splash load done canContinue=${guest.hasCampaignProgress}',
+      tag: 'Splash',
+    );
+  }
+
+  /// Обновить «Продолжить» / большую кнопку после смены прогресса (возврат на splash).
+  Future<void> refreshMenuProgress() async {
+    if (!state.isSuccess || isClosed) return;
+    final guest = await _guest.load();
+    if (isClosed) return;
+    final canContinue = guest.hasCampaignProgress;
+    if (canContinue == state.canContinue) return;
+    emit(state.copyWith(canContinue: canContinue));
+    AppLog.trace('splash menu refresh canContinue=$canContinue', tag: 'Splash');
   }
 
   /// Сохранить выбор галочки «Не показывать при следующей загрузке».

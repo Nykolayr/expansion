@@ -115,6 +115,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mapsLoadFailed => 'Не удалось загрузить карту кампании.';
 
   @override
+  String get mapsMissionCompleted => 'Пройдено';
+
+  @override
+  String get mapsUnknownSystem => '???????';
+
+  @override
   String get beginDifficultyHint =>
       'Выберите сложность. От неё зависит темп и непредсказуемость чужих.';
 
@@ -171,8 +177,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get battleBriefingFallback => 'Захватите все вражеские базы.';
 
   @override
-  String get battleTapHint =>
-      'Тап: своя база → цель. Нужна прямая линия без препятствий.';
+  String get battleDragHint =>
+      'Проведите палец от своей базы к цели. Тап по своей базе — улучшения.';
+
+  @override
+  String get battleTacticalSwipeHint => 'Смахните вниз или нажмите ✕';
+
+  @override
+  String get battleTacticalClose => 'Закрыть';
+
+  @override
+  String get battleSendFailed =>
+      'Не удалось отправить флот: выберите свою базу, дождитесь конца полёта или проверьте линию.';
 
   @override
   String get battleTacticalTitle => 'Улучшения базы';

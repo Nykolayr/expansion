@@ -7,11 +7,11 @@ class BattleDifficultyConfig {
   factory BattleDifficultyConfig.forDifficulty(GameDifficulty difficulty) {
     switch (difficulty) {
       case GameDifficulty.easy:
-        return const BattleDifficultyConfig(ticksPerEnemyTurn: 90);
+        return const BattleDifficultyConfig(ticksPerEnemyTurn: 145);
       case GameDifficulty.average:
-        return const BattleDifficultyConfig(ticksPerEnemyTurn: 60);
+        return const BattleDifficultyConfig(ticksPerEnemyTurn: 100);
       case GameDifficulty.difficult:
-        return const BattleDifficultyConfig(ticksPerEnemyTurn: 40);
+        return const BattleDifficultyConfig(ticksPerEnemyTurn: 68);
     }
   }
 

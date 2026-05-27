@@ -22,12 +22,12 @@ class BattleFleet extends Equatable {
   /// 0…1 — доля пути до цели.
   final double progress;
 
-  BattleFleet copyWith({double? progress}) {
+  BattleFleet copyWith({double? progress, int? ships}) {
     return BattleFleet(
       id: id,
       fromBaseId: fromBaseId,
       toBaseId: toBaseId,
-      ships: ships,
+      ships: ships ?? this.ships,
       side: side,
       progress: progress ?? this.progress,
     );

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:expansion/game_core/battle/battle_pacing.dart';
+
 /// Команды UI → isolate.
 enum _BattleTickCommand {
   stop,
@@ -19,7 +21,7 @@ class BattleTickLoop {
   SendPort? _controlPort;
   void Function()? _onTick;
 
-  static const Duration tickInterval = Duration(milliseconds: 20);
+  static const Duration tickInterval = BattlePacing.tickInterval;
 
   Future<void> start(void Function() onTick) async {
     await stop();

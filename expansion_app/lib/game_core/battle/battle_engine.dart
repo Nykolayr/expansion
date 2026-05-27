@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:expansion/domain/entities/battle_asteroid.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/entities/battle_explosion.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_layout.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
@@ -11,6 +12,7 @@ import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
+import 'package:expansion/game_core/battle/battle_pacing.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 
 enum BattleOutcome { playerWin, playerLose }
@@ -25,7 +27,8 @@ class BattleEngine {
     this.bonuses = MetaBattleBonuses.none,
   })  : _bases = List.of(bases),
         _fleets = [],
-        _asteroids = [];
+        _asteroids = [],
+        _explosions = [];
 
   factory BattleEngine.fromLayout(
     BattleLayout layout, {
@@ -59,6 +62,8 @@ class BattleEngine {
           shield: stats.shield,
           maxShips: stats.maxShips,
           neutralKind: placed.neutralKind,
+          isCommandBase: placed.role == PlacementRole.playerMain ||
+              placed.role == PlacementRole.enemyMain,
           resources: resources,
           speedBuild: stats.speedBuild,
           speedResources: stats.speedResources,
@@ -82,18 +87,23 @@ class BattleEngine {
   final List<BattleBase> _bases;
   final List<BattleFleet> _fleets;
   final List<BattleAsteroid> _asteroids;
+  final List<BattleExplosion> _explosions;
   int _tick = 0;
   int _nextFleetId = 1;
   int _nextAsteroidId = 1;
+  int _nextExplosionId = 1;
   int _asteroidSpawnCounter = 0;
   Random? _random;
 
-  static const int _asteroidSpawnIntervalTicks = 500;
-  static const double _asteroidProgressPerTick = 0.025;
+  static const int _asteroidSpawnIntervalTicks =
+      BattlePacing.asteroidSpawnIntervalTicks;
+  static const double _asteroidProgressPerTick =
+      BattlePacing.asteroidProgressPerTick;
 
   void bindRandom(Random random) => _random = random;
 
-  static const double _baseFleetProgressPerTick = 0.06;
+  static const double _baseFleetProgressPerTick =
+      BattlePacing.fleetProgressPerTick;
 
   double get _fleetProgressPerTick =>
       _baseFleetProgressPerTick * bonuses.fleetSpeed;
@@ -107,16 +117,25 @@ class BattleEngine {
         bases: List.unmodifiable(_bases),
         fleets: List.unmodifiable(_fleets),
         asteroids: List.unmodifiable(_asteroids),
+        explosions: List.unmodifiable(_explosions),
         gridRows: gridRows,
         gridCols: gridCols,
       );
+
+  /// Клетка-препятствие на линии (для крестика в UI).
+  (int x, int y)? lineOfSightBlocker(int fromId, int toId) {
+    final from = _base(fromId);
+    final to = _base(toId);
+    if (from == null || to == null) return null;
+    return BattleLineOfSight.blockerCell(snapshot(), from, to);
+  }
 
   bool canSendFleet(int fromId, int toId, {BattleSide? requiredSide}) {
     final from = _base(fromId);
     final to = _base(toId);
     if (from == null || to == null) return false;
     if (requiredSide != null && from.side != requiredSide) return false;
-    if (from.ships <= 1) return false;
+    if (from.ships < 1) return false;
     return BattleLineOfSight.isClear(snapshot(), from, to);
   }
 
@@ -143,9 +162,29 @@ class BattleEngine {
   void tick() {
     _tick++;
     _advanceFleets();
+    _advanceExplosions();
     _advanceAsteroids();
     _maybeSpawnAsteroid();
     _economyTick();
+  }
+
+  void _advanceExplosions() {
+    for (var i = 0; i < _explosions.length; i++) {
+      _explosions[i] =
+          _explosions[i].copyWith(ageTicks: _explosions[i].ageTicks + 1);
+    }
+    _explosions.removeWhere((e) => e.ageTicks >= BattleExplosion.maxAgeTicks);
+  }
+
+  void _spawnExplosion(double gridX, double gridY) {
+    _explosions.add(
+      BattleExplosion(
+        id: _nextExplosionId++,
+        gridX: gridX,
+        gridY: gridY,
+        ageTicks: 0,
+      ),
+    );
   }
 
   void _economyTick() {
@@ -342,6 +381,8 @@ class BattleEngine {
       }
     }
 
+    _resolveMidairFleetClashes();
+
     for (final fleet in arrived) {
       _fleets.remove(fleet);
       _resolveFleetArrival(
@@ -349,6 +390,66 @@ class BattleEngine {
         toId: fleet.toBaseId,
         fleetSize: fleet.ships,
       );
+    }
+  }
+
+  (double x, double y) _fleetGridPosition(BattleFleet fleet) {
+    final from = _base(fleet.fromBaseId);
+    final to = _base(fleet.toBaseId);
+    if (from == null || to == null) return (0, 0);
+    final t = fleet.progress.clamp(0.0, 1.0);
+    return (
+      from.x + (to.x - from.x) * t,
+      from.y + (to.y - from.y) * t,
+    );
+  }
+
+  void _resolveMidairFleetClashes() {
+    const collideRadius = 0.38;
+    final removeIds = <int>{};
+    final updates = <int, BattleFleet>{};
+
+    for (var i = 0; i < _fleets.length; i++) {
+      final a = _fleets[i];
+      if (removeIds.contains(a.id)) continue;
+
+      for (var j = i + 1; j < _fleets.length; j++) {
+        final b = _fleets[j];
+        if (removeIds.contains(b.id)) continue;
+        if (a.side == b.side) continue;
+
+        final pa = _fleetGridPosition(a);
+        final pb = _fleetGridPosition(b);
+        final dx = pa.$1 - pb.$1;
+        final dy = pa.$2 - pb.$2;
+        if (dx * dx + dy * dy > collideRadius * collideRadius) continue;
+
+        _spawnExplosion((pa.$1 + pb.$1) / 2, (pa.$2 + pb.$2) / 2);
+
+        final aShips = updates[a.id]?.ships ?? a.ships;
+        final bShips = updates[b.id]?.ships ?? b.ships;
+
+        if (aShips > bShips) {
+          removeIds.add(b.id);
+          updates[a.id] = (updates[a.id] ?? a).copyWith(ships: aShips - bShips);
+        } else if (bShips > aShips) {
+          removeIds.add(a.id);
+          updates[b.id] = (updates[b.id] ?? b).copyWith(ships: bShips - aShips);
+        } else {
+          removeIds.add(a.id);
+          removeIds.add(b.id);
+        }
+      }
+    }
+
+    if (removeIds.isEmpty && updates.isEmpty) return;
+
+    _fleets.removeWhere((f) => removeIds.contains(f.id));
+    for (var i = 0; i < _fleets.length; i++) {
+      final updated = updates[_fleets[i].id];
+      if (updated != null) {
+        _fleets[i] = updated;
+      }
     }
   }
 
@@ -415,6 +516,7 @@ class BattleEngine {
       toId,
       target.copyWith(
         side: attackerSide,
+        isCommandBase: false,
         shield: 0,
         ships: capturedShips,
         resources: attackerSide == BattleSide.player ? 80 : 0,

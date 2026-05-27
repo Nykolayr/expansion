@@ -1,17 +1,21 @@
+/// Размер нейтральной базы (legacy `TypeBase` small / midle / base).
 enum NeutralBaseKind {
-  base,
-  middleBase;
+  smallBase,
+  middleBase,
+  base;
 
   static NeutralBaseKind? fromLegacyType(String? value) {
-    if (value == null || value.isEmpty) return null;
+    if (value == null || value.isEmpty) return NeutralBaseKind.smallBase;
     switch (value) {
-      case 'base':
-        return NeutralBaseKind.base;
+      case 'smallBase':
+        return NeutralBaseKind.smallBase;
       case 'midleBase':
       case 'middleBase':
         return NeutralBaseKind.middleBase;
-      default:
+      case 'base':
         return NeutralBaseKind.base;
+      default:
+        return NeutralBaseKind.smallBase;
     }
   }
 

@@ -302,6 +302,18 @@ abstract class AppLocalizations {
   /// **'Не удалось загрузить карту кампании.'**
   String get mapsLoadFailed;
 
+  /// No description provided for @mapsMissionCompleted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пройдено'**
+  String get mapsMissionCompleted;
+
+  /// No description provided for @mapsUnknownSystem.
+  ///
+  /// In ru, this message translates to:
+  /// **'???????'**
+  String get mapsUnknownSystem;
+
   /// No description provided for @beginDifficultyHint.
   ///
   /// In ru, this message translates to:
@@ -410,11 +422,29 @@ abstract class AppLocalizations {
   /// **'Захватите все вражеские базы.'**
   String get battleBriefingFallback;
 
-  /// No description provided for @battleTapHint.
+  /// No description provided for @battleDragHint.
   ///
   /// In ru, this message translates to:
-  /// **'Тап: своя база → цель. Нужна прямая линия без препятствий.'**
-  String get battleTapHint;
+  /// **'Проведите палец от своей базы к цели. Тап по своей базе — улучшения.'**
+  String get battleDragHint;
+
+  /// No description provided for @battleTacticalSwipeHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Смахните вниз или нажмите ✕'**
+  String get battleTacticalSwipeHint;
+
+  /// No description provided for @battleTacticalClose.
+  ///
+  /// In ru, this message translates to:
+  /// **'Закрыть'**
+  String get battleTacticalClose;
+
+  /// No description provided for @battleSendFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отправить флот: выберите свою базу, дождитесь конца полёта или проверьте линию.'**
+  String get battleSendFailed;
 
   /// No description provided for @battleTacticalTitle.
   ///

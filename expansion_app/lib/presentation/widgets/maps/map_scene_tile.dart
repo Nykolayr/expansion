@@ -1,39 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:expansion/core/constants/asset_paths.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
-
-enum MapSceneTileState { locked, current, completed, selected }
+import 'package:expansion/presentation/widgets/maps/campaign_map_layout.dart';
 
 class MapSceneTile extends StatelessWidget {
   const MapSceneTile({
     required this.scene,
     required this.title,
-    required this.tileState,
+    required this.unknownTitle,
+    required this.isLocked,
+    required this.showTarget,
+    required this.showCurrentGoal,
+    required this.isCompleted,
     required this.onTap,
     super.key,
   });
 
   final CampaignScene scene;
   final String title;
-  final MapSceneTileState tileState;
+  final String unknownTitle;
+  final bool isLocked;
+  final bool showTarget;
+  final bool showCurrentGoal;
+  final bool isCompleted;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    final isLocked = tileState == MapSceneTileState.locked;
-    final isCurrent = tileState == MapSceneTileState.current;
-    final isSelected = tileState == MapSceneTileState.selected;
+    final displayTitle = isLocked ? unknownTitle : title;
 
-    Color borderColor = ExpansionColors.grey;
-    Color fillColor = ExpansionColors.background.withValues(alpha: 0.75);
-
+    Widget badge;
     if (isLocked) {
-      borderColor = ExpansionColors.grey.withValues(alpha: 0.5);
-    } else if (isSelected || isCurrent) {
-      borderColor = ExpansionColors.accent;
-      fillColor = ExpansionColors.background.withValues(alpha: 0.95);
+      badge = SvgPicture.asset(
+        AssetPaths.svg('lock.svg'),
+        width: 13,
+        colorFilter: const ColorFilter.mode(
+          ExpansionColors.accent,
+          BlendMode.srcIn,
+        ),
+      );
+    } else if (showTarget) {
+      badge = SvgPicture.asset(
+        AssetPaths.svg('target.svg'),
+        width: 20,
+      );
+    } else if (showCurrentGoal) {
+      badge = SvgPicture.asset(
+        AssetPaths.svg('finger.svg'),
+        width: 18,
+        colorFilter: const ColorFilter.mode(
+          ExpansionColors.accent,
+          BlendMode.srcIn,
+        ),
+      );
+    } else if (isCompleted) {
+      badge = const Icon(
+        Icons.check_circle,
+        color: ExpansionColors.green,
+        size: 20,
+      );
+    } else {
+      badge = Text(
+        '${scene.id}',
+        style: ExpansionTextStyles.titleAccent(context, 14),
+      );
     }
 
     return Material(
@@ -41,34 +75,53 @@ class MapSceneTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(10),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-          decoration: BoxDecoration(
-            color: fillColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: borderColor, width: isSelected ? 2 : 1),
-          ),
+        child: Opacity(
+          opacity: isLocked ? 0.5 : 1,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Icon(
-                isLocked ? Icons.lock_outline : Icons.public,
-                color: isLocked ? ExpansionColors.grey : ExpansionColors.accent,
-                size: 22,
+              SizedBox(
+                height: CampaignMapLayout.sceneHeight,
+                width: double.infinity,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SvgPicture.asset(
+                        AssetPaths.svg('scene.svg'),
+                        height: CampaignMapLayout.sceneHeight,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    Positioned(
+                      top: CampaignMapLayout.badgeTop,
+                      left: 0,
+                      right: 0,
+                      child: Center(child: badge),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 6),
-              Text(
-                '${scene.id}',
-                style: ExpansionTextStyles.titleAccent(context, 14),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 4),
-              Text(
-                title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: ExpansionTextStyles.bodyOnDark(context, 10),
-                textAlign: TextAlign.center,
+              const SizedBox(height: CampaignMapLayout.sceneToTitleGap),
+              SizedBox(
+                height: CampaignMapLayout.titleBlockHeight,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    displayTitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: ExpansionTextStyles.bodyOnDark(context, 10).copyWith(
+                      color: isCompleted
+                          ? ExpansionColors.green
+                          : ExpansionColors.white,
+                      letterSpacing: isLocked ? 1.2 : 0,
+                      height: 1.15,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ),
             ],
           ),

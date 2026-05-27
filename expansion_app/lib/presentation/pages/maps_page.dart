@@ -24,6 +24,10 @@ class _MapsPageState extends State<MapsPage> {
   @override
   void initState() {
     super.initState();
+    _reloadMaps();
+  }
+
+  void _reloadMaps() {
     sl<MapsCubit>().load();
   }
 
@@ -61,7 +65,10 @@ class _MapsPageState extends State<MapsPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              GameScreenBackBar(title: loc.mapsTitle),
+              GameScreenBackBar(
+                title: loc.mapsTitle,
+                onBack: () => context.goHome(),
+              ),
               if (state.status == MapsStatus.loading)
                 const Expanded(
                   child: Center(child: CircularProgressIndicator()),

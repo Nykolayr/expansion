@@ -5,6 +5,7 @@ import 'package:expansion/core/extensions/meta_upgrade_l10n.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/entities/meta_upgrade_slot.dart';
 import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 
 class MetaUpgradeTile extends StatelessWidget {
   const MetaUpgradeTile({
@@ -49,13 +50,12 @@ class MetaUpgradeTile extends StatelessWidget {
                 ],
               ),
             ),
-            FilledButton(
+            GameCompactSkewButton(
+              label: slot.isMaxed
+                  ? loc.metaUpgradeMax
+                  : loc.metaUpgradeBuy(slot.nextCost),
               onPressed: canBuy ? onUpgrade : null,
-              child: Text(
-                slot.isMaxed
-                    ? loc.metaUpgradeMax
-                    : loc.metaUpgradeBuy(slot.nextCost),
-              ),
+              width: 108,
             ),
           ],
         ),

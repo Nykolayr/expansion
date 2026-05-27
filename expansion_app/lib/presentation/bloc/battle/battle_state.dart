@@ -15,6 +15,8 @@ class BattleState extends Equatable {
     this.briefingRu = '',
     this.briefingEn = '',
     this.errorMessage,
+    this.blockedCellX,
+    this.blockedCellY,
   });
 
   final BattleStatus status;
@@ -25,6 +27,10 @@ class BattleState extends Equatable {
   final String briefingRu;
   final String briefingEn;
   final String? errorMessage;
+
+  /// Крестик на базе, блокирующей линию отправки.
+  final int? blockedCellX;
+  final int? blockedCellY;
 
   bool get isPlaying => status == BattleStatus.playing;
 
@@ -38,6 +44,9 @@ class BattleState extends Equatable {
     String? briefingRu,
     String? briefingEn,
     String? errorMessage,
+    int? blockedCellX,
+    int? blockedCellY,
+    bool clearBlocked = false,
   }) {
     return BattleState(
       status: status ?? this.status,
@@ -49,6 +58,8 @@ class BattleState extends Equatable {
       briefingRu: briefingRu ?? this.briefingRu,
       briefingEn: briefingEn ?? this.briefingEn,
       errorMessage: errorMessage,
+      blockedCellX: clearBlocked ? null : blockedCellX ?? this.blockedCellX,
+      blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
     );
   }
 
@@ -62,5 +73,7 @@ class BattleState extends Equatable {
         briefingRu,
         briefingEn,
         errorMessage,
+        blockedCellX,
+        blockedCellY,
       ];
 }

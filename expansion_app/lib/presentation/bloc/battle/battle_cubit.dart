@@ -16,6 +16,7 @@ import 'package:expansion/game_core/ai/enemy_commander.dart';
 import 'package:expansion/game_core/ai/enemy_personality.dart';
 import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
+import 'package:expansion/game_core/battle/battle_pacing.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/game_core/game_loop/battle_tick_loop.dart';
 import 'package:expansion/presentation/bloc/battle/battle_state.dart';
@@ -38,6 +39,8 @@ class BattleCubit extends Cubit<BattleState> {
   int _enemyTickCounter = 0;
   Random? _battleRng;
   MetaBattleBonuses _bonuses = MetaBattleBonuses.none;
+  DateTime? _battleStartedAt;
+  bool _firstBattleEnemyGrace = false;
 
   Future<void> loadMission(int sceneId) async {
     await _stopLoop();
@@ -84,8 +87,13 @@ class BattleCubit extends Cubit<BattleState> {
       );
 
       _enemyTickCounter = 0;
+      _battleStartedAt = DateTime.now();
+      _firstBattleEnemyGrace = !guest.firstBattleCompleted;
       await _tickLoop.start(_onTick);
-      AppLog.trace('battle tick loop started (isolate)', tag: 'Battle');
+      AppLog.trace(
+        'battle tick loop started grace=$_firstBattleEnemyGrace',
+        tag: 'Battle',
+      );
     } catch (e, stackTrace) {
       AppLog.error('battle load failed', error: e, stackTrace: stackTrace);
       emit(
@@ -105,32 +113,45 @@ class BattleCubit extends Cubit<BattleState> {
     emit(state.copyWith(selectedBaseId: baseId));
   }
 
-  void tapCell(int x, int y) {
+  void clearBaseSelection() {
+    emit(state.copyWith(clearSelection: true));
+  }
+
+  /// Свайп со своей базы на клетку с базой-целью.
+  bool sendFleetDrag(int fromX, int fromY, int toX, int toY) {
     final engine = _engine;
-    if (engine == null || !state.isPlaying) return;
-    if (state.snapshot!.hasActiveProjectiles) return;
+    if (engine == null || !state.isPlaying) return false;
+    if (state.snapshot!.hasActiveProjectiles) return false;
 
-    final tapped = engine.snapshot().baseAt(x, y);
-    if (tapped != null && tapped.side == BattleSide.player) {
-      selectBase(tapped.id);
-      return;
-    }
-
-    final fromId = state.selectedBaseId;
-    if (fromId == null || tapped == null) return;
-    final target = tapped;
+    final from = engine.snapshot().baseAt(fromX, fromY);
+    final to = engine.snapshot().baseAt(toX, toY);
+    if (from == null || to == null) return false;
+    if (from.side != BattleSide.player) return false;
+    if (from.id == to.id) return false;
 
     final sent = engine.sendFleet(
-      fromId,
-      target.id,
+      from.id,
+      to.id,
       requiredSide: BattleSide.player,
     );
     if (sent) {
+      emit(state.copyWith(clearBlocked: true));
       _emitPlaying();
       _checkOutcome();
+    } else {
+      final blocker = engine.lineOfSightBlocker(from.id, to.id);
+      emit(
+        state.copyWith(
+          blockedCellX: blocker?.$1,
+          blockedCellY: blocker?.$2,
+          clearBlocked: blocker == null,
+        ),
+      );
     }
-    emit(state.copyWith(clearSelection: true));
+    return sent;
   }
+
+  void clearBlockedCell() => emit(state.copyWith(clearBlocked: true));
 
   int tacticalCostFor(int baseId, TacticalUpgradeType type) {
     final engine = _engine;
@@ -188,7 +209,12 @@ class BattleCubit extends Cubit<BattleState> {
     final baseTicks = config.ticksPerEnemyTurn / _bonuses.enemyTurnDivider;
     final jitter = (baseTicks * (0.85 + rng.nextDouble() * 0.3)).round();
 
-    if (_enemyTickCounter >= jitter) {
+    final enemyGrace = _firstBattleEnemyGrace &&
+        _battleStartedAt != null &&
+        DateTime.now().difference(_battleStartedAt!) <
+            BattlePacing.firstBattleEnemyGrace;
+
+    if (!enemyGrace && _enemyTickCounter >= jitter) {
       _enemyTickCounter = 0;
       _runEnemyTurn(engine, rng);
     }

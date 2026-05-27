@@ -23,6 +23,14 @@ class GuestProfile extends Equatable {
   final String displayName;
   final PlayerMetaProgress meta;
 
+  /// Есть что терять при «Новой игре» — показываем подтверждение сброса.
+  bool get hasCampaignProgress =>
+      firstBattleCompleted ||
+      mapClassic > 1 ||
+      scoreClassic > 0 ||
+      meta.enemyPowerLevel > 0 ||
+      meta.slots.any((slot) => slot.level > 0);
+
   GuestProfile copyWith({
     int? mapClassic,
     int? scoreClassic,

@@ -61,7 +61,11 @@ Future<void> initDependencies() async {
   );
 
   sl.registerSingleton<SplashCubit>(
-    SplashCubit(sl<SharedPreferences>(), sl<AppBootstrapCubit>()),
+    SplashCubit(
+      sl<SharedPreferences>(),
+      sl<AppBootstrapCubit>(),
+      sl<GuestProfileRepository>(),
+    ),
   );
 
   sl.registerSingleton<MapsCubit>(

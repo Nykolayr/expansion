@@ -7,10 +7,14 @@ import 'package:expansion/core/themes/expansion_text_styles.dart';
 class GameScreenBackBar extends StatelessWidget {
   const GameScreenBackBar({
     required this.title,
+    this.onBack,
     super.key,
   });
 
   final String title;
+
+  /// Если null — [context.pop].
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class GameScreenBackBar extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.arrow_back_ios_new),
               color: Theme.of(context).colorScheme.primary,
-              onPressed: () => context.pop(),
+              onPressed: onBack ?? () => context.pop(),
             ),
             Expanded(
               child: Text(

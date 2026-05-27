@@ -15,6 +15,7 @@ class BattleBase extends Equatable {
     required this.shield,
     this.maxShips = 200,
     this.neutralKind,
+    this.isCommandBase = false,
     this.resources = 0,
     this.speedBuild = 0.1,
     this.speedResources = 0.1,
@@ -32,6 +33,9 @@ class BattleBase extends Equatable {
   final double shield;
   final int maxShips;
   final NeutralBaseKind? neutralKind;
+
+  /// Главная «матка» (our/enemy.png); захваченные узлы — спрайты bases/.
+  final bool isCommandBase;
   final double resources;
   final double speedBuild;
   final double speedResources;
@@ -64,6 +68,7 @@ class BattleBase extends Equatable {
     BattleSide? side,
     int? maxShips,
     NeutralBaseKind? neutralKind,
+    bool? isCommandBase,
     double? resources,
     double? speedBuild,
     double? speedResources,
@@ -81,6 +86,7 @@ class BattleBase extends Equatable {
       shield: shield ?? this.shield,
       maxShips: maxShips ?? this.maxShips,
       neutralKind: neutralKind ?? this.neutralKind,
+      isCommandBase: isCommandBase ?? this.isCommandBase,
       resources: resources ?? this.resources,
       speedBuild: speedBuild ?? this.speedBuild,
       speedResources: speedResources ?? this.speedResources,
@@ -102,6 +108,7 @@ class BattleBase extends Equatable {
         shield,
         maxShips,
         neutralKind,
+        isCommandBase,
         resources,
         speedBuild,
         speedResources,

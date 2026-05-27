@@ -9,10 +9,12 @@ import 'package:expansion/core/extensions/univer_kind_l10n.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/enums/univer_kind.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/begin/begin_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
 
 class BeginPage extends StatefulWidget {
@@ -30,20 +32,25 @@ class _BeginPageState extends State<BeginPage> {
   }
 
   Future<void> _onStart() async {
-    final loc = AppLocalizations.of(context)!;
-    final confirmed = await showGameConfirmDialog(
-      context,
-      title: loc.beginResetConfirmTitle,
-      message: loc.beginResetConfirmBody,
-      confirmLabel: loc.beginResetConfirm,
-      cancelLabel: loc.beginResetCancel,
-    );
-    if (!confirmed || !mounted) return;
+    final guest = await sl<GuestProfileRepository>().load();
+    if (!mounted) return;
+
+    if (guest.hasCampaignProgress) {
+      final loc = AppLocalizations.of(context)!;
+      final confirmed = await showGameConfirmDialog(
+        context,
+        title: loc.beginResetConfirmTitle,
+        message: loc.beginResetConfirmBody,
+        confirmLabel: loc.beginResetConfirm,
+        cancelLabel: loc.beginResetCancel,
+      );
+      if (!confirmed || !mounted) return;
+    }
 
     final cubit = sl<BeginCubit>();
     await cubit.startNewCampaign();
     if (!mounted) return;
-    context.goToBattle(sceneId: 1);
+    context.replaceWithBattle(sceneId: 1);
   }
 
   @override
@@ -106,9 +113,9 @@ class _BeginPageState extends State<BeginPage> {
                               .selectDifficulty(GameDifficulty.difficult),
                         ),
                         const Gap(24),
-                        FilledButton(
+                        GameLongButton(
+                          label: loc.beginStartMission,
                           onPressed: state.isSaving ? null : _onStart,
-                          child: Text(loc.beginStartMission),
                         ),
                       ],
                     ),
