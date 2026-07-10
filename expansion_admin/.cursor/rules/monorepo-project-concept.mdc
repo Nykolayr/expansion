@@ -1,0 +1,12 @@
+---
+description: Ссылка на общую концепцию workspace Expansion
+alwaysApply: true
+---
+
+Перед задачами по API, админке и клиенту опирайся на:
+
+`D:\Projects\expansion\.cursor\rules\project-concept.mdc`
+
+Промпт админки: `D:\Projects\expansion\.cursor\rules\agent-admin.mdc`
+
+Открывать workspace: `D:\Projects\expansion\expansion.code-workspace`

@@ -6,7 +6,7 @@ abstract final class BattlePacing {
   /// Первая миссия: чужие не ходят первые N секунд.
   static const Duration firstBattleEnemyGrace = Duration(seconds: 10);
 
-  static const double fleetProgressPerTick = 0.028;
+  static const double fleetProgressPerTick = 0.014;
   static const double asteroidProgressPerTick = 0.013;
   static const int asteroidSpawnIntervalTicks = 900;
 }

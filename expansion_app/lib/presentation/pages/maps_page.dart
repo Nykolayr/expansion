@@ -22,8 +22,8 @@ class MapsPage extends StatefulWidget {
 
 class _MapsPageState extends State<MapsPage> {
   @override
-  void initState() {
-    super.initState();
+  void activate() {
+    super.activate();
     _reloadMaps();
   }
 

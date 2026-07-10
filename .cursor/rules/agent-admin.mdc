@@ -1,0 +1,28 @@
+---
+description: Фокус админки — expansion_admin
+globs: expansion_admin/**
+alwaysApply: false
+---
+
+# Пакет: `expansion_admin`
+
+**Сначала:** `.cursor/rules/project-concept.mdc`, `expansion_server/API_DOCS.md`.
+
+## Зона ответственности
+
+- `expansion_admin/` — админка: сценарии, миссии, баланс, пользователи.
+- End-to-end: правки admin **вместе** с server по утверждённому плану.
+
+## Спеки
+
+- `expansion_server/API_DOCS.md` — admin API
+- `.cursor/API_DOCUMENTATION.md` — точка входа
+- `docs/API.md` — хаб
+
+## Пакетные rules
+
+`expansion_admin/.cursor/rules/`
+
+## Проверки
+
+Когда появится код — `flutter analyze` или аналог стека. Commit/push — только по просьбе.

@@ -1,0 +1,47 @@
+---
+description: Обязательная проверка после правок кода
+alwaysApply: true
+---
+
+# Проверка перед «готово»
+
+После **любых** правок кода — **до** «готово» / «можно тестировать»:
+
+## App (`expansion_app/`)
+
+```powershell
+cd expansion_app
+flutter pub get
+flutter gen-l10n
+flutter analyze
+```
+
+## Admin (`expansion_admin/`)
+
+Когда появится Flutter-код:
+
+```powershell
+cd expansion_admin
+flutter analyze
+```
+
+## Server (`expansion_server/`)
+
+Когда появится Node-код:
+
+```powershell
+cd expansion_server
+node -e "require('./api/routes'); console.log('ok')"
+```
+
+- Подставить изменённые модули в `require`.
+- После правок API — обновить `API_DOCS.md`.
+
+## Запрещено
+
+- Писать «готово» без analyze (Flutter) или load-check (server).
+- Менять контракт API без `expansion_server/API_DOCS.md`.
+
+## Если analyze не запускался
+
+Честно написать — **только** если среда недоступна.

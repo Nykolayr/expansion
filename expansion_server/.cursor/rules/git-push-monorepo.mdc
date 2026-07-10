@@ -1,0 +1,33 @@
+---
+description: Как отправлять изменения в монорепозиторий Expansion (GitHub)
+alwaysApply: false
+---
+
+# Пуш в монорепозиторий
+
+Рабочая копия — **монорепозиторий**: корень `D:\Projects\expansion`.
+
+После изменений в **любом** пакете (`expansion_app`, `expansion_server`, `expansion_admin`, `docs`) коммит и push — **из корня**.
+
+## Рекомендуемый способ
+
+```powershell
+cd D:\Projects\expansion
+.\scripts\push-monorepo.ps1 -Message "Краткое описание на русском"
+```
+
+## Вручную
+
+```powershell
+cd D:\Projects\expansion
+git add -A
+git status
+git commit -m "Ваше сообщение на русском"
+git push origin master
+```
+
+Сообщения коммитов — **на русском**. Push — **только по просьбе пользователя**.
+
+## Деплой API
+
+Git push **не** обновляет прод. Скрипт деплоя — после инициализации backend.

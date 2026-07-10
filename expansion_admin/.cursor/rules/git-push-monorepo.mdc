@@ -1,0 +1,15 @@
+---
+description: Как отправлять изменения в монорепозиторий Expansion (GitHub)
+alwaysApply: false
+---
+
+# Пуш в монорепозиторий
+
+Рабочая копия — **монорепозиторий**: корень `D:\Projects\expansion`.
+
+```powershell
+cd D:\Projects\expansion
+.\scripts\push-monorepo.ps1 -Message "Краткое описание на русском"
+```
+
+Push — **только по просьбе пользователя**.

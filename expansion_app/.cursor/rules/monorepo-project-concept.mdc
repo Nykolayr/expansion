@@ -1,0 +1,16 @@
+---
+description: Ссылка на общую концепцию workspace Expansion
+alwaysApply: true
+---
+
+Перед задачами по игре, API и админке опирайся на:
+
+`D:\Projects\expansion\.cursor\rules\project-concept.mdc`
+
+Канон механик: `expansion_app/docs/game-concept.md`
+
+Промпт клиента: `D:\Projects\expansion\.cursor\rules\agent-app.mdc`
+
+Открывать workspace: `D:\Projects\expansion\expansion.code-workspace` (не только эту папку).
+
+Шаблон DI/BLoC: `D:\Projects\_my_template\digitalsquare`

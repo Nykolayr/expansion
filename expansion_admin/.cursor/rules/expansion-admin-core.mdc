@@ -1,0 +1,21 @@
+---
+description: Ядро expansion_admin — контент, баланс
+globs: expansion_admin/**
+alwaysApply: false
+---
+
+# expansion_admin — ядро
+
+**Сначала:** `project-concept.mdc` (корень), `expansion_server/API_DOCS.md`.
+
+## Зона
+
+Редактирование миссий, сцен, баланса, пользователей — через admin API.
+
+## Статус
+
+Пакет в стадии заготовки. Стек (Flutter Web / SPA) — на выбор при старте.
+
+## Verify
+
+Когда появится код — `flutter analyze` или эквивалент.

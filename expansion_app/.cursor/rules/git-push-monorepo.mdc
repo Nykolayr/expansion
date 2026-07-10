@@ -1,0 +1,23 @@
+---
+description: Как отправлять изменения в монорепозиторий Expansion (GitHub)
+alwaysApply: false
+---
+
+# Пуш в монорепозиторий
+
+Рабочая копия — **монорепозиторий**: корень `D:\Projects\expansion`.
+
+После изменений в **любом** пакете коммит и push — **из корня**.
+
+## Рекомендуемый способ
+
+```powershell
+cd D:\Projects\expansion
+.\scripts\push-monorepo.ps1 -Message "Краткое описание на русском"
+```
+
+Push — **только по просьбе пользователя**.
+
+## Релиз Android/iOS
+
+См. `.cursor/android_release.md`, `rustore_aab_signature.md`. Git push **не** публикует в сторы.

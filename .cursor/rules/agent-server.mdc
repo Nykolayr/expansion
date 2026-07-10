@@ -1,0 +1,32 @@
+---
+description: Фокус backend — expansion_server
+globs: expansion_server/**
+alwaysApply: false
+---
+
+# Пакет: `expansion_server`
+
+**Сначала:** `.cursor/rules/project-concept.mdc`, `API_DOCS.md`, `CURRENT_STAGE.md`.
+
+## Зона ответственности
+
+- `expansion_server/`, при смене контрактов — `API_DOCS.md`.
+- End-to-end: правки server **вместе** с app/admin по плану.
+
+## Legacy-референс
+
+`D:\Projects\expansion_old\apiserver` — только для понимания старых маршрутов, не копировать слепо.
+
+## После правок API
+
+Обновить `API_DOCS.md` и `docs/API.md`. Деплой — только по просьбе.
+
+## Пакетные rules
+
+`expansion_server/.cursor/rules/`
+
+## Эталон (план)
+
+- JWT auth, `/api/admin/*`
+- Синхронизация прогресса, контент миссий
+- Миграции БД в `database/migrations/`

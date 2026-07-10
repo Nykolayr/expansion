@@ -34,6 +34,8 @@ class BattleCubit extends Cubit<BattleState> {
 
   final EnemyCommander _enemyCommander = const EnemyCommander();
   BattleEngine? _engine;
+
+  BattleEngine? get engine => _engine;
   final BattleTickLoop _tickLoop = BattleTickLoop();
   GameDifficulty _difficulty = GameDifficulty.average;
   int _enemyTickCounter = 0;
@@ -41,6 +43,7 @@ class BattleCubit extends Cubit<BattleState> {
   MetaBattleBonuses _bonuses = MetaBattleBonuses.none;
   DateTime? _battleStartedAt;
   bool _firstBattleEnemyGrace = false;
+  bool _meteoriteTutorialAcked = false;
 
   Future<void> loadMission(int sceneId) async {
     await _stopLoop();
@@ -89,6 +92,7 @@ class BattleCubit extends Cubit<BattleState> {
       _enemyTickCounter = 0;
       _battleStartedAt = DateTime.now();
       _firstBattleEnemyGrace = !guest.firstBattleCompleted;
+      _meteoriteTutorialAcked = false;
       await _tickLoop.start(_onTick);
       AppLog.trace(
         'battle tick loop started grace=$_firstBattleEnemyGrace',
@@ -153,6 +157,10 @@ class BattleCubit extends Cubit<BattleState> {
 
   void clearBlockedCell() => emit(state.copyWith(clearBlocked: true));
 
+  void dismissMeteoriteTutorial() {
+    emit(state.copyWith(showMeteoriteTutorial: false));
+  }
+
   int tacticalCostFor(int baseId, TacticalUpgradeType type) {
     final engine = _engine;
     final base = engine?.snapshot().baseById(baseId);
@@ -174,11 +182,13 @@ class BattleCubit extends Cubit<BattleState> {
 
   Future<int> completeAfterVictory() async {
     final guest = await _guest.load();
-    final nextMission = state.sceneId + 1;
+    final nextMission = (state.sceneId + 1).clamp(1, 40);
     final reward = 40 + state.sceneId * 15;
     await _guest.save(
       guest.copyWith(
-        mapClassic: nextMission.clamp(1, 40),
+        mapClassic: nextMission > guest.mapClassic
+            ? nextMission
+            : guest.mapClassic,
         firstBattleCompleted: true,
         scoreClassic: guest.scoreClassic + reward,
         meta: guest.meta.afterVictory(),
@@ -201,8 +211,22 @@ class BattleCubit extends Cubit<BattleState> {
     final engine = _engine;
     final rng = _battleRng;
     if (engine == null || rng == null || !state.isPlaying) return;
+    if (state.showMeteoriteTutorial) return;
 
+    final asteroidsBefore = state.snapshot?.asteroids.length ?? 0;
     engine.tick();
+    final asteroidsAfter = engine.snapshot().asteroids.length;
+
+    if (!_meteoriteTutorialAcked &&
+        asteroidsBefore == 0 &&
+        asteroidsAfter > 0) {
+      _meteoriteTutorialAcked = true;
+      _emitPlaying();
+      emit(state.copyWith(showMeteoriteTutorial: true));
+      AppLog.trace('meteorite tutorial pause', tag: 'Battle');
+      return;
+    }
+
     _enemyTickCounter++;
 
     final config = BattleDifficultyConfig.forDifficulty(_difficulty);
@@ -233,11 +257,16 @@ class BattleCubit extends Cubit<BattleState> {
 
     for (final intent in intents) {
       switch (intent) {
-        case SendFleetIntent(:final fromBaseId, :final toBaseId):
+        case SendFleetIntent(
+            :final fromBaseId,
+            :final toBaseId,
+            :final shipCount,
+          ):
           engine.sendFleet(
             fromBaseId,
             toBaseId,
             requiredSide: BattleSide.enemy,
+            shipCount: shipCount,
           );
         case WaitIntent():
           break;

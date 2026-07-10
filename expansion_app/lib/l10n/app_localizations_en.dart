@@ -181,6 +181,30 @@ class AppLocalizationsEn extends AppLocalizations {
       'Drag from your base to the target. Tap your base for upgrades.';
 
   @override
+  String battleBaseSummary(int ships, int shield, int resources) {
+    return 'Ships $ships · Shield $shield · Resources $resources';
+  }
+
+  @override
+  String get tacticalUpgradeShieldShort => 'Shield';
+
+  @override
+  String get tacticalUpgradeBuildShort => 'Build';
+
+  @override
+  String get tacticalUpgradeMaxShipsShort => 'Cap';
+
+  @override
+  String get battleMeteoriteTutorialTitle => 'Meteorite!';
+
+  @override
+  String get battleMeteoriteTutorialBody =>
+      'An asteroid crosses the field. On impact it drains shield first, then destroys ships. Keep your shield up or move fleets off its path.';
+
+  @override
+  String get battleMeteoriteTutorialDismiss => 'Got it';
+
+  @override
   String get battleTacticalSwipeHint => 'Swipe down or tap ✕ to close';
 
   @override

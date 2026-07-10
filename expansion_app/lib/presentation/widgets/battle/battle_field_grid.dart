@@ -172,31 +172,32 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
     final innerW = cellW - pad * 2;
     final innerH = cellH - pad * 2;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: ExpansionColors.background.withValues(alpha: 0.35),
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: blocked
-              ? ExpansionColors.red
-              : selected
-                  ? ExpansionColors.accent
-                  : ExpansionColors.grey.withValues(alpha: 0.4),
-          width: blocked || selected ? 2 : 1,
-        ),
-      ),
-      child: Stack(
-        fit: base == null ? StackFit.passthrough : StackFit.expand,
-        children: [
-          if (base != null)
-            Padding(
-              padding: const EdgeInsets.all(pad),
-              child: BattleBaseView(
-                base: base,
-                cellWidth: innerW,
-                cellHeight: innerH,
+    return Stack(
+      fit: base == null ? StackFit.passthrough : StackFit.expand,
+      children: [
+        if (selected || blocked)
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: blocked
+                      ? ExpansionColors.red
+                      : ExpansionColors.accent,
+                  width: 2,
+                ),
               ),
             ),
+          ),
+        if (base != null)
+          Padding(
+            padding: const EdgeInsets.all(pad),
+            child: BattleBaseView(
+              base: base,
+              cellWidth: innerW,
+              cellHeight: innerH,
+            ),
+          ),
           if (blocked)
             Positioned.fill(
               child: Center(
@@ -210,8 +211,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
                 ),
               ),
             ),
-        ],
-      ),
+      ],
     );
   }
 

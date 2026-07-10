@@ -1,40 +1,44 @@
-# Контекст для агента — Expansion (монорепо)
+# Контекст для агента — `expansion_app`
 
-## Структура репозитория
+> **Главный файл workspace:** [`../AGENTS.md`](../AGENTS.md)  
+> Открывать **`../expansion.code-workspace`** или корень `D:\Projects\expansion`.
 
-- **`expansion_app/`** — Flutter-клиент (iOS, Android), работай здесь по умолчанию.
-- **`expansion_server/`** — backend API (пока заготовка).
-- **`expansion_admin/`** — админ-панель (пока заготовка).
+## Пакет
 
-Канонический шаблон архитектуры: `D:\Projects\_my_template\digitalsquare` — общие правила DI/BLoC/логов правь **в шаблоне**, продуктовые — здесь.
+Flutter-клиент **Expansion** (iOS, Android).
 
-## Стек клиента (жёстко)
+## Стек (жёстко)
 
-- **Clean Architecture** + **`flutter_bloc`** + **GetIt (`sl`)** + **go_router** + **Dio**
+- Clean Architecture + **flutter_bloc** + **GetIt** + **go_router** + **Dio**
 - **GetX не использовать**
-- Спеки продукта: `docs/project-specs.md` (`@docs/project-specs.md`)
+- Правила: **`.cursor/rules/`** (полный список — `.cursor/README.md`)
 
-## Игра
+## Продукт
 
-- `applicationId` / bundle: **`com.ryjovs.expansion`**
-- Тема: `AppTheme.game()`, палитра `ExpansionColors`
-- Портрет + `SystemUiMode.immersiveSticky`
+| Документ | Назначение |
+|----------|------------|
+| `docs/game-concept.md` | Канон механик v1 |
+| `docs/project-specs.md` | Экраны, API-план |
+| `../docs/GAME.md` | Хаб |
 
-## Правила Cursor
+## Идентификация
 
-См. `expansion_app/.cursor/rules/` и `.cursor/README.md`.
+- `com.ryjovs.expansion`
+- `AppTheme.game()`, портрет, immersive
 
-## SDK и релизы
+## Команды
 
-- Flutter 3.44 / Dart 3.12 — `expansion_app/.cursor/flutter_upgrade_checklist.md`
-- Android/iOS релиз — чеклисты в `expansion_app/.cursor/`
-
-## Команды (из корня монорепо)
-
-```bash
-cd expansion_app && flutter pub get && flutter gen-l10n && flutter analyze
+```powershell
+cd expansion_app
+flutter pub get
+flutter gen-l10n
+flutter analyze
 ```
 
-## При сомнении
+## Git / push
 
-Приоритет правил **этого репозитория** над глобальными user rules в Cursor.
+Из **корня** монорепо: `..\scripts\push-monorepo.ps1` — только по просьбе.
+
+## Шаблон
+
+`D:\Projects\_my_template\digitalsquare` — канон жёсткого стека.

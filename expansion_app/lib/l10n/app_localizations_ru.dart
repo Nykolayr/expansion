@@ -181,6 +181,30 @@ class AppLocalizationsRu extends AppLocalizations {
       'Проведите палец от своей базы к цели. Тап по своей базе — улучшения.';
 
   @override
+  String battleBaseSummary(int ships, int shield, int resources) {
+    return 'Корабли $ships · Щит $shield · Ресурсы $resources';
+  }
+
+  @override
+  String get tacticalUpgradeShieldShort => 'Щит';
+
+  @override
+  String get tacticalUpgradeBuildShort => 'Постр.';
+
+  @override
+  String get tacticalUpgradeMaxShipsShort => 'Лимит';
+
+  @override
+  String get battleMeteoriteTutorialTitle => 'Метеорит!';
+
+  @override
+  String get battleMeteoriteTutorialBody =>
+      'Астероид пролетает через поле. При столкновении с базой сначала снимает щит, затем уничтожает корабли. Держите щит или уводите флот с траектории.';
+
+  @override
+  String get battleMeteoriteTutorialDismiss => 'Понятно';
+
+  @override
   String get battleTacticalSwipeHint => 'Смахните вниз или нажмите ✕';
 
   @override

@@ -1,0 +1,42 @@
+---
+description: Ядро expansion_server — API, миграции, документация
+globs: expansion_server/**
+alwaysApply: false
+---
+
+# expansion_server — ядро
+
+**Сначала:** `D:\Projects\expansion\.cursor\rules\project-concept.mdc`, `API_DOCS.md`, `CURRENT_STAGE.md`.
+
+## Обязательно
+
+- Любое изменение маршрутов → **`API_DOCS.md`** в том же PR/сессии.
+- Миграции: `database/migrations/NNN_*.sql`, порядок по номеру.
+- Секреты только в `.env`, не в git.
+
+## Структура (целевая)
+
+```text
+expansion_server/
+├── api/
+│   ├── routes/
+│   ├── controllers/
+│   └── config/
+├── database/
+│   └── migrations/
+├── API_DOCS.md
+└── CURRENT_STAGE.md
+```
+
+## Legacy
+
+`D:\Projects\expansion_old\apiserver` — смотреть маршруты, не копировать архитектуру слепо.
+
+## Verify
+
+```powershell
+cd expansion_server
+node -e "require('./api/routes'); console.log('ok')"
+```
+
+(когда появится код)

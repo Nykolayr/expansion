@@ -1,0 +1,64 @@
+---
+description: Expansion workspace — один агент, app/server/admin/docs
+alwaysApply: true
+---
+
+# Expansion platform (workspace)
+
+Один workspace в корне `D:\Projects\expansion`. Открывать **`expansion.code-workspace`** или корень — не только подпапку.
+
+## Папки
+
+| Имя в workspace | Путь | Стек |
+|-----------------|------|------|
+| `platform` | `.` | workspace, `.cursor/rules`, `AGENTS.md` |
+| `app` | `expansion_app/` | Flutter iOS/Android — игра |
+| `server` | `expansion_server/` | Node API (план) |
+| `admin` | `expansion_admin/` | Админка (план) |
+| `docs` | `docs/` | Markdown-хаб |
+
+Не менять файлы **вне scope задачи**. End-to-end фича — правки в нескольких пакетах **разрешены** в одной сессии.
+
+## Git
+
+**Один git** в корне `D:\Projects\expansion`. Push из корня — `scripts/push-monorepo.ps1`, только по просьбе пользователя.
+
+Remote: `https://github.com/Nykolayr/expansion.git`
+
+## Порядок end-to-end фичи
+
+См. **`feature-delivery-workflow.mdc`**: план → вопросы → **утверждение** → код → verify.
+
+1. `docs/` + `expansion_server/API_DOCS.md` — контракт (когда есть API)
+2. `expansion_server/` — backend
+3. `expansion_app/` / `expansion_admin/` — клиенты
+4. Один агент в чате; subagent — на усмотрение исполнителя
+
+## Документация
+
+| Документ | Назначение |
+|----------|------------|
+| `.cursor/rules/project-concept.mdc` | Архитектура платформы |
+| `docs/GAME.md` | Хаб игровой концепции |
+| `docs/API.md` | Хаб REST |
+| `expansion_app/docs/game-concept.md` | Канон механик v1 |
+| `expansion_server/API_DOCS.md` | Канон REST (когда появится) |
+
+## Пакетные rules
+
+| Пакет | Каталог |
+|-------|---------|
+| Клиент | `expansion_app/.cursor/rules/` |
+| Сервер | `expansion_server/.cursor/rules/` |
+| Админка | `expansion_admin/.cursor/rules/` |
+
+Фокус: `agent-app.mdc`, `agent-server.mdc`, `agent-admin.mdc`.
+
+## Шаблон Flutter
+
+Канон DI/BLoC/логов: `D:\Projects\_my_template\digitalsquare` — правки жёсткого стека **сначала в шаблоне**, продуктовые — в `expansion_app/`.
+
+## Релиз клиента
+
+- `applicationId` / bundle: **`com.ryjovs.expansion`**
+- Чеклисты: `expansion_app/.cursor/android_release.md`, `rustore_aab_signature.md`, `edge_to_edge_play_checklist.md`

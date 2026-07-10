@@ -7,7 +7,7 @@ import 'package:expansion/core/constants/battle_assets.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 
-/// Летящий отряд — legacy SVG в рамке, поворот по направлению полёта.
+/// Летящий отряд — SVG корабля, поворот по направлению (без рамки).
 class BattleFleetSprite extends StatelessWidget {
   const BattleFleetSprite({
     required this.side,
@@ -25,11 +25,6 @@ class BattleFleetSprite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final angle = math.atan2(deltaY, deltaX) + math.pi / 2;
-    final frameColor = switch (side) {
-      BattleSide.player => ExpansionColors.green,
-      BattleSide.enemy => ExpansionColors.red,
-      BattleSide.neutral => ExpansionColors.accent,
-    };
     final tint = switch (side) {
       BattleSide.player => ExpansionColors.green,
       BattleSide.enemy => ExpansionColors.red,
@@ -38,20 +33,12 @@ class BattleFleetSprite extends StatelessWidget {
 
     return Transform.rotate(
       angle: angle,
-      child: Container(
+      child: SvgPicture.asset(
+        BattleAssets.fleetSprite(side),
         width: size,
         height: size,
-        padding: EdgeInsets.all(size * 0.12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: frameColor, width: 2),
-          color: ExpansionColors.background.withValues(alpha: 0.55),
-        ),
-        child: SvgPicture.asset(
-          BattleAssets.fleetSprite(side),
-          fit: BoxFit.contain,
-          colorFilter: ColorFilter.mode(tint, BlendMode.srcIn),
-        ),
+        fit: BoxFit.contain,
+        colorFilter: ColorFilter.mode(tint, BlendMode.srcIn),
       ),
     );
   }

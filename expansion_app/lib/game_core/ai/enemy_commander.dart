@@ -2,11 +2,12 @@ import 'dart:math';
 
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
+import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/game_core/ai/battle_intent.dart';
 import 'package:expansion/game_core/ai/enemy_personality.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 
-/// «Мозг» чужих: правила + случайность, без UI.
+/// «Мозг» чужих: один осмысленный ход за тик, без массового слива всех баз.
 class EnemyCommander {
   const EnemyCommander();
 
@@ -19,90 +20,104 @@ class EnemyCommander {
       return const [WaitIntent()];
     }
 
-    final enemyBases = snapshot.enemyBases.where((b) => b.ships > 1).toList();
+    final enemyBases = snapshot.enemyBases
+        .where((b) => _shipsToSend(b, personality) >= 2)
+        .toList();
     if (enemyBases.isEmpty) return const [WaitIntent()];
 
-    final neutrals = snapshot.neutralBases.toList();
-    final players = snapshot.playerBases.toList();
-
-    final targets = <BattleBase>[];
-    if (neutrals.isNotEmpty &&
-        random.nextDouble() < personality.attackNeutralBias) {
-      targets.addAll(neutrals);
-    } else {
-      targets.addAll(players);
-      if (targets.isEmpty && neutrals.isNotEmpty) {
-        targets.addAll(neutrals);
-      }
-    }
-
+    final targets = _pickTargetPool(snapshot, personality, random);
     if (targets.isEmpty) return const [WaitIntent()];
 
-    final moves = <_Move>[];
+    final scored = <_ScoredAttack>[];
     for (final from in enemyBases) {
+      final sendCount = _shipsToSend(from, personality);
       for (final to in targets) {
         if (!BattleLineOfSight.isClear(snapshot, from, to)) continue;
-        final support = _collectAttackers(snapshot, enemyBases, from, to, random);
-        if (support.isEmpty) continue;
-        final force = support.fold<int>(0, (sum, b) => sum + b.power);
-        moves.add(_Move(support, to, force));
+
+        final margin = sendCount - _defenseNeed(to, personality);
+        if (margin < 0) continue;
+
+        var score = margin.toDouble();
+        if (to.side == BattleSide.player) {
+          score += 4;
+        } else if (to.side == BattleSide.neutral) {
+          score += 1.5;
+        }
+        if (from.isCommandBase) score -= 3;
+        if (from.ships > from.maxShips * 0.65) score += 2;
+        score += random.nextDouble() * 1.5;
+
+        scored.add(
+          _ScoredAttack(
+            from: from,
+            to: to,
+            ships: sendCount,
+            score: score,
+          ),
+        );
       }
     }
 
-    if (moves.isEmpty) return const [WaitIntent()];
-
-    moves.sort((a, b) => a.force.compareTo(b.force));
-
-    final pickSuboptimal = random.nextDouble() < personality.suboptimalChoiceChance;
-    final chosen = pickSuboptimal
-        ? moves[random.nextInt(moves.length)]
-        : moves.last;
-
-    final intents = <BattleIntent>[];
-    for (final from in chosen.sources) {
-      intents.add(SendFleetIntent(fromBaseId: from.id, toBaseId: chosen.target.id));
+    if (scored.isEmpty) {
+      return const [WaitIntent()];
     }
-    return intents.isEmpty ? const [WaitIntent()] : intents;
+
+    scored.sort((a, b) => a.score.compareTo(b.score));
+
+    final pickWeak =
+        random.nextDouble() < personality.suboptimalChoiceChance;
+    final chosen =
+        pickWeak ? scored[random.nextInt(scored.length)] : scored.last;
+
+    return [
+      SendFleetIntent(
+        fromBaseId: chosen.from.id,
+        toBaseId: chosen.to.id,
+        shipCount: chosen.ships,
+      ),
+    ];
   }
 
-  List<BattleBase> _collectAttackers(
+  List<BattleBase> _pickTargetPool(
     BattleSnapshot snapshot,
-    List<BattleBase> enemyBases,
-    BattleBase primary,
-    BattleBase target,
+    EnemyPersonality personality,
     Random random,
   ) {
-    final attackers = <BattleBase>[primary];
-    var force = primary.power;
-    final need = target.power + 5;
+    final players = snapshot.playerBases.toList();
+    final neutrals = snapshot.neutralBases.toList();
 
-    final others = List<BattleBase>.from(enemyBases);
-    _shuffle(others, random);
-    for (final candidate in others) {
-      if (candidate.id == primary.id) continue;
-      if (!BattleLineOfSight.isClear(snapshot, candidate, target)) continue;
-      attackers.add(candidate);
-      force += candidate.power;
-      if (force > need) break;
+    if (neutrals.isNotEmpty &&
+        random.nextDouble() < personality.attackNeutralBias) {
+      return neutrals;
     }
-
-    return force > need ? attackers : [];
+    if (players.isNotEmpty) return players;
+    return neutrals;
   }
 
-  void _shuffle(List<BattleBase> list, Random random) {
-    for (var i = list.length - 1; i > 0; i--) {
-      final j = random.nextInt(i + 1);
-      final tmp = list[i];
-      list[i] = list[j];
-      list[j] = tmp;
-    }
+  int _defenseNeed(BattleBase target, EnemyPersonality personality) =>
+      target.power + personality.minAttackMargin;
+
+  /// Сколько кораблей можно отправить, оставив резерв на накопление.
+  int _shipsToSend(BattleBase base, EnemyPersonality personality) {
+    final reserve = (base.maxShips * personality.reserveFraction)
+        .round()
+        .clamp(personality.minReserveShips, 14);
+    final available = base.ships - reserve;
+    if (available < 2) return 0;
+    return available;
   }
 }
 
-class _Move {
-  _Move(this.sources, this.target, this.force);
+class _ScoredAttack {
+  _ScoredAttack({
+    required this.from,
+    required this.to,
+    required this.ships,
+    required this.score,
+  });
 
-  final List<BattleBase> sources;
-  final BattleBase target;
-  final int force;
+  final BattleBase from;
+  final BattleBase to;
+  final int ships;
+  final double score;
 }

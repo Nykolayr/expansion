@@ -37,7 +37,10 @@
 | `battle/battle_explosion_sprite.dart` | Анимация взрыва при столкновении отрядов |
 | `maps/campaign_map_path_painter.dart` | Красный путь 1→2→… по карте кампании |
 | `battle/battle_base_view.dart` | Спрайт базы + HUD корабли/щит/ресурсы |
-| `battle/battle_tactical_panel.dart` | Панель тактических улучшений выбранной базы |
+| `battle/battle_tactical_panel.dart` | (legacy) Панель улучшений — заменена на `battle_tactical_bar` |
+| `battle/battle_tactical_bar.dart` | Компактная панель базы внизу боя |
+| `battle/battle_upgrade_triangle_button.dart` | Кнопка-треугольник улучшения |
+| `battle/battle_meteorite_tutorial.dart` | Оверлей-подсказка при первом метеорите |
 | `upgrades/meta_upgrade_tile.dart` | Строка мета-апгрейда с кнопкой покупки |
 | `dialogs/game_confirm_dialog.dart` | Диалог подтверждения (сброс кампании) |
 

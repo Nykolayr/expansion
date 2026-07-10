@@ -139,13 +139,19 @@ class BattleEngine {
     return BattleLineOfSight.isClear(snapshot(), from, to);
   }
 
-  bool sendFleet(int fromId, int toId, {BattleSide? requiredSide}) {
+  bool sendFleet(
+    int fromId,
+    int toId, {
+    BattleSide? requiredSide,
+    int? shipCount,
+  }) {
     if (!canSendFleet(fromId, toId, requiredSide: requiredSide)) {
       return false;
     }
     final from = _base(fromId)!;
-    final fleetSize = from.ships;
-    _updateBase(fromId, from.copyWith(ships: 0));
+    final fleetSize = shipCount ?? from.ships;
+    if (fleetSize < 1 || fleetSize > from.ships) return false;
+    _updateBase(fromId, from.copyWith(ships: from.ships - fleetSize));
     _fleets.add(
       BattleFleet(
         id: _nextFleetId++,
@@ -219,6 +225,35 @@ class BattleEngine {
   int tacticalUpgradeCost(BattleBase base, TacticalUpgradeType type) {
     if (base.isTacticalMaxed(type)) return 0;
     return _tacticalBaseCost * (1 << base.tacticalLevelFor(type));
+  }
+
+  /// Текущее и следующее значение для UI улучшений.
+  ({String current, String next, int cost, bool maxed}) tacticalPreview(
+    BattleBase base,
+    TacticalUpgradeType type,
+  ) {
+    final maxed = base.isTacticalMaxed(type);
+    final cost = maxed ? 0 : tacticalUpgradeCost(base, type);
+    return switch (type) {
+      TacticalUpgradeType.shield => (
+          current: '${base.shield.round()}',
+          next: '${(base.shield + 20).round()}',
+          cost: cost,
+          maxed: maxed,
+        ),
+      TacticalUpgradeType.buildSpeed => (
+          current: base.speedBuild.toStringAsFixed(2),
+          next: (base.speedBuild + 0.05).toStringAsFixed(2),
+          cost: cost,
+          maxed: maxed,
+        ),
+      TacticalUpgradeType.maxShips => (
+          current: '${base.maxShips}',
+          next: '${base.maxShips + 35}',
+          cost: cost,
+          maxed: maxed,
+        ),
+    };
   }
 
   TacticalUpgradeResult applyTacticalUpgrade(

@@ -1,0 +1,38 @@
+---
+description: Монорепо Expansion (workspace) — один агент, границы по задаче
+alwaysApply: true
+---
+
+# Workspace `expansion`
+
+## Один агент
+
+Пользователь работает с **одним агентом** на app + server + admin + docs.
+
+Открывать **`expansion.code-workspace`** или `D:\Projects\expansion` — иначе корневые `.cursor/rules/` не подхватятся.
+
+См. **`expansion-platform-workspace.mdc`**, **`feature-delivery-workflow.mdc`**.
+
+## Общая концепция
+
+**`.cursor/rules/project-concept.mdc`** — клиент, API, админка, прогресс, контент.
+
+## Каталоги
+
+| Путь | Назначение |
+|------|------------|
+| `expansion_app/` | Flutter iOS/Android — игра |
+| `expansion_server/` | Node API |
+| `expansion_admin/` | Админка контента |
+| `docs/` | Хаб документации |
+
+## Границы
+
+- Не менять файлы **вне scope задачи**.
+- End-to-end фича — **одна сессия**, порядок в `feature-delivery-workflow.mdc`.
+- Фокус пакета: `agent-app.mdc`, `agent-server.mdc`, `agent-admin.mdc`.
+
+## Запрещено
+
+- Открывать только подпапку и ожидать все правила workspace.
+- Дублировать канон API без синхронизации с `expansion_server/API_DOCS.md`.

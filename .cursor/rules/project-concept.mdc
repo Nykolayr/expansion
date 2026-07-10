@@ -1,0 +1,56 @@
+---
+description: Концепция Expansion — клиент, API, админка
+alwaysApply: true
+---
+
+# Концепция Expansion
+
+## Что это
+
+- **Клиент (`expansion_app`)** — портретная космическая RTS (iOS/Android): кампания Classic 40 миссий, бой на сетке, мета-апгрейды. Канон механик: **`expansion_app/docs/game-concept.md`**.
+- **Сервер (`expansion_server`)** — REST API: аккаунты, синхронизация прогресса, контент сцен/миссий (план).
+- **Админка (`expansion_admin`)** — редактирование контента, баланс, пользователи (план).
+
+```
+Клиент / Админка  ←—— HTTPS ——→  Сервер  ←—— БД
+         │
+    SQLite-кэш контента (офлайн)
+```
+
+## Канон API
+
+**`expansion_server/API_DOCS.md`** — единственный источник контракта (когда backend реализован).  
+Хаб: `docs/API.md`.
+
+**Пока:** клиент работает **офлайн** (prefs + SQLite + bundled assets). API подключается поэтапно.
+
+## Клиент (жёстко)
+
+- **Clean Architecture** + **flutter_bloc** + **GetIt** + **go_router** + **Dio**
+- **GetX не использовать**
+- `com.ryjovs.expansion`, портрет, `AppTheme.game()`
+- Детали: `expansion_app/.cursor/rules/`
+
+## Прогресс
+
+- **Гость:** SharedPreferences, без сервера.
+- **Аккаунт:** JWT + синхронизация через API (позже).
+- Токены — `SecureStorageService`, не в prefs.
+
+## Игровой цикл (Classic v1)
+
+Splash → новая игра → бой 1 (туториал) → после первой победы карта 40 миссий → бой → очки/апгрейды.
+
+## Кто что правит
+
+| Пакет | Каталог |
+|-------|---------|
+| Клиент | `expansion_app/` |
+| Сервер | `expansion_server/` |
+| Админка | `expansion_admin/` |
+
+End-to-end — один агент, порядок в `feature-delivery-workflow.mdc`.
+
+## Legacy
+
+Референс механик и ассетов: `D:\Projects\expansion_old\`. Код не копируем слепо — архитектура из digitalsquare.

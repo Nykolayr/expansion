@@ -8,7 +8,7 @@ import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/presentation/widgets/battle/battle_entity_sprite.dart';
 
-/// База в клетке: спрайт + HUD внутри [cellWidth]×[cellHeight] без overflow.
+/// База в клетке: крупный спрайт, корабли в центре, щит/ресурсы снизу.
 class BattleBaseView extends StatelessWidget {
   const BattleBaseView({
     required this.base,
@@ -35,56 +35,61 @@ class BattleBaseView extends StatelessWidget {
 
     final minSide = math.min(cellWidth, cellHeight);
     final spriteSize =
-        minSide * 0.5 * BattleAssets.baseSpriteScaleFactor(base);
-    final hudFont = (minSide * 0.17).clamp(8.0, 11.0);
-
-    final hudLines = <String>[
-      '${base.ships}',
-      if (base.shield > 0) '⛨${base.shield.round()}',
-      if (base.side == BattleSide.player) '⚙${base.resources.round()}',
-    ];
+        minSide * 0.88 * BattleAssets.baseSpriteScaleFactor(base);
+    final shipFont = (minSide * 0.22).clamp(11.0, 18.0);
+    final statFont = (minSide * 0.14).clamp(8.0, 11.0);
 
     return SizedBox(
       width: cellWidth,
       height: cellHeight,
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        alignment: Alignment.center,
-        child: SizedBox(
-          width: cellWidth,
-          height: cellHeight,
-          child: Stack(
-            clipBehavior: Clip.hardEdge,
-            fit: StackFit.expand,
-            children: [
-              Align(
-                alignment: const Alignment(0, -0.2),
-                child: BattleEntitySprite(
-                  assetPath: BattleAssets.baseSprite(base),
-                  size: spriteSize,
-                ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    for (var i = 0; i < hudLines.length; i++)
-                      _HudLine(
-                        text: hudLines[i],
-                        fontSize: hudFont - (i > 0 ? 1 : 0),
-                        color: hudLines[i].startsWith('⚙')
-                            ? ExpansionColors.accent
-                            : hudColor,
-                      ),
-                  ],
-                ),
-              ),
-            ],
+      child: Stack(
+        clipBehavior: Clip.hardEdge,
+        fit: StackFit.expand,
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: BattleEntitySprite(
+              assetPath: BattleAssets.baseSprite(base),
+              size: spriteSize,
+            ),
           ),
-        ),
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(bottom: minSide * 0.08),
+              child: Text(
+                '${base.ships}',
+                style: _shadow.copyWith(
+                  color: hudColor,
+                  fontSize: shipFont,
+                  fontWeight: FontWeight.w900,
+                  height: 1,
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (base.shield > 0)
+                  _HudLine(
+                    text: '⛨${base.shield.round()}',
+                    fontSize: statFont,
+                    color: hudColor,
+                  ),
+                if (base.side == BattleSide.player)
+                  _HudLine(
+                    text: '⚙${base.resources.round()}',
+                    fontSize: statFont,
+                    color: ExpansionColors.accent,
+                  ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

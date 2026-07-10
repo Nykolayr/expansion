@@ -1,0 +1,36 @@
+---
+description: Жёсткие инварианты агента — always-on
+alwaysApply: true
+---
+
+# Инварианты (не нарушать)
+
+## Запрещено без явной просьбы
+
+| Действие | Только если пользователь написал |
+|----------|-----------------------------------|
+| `flutter build apk` / `appbundle` / release / копирование артефактов | явный запрос на релиз |
+| `git commit` / `git push` | «закоммить», «запушь» |
+| Деплой API / админки на прод | «задеплой», «на прод» |
+
+**Release-сборки — никогда «заодно».** Сначала `flutter run`.
+
+## Делает агент
+
+- Setup: `pub get`, `flutter gen-l10n`, `flutter analyze`, load-check server
+- Не писать «выполни у себя»
+- См. `agent-does-setup-never-user-chores.mdc`
+
+## Продуктовый цикл
+
+- План → утверждение → код. См. `feature-delivery-workflow.mdc`.
+
+## После правок
+
+- Flutter → `flutter analyze` (0 errors)
+- Server → load-check модулей (когда есть код)
+- См. `mandatory-verify-after-code-changes.mdc`
+
+## Концепция
+
+Задачи по игре, API, контенту — сначала `project-concept.mdc` + `expansion_app/docs/game-concept.md`.

@@ -1,0 +1,36 @@
+---
+description: Фокус клиента — expansion_app
+globs: expansion_app/**
+alwaysApply: false
+---
+
+# Пакет: `expansion_app`
+
+**Сначала:** `.cursor/rules/project-concept.mdc`, `expansion_app/docs/game-concept.md`.
+
+## Зона ответственности
+
+- `expansion_app/` — Flutter iOS/Android, игра Expansion.
+- End-to-end: правки app **вместе** с server по утверждённому плану.
+
+## Стек (жёстко)
+
+Clean Architecture + BLoC + GetIt + go_router + Dio. **Без GetX.**
+
+Пакетные rules: `expansion_app/.cursor/rules/` (architecture, bloc, DI, l10n, release…).
+
+## Спеки
+
+- `expansion_app/docs/game-concept.md` — канон механик
+- `expansion_app/docs/project-specs.md` — экраны, API-план
+- `expansion_server/API_DOCS.md` — когда есть сеть
+
+## Игра
+
+- Портрет, immersive, `AppTheme.game()`
+- Бой: isolate / game loop — не блокировать UI
+- l10n: ARB → `flutter gen-l10n`
+
+## Проверки
+
+`flutter analyze`. Commit/push — только по просьбе (`git-push-monorepo.mdc`).

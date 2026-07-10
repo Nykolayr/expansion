@@ -12,4 +12,15 @@ extension TacticalUpgradeL10n on TacticalUpgradeType {
         return loc.tacticalUpgradeMaxShips;
     }
   }
+
+  String shortLabel(AppLocalizations loc) {
+    switch (this) {
+      case TacticalUpgradeType.shield:
+        return loc.tacticalUpgradeShieldShort;
+      case TacticalUpgradeType.buildSpeed:
+        return loc.tacticalUpgradeBuildShort;
+      case TacticalUpgradeType.maxShips:
+        return loc.tacticalUpgradeMaxShipsShort;
+    }
+  }
 }

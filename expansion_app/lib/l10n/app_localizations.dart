@@ -428,6 +428,48 @@ abstract class AppLocalizations {
   /// **'Проведите палец от своей базы к цели. Тап по своей базе — улучшения.'**
   String get battleDragHint;
 
+  /// No description provided for @battleBaseSummary.
+  ///
+  /// In ru, this message translates to:
+  /// **'Корабли {ships} · Щит {shield} · Ресурсы {resources}'**
+  String battleBaseSummary(int ships, int shield, int resources);
+
+  /// No description provided for @tacticalUpgradeShieldShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Щит'**
+  String get tacticalUpgradeShieldShort;
+
+  /// No description provided for @tacticalUpgradeBuildShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Постр.'**
+  String get tacticalUpgradeBuildShort;
+
+  /// No description provided for @tacticalUpgradeMaxShipsShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лимит'**
+  String get tacticalUpgradeMaxShipsShort;
+
+  /// No description provided for @battleMeteoriteTutorialTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метеорит!'**
+  String get battleMeteoriteTutorialTitle;
+
+  /// No description provided for @battleMeteoriteTutorialBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Астероид пролетает через поле. При столкновении с базой сначала снимает щит, затем уничтожает корабли. Держите щит или уводите флот с траектории.'**
+  String get battleMeteoriteTutorialBody;
+
+  /// No description provided for @battleMeteoriteTutorialDismiss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Понятно'**
+  String get battleMeteoriteTutorialDismiss;
+
   /// No description provided for @battleTacticalSwipeHint.
   ///
   /// In ru, this message translates to:

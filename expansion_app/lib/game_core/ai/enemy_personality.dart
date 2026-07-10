@@ -6,37 +6,51 @@ class EnemyPersonality {
     required this.skipTurnChance,
     required this.suboptimalChoiceChance,
     required this.attackNeutralBias,
+    required this.minAttackMargin,
+    required this.reserveFraction,
+    required this.minReserveShips,
   });
 
   factory EnemyPersonality.forDifficulty(GameDifficulty difficulty) {
     switch (difficulty) {
       case GameDifficulty.easy:
         return const EnemyPersonality(
-          skipTurnChance: 0.12,
-          suboptimalChoiceChance: 0.35,
-          attackNeutralBias: 0.7,
+          skipTurnChance: 0.14,
+          suboptimalChoiceChance: 0.32,
+          attackNeutralBias: 0.72,
+          minAttackMargin: 6,
+          reserveFraction: 0.35,
+          minReserveShips: 4,
         );
       case GameDifficulty.average:
         return const EnemyPersonality(
-          skipTurnChance: 0.05,
-          suboptimalChoiceChance: 0.18,
+          skipTurnChance: 0.08,
+          suboptimalChoiceChance: 0.16,
           attackNeutralBias: 0.55,
+          minAttackMargin: 4,
+          reserveFraction: 0.28,
+          minReserveShips: 3,
         );
       case GameDifficulty.difficult:
         return const EnemyPersonality(
-          skipTurnChance: 0.02,
+          skipTurnChance: 0.04,
           suboptimalChoiceChance: 0.08,
-          attackNeutralBias: 0.4,
+          attackNeutralBias: 0.42,
+          minAttackMargin: 3,
+          reserveFraction: 0.22,
+          minReserveShips: 2,
         );
     }
   }
 
-  /// Иногда AI «думает» и пропускает ход.
   final double skipTurnChance;
-
-  /// Выбрать не лучшую, а случайную допустимую цель.
   final double suboptimalChoiceChance;
-
-  /// Вероятность сначала давить нейтралов, если они есть.
   final double attackNeutralBias;
+
+  /// Запас силы цели: атакуем только если отправляемых кораблей хватает с запасом.
+  final int minAttackMargin;
+
+  /// Доля кораблей, которую AI старается держать на базе.
+  final double reserveFraction;
+  final int minReserveShips;
 }

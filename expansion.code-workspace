@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "name": "platform",
+      "path": "."
+    },
+    {
+      "name": "app",
+      "path": "expansion_app"
+    },
+    {
+      "name": "server",
+      "path": "expansion_server"
+    },
+    {
+      "name": "admin",
+      "path": "expansion_admin"
+    },
+    {
+      "name": "docs",
+      "path": "docs"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/.dart_tool": true,
+      "**/build": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.dart_tool": true,
+      "**/build": true
+    }
+  }
+}

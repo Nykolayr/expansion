@@ -12,10 +12,11 @@ import 'package:expansion/game_core/battle/battle_engine.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
 import 'package:expansion/presentation/bloc/battle/battle_state.dart';
+import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
-import 'package:expansion/presentation/widgets/battle/battle_base_overlay_panel.dart';
 import 'package:expansion/presentation/widgets/battle/battle_field_grid.dart';
-import 'package:expansion/presentation/widgets/battle/battle_tactical_panel.dart';
+import 'package:expansion/presentation/widgets/battle/battle_meteorite_tutorial.dart';
+import 'package:expansion/presentation/widgets/battle/battle_tactical_bar.dart';
 import 'package:expansion/presentation/widgets/dialogs/battle_outcome_dialog.dart';
 
 class BattlePage extends StatefulWidget {
@@ -78,7 +79,9 @@ class _BattlePageState extends State<BattlePage> {
           ? loc.battleVictoryBodyWithScore(reward)
           : loc.battleDefeatBody,
       continueLabel: loc.battleContinue,
-      onContinue: () {
+      onContinue: () async {
+        await sl<MapsCubit>().load();
+        if (!mounted) return;
         context.goToMaps();
       },
     );
@@ -105,13 +108,17 @@ class _BattlePageState extends State<BattlePage> {
             },
             builder: (context, state) {
               final selectedBase = _selectedPlayerBase(state);
+              final engine = cubit.engine;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   GameScreenBackBar(
                     title: '${loc.battleTitle} · ${state.sceneId}',
-                    onBack: () => context.goToMaps(),
+                    onBack: () async {
+                      await sl<MapsCubit>().load();
+                      if (context.mounted) context.goToMaps();
+                    },
                   ),
                   if (state.status == BattleStatus.loading)
                     const Expanded(
@@ -150,47 +157,43 @@ class _BattlePageState extends State<BattlePage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Stack(
-                          clipBehavior: Clip.none,
+                          fit: StackFit.expand,
                           children: [
-                            Positioned.fill(
-                              child: BattleFieldGrid(
-                                snapshot: state.snapshot!,
-                                selectedBaseId: state.selectedBaseId,
-                                onPlayerBaseTap: (id) {
-                                  if (state.selectedBaseId == id) {
-                                    cubit.clearBaseSelection();
-                                  } else {
-                                    cubit.selectBase(id);
-                                  }
-                                },
-                                onDismissOverlay: selectedBase != null
-                                    ? cubit.clearBaseSelection
-                                    : null,
-                                onDragStarted: cubit.clearBlockedCell,
-                                onFleetDrag: cubit.sendFleetDrag,
-                                blockedCellX: state.blockedCellX,
-                                blockedCellY: state.blockedCellY,
-                              ),
+                            BattleFieldGrid(
+                              snapshot: state.snapshot!,
+                              selectedBaseId: state.selectedBaseId,
+                              onPlayerBaseTap: (id) {
+                                if (state.selectedBaseId == id) {
+                                  cubit.clearBaseSelection();
+                                } else {
+                                  cubit.selectBase(id);
+                                }
+                              },
+                              onDismissOverlay: selectedBase != null
+                                  ? cubit.clearBaseSelection
+                                  : null,
+                              onDragStarted: cubit.clearBlockedCell,
+                              onFleetDrag: cubit.sendFleetDrag,
+                              blockedCellX: state.blockedCellX,
+                              blockedCellY: state.blockedCellY,
                             ),
-                            if (selectedBase != null)
-                              Positioned(
-                                left: 0,
-                                right: 0,
-                                top: 0,
-                                child: BattleBaseOverlayPanel(
-                                  onClose: cubit.clearBaseSelection,
-                                  child: BattleTacticalPanel(
-                                    base: selectedBase,
-                                    projectilesActive:
-                                        state.snapshot!.hasActiveProjectiles,
-                                  ),
-                                ),
+                            if (state.showMeteoriteTutorial)
+                              BattleMeteoriteTutorial(
+                                onDismiss: cubit.dismissMeteoriteTutorial,
                               ),
                           ],
                         ),
                       ),
                     ),
-                    const Gap(8),
+                    if (selectedBase != null && engine != null)
+                      BattleTacticalBar(
+                        base: selectedBase,
+                        engine: engine,
+                        projectilesActive:
+                            state.snapshot!.hasActiveProjectiles,
+                        onClose: cubit.clearBaseSelection,
+                      ),
+                    const Gap(4),
                   ],
                 ],
               );

@@ -64,6 +64,20 @@
   "progressUniver": "Вселенная",
   "battleBriefingFallback": "Захватите все вражеские базы.",
   "battleDragHint": "Проведите палец от своей базы к цели. Тап по своей базе — улучшения.",
+  "battleBaseSummary": "Корабли {ships} · Щит {shield} · Ресурсы {resources}",
+  "@battleBaseSummary": {
+    "placeholders": {
+      "ships": { "type": "int" },
+      "shield": { "type": "int" },
+      "resources": { "type": "int" }
+    }
+  },
+  "tacticalUpgradeShieldShort": "Щит",
+  "tacticalUpgradeBuildShort": "Постр.",
+  "tacticalUpgradeMaxShipsShort": "Лимит",
+  "battleMeteoriteTutorialTitle": "Метеорит!",
+  "battleMeteoriteTutorialBody": "Астероид пролетает через поле. При столкновении с базой сначала снимает щит, затем уничтожает корабли. Держите щит или уводите флот с траектории.",
+  "battleMeteoriteTutorialDismiss": "Понятно",
   "battleTacticalSwipeHint": "Смахните вниз или нажмите ✕",
   "battleTacticalClose": "Закрыть",
   "battleSendFailed": "Не удалось отправить флот: выберите свою базу, дождитесь конца полёта или проверьте линию.",

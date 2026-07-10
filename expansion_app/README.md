@@ -2,25 +2,37 @@
 
 Flutter-клиент **Expansion** (iOS, Android).
 
+**Workspace:** открывай [`../expansion.code-workspace`](../expansion.code-workspace) или корень `D:\Projects\expansion`.
+
 - **ID:** `com.ryjovs.expansion`
-- **Версия:** `1.0.0+1`
-- **Архитектура:** Clean Architecture, BLoC, GetIt, go_router (из шаблона digitalsquare)
+- **Архитектура:** digitalsquare (BLoC, GetIt, go_router)
+
+## Документация
+
+| Файл | Назначение |
+|------|------------|
+| [`docs/game-concept.md`](docs/game-concept.md) | Канон механик |
+| [`AGENTS.md`](AGENTS.md) | Контекст пакета |
+| [`../AGENTS.md`](../AGENTS.md) | Контекст всего монорепо |
+| [`.cursor/README.md`](.cursor/README.md) | Правила Cursor |
 
 ## Команды
 
-```bash
+```powershell
 flutter pub get
 flutter gen-l10n
 flutter analyze
 flutter run
 ```
 
-## Документация
+## Git
 
-- [`docs/project-specs.md`](docs/project-specs.md) — механики и экраны
-- [`docs/template_checklist.md`](docs/template_checklist.md) — чеклист после копирования шаблона
-- [`AGENTS.md`](AGENTS.md) — контекст для Cursor
+```powershell
+cd D:\Projects\expansion
+.\scripts\push-monorepo.ps1 -Message "описание"
+```
 
 ## Подпись release
 
-См. `android/key.properties.example` и `.cursor/android_release.md`. Используй **тот же** upload-keystore, что и для предыдущих релизов Expansion.
+`android/key.properties.example`, `.cursor/android_release.md` — тот же upload-keystore, что Play/RuStore.
+

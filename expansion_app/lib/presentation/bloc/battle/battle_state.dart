@@ -17,6 +17,7 @@ class BattleState extends Equatable {
     this.errorMessage,
     this.blockedCellX,
     this.blockedCellY,
+    this.showMeteoriteTutorial = false,
   });
 
   final BattleStatus status;
@@ -31,6 +32,9 @@ class BattleState extends Equatable {
   /// Крестик на базе, блокирующей линию отправки.
   final int? blockedCellX;
   final int? blockedCellY;
+
+  /// Пауза при первом метеорите в миссии.
+  final bool showMeteoriteTutorial;
 
   bool get isPlaying => status == BattleStatus.playing;
 
@@ -47,6 +51,7 @@ class BattleState extends Equatable {
     int? blockedCellX,
     int? blockedCellY,
     bool clearBlocked = false,
+    bool? showMeteoriteTutorial,
   }) {
     return BattleState(
       status: status ?? this.status,
@@ -60,6 +65,8 @@ class BattleState extends Equatable {
       errorMessage: errorMessage,
       blockedCellX: clearBlocked ? null : blockedCellX ?? this.blockedCellX,
       blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
+      showMeteoriteTutorial:
+          showMeteoriteTutorial ?? this.showMeteoriteTutorial,
     );
   }
 
@@ -75,5 +82,6 @@ class BattleState extends Equatable {
         errorMessage,
         blockedCellX,
         blockedCellY,
+        showMeteoriteTutorial,
       ];
 }

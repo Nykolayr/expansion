@@ -1,22 +1,27 @@
 # expansion_server
 
-Backend API для игры **Expansion** (авторизация, прогресс, сценарии, мультиплеер — по мере проектирования).
+Backend API для игры **Expansion**.
 
-## Статус
+## Документация
 
-Заготовка репозитория. Реализация — отдельный этап.
+| Файл | Назначение |
+|------|------------|
+| [`API_DOCS.md`](API_DOCS.md) | Канон REST (черновик) |
+| [`CURRENT_STAGE.md`](CURRENT_STAGE.md) | Текущий этап |
+| [`../docs/API.md`](../docs/API.md) | Хаб API |
+| [`.cursor/API_DOCUMENTATION.md`](.cursor/API_DOCUMENTATION.md) | Точка входа для агента |
 
 ## Связь
 
 - Клиент: [`../expansion_app/`](../expansion_app/)
-- Legacy API (референс): `D:\Projects\expansion_old\apiserver`
+- Админка: [`../expansion_admin/`](../expansion_admin/)
+- Workspace: [`../expansion.code-workspace`](../expansion.code-workspace)
+- Legacy: `D:\Projects\expansion_old\apiserver`
 
-## Планируемый стек (черновик)
+## Статус
 
-- Node.js + Express (или замена по решению команды)
-- MySQL / MongoDB — как в legacy
-- JWT, REST
+Код API **ещё не инициализирован**. См. `CURRENT_STAGE.md`.
 
-## Локальный запуск
+## Git
 
-Будет описан после инициализации проекта (`package.json`, `.env.example`).
+Push из корня: `..\scripts\push-monorepo.ps1`

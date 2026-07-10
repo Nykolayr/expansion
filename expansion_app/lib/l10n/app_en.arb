@@ -55,6 +55,20 @@
   "progressUniver": "Universe",
   "battleBriefingFallback": "Capture all enemy bases.",
   "battleDragHint": "Drag from your base to the target. Tap your base for upgrades.",
+  "battleBaseSummary": "Ships {ships} · Shield {shield} · Resources {resources}",
+  "@battleBaseSummary": {
+    "placeholders": {
+      "ships": { "type": "int" },
+      "shield": { "type": "int" },
+      "resources": { "type": "int" }
+    }
+  },
+  "tacticalUpgradeShieldShort": "Shield",
+  "tacticalUpgradeBuildShort": "Build",
+  "tacticalUpgradeMaxShipsShort": "Cap",
+  "battleMeteoriteTutorialTitle": "Meteorite!",
+  "battleMeteoriteTutorialBody": "An asteroid crosses the field. On impact it drains shield first, then destroys ships. Keep your shield up or move fleets off its path.",
+  "battleMeteoriteTutorialDismiss": "Got it",
   "battleTacticalSwipeHint": "Swipe down or tap ✕ to close",
   "battleTacticalClose": "Close",
   "battleSendFailed": "Cannot send fleet: select your base, wait for flights to finish, or check line of sight.",

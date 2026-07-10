@@ -1,42 +1,60 @@
-# OS / IDE
-.DS_Store
-*.iml
-.idea/
-.vscode/
-*.swp
+# Монорепозиторий Expansion: в git — expansion_app/, expansion_server/, expansion_admin/, docs/, .cursor/, AGENTS.md, scripts/.
 
-# Flutter (expansion_app)
-expansion_app/.dart_tool/
-expansion_app/.flutter-plugins
-expansion_app/.flutter-plugins-dependencies
-expansion_app/build/
-expansion_app/coverage/
-expansion_app/**/doc/api/
+# Файлы в корне (не внутри пакетов)
+/*.txt
+/*.json
+/*.pdf
+/*.psd
+/*.cdr
+/*.xlsx
 
-# Android
-expansion_app/android/.gradle/
-expansion_app/android/local.properties
+# Локальные заметки
+SCRATCH.md
+TODO_PRIVATE.md
+
+# Секреты
+.env
+.env.*
+**/secrets/
 expansion_app/android/key.properties
 expansion_app/android/app/upload-keystore.jks
 expansion_app/android/app/*.jks
 
-# iOS
+# Node
+expansion_server/node_modules/
+**/node_modules/
+
+# Flutter / Dart
+**/.dart_tool/
+**/.pub-cache/
+**/.pub/
+**/build/
+**/coverage/
+expansion_app/.flutter-plugins
+expansion_app/.flutter-plugins-dependencies
+
+# Android
+expansion_app/android/.gradle/
+expansion_app/android/local.properties
+
+# iOS generated
 expansion_app/ios/Pods/
 expansion_app/ios/.symlinks/
-expansion_app/ios/Flutter/Flutter.podspec
 expansion_app/ios/Flutter/ephemeral/
 expansion_app/ios/Flutter/Generated.xcconfig
 expansion_app/ios/Flutter/flutter_export_environment.sh
 
-# Secrets
-**/.env
-**/.env.*
-!**/.env.example
-
-# Node (server / admin — на будущее)
-**/node_modules/
-**/dist/
-**/.next/
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
 
 # Logs
 *.log
+
+# Web/admin build artifacts (будущее)
+**/dist/
+**/.next/

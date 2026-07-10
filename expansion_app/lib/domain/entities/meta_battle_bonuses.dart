@@ -15,7 +15,7 @@ class MetaBattleBonuses {
 
   factory MetaBattleBonuses.fromProgress(PlayerMetaProgress progress) {
     final enemyDivider =
-        1 + progress.enemyPowerLevel * 0.08; // чужие чаще ходят
+        1 + progress.enemyPowerLevel * 0.03; // мягкий рост темпа AI по кампании
 
     return MetaBattleBonuses(
       fleetSpeed: progress.multiplierFor(MetaUpgradeType.shipSpeed),
