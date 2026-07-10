@@ -8,6 +8,9 @@ import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/presentation/widgets/battle/battle_victory_fireworks.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
+/// Дополнительная кнопка в диалоге исхода боя.
+typedef BattleOutcomeExtraAction = ({String label, VoidCallback onTap});
+
 /// Итог боя в стиле игры (карточки + арт; при победе — конфетти).
 Future<void> showBattleOutcomeDialog(
   BuildContext context, {
@@ -18,6 +21,7 @@ Future<void> showBattleOutcomeDialog(
   required VoidCallback onContinue,
   String? secondaryLabel,
   VoidCallback? onSecondary,
+  List<BattleOutcomeExtraAction> extraActions = const [],
 }) {
   return showDialog<void>(
     context: context,
@@ -31,6 +35,7 @@ Future<void> showBattleOutcomeDialog(
       onContinue: onContinue,
       secondaryLabel: secondaryLabel,
       onSecondary: onSecondary,
+      extraActions: extraActions,
     ),
   );
 }
@@ -44,6 +49,7 @@ class _BattleOutcomeDialog extends StatefulWidget {
     required this.onContinue,
     this.secondaryLabel,
     this.onSecondary,
+    this.extraActions = const [],
   });
 
   final bool won;
@@ -53,6 +59,7 @@ class _BattleOutcomeDialog extends StatefulWidget {
   final VoidCallback onContinue;
   final String? secondaryLabel;
   final VoidCallback? onSecondary;
+  final List<BattleOutcomeExtraAction> extraActions;
 
   @override
   State<_BattleOutcomeDialog> createState() => _BattleOutcomeDialogState();
@@ -138,6 +145,16 @@ class _BattleOutcomeDialogState extends State<_BattleOutcomeDialog> {
                     onPressed: () {
                       Navigator.of(context).pop();
                       widget.onSecondary!();
+                    },
+                  ),
+                  const Gap(12),
+                ],
+                for (final action in widget.extraActions) ...[
+                  GameLongButton(
+                    label: action.label,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      action.onTap();
                     },
                   ),
                   const Gap(12),

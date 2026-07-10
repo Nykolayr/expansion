@@ -46,6 +46,7 @@ class BeginCubit extends Cubit<BeginState> {
         firstBattleCompleted: false,
         defeatStreakSceneId: 0,
         defeatStreakCount: 0,
+        campaignStartedAtMillis: DateTime.now().millisecondsSinceEpoch,
         meta: PlayerMetaProgress.fresh(),
       ),
     );

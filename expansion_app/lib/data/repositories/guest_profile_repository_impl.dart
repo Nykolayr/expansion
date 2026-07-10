@@ -34,6 +34,11 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       defeatStreakCount: _prefs.getInt(PrefsKeys.guestDefeatStreakCount) ?? 0,
       asteroidTutorialSeen:
           _prefs.getBool(PrefsKeys.guestAsteroidTutorialSeen) ?? false,
+      mission1TutorialCompleted:
+          _prefs.getBool(PrefsKeys.guestMission1TutorialCompleted) ?? false,
+      mapTutorialSeen: _prefs.getBool(PrefsKeys.guestMapTutorialSeen) ?? false,
+      campaignStartedAtMillis:
+          _prefs.getInt(PrefsKeys.guestCampaignStartedAt) ?? 0,
     );
   }
 
@@ -69,6 +74,18 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     await _prefs.setBool(
       PrefsKeys.guestAsteroidTutorialSeen,
       profile.asteroidTutorialSeen,
+    );
+    await _prefs.setBool(
+      PrefsKeys.guestMission1TutorialCompleted,
+      profile.mission1TutorialCompleted,
+    );
+    await _prefs.setBool(
+      PrefsKeys.guestMapTutorialSeen,
+      profile.mapTutorialSeen,
+    );
+    await _prefs.setInt(
+      PrefsKeys.guestCampaignStartedAt,
+      profile.campaignStartedAtMillis,
     );
   }
 
@@ -124,5 +141,30 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     final current = await load();
     if (current.asteroidTutorialSeen) return;
     await save(current.copyWith(asteroidTutorialSeen: true));
+  }
+
+  @override
+  Future<void> markMission1TutorialCompleted() async {
+    final current = await load();
+    if (current.mission1TutorialCompleted) return;
+    await save(current.copyWith(mission1TutorialCompleted: true));
+  }
+
+  @override
+  Future<void> markMapTutorialSeen() async {
+    final current = await load();
+    if (current.mapTutorialSeen) return;
+    await save(current.copyWith(mapTutorialSeen: true));
+  }
+
+  @override
+  Future<void> ensureCampaignStartedAt() async {
+    final current = await load();
+    if (current.campaignStartedAtMillis > 0) return;
+    await save(
+      current.copyWith(
+        campaignStartedAtMillis: DateTime.now().millisecondsSinceEpoch,
+      ),
+    );
   }
 }

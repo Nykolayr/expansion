@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:expansion/core/storage/fresh_install_guard.dart';
 import 'package:expansion/core/network/dio_client.dart';
+import 'package:expansion/core/audio/game_audio_service.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/core/storage/secure_storage_service.dart';
 import 'package:expansion/data/datasources/local/campaign_local_datasource.dart';
 import 'package:expansion/data/datasources/local/game_database.dart';
+import 'package:expansion/data/datasources/remote/content_sync_service.dart';
 import 'package:expansion/data/repositories/battle_session_factory_impl.dart';
 import 'package:expansion/data/repositories/campaign_repository_impl.dart';
 import 'package:expansion/data/repositories/guest_profile_repository_impl.dart';
@@ -21,6 +24,7 @@ import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart'
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/game_core/battle/battle_session_factory.dart';
 import 'package:expansion/presentation/bloc/progress/progress_cubit.dart';
+import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_cubit.dart';
 
 /// Глобальный контейнер зависимостей. Регистрации добавляй в [initDependencies].
@@ -28,16 +32,29 @@ final sl = GetIt.instance;
 
 /// Вызывать из [main] после [WidgetsFlutterBinding.ensureInitialized].
 Future<void> initDependencies() async {
+  if (sl.isRegistered<SharedPreferences>()) {
+    return;
+  }
+
   final prefs = await SharedPreferences.getInstance();
+  await FreshInstallGuard.applyIfNeeded(prefs);
   sl.registerSingleton<SharedPreferences>(prefs);
 
   sl.registerLazySingleton<AppFeedbackService>(AppFeedbackService.new);
+
+  sl.registerLazySingleton<GameAudioService>(
+    () => GameAudioService(sl<SharedPreferences>()),
+  );
 
   sl.registerSingleton<AppLocaleCubit>(AppLocaleCubit(sl<SharedPreferences>()));
   await sl<AppLocaleCubit>().load();
 
   sl.registerLazySingleton<DioClient>(DioClient.new);
   sl.registerLazySingleton<Dio>(() => sl<DioClient>().dio);
+
+  sl.registerLazySingleton<ContentSyncService>(
+    () => ContentSyncService(sl<Dio>()),
+  );
 
   sl.registerLazySingleton<SecureStorageService>(SecureStorageService.new);
 
@@ -100,5 +117,9 @@ Future<void> initDependencies() async {
 
   sl.registerSingleton<UpgradesCubit>(
     UpgradesCubit(sl<GuestProfileRepository>()),
+  );
+
+  sl.registerSingleton<ProfileCubit>(
+    ProfileCubit(sl<GuestProfileRepository>()),
   );
 }

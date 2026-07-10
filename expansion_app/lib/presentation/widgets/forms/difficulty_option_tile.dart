@@ -21,18 +21,24 @@ class DifficultyOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tile = ListTile(
-      title: Text(label),
-      trailing: selected
-          ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
-          : null,
-      onTap: onTap,
-    );
-
-    if (embedded) return tile;
+    if (embedded) {
+      return InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
+          child: Row(
+            children: [
+              Expanded(child: Text(label)),
+              if (selected)
+                const Icon(Icons.check_circle, color: ExpansionColors.accent),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 4),
       child: Card(
         color: ExpansionColors.background.withValues(alpha: 0.9),
         shape: RoundedRectangleBorder(
@@ -42,7 +48,20 @@ class DifficultyOptionTile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: tile,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
+            child: Row(
+              children: [
+                Expanded(child: Text(label)),
+                if (selected)
+                  const Icon(Icons.check_circle, color: ExpansionColors.accent),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

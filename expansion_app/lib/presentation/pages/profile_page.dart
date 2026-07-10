@@ -1,18 +1,205 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
+import 'package:expansion/core/constants/game_assets.dart';
+import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
-import 'package:expansion/presentation/widgets/layout/game_screen_scaffold.dart';
+import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
+import 'package:expansion/presentation/bloc/profile/profile_state.dart';
+import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/cards/game_stat_card.dart';
 
-/// Профиль игрока (скелет, фаза 5).
-class ProfilePage extends StatelessWidget {
+class _CapitalizeFirstLetterFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text;
+    if (text.isEmpty) return newValue;
+
+    final formatted = text[0].toUpperCase() +
+        (text.length > 1 ? text.substring(1) : '');
+    if (formatted == text) return newValue;
+
+    return newValue.copyWith(
+      text: formatted,
+      composing: TextRange.empty,
+    );
+  }
+}
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final _nameController = TextEditingController();
+  final _nameFocus = FocusNode();
+  String _savedName = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_onNameChanged);
+    sl<ProfileCubit>().load();
+  }
+
+  @override
+  void dispose() {
+    _nameController.removeListener(_onNameChanged);
+    _nameFocus.dispose();
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _onNameChanged() => setState(() {});
+
+  bool get _canSave {
+    final trimmed = _nameController.text.trim();
+    return trimmed.isNotEmpty && trimmed != _savedName;
+  }
+
+  Future<void> _saveName() async {
+    if (!_canSave) return;
+    await sl<ProfileCubit>().updateDisplayName(_nameController.text);
+    if (!mounted) return;
+    setState(() => _savedName = _nameController.text.trim());
+    _nameFocus.unfocus();
+  }
+
+  String _displayName(AppLocalizations loc, ProfileState state) {
+    final name = state.profile?.displayName ?? '';
+    if (name.trim().isEmpty) return loc.profileGuestLabel;
+    return name.trim();
+  }
+
+  String _startedLabel(ProfileState state, AppLocalizations loc) {
+    final ms = state.profile?.campaignStartedAtMillis ?? 0;
+    if (ms <= 0) return '—';
+    final date = DateTime.fromMillisecondsSinceEpoch(ms);
+    return DateFormat.yMMMd(Localizations.localeOf(context).toString())
+        .format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    return GameScreenScaffold(
-      title: loc.profileTitle,
-      placeholderMessage: loc.screenPlaceholderBody,
+
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              GameScreenBackBar(title: loc.profileTitle),
+              Expanded(
+                child: BlocConsumer<ProfileCubit, ProfileState>(
+                  bloc: sl<ProfileCubit>(),
+                  listenWhen: (p, c) =>
+                      p.profile?.displayName != c.profile?.displayName,
+                  listener: (context, state) {
+                    final name = state.profile?.displayName ?? '';
+                    if (_nameController.text != name) {
+                      _nameController.text = name;
+                    }
+                    _savedName = name.trim();
+                  },
+                  builder: (context, state) {
+                    if (state.status == ProfileStatus.loading ||
+                        state.status == ProfileStatus.initial) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (state.status == ProfileStatus.failure ||
+                        state.profile == null) {
+                      return Center(child: Text(loc.mapsLoadFailed));
+                    }
+
+                    final profile = state.profile!;
+                    if (_savedName.isEmpty && profile.displayName.isNotEmpty) {
+                      _savedName = profile.displayName.trim();
+                    }
+                    if (_nameController.text.isEmpty &&
+                        profile.displayName.isNotEmpty) {
+                      _nameController.text = profile.displayName;
+                    }
+
+                    return ListView(
+                      padding: EdgeInsets.fromLTRB(
+                        24,
+                        24,
+                        24,
+                        24 + MediaQuery.viewInsetsOf(context).bottom,
+                      ),
+                      children: [
+                        Text(
+                          _displayName(loc, state),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        const Gap(16),
+                        TextField(
+                          controller: _nameController,
+                          focusNode: _nameFocus,
+                          inputFormatters: [
+                            _CapitalizeFirstLetterFormatter(),
+                          ],
+                          decoration: InputDecoration(
+                            labelText: loc.profileDisplayName,
+                            hintText: loc.profileDisplayNameHint,
+                          ),
+                        ),
+                        const Gap(12),
+                        FilledButton(
+                          onPressed: _canSave ? _saveName : null,
+                          style: FilledButton.styleFrom(
+                            backgroundColor: ExpansionColors.accent,
+                            foregroundColor: ExpansionColors.black,
+                            disabledBackgroundColor:
+                                ExpansionColors.grey.withValues(alpha: 0.35),
+                            disabledForegroundColor:
+                                ExpansionColors.white.withValues(alpha: 0.5),
+                          ),
+                          child: Text(loc.profileSave),
+                        ),
+                        const Gap(16),
+                        GameStatCard(
+                          title: loc.profileMission,
+                          value: '${profile.mapClassic} / 40',
+                        ),
+                        const Gap(12),
+                        GameStatCard(
+                          title: loc.profileScore,
+                          value: '${profile.scoreClassic}',
+                        ),
+                        const Gap(12),
+                        GameStatCard(
+                          title: loc.profileStarted,
+                          value: _startedLabel(state, loc),
+                        ),
+                        const Gap(24),
+                        Text(
+                          loc.profileAccountSoon,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
+import 'package:expansion/core/audio/game_audio_service.dart';
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
@@ -11,12 +12,26 @@ import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
+import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/forms/difficulty_option_tile.dart';
 
-/// Настройки (язык, вступление; звук — позже).
-class SettingsPage extends StatelessWidget {
+/// Настройки (язык, звук, справка).
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool _soundEnabled = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _soundEnabled = sl<GameAudioService>().soundEnabled;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +82,7 @@ class SettingsPage extends StatelessWidget {
                                 title: Text(loc.settingsLanguage),
                                 subtitle: Text(loc.settingsLanguageHint),
                               ),
+                              const Divider(height: 1),
                               _LanguageTile(
                                 label: loc.settingsLanguageRu,
                                 selected: locale.languageCode == 'ru',
@@ -109,6 +125,7 @@ class SettingsPage extends StatelessWidget {
                                 title: Text(loc.settingsDifficulty),
                                 subtitle: Text(loc.settingsDifficultyHint),
                               ),
+                              const Divider(height: 1),
                               for (final level in GameDifficulty.values)
                                 DifficultyOptionTile(
                                   embedded: true,
@@ -132,6 +149,54 @@ class SettingsPage extends StatelessWidget {
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
+                      child: SwitchListTile(
+                        secondary: const Icon(
+                          Icons.volume_up_outlined,
+                          color: ExpansionColors.accent,
+                        ),
+                        title: Text(loc.settingsSound),
+                        subtitle: Text(
+                          loc.settingsSoundHint,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: ExpansionColors.grey,
+                          ),
+                        ),
+                        value: _soundEnabled,
+                        onChanged: (value) async {
+                          await sl<GameAudioService>().setSoundEnabled(value);
+                          setState(() => _soundEnabled = value);
+                        },
+                      ),
+                    ),
+                    const Gap(16),
+                    Card(
+                      color: ExpansionColors.background.withValues(alpha: 0.92),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: ExpansionColors.accent,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.help_outline,
+                          color: ExpansionColors.accent,
+                        ),
+                        title: Text(loc.settingsHelp),
+                        onTap: () => context.goToHelp(),
+                      ),
+                    ),
+                    const Gap(16),
+                    Card(
+                      color: ExpansionColors.background.withValues(alpha: 0.92),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: ExpansionColors.accent,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: ListTile(
                         leading: const Icon(
                           Icons.auto_stories_outlined,
@@ -144,7 +209,11 @@ class SettingsPage extends StatelessWidget {
                             color: ExpansionColors.grey,
                           ),
                         ),
-                        onTap: () => context.goToIntroStory(),
+                        onTap: () async {
+                          await sl<SplashCubit>().requestIntroReplay();
+                          if (!context.mounted) return;
+                          context.goToSplash();
+                        },
                       ),
                     ),
                   ],
@@ -171,12 +240,18 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(label),
-      trailing: selected
-          ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
-          : null,
+    return InkWell(
       onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 6, 12, 6),
+        child: Row(
+          children: [
+            Expanded(child: Text(label)),
+            if (selected)
+              const Icon(Icons.check_circle, color: ExpansionColors.accent),
+          ],
+        ),
+      ),
     );
   }
 }

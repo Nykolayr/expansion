@@ -37,7 +37,10 @@ class _SplashPretextTyperState extends State<SplashPretextTyper> {
   @override
   void initState() {
     super.initState();
-    _startTyping();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _startTyping();
+    });
   }
 
   @override

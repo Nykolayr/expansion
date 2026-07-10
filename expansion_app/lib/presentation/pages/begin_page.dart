@@ -94,7 +94,7 @@ class _BeginPageState extends State<BeginPage> {
                           loc.beginDifficultyHint,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        const Gap(16),
+                        const Gap(8),
                         DifficultyOptionTile(
                           label: loc.beginDifficultyEasy,
                           selected: state.difficulty == GameDifficulty.easy,

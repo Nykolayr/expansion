@@ -3,8 +3,12 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:expansion/core/audio/game_audio_service.dart';
+import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/logging/app_log.dart';
+import 'package:expansion/core/ui/game_haptic.dart';
 import 'package:expansion/game_core/battle/battle_session_factory.dart';
+import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
@@ -15,9 +19,11 @@ import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/game_core/ai/battle_intent.dart';
 import 'package:expansion/game_core/ai/enemy_commander.dart';
 import 'package:expansion/game_core/ai/enemy_personality.dart';
+import 'package:expansion/game_core/ai/enemy_upgrade_advisor.dart';
 import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
 import 'package:expansion/game_core/battle/battle_pacing.dart';
+import 'package:expansion/game_core/battle/battle_victory_reward.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/game_core/game_loop/battle_tick_loop.dart';
 import 'package:expansion/presentation/bloc/battle/battle_state.dart';
@@ -34,6 +40,7 @@ class BattleCubit extends Cubit<BattleState> {
   final GuestProfileRepository _guest;
 
   final EnemyCommander _enemyCommander = const EnemyCommander();
+  final EnemyUpgradeAdvisor _enemyUpgradeAdvisor = const EnemyUpgradeAdvisor();
   BattleEngine? _engine;
 
   final BattleTickLoop _tickLoop = BattleTickLoop();
@@ -44,6 +51,8 @@ class BattleCubit extends Cubit<BattleState> {
   DateTime? _battleStartedAt;
   bool _firstBattleEnemyGrace = false;
   bool _asteroidTutorialSeen = false;
+  int _initialPlayerBaseCount = 0;
+  DateTime? _missionTutorialEndedAt;
 
   Future<void> loadMission(int sceneId) async {
     await _stopLoop();
@@ -90,6 +99,18 @@ class BattleCubit extends Cubit<BattleState> {
         }
       }
       _engine = engine..bindRandom(_battleRng!);
+      _initialPlayerBaseCount = engine.snapshot().playerBases.length;
+      _missionTutorialEndedAt = null;
+
+      final tutorialStep = sceneId == 1 && !guest.mission1TutorialCompleted
+          ? MissionTutorialStep.drag
+          : MissionTutorialStep.none;
+
+      if (sceneId == 1 && tutorialStep != MissionTutorialStep.none) {
+        engine.setTutorialCaptureBonusBaseId(
+          engine.mission1TutorialCaptureBaseId,
+        );
+      }
 
       emit(
         state.copyWith(
@@ -99,6 +120,7 @@ class BattleCubit extends Cubit<BattleState> {
           briefingEn: scene?.battleEn ?? '',
           clearSelection: true,
           isPaused: false,
+          missionTutorialStep: tutorialStep,
         ),
       );
 
@@ -127,6 +149,21 @@ class BattleCubit extends Cubit<BattleState> {
     if (engine == null || !state.canInteract) return;
     final base = engine.snapshot().baseById(baseId);
     if (base == null || base.side != BattleSide.player) return;
+
+    if (state.missionTutorialStep == MissionTutorialStep.captureHint) {
+      final snap = engine.snapshot();
+      if (snap.playerBases.length <= _initialPlayerBaseCount) return;
+      emit(
+        state.copyWith(
+          selectedBaseId: baseId,
+          missionTutorialStep: MissionTutorialStep.upgradeOverlay,
+        ),
+      );
+      return;
+    }
+
+    if (!_canOpenBaseStatus(base)) return;
+
     emit(state.copyWith(selectedBaseId: baseId));
   }
 
@@ -137,7 +174,7 @@ class BattleCubit extends Cubit<BattleState> {
   /// Свайп со своей базы на клетку с базой-целью.
   bool sendFleetDrag(int fromX, int fromY, int toX, int toY) {
     final engine = _engine;
-    if (engine == null || !state.canInteract) return false;
+    if (engine == null || !state.canSendFleet) return false;
 
     final from = engine.snapshot().baseAt(fromX, fromY);
     final to = engine.snapshot().baseAt(toX, toY);
@@ -151,7 +188,22 @@ class BattleCubit extends Cubit<BattleState> {
       requiredSide: BattleSide.player,
     );
     if (sent) {
-      emit(state.copyWith(clearBlocked: true));
+      sl<GameAudioService>().playFleetSend();
+      GameHaptic.light();
+      if (state.sceneId == 1 && state.missionTutorialActive) {
+        engine.setTutorialCaptureBonusBaseId(to.id);
+      }
+      final toBase = engine.snapshot().baseAt(toX, toY);
+      emit(
+        state.copyWith(
+          clearBlocked: true,
+          missionTutorialStep:
+              state.missionTutorialStep == MissionTutorialStep.drag
+                  ? MissionTutorialStep.captureHint
+                  : state.missionTutorialStep,
+          tutorialTargetBaseId: toBase?.id,
+        ),
+      );
       _emitPlaying();
       _checkOutcome();
     } else {
@@ -176,6 +228,42 @@ class BattleCubit extends Cubit<BattleState> {
     unawaited(_guest.markAsteroidTutorialSeen());
   }
 
+  Future<void> skipMissionTutorial() async {
+    _beginPostTutorialEnemyGrace();
+    emit(
+      state.copyWith(
+        missionTutorialStep: MissionTutorialStep.none,
+        clearSelection: true,
+        clearTutorialTarget: true,
+      ),
+    );
+    await _guest.markMission1TutorialCompleted();
+    AppLog.trace('mission1 tutorial skipped', tag: 'Battle');
+  }
+
+  void dismissMissionTutorialUpgrade() {
+    if (state.missionTutorialStep != MissionTutorialStep.upgradeOverlay) return;
+    emit(
+      state.copyWith(
+        missionTutorialStep: MissionTutorialStep.goalOverlay,
+        clearSelection: true,
+        clearTutorialTarget: true,
+      ),
+    );
+  }
+
+  void dismissMissionTutorialGoal() {
+    if (state.missionTutorialStep != MissionTutorialStep.goalOverlay) return;
+    _beginPostTutorialEnemyGrace();
+    emit(
+      state.copyWith(
+        missionTutorialStep: MissionTutorialStep.none,
+        clearTutorialTarget: true,
+      ),
+    );
+    unawaited(_guest.markMission1TutorialCompleted());
+  }
+
   int tacticalCostFor(int baseId, TacticalUpgradeType type) {
     final engine = _engine;
     final base = engine?.snapshot().baseById(baseId);
@@ -186,13 +274,59 @@ class BattleCubit extends Cubit<BattleState> {
   TacticalUpgradeResult? purchaseTacticalUpgrade(TacticalUpgradeType type) {
     final engine = _engine;
     final baseId = state.selectedBaseId;
-    if (engine == null || baseId == null || !state.canInteract) return null;
+    if (engine == null ||
+        baseId == null ||
+        !state.isPlaying ||
+        state.isPaused) {
+      return null;
+    }
 
     final result = engine.applyTacticalUpgrade(baseId, type);
     if (result == TacticalUpgradeResult.success) {
-      _emitPlaying();
+      final tutorialStep = state.missionTutorialStep;
+      final nextTutorialStep =
+          tutorialStep == MissionTutorialStep.upgradeOverlay
+              ? MissionTutorialStep.goalOverlay
+              : tutorialStep;
+      emit(
+        state.copyWith(
+          snapshot: engine.snapshot(),
+          clearSelection: true,
+          missionTutorialStep: nextTutorialStep,
+          clearTutorialTarget:
+              tutorialStep == MissionTutorialStep.upgradeOverlay,
+        ),
+      );
     }
     return result;
+  }
+
+  /// Базы с доступным тактическим улучшением (для подсветки и тапа).
+  Set<int> upgradablePlayerBaseIds() {
+    final engine = _engine;
+    final snap = state.snapshot;
+    if (engine == null || snap == null) return const {};
+
+    final ids = <int>{};
+    for (final base in snap.playerBases) {
+      if (_showsUpgradeHint(base)) ids.add(base.id);
+    }
+    return ids;
+  }
+
+  bool _canOpenBaseStatus(BattleBase base) => _showsUpgradeHint(base);
+
+  bool _showsUpgradeHint(BattleBase base) {
+    final engine = _engine;
+    if (engine == null || base.side != BattleSide.player) return false;
+
+    final step = state.missionTutorialStep;
+    if (step == MissionTutorialStep.captureHint ||
+        step == MissionTutorialStep.upgradeOverlay) {
+      return TacticalUpgradeType.values.any((t) => !base.isTacticalMaxed(t));
+    }
+
+    return engine.hasAffordableTacticalUpgrade(base);
   }
 
   ({String current, String next, int cost, bool maxed})? tacticalPreview(
@@ -206,17 +340,17 @@ class BattleCubit extends Cubit<BattleState> {
     return engine.tacticalPreview(base, type);
   }
 
-  Future<int> completeAfterVictory() async {
+  Future<BattleVictoryReward> completeAfterVictory() async {
     final guest = await _guest.load();
     final nextMission = (state.sceneId + 1).clamp(1, 40);
-    final reward = 40 + state.sceneId * 15;
+    final reward = BattleRewardCalculator.forMission(state.sceneId);
     await _guest.save(
       guest.copyWith(
         mapClassic: nextMission > guest.mapClassic
             ? nextMission
             : guest.mapClassic,
         firstBattleCompleted: true,
-        scoreClassic: guest.scoreClassic + reward,
+        scoreClassic: guest.scoreClassic + reward.total,
         defeatStreakSceneId: 0,
         defeatStreakCount: 0,
         meta: guest.meta.afterVictory(),
@@ -268,16 +402,17 @@ class BattleCubit extends Cubit<BattleState> {
   void _onTick() {
     final engine = _engine;
     final rng = _battleRng;
-    if (engine == null || rng == null || !state.isPlaying || state.isPaused) {
+    if (engine == null || rng == null || !state.ticksRunning) {
       return;
     }
-    if (state.showMeteoriteTutorial) return;
+    if (state.tutorialPausesTicks) return;
 
     final asteroidsBefore = state.snapshot?.asteroids.length ?? 0;
-    engine.tick();
+    engine.tick(spawnAsteroids: !state.tutorialPausesAsteroids);
     final asteroidsAfter = engine.snapshot().asteroids.length;
 
-    if (!_asteroidTutorialSeen &&
+    if (!state.missionTutorialActive &&
+        !_asteroidTutorialSeen &&
         asteroidsBefore == 0 &&
         asteroidsAfter > 0) {
       _emitPlaying();
@@ -286,20 +421,18 @@ class BattleCubit extends Cubit<BattleState> {
       return;
     }
 
-    _enemyTickCounter++;
-
     final config = BattleDifficultyConfig.forDifficulty(_difficulty);
     final baseTicks = config.ticksPerEnemyTurn / _bonuses.enemyTurnDivider;
     final jitter = (baseTicks * (0.85 + rng.nextDouble() * 0.3)).round();
 
-    final enemyGrace = _firstBattleEnemyGrace &&
-        _battleStartedAt != null &&
-        DateTime.now().difference(_battleStartedAt!) <
-            BattlePacing.firstBattleEnemyGrace;
-
-    if (!enemyGrace && _enemyTickCounter >= jitter) {
+    if (_isEnemyGraceActive()) {
       _enemyTickCounter = 0;
-      _runEnemyTurn(engine, rng);
+    } else {
+      _enemyTickCounter++;
+      if (_enemyTickCounter >= jitter) {
+        _enemyTickCounter = 0;
+        _runEnemyTurn(engine, rng);
+      }
     }
 
     _emitPlaying();
@@ -308,6 +441,28 @@ class BattleCubit extends Cubit<BattleState> {
 
   void _runEnemyTurn(BattleEngine engine, Random rng) {
     final personality = EnemyPersonality.forDifficulty(_difficulty);
+    final snapshot = engine.snapshot();
+
+    final upgrade = _enemyUpgradeAdvisor.pick(
+      engine: engine,
+      snapshot: snapshot,
+      personality: personality,
+      difficulty: _difficulty,
+      random: rng,
+    );
+    if (upgrade != null) {
+      final result = engine.applyTacticalUpgrade(
+        upgrade.baseId,
+        upgrade.type,
+      );
+      if (result == TacticalUpgradeResult.success) {
+        AppLog.trace(
+          'enemy upgrade ${upgrade.type.name} base=${upgrade.baseId}',
+          tag: 'Battle',
+        );
+      }
+    }
+
     final intents = _enemyCommander.decide(
       snapshot: engine.snapshot(),
       personality: personality,
@@ -337,6 +492,44 @@ class BattleCubit extends Cubit<BattleState> {
     final engine = _engine;
     if (engine == null) return;
     emit(state.copyWith(snapshot: engine.snapshot()));
+    _syncMissionTutorialCapture();
+  }
+
+  void _syncMissionTutorialCapture() {
+    if (state.missionTutorialStep != MissionTutorialStep.captureHint) return;
+    final snap = state.snapshot;
+    if (snap == null) return;
+    if (snap.playerBases.length > _initialPlayerBaseCount) {
+      emit(state.copyWith(missionTutorialStep: MissionTutorialStep.upgradeOverlay));
+    }
+  }
+
+  void _beginPostTutorialEnemyGrace() {
+    _missionTutorialEndedAt = DateTime.now();
+    _enemyTickCounter = 0;
+    AppLog.trace(
+      'post-tutorial enemy grace ${BattlePacing.postTutorialEnemyGrace.inSeconds}s',
+      tag: 'Battle',
+    );
+  }
+
+  bool _isEnemyGraceActive() {
+    if (state.tutorialPausesEnemy) return true;
+
+    if (_missionTutorialEndedAt != null &&
+        DateTime.now().difference(_missionTutorialEndedAt!) <
+            BattlePacing.postTutorialEnemyGrace) {
+      return true;
+    }
+
+    if (_firstBattleEnemyGrace &&
+        _battleStartedAt != null &&
+        DateTime.now().difference(_battleStartedAt!) <
+            BattlePacing.firstBattleEnemyGrace) {
+      return true;
+    }
+
+    return false;
   }
 
   void _checkOutcome() {

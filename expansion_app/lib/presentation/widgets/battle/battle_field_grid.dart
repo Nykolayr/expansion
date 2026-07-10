@@ -20,6 +20,7 @@ class BattleFieldGrid extends StatefulWidget {
   const BattleFieldGrid({
     required this.snapshot,
     required this.selectedBaseId,
+    required this.upgradableBaseIds,
     required this.onPlayerBaseTap,
     required this.onFleetDrag,
     this.onDismissOverlay,
@@ -31,6 +32,7 @@ class BattleFieldGrid extends StatefulWidget {
 
   final BattleSnapshot snapshot;
   final int? selectedBaseId;
+  final Set<int> upgradableBaseIds;
   final void Function(int baseId) onPlayerBaseTap;
 
   /// `from` и `to` — координаты клеток 1-based. Возвращает успех отправки.
@@ -59,8 +61,9 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
+    return RepaintBoundary(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
         final gridW = constraints.maxWidth;
         final gridH = constraints.maxHeight;
         final cellW = (gridW - BattleFieldGrid._spacing * (kBattleColumns - 1)) /
@@ -156,6 +159,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
           ),
         );
       },
+      ),
     );
   }
 
@@ -196,6 +200,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
               base: base,
               cellWidth: innerW,
               cellHeight: innerH,
+              showUpgradeHint: widget.upgradableBaseIds.contains(base.id),
             ),
           ),
           if (blocked)
@@ -268,7 +273,9 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
       return;
     }
     final base = widget.snapshot.baseAt(cell.$1, cell.$2);
-    if (base != null && base.side == BattleSide.player) {
+    if (base != null &&
+        base.side == BattleSide.player &&
+        widget.upgradableBaseIds.contains(base.id)) {
       widget.onPlayerBaseTap(base.id);
       return;
     }

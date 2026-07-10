@@ -2,8 +2,8 @@
 abstract final class SplashIntroTiming {
   static const int msPerChar = 28;
 
-  /// Пауза с полным текстом перед дозаполнением полосы.
-  static const int holdFullTextMs = 1000;
+  /// Пауза с полным текстом перед загрузкой БД.
+  static const int holdFullTextMs = 2000;
 
   /// Быстрое дозаполнение оставшейся части полосы после паузы.
   static const int barFinishMs = 500;

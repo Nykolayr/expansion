@@ -58,7 +58,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsReplayIntro => 'Показать вступление снова';
 
   @override
-  String get settingsReplayIntroHint => 'Открыть экран с полной историей';
+  String get settingsReplayIntroHint =>
+      'Показать вступительный текст на стартовом экране';
 
   @override
   String get settingsLanguage => 'Язык интерфейса';
@@ -360,6 +361,151 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get battleContinue => 'Продолжить';
+
+  @override
+  String battleVictoryRewardDetail(int base, int bonus, int total) {
+    return 'База: $base + миссия: $bonus = $total очков.';
+  }
+
+  @override
+  String get battleVictoryToMap => 'На карту';
+
+  @override
+  String get battleVictoryToUpgrades => 'Улучшения';
+
+  @override
+  String battleVictoryNextMission(int id) {
+    return 'Следующая миссия ($id)';
+  }
+
+  @override
+  String get battleTutorialDragTitle => 'Отправка флота';
+
+  @override
+  String get battleTutorialDragBody =>
+      'Свайп от своей базы (синяя) к соседней цели. Отправится половина кораблей на базе.';
+
+  @override
+  String get battleTutorialCaptureTitle => 'Захват';
+
+  @override
+  String get battleTutorialCaptureBody =>
+      'Смотрите на поле: флот летит к цели (пульс на базе). После захвата тапните захваченную базу.';
+
+  @override
+  String get battleTutorialUpgradeTitle => 'Улучшения базы';
+
+  @override
+  String get battleTutorialUpgradeBody =>
+      'Тапните захваченную базу на поле. Купите улучшение или нажмите «Понятно» — дальше расскажем про врага и цель боя.';
+
+  @override
+  String get battleTutorialGoalTitle => 'Цель боя';
+
+  @override
+  String get battleTutorialGoalBody =>
+      'Красные базы врага тоже отправляют флоты и захватывают ваши и нейтральные базы. Победа — когда не останется вражеских баз. Поражение — если потеряете все свои базы.';
+
+  @override
+  String get battleTutorialDismiss => 'Понятно';
+
+  @override
+  String get battleTutorialSkip => 'Пропустить';
+
+  @override
+  String get mapTutorialTitle => 'Карта кампании';
+
+  @override
+  String get mapTutorialBody =>
+      'Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.';
+
+  @override
+  String get mapTutorialDismiss => 'Вперёд';
+
+  @override
+  String get mapTutorialLater => 'Позже';
+
+  @override
+  String get helpTitle => 'Справка';
+
+  @override
+  String get helpBattleTitle => 'Бой';
+
+  @override
+  String get helpBattleBody =>
+      'Свайп между базами отправляет флот по прямой, если путь свободен. Захватите все вражеские базы. Астероиды бьют по щиту и кораблям.';
+
+  @override
+  String get helpMapTitle => 'Карта';
+
+  @override
+  String get helpMapBody =>
+      '40 миссий Classic. Текущая отмечена мишенью. После победы открывается следующая система.';
+
+  @override
+  String get helpUpgradesTitle => 'Апгрейды';
+
+  @override
+  String get helpUpgradesBody =>
+      'Мета-апгрейды покупаются за очки между боями и сохраняются. Тактические — только внутри боя за ресурсы базы.';
+
+  @override
+  String get helpDifficultyTitle => 'Сложность';
+
+  @override
+  String get helpDifficultyBody =>
+      'Лёгкая — медленнее AI и чуть быстрее ваш флот. Сложная — агрессивнее чужие. Мета-апгрейды при поражении не сбрасываются.';
+
+  @override
+  String get settingsSound => 'Звук';
+
+  @override
+  String get settingsSoundHint =>
+      'Эффекты боя (ассеты подключаются по мере переноса)';
+
+  @override
+  String get settingsHelp => 'Справка по игре';
+
+  @override
+  String get profileGuestLabel => 'Гость';
+
+  @override
+  String get profileDisplayName => 'Имя';
+
+  @override
+  String get profileDisplayNameHint => 'Как отображать в профиле';
+
+  @override
+  String get profileSave => 'Сохранить';
+
+  @override
+  String get profileMission => 'Текущая миссия';
+
+  @override
+  String get profileScore => 'Очки';
+
+  @override
+  String get profileStarted => 'Кампания с';
+
+  @override
+  String get profileAccountSoon =>
+      'Вход и синхронизация — следующий этап (сервер MVP).';
+
+  @override
+  String get donateTitle => 'Поддержать';
+
+  @override
+  String get donateBody =>
+      'Expansion — инди-проект. Ссылка на репозиторий и будущие способы поддержки.';
+
+  @override
+  String get donateGithub => 'GitHub проекта';
+
+  @override
+  String get donateThanks => 'Спасибо, что играете!';
+
+  @override
+  String get donateOpenFailed => 'Не удалось открыть ссылку';
 
   @override
   String battleScenePlaceholder(int sceneId) {

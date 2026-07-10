@@ -16,6 +16,7 @@ import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
 import 'package:expansion/game_core/battle/battle_fleet_rules.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 import 'package:expansion/game_core/battle/battle_pacing.dart';
+import 'package:expansion/game_core/battle/battle_tactical_balance.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 
 enum BattleOutcome { playerWin, playerLose }
@@ -32,7 +33,10 @@ class BattleEngine {
   })  : _bases = List.of(bases),
         _fleets = [],
         _asteroids = [],
-        _explosions = [];
+        _explosions = [],
+        _mission1TutorialCaptureBaseId = sceneId == 1
+            ? _computeMission1TutorialCaptureBaseId(bases)
+            : null;
 
   factory BattleEngine.fromLayout(
     BattleLayout layout, {
@@ -55,6 +59,9 @@ class BattleEngine {
       var resources = 0.0;
       if (side == BattleSide.player && placed.role == PlacementRole.playerMain) {
         resources = 120;
+      } else if (side == BattleSide.enemy &&
+          placed.role == PlacementRole.enemyMain) {
+        resources = 80;
       }
 
       bases.add(
@@ -95,6 +102,9 @@ class BattleEngine {
   final List<BattleFleet> _fleets;
   final List<BattleAsteroid> _asteroids;
   final List<BattleExplosion> _explosions;
+  final int? _mission1TutorialCaptureBaseId;
+  int? _tutorialCaptureBonusBaseId;
+  bool _tutorialCaptureBonusGranted = false;
   int _tick = 0;
   int _nextFleetId = 1;
   int _nextAsteroidId = 1;
@@ -102,15 +112,24 @@ class BattleEngine {
   int _asteroidSpawnCounter = 0;
   Random? _random;
 
-  static const int _asteroidSpawnIntervalTicks =
-      BattlePacing.asteroidSpawnIntervalTicks;
   static const double _asteroidProgressPerTick =
       BattlePacing.asteroidProgressPerTick;
 
+  int get _asteroidSpawnIntervalTicks =>
+      BattlePacing.asteroidSpawnIntervalForScene(sceneId);
+
   void bindRandom(Random random) => _random = random;
 
+  /// База туториала м1 (ближайшая нейтральная к «матке»).
+  int? get mission1TutorialCaptureBaseId => _mission1TutorialCaptureBaseId;
+
+  /// Цель свайпа в туториале — при захвате этой базы дать ресурсы на апгрейд.
+  void setTutorialCaptureBonusBaseId(int? baseId) {
+    _tutorialCaptureBonusBaseId = baseId;
+  }
+
   static const double _baseFleetProgressPerTick =
-      BattlePacing.fleetProgressPerTick;
+      BattlePacing.baseFleetProgressPerGridCell;
 
   double _fleetProgressForSide(BattleSide side) {
     final diff = BattleDifficultyConfig.forDifficulty(difficulty);
@@ -126,7 +145,8 @@ class BattleEngine {
   /// Половина кораблей на базе (минимум 1).
   static int defaultSendCount(int shipsOnBase) => defaultFleetSendCount(shipsOnBase);
 
-  static const double _resourceIncomePerTick = 0.12;
+  static const double _resourceIncomePerTick =
+      BattlePacing.resourceIncomePerTick;
   static const int _tacticalBaseCost = 80;
 
   BattleSnapshot snapshot() => BattleSnapshot(
@@ -183,12 +203,15 @@ class BattleEngine {
     return true;
   }
 
-  void tick() {
+  void tick({bool spawnAsteroids = true}) {
     _tick++;
     _advanceFleets();
     _advanceExplosions();
     _advanceAsteroids();
-    _maybeSpawnAsteroid();
+    _resolveAsteroidFleetCollisions();
+    if (spawnAsteroids) {
+      _maybeSpawnAsteroid();
+    }
     _economyTick();
   }
 
@@ -228,8 +251,11 @@ class BattleEngine {
         final growthMul = base.side == BattleSide.player
             ? bonuses.growthSpeed
             : diff.enemyGrowthSpeedMul;
-        final threshold =
-            (12 / (base.speedBuild * growthMul)).round().clamp(4, 28);
+        final threshold = BattleTacticalBalance.shipGrowthThresholdTicks(
+          speedBuild: base.speedBuild,
+          buildUpgradeLevel: base.buildUpgradeLevel,
+          growthMul: growthMul,
+        );
         var acc = base.growthAccumulator + 1;
         if (acc >= threshold) {
           base = base.copyWith(ships: base.ships + 1, growthAccumulator: 0);
@@ -247,6 +273,26 @@ class BattleEngine {
     return _tacticalBaseCost * (1 << base.tacticalLevelFor(type));
   }
 
+  /// Можно купить улучшение [type] на базе (игрок или враг).
+  bool canAffordTacticalUpgrade(BattleBase base, TacticalUpgradeType type) {
+    if (base.side == BattleSide.neutral) return false;
+    if (base.isTacticalMaxed(type)) return false;
+    return base.resources >= tacticalUpgradeCost(base, type);
+  }
+
+  /// Есть ресурсы на хотя бы одно тактическое улучшение (для иконки и тапа игрока).
+  bool hasAffordableTacticalUpgrade(BattleBase base) {
+    if (base.side != BattleSide.player) return false;
+    for (final type in TacticalUpgradeType.values) {
+      if (canAffordTacticalUpgrade(base, type)) return true;
+    }
+    return false;
+  }
+
+  /// База доступна для панели статуса.
+  bool canOpenTacticalStatus(BattleBase base) =>
+      hasAffordableTacticalUpgrade(base);
+
   /// Текущее и следующее значение для UI улучшений.
   ({String current, String next, int cost, bool maxed}) tacticalPreview(
     BattleBase base,
@@ -262,8 +308,12 @@ class BattleEngine {
           maxed: maxed,
         ),
       TacticalUpgradeType.buildSpeed => (
-          current: base.speedBuild.toStringAsFixed(2),
-          next: (base.speedBuild + 0.05).toStringAsFixed(2),
+          current: BattleTacticalBalance.formatBuildMultiplier(
+            base.buildUpgradeLevel,
+          ),
+          next: BattleTacticalBalance.formatBuildMultiplier(
+            base.buildUpgradeLevel + 1,
+          ),
           cost: cost,
           maxed: maxed,
         ),
@@ -280,13 +330,11 @@ class BattleEngine {
     int baseId,
     TacticalUpgradeType type,
   ) {
-    if (_fleets.isNotEmpty || _asteroids.isNotEmpty) {
-      return TacticalUpgradeResult.busy;
-    }
-
     final base = _base(baseId);
     if (base == null) return TacticalUpgradeResult.invalidBase;
-    if (base.side != BattleSide.player) return TacticalUpgradeResult.notPlayerBase;
+    if (base.side == BattleSide.neutral) {
+      return TacticalUpgradeResult.invalidBase;
+    }
     if (base.isTacticalMaxed(type)) return TacticalUpgradeResult.maxLevel;
 
     final cost = tacticalUpgradeCost(base, type);
@@ -300,8 +348,8 @@ class BattleEngine {
         ),
       TacticalUpgradeType.buildSpeed => base.copyWith(
           resources: base.resources - cost,
-          speedBuild: base.speedBuild + 0.05,
           buildUpgradeLevel: base.buildUpgradeLevel + 1,
+          growthAccumulator: 0,
         ),
       TacticalUpgradeType.maxShips => base.copyWith(
           resources: base.resources - cost,
@@ -358,6 +406,7 @@ class BattleEngine {
       final cell = _asteroidCell(updated);
       final base = _baseAtCell(cell.$1, cell.$2);
       if (base != null) {
+        _spawnExplosion(base.x.toDouble(), base.y.toDouble());
         _applyAsteroidHit(base.id, updated.power);
         removeIds.add(updated.id);
       }
@@ -369,10 +418,80 @@ class BattleEngine {
   }
 
   (int x, int y) _asteroidCell(BattleAsteroid ast) {
+    final pos = _asteroidGridPosition(ast);
+    return (pos.$1.round().clamp(1, gridCols), pos.$2.round().clamp(1, gridRows));
+  }
+
+  (double x, double y) _asteroidGridPosition(BattleAsteroid ast) {
     final t = ast.progress.clamp(0.0, 1.0);
-    final x = (ast.fromX + (ast.toX - ast.fromX) * t).round();
-    final y = (ast.fromY + (ast.toY - ast.fromY) * t).round();
-    return (x.clamp(1, gridCols), y.clamp(1, gridRows));
+    return (
+      ast.fromX + (ast.toX - ast.fromX) * t,
+      ast.fromY + (ast.toY - ast.fromY) * t,
+    );
+  }
+
+  void _resolveAsteroidFleetCollisions() {
+    const collideRadius = 0.38;
+    final removeFleets = <int>{};
+    final removeAsteroids = <int>{};
+    final fleetUpdates = <int, BattleFleet>{};
+    final asteroidUpdates = <int, BattleAsteroid>{};
+
+    for (var ai = 0; ai < _asteroids.length; ai++) {
+      var ast = asteroidUpdates[_asteroids[ai].id] ?? _asteroids[ai];
+      if (removeAsteroids.contains(ast.id)) continue;
+
+      final pa = _asteroidGridPosition(ast);
+
+      for (final fleet in _fleets) {
+        if (removeFleets.contains(fleet.id)) continue;
+
+        final f = fleetUpdates[fleet.id] ?? fleet;
+        final pf = _fleetGridPosition(f);
+        final dx = pa.$1 - pf.$1;
+        final dy = pa.$2 - pf.$2;
+        if (dx * dx + dy * dy > collideRadius * collideRadius) continue;
+
+        _spawnExplosion((pa.$1 + pf.$1) / 2, (pa.$2 + pf.$2) / 2);
+
+        final power = ast.power;
+        final ships = f.ships;
+
+        if (ships > power) {
+          fleetUpdates[fleet.id] = f.copyWith(ships: ships - power);
+          removeAsteroids.add(ast.id);
+        } else {
+          removeFleets.add(fleet.id);
+          final remainingPower = power - ships;
+          if (remainingPower <= 0) {
+            removeAsteroids.add(ast.id);
+          } else {
+            ast = ast.copyWith(power: remainingPower);
+            asteroidUpdates[ast.id] = ast;
+          }
+        }
+        break;
+      }
+    }
+
+    if (removeFleets.isEmpty &&
+        removeAsteroids.isEmpty &&
+        fleetUpdates.isEmpty &&
+        asteroidUpdates.isEmpty) {
+      return;
+    }
+
+    _fleets.removeWhere((f) => removeFleets.contains(f.id));
+    for (var i = 0; i < _fleets.length; i++) {
+      final updated = fleetUpdates[_fleets[i].id];
+      if (updated != null) _fleets[i] = updated;
+    }
+
+    _asteroids.removeWhere((a) => removeAsteroids.contains(a.id));
+    for (var i = 0; i < _asteroids.length; i++) {
+      final updated = asteroidUpdates[_asteroids[i].id];
+      if (updated != null) _asteroids[i] = updated;
+    }
   }
 
   void _applyAsteroidHit(int baseId, int power) {
@@ -428,7 +547,8 @@ class BattleEngine {
 
     for (var i = 0; i < _fleets.length; i++) {
       final fleet = _fleets[i];
-      final step = _fleetProgressForSide(fleet.side);
+      final distance = _fleetTravelDistance(fleet);
+      final step = _fleetProgressForSide(fleet.side) / distance;
       final nextProgress = fleet.progress + step;
       if (nextProgress >= 1) {
         arrived.add(fleet);
@@ -447,6 +567,15 @@ class BattleEngine {
         fleetSize: fleet.ships,
       );
     }
+  }
+
+  double _fleetTravelDistance(BattleFleet fleet) {
+    final from = _base(fleet.fromBaseId);
+    final to = _base(fleet.toBaseId);
+    if (from == null || to == null) return 1;
+    final dx = (to.x - from.x).toDouble();
+    final dy = (to.y - from.y).toDouble();
+    return sqrt(dx * dx + dy * dy).clamp(1.0, double.infinity);
   }
 
   (double x, double y) _fleetGridPosition(BattleFleet fleet) {
@@ -575,12 +704,57 @@ class BattleEngine {
         isCommandBase: false,
         shield: 0,
         ships: capturedShips,
-        resources: attackerSide == BattleSide.player ? 80 : 0,
+        resources: _resourcesOnCapture(attackerSide, toId),
         speedBuild: target.speedBuild > 0 ? target.speedBuild : 0.1,
         speedResources:
             target.speedResources > 0 ? target.speedResources : 0.1,
       ),
     );
+  }
+
+  double _resourcesOnCapture(BattleSide attackerSide, int baseId) {
+    if (attackerSide != BattleSide.player || sceneId != 1) return 0;
+    if (_tutorialCaptureBonusGranted) return 0;
+
+    final bonusBaseId =
+        _tutorialCaptureBonusBaseId ?? _mission1TutorialCaptureBaseId;
+    if (bonusBaseId == null || baseId != bonusBaseId) return 0;
+
+    _tutorialCaptureBonusGranted = true;
+    return _tacticalBaseCost.toDouble();
+  }
+
+  static int? _computeMission1TutorialCaptureBaseId(List<BattleBase> bases) {
+    BattleBase? from;
+    for (final base in bases) {
+      if (base.side == BattleSide.player && base.isCommandBase) {
+        from = base;
+        break;
+      }
+    }
+    if (from == null) {
+      for (final base in bases) {
+        if (base.side == BattleSide.player) {
+          from = base;
+          break;
+        }
+      }
+    }
+    if (from == null) return null;
+
+    BattleBase? best;
+    var bestDist = double.infinity;
+    for (final base in bases) {
+      if (base.side != BattleSide.neutral) continue;
+      final dx = (base.x - from.x).toDouble();
+      final dy = (base.y - from.y).toDouble();
+      final dist = dx * dx + dy * dy;
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = base;
+      }
+    }
+    return best?.id;
   }
 
   void _updateBase(int id, BattleBase updated) {
@@ -634,6 +808,44 @@ class BattleEngine {
         speedResources: 0.1,
       );
     }
+  }
+
+  /// Тестовый флот в полёте (середина пути).
+  void debugPlaceFleetForTest({
+    required int fromBaseId,
+    required int toBaseId,
+    required int ships,
+    double progress = 0.5,
+    BattleSide side = BattleSide.player,
+  }) {
+    _fleets.add(
+      BattleFleet(
+        id: _nextFleetId++,
+        fromBaseId: fromBaseId,
+        toBaseId: toBaseId,
+        ships: ships,
+        side: side,
+        progress: progress,
+      ),
+    );
+  }
+
+  /// Тестовый астероид в фиксированной клетке сетки.
+  void debugPlaceAsteroidForTest({
+    required int gridX,
+    required int gridY,
+    required int power,
+  }) {
+    _asteroids.add(
+      BattleAsteroid(
+        id: _nextAsteroidId++,
+        fromX: gridX,
+        fromY: gridY,
+        toX: gridX,
+        toY: gridY,
+        power: power,
+      ),
+    );
   }
 }
 

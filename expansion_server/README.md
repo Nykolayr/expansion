@@ -20,7 +20,18 @@ Backend API для игры **Expansion**.
 
 ## Статус
 
-Код API **ещё не инициализирован**. См. `CURRENT_STAGE.md`.
+**MVP API** — `api/server.js`: health, auth (JWT in-memory), profile, content/version.
+
+```bash
+cd expansion_server
+npm install
+cp .env.example .env
+npm start
+```
+
+Load-check: `node -e "require('./api/server'); console.log('ok')"` — сервер слушает порт; для CI достаточно `require('./api/routes/auth')`.
+
+Клиент: `ContentSyncService` — заготовка проверки `/api/content/version`.
 
 ## Git
 

@@ -2,8 +2,8 @@
    {
       "nameRu": "Солнце",
       "nameEn": "Sun",
-      "descriptionRu": "",
-      "descriptionEn": "",
+      "descriptionRu": "Родная система. Первый рубеж экспансии — захват соседних узлов и удержание линии снабжения.",
+      "descriptionEn": "Home system. First step of expansion — seize nearby nodes and hold your supply line.",
       "battleRu": "Битва за родную систему начинается!",
       "battleEn": "The battle for the native system begins!"
    },

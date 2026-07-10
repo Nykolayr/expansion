@@ -15,6 +15,9 @@ class GuestProfile extends Equatable {
     this.defeatStreakSceneId = 0,
     this.defeatStreakCount = 0,
     this.asteroidTutorialSeen = false,
+    this.mission1TutorialCompleted = false,
+    this.mapTutorialSeen = false,
+    this.campaignStartedAtMillis = 0,
     PlayerMetaProgress? meta,
   }) : meta = meta ?? PlayerMetaProgress.fresh();
 
@@ -33,6 +36,15 @@ class GuestProfile extends Equatable {
 
   /// Показана подсказка при первом астероиде.
   final bool asteroidTutorialSeen;
+
+  /// Пройден пошаговый туториал миссии 1.
+  final bool mission1TutorialCompleted;
+
+  /// Показана подсказка на карте кампании.
+  final bool mapTutorialSeen;
+
+  /// Unix-ms старта кампании (0 — не задано).
+  final int campaignStartedAtMillis;
   final PlayerMetaProgress meta;
 
   /// Есть что терять при «Новой игре» — показываем подтверждение сброса.
@@ -53,6 +65,9 @@ class GuestProfile extends Equatable {
     int? defeatStreakSceneId,
     int? defeatStreakCount,
     bool? asteroidTutorialSeen,
+    bool? mission1TutorialCompleted,
+    bool? mapTutorialSeen,
+    int? campaignStartedAtMillis,
     PlayerMetaProgress? meta,
   }) {
     return GuestProfile(
@@ -66,6 +81,11 @@ class GuestProfile extends Equatable {
       defeatStreakSceneId: defeatStreakSceneId ?? this.defeatStreakSceneId,
       defeatStreakCount: defeatStreakCount ?? this.defeatStreakCount,
       asteroidTutorialSeen: asteroidTutorialSeen ?? this.asteroidTutorialSeen,
+      mission1TutorialCompleted:
+          mission1TutorialCompleted ?? this.mission1TutorialCompleted,
+      mapTutorialSeen: mapTutorialSeen ?? this.mapTutorialSeen,
+      campaignStartedAtMillis:
+          campaignStartedAtMillis ?? this.campaignStartedAtMillis,
       meta: meta ?? this.meta,
     );
   }
@@ -81,6 +101,9 @@ class GuestProfile extends Equatable {
         defeatStreakSceneId,
         defeatStreakCount,
         asteroidTutorialSeen,
+        mission1TutorialCompleted,
+        mapTutorialSeen,
+        campaignStartedAtMillis,
         meta,
       ];
 }

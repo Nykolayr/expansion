@@ -22,14 +22,14 @@ class BattleAsteroid extends Equatable {
   final int visualIndex;
   final double progress;
 
-  BattleAsteroid copyWith({double? progress}) {
+  BattleAsteroid copyWith({double? progress, int? power}) {
     return BattleAsteroid(
       id: id,
       fromX: fromX,
       fromY: fromY,
       toX: toX,
       toY: toY,
-      power: power,
+      power: power ?? this.power,
       visualIndex: visualIndex,
       progress: progress ?? this.progress,
     );

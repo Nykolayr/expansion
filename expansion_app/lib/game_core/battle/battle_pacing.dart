@@ -6,7 +6,26 @@ abstract final class BattlePacing {
   /// Первая миссия: чужие не ходят первые N секунд.
   static const Duration firstBattleEnemyGrace = Duration(seconds: 10);
 
-  static const double fleetProgressPerTick = 0.014;
+  /// После онбординга миссии 1 — ещё N секунд без хода врага.
+  static const Duration postTutorialEnemyGrace = Duration(seconds: 5);
+
+  /// Прогресс пути флота за тик на **1 клетку** сетки — база для расчёта скорости.
+  /// Фактический шаг = [baseFleetProgressPerGridCell] / расстояние в клетках.
+  static const double baseFleetProgressPerGridCell = 0.04;
+
+  /// @deprecated Используй [baseFleetProgressPerGridCell].
+  static const double fleetProgressPerTick = baseFleetProgressPerGridCell;
+
+  /// Доход ресурсов базы за тик (× speedResources базы).
+  static const double resourceIncomePerTick = 0.4;
+
   static const double asteroidProgressPerTick = 0.013;
   static const int asteroidSpawnIntervalTicks = 900;
+
+  /// Ранние миссии — реже астероиды (playtest v0).
+  static int asteroidSpawnIntervalForScene(int sceneId) {
+    if (sceneId <= 3) return 1200;
+    if (sceneId <= 10) return 1050;
+    return asteroidSpawnIntervalTicks;
+  }
 }

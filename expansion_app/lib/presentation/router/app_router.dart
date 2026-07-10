@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:expansion/presentation/pages/battle_page.dart';
+import 'package:expansion/presentation/pages/donate_page.dart';
+import 'package:expansion/presentation/pages/help_page.dart';
 import 'package:expansion/presentation/pages/begin_page.dart';
 import 'package:expansion/presentation/pages/intro_story_page.dart';
 import 'package:expansion/presentation/pages/maps_page.dart';
@@ -19,6 +21,20 @@ final GoRouter appRouter = GoRouter(
       name: 'splash',
       builder: (BuildContext context, GoRouterState state) {
         return const SplashPage();
+      },
+    ),
+    GoRoute(
+      path: '/help',
+      name: 'help',
+      builder: (BuildContext context, GoRouterState state) {
+        return const HelpPage();
+      },
+    ),
+    GoRoute(
+      path: '/donate',
+      name: 'donate',
+      builder: (BuildContext context, GoRouterState state) {
+        return const DonatePage();
       },
     ),
     GoRoute(

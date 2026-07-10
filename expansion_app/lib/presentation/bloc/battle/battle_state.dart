@@ -7,6 +7,14 @@ enum BattleStatus { initial, loading, playing, ended, failure }
 
 enum BattleErrorKey { layoutNotFound }
 
+enum MissionTutorialStep {
+  none,
+  drag,
+  captureHint,
+  upgradeOverlay,
+  goalOverlay,
+}
+
 class BattleState extends Equatable {
   const BattleState({
     this.status = BattleStatus.initial,
@@ -21,6 +29,8 @@ class BattleState extends Equatable {
     this.blockedCellX,
     this.blockedCellY,
     this.showMeteoriteTutorial = false,
+    this.missionTutorialStep = MissionTutorialStep.none,
+    this.tutorialTargetBaseId,
     this.isPaused = false,
   });
 
@@ -41,12 +51,36 @@ class BattleState extends Equatable {
   /// Пауза при первом астероиде.
   final bool showMeteoriteTutorial;
 
+  /// Пошаговый туториал миссии 1.
+  final MissionTutorialStep missionTutorialStep;
+
+  /// Цель свайпа (для подсказки «захват»).
+  final int? tutorialTargetBaseId;
+
   /// Меню паузы — тики остановлены.
   final bool isPaused;
 
   bool get isPlaying => status == BattleStatus.playing;
 
-  bool get canInteract => isPlaying && !isPaused && !showMeteoriteTutorial;
+  bool get missionTutorialActive =>
+      missionTutorialStep != MissionTutorialStep.none;
+
+  /// Враг не ходит, пока идёт туториал миссии 1.
+  bool get tutorialPausesEnemy => missionTutorialActive;
+
+  /// Новые астероиды не спавнятся во время туториала.
+  bool get tutorialPausesAsteroids => missionTutorialActive;
+
+  bool get tutorialPausesTicks => showMeteoriteTutorial;
+
+  bool get canInteract =>
+      isPlaying && !isPaused && !showMeteoriteTutorial;
+
+  /// Свайп флота — только когда панель статуса базы закрыта.
+  bool get canSendFleet => canInteract && selectedBaseId == null;
+
+  /// Тики боя — пауза при открытой панели статуса базы.
+  bool get ticksRunning => canInteract && selectedBaseId == null;
 
   BattleState copyWith({
     BattleStatus? status,
@@ -64,6 +98,9 @@ class BattleState extends Equatable {
     int? blockedCellY,
     bool clearBlocked = false,
     bool? showMeteoriteTutorial,
+    MissionTutorialStep? missionTutorialStep,
+    int? tutorialTargetBaseId,
+    bool clearTutorialTarget = false,
     bool? isPaused,
   }) {
     return BattleState(
@@ -81,6 +118,9 @@ class BattleState extends Equatable {
       blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
       showMeteoriteTutorial:
           showMeteoriteTutorial ?? this.showMeteoriteTutorial,
+      missionTutorialStep: missionTutorialStep ?? this.missionTutorialStep,
+      tutorialTargetBaseId:
+          clearTutorialTarget ? null : tutorialTargetBaseId ?? this.tutorialTargetBaseId,
       isPaused: isPaused ?? this.isPaused,
     );
   }
@@ -99,6 +139,8 @@ class BattleState extends Equatable {
         blockedCellX,
         blockedCellY,
         showMeteoriteTutorial,
+        missionTutorialStep,
+        tutorialTargetBaseId,
         isPaused,
       ];
 }

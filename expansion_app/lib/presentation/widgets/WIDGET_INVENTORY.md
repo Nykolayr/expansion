@@ -45,7 +45,8 @@
 | `upgrades/meta_upgrade_tile.dart` | Строка мета-апгрейда с кнопкой покупки |
 | `dialogs/game_confirm_dialog.dart` | Диалог подтверждения (сброс кампании) |
 | `cards/game_stat_card.dart` | Карточка статистики (прогресс) |
+| `battle/battle_mission_tutorial.dart` | Пошаговый туториал миссии 1 |
 | `forms/difficulty_option_tile.dart` | Выбор сложности (вступление, настройки) |
 
-Страницы: `maps_page` (карта 40 миссий), `begin_page`, `battle_page`, `progress_page`, `profile_page`.
+Страницы: `maps_page`, `begin_page`, `battle_page`, `progress_page`, `profile_page`, `help_page`, `donate_page`.
 | `splash/splash_menu_direct.dart` | Enum позиций кнопок и пути SVG |

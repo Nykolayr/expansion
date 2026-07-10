@@ -6,7 +6,6 @@ import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/logging/app_log.dart';
-import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/core/ui/app_feedback_kind.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
@@ -15,6 +14,7 @@ import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
+import 'package:expansion/presentation/widgets/splash/splash_intro_overlay.dart';
 import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
 import 'package:expansion/presentation/widgets/splash/splash_loader_panel.dart';
 import 'package:expansion/presentation/widgets/splash/splash_long_button.dart';
@@ -29,23 +29,34 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  /// Галочка «Не показывать при следующей загрузке» — по умолчанию включена.
-  bool _dontShowIntroOnNextLoad = true;
-  bool _splashLoadStarted = false;
+  bool _splashStartScheduled = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_splashLoadStarted) return;
-    _splashLoadStarted = true;
+    _scheduleSplashStart();
+  }
 
+  void _scheduleSplashStart() {
     final cubit = sl<SplashCubit>();
-    if (!cubit.state.isSuccess) {
-      final introLength = AppLocalizations.of(context)!.splashPretext.length;
-      cubit.start(introTextLength: introLength);
-    } else {
+    if (cubit.state.isSuccess) {
+      _splashStartScheduled = false;
       cubit.refreshMenuProgress();
+      return;
     }
+    if (_splashStartScheduled) return;
+    _splashStartScheduled = true;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final c = sl<SplashCubit>();
+      if (c.state.isSuccess) {
+        _splashStartScheduled = false;
+        return;
+      }
+      final introLength = AppLocalizations.of(context)!.splashPretext.length;
+      c.start(introTextLength: introLength);
+    });
   }
 
   void _onMenuTap(SplashMenuDirect direct) {
@@ -76,10 +87,11 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _onIntroFinished(SplashState state) {
-    if (!state.showIntro) return;
-    sl<SplashCubit>().applyIntroPreference(
-      dontShowOnNextLoad: _dontShowIntroOnNextLoad,
-    );
+    sl<SplashCubit>().markIntroSeen();
+  }
+
+  void _onSkipIntro() {
+    sl<SplashCubit>().skipIntro();
   }
 
   @override
@@ -112,7 +124,6 @@ class _SplashPageState extends State<SplashPage> {
       child: BlocBuilder<SplashCubit, SplashState>(
         bloc: sl<SplashCubit>(),
         builder: (context, state) {
-          final showIntroControls = state.showIntro && !state.isSuccess;
           final showLoader = !state.isSuccess;
           final showBigNewGame = state.isSuccess && !state.canContinue;
           final showBottomMenuRow = state.isSuccess && state.canContinue;
@@ -168,41 +179,13 @@ class _SplashPageState extends State<SplashPage> {
                 child: showLoader
                     ? SplashLoaderPanel(
                         state: state,
-                        footer: showIntroControls
-                            ? Material(
-                                color: ExpansionColors.background
-                                    .withValues(alpha: 0.85),
-                                borderRadius: BorderRadius.circular(8),
-                                child: CheckboxListTile(
-                                  dense: true,
-                                  visualDensity: VisualDensity.compact,
-                                  value: _dontShowIntroOnNextLoad,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _dontShowIntroOnNextLoad = value ?? true;
-                                    });
-                                  },
-                                  activeColor: ExpansionColors.accent,
-                                  checkColor: ExpansionColors.black,
-                                  title: Text(
-                                    loc.splashDontShowAgain,
-                                    style: ExpansionTextStyles.bodyOnDark(
-                                      context,
-                                      13,
-                                    ),
-                                  ),
-                                  controlAffinity:
-                                      ListTileControlAffinity.leading,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 4,
-                                    vertical: 0,
-                                  ),
-                                ),
-                              )
-                            : null,
                       )
                     : const SizedBox.shrink(),
               ),
+              if (showLoader && state.showIntro)
+                SplashIntroOverlay(
+                  onSkip: _onSkipIntro,
+                ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(

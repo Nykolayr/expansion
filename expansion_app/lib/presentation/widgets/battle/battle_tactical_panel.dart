@@ -16,12 +16,10 @@ import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.
 class BattleTacticalPanel extends StatelessWidget {
   const BattleTacticalPanel({
     required this.base,
-    required this.projectilesActive,
     super.key,
   });
 
   final BattleBase base;
-  final bool projectilesActive;
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +49,13 @@ class BattleTacticalPanel extends StatelessWidget {
                     color: ExpansionColors.accent,
                   ),
             ),
-            if (projectilesActive) ...[
-              const Gap(8),
-              Text(
-                loc.battleTacticalBusy,
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ],
             const Gap(8),
             for (final type in TacticalUpgradeType.values)
               _UpgradeRow(
                 label: type.label(loc),
                 cost: cubit.tacticalCostFor(base.id, type),
                 maxed: base.isTacticalMaxed(type),
-                enabled: !projectilesActive && !base.isTacticalMaxed(type),
+                enabled: !base.isTacticalMaxed(type),
                 onPressed: () => _onUpgrade(context, type),
               ),
           ],
@@ -81,13 +72,12 @@ class BattleTacticalPanel extends StatelessWidget {
     final feedback = sl<AppFeedbackService>();
     switch (result) {
       case TacticalUpgradeResult.success:
-        feedback.show(loc.battleTacticalSuccess, kind: AppFeedbackKind.success);
+        break;
       case TacticalUpgradeResult.notEnoughResources:
         feedback.show(loc.battleTacticalNotEnough, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.maxLevel:
         feedback.show(loc.battleTacticalMax, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.busy:
-        feedback.show(loc.battleTacticalBusy, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.invalidBase:
       case TacticalUpgradeResult.notPlayerBase:
         break;

@@ -17,13 +17,11 @@ import 'package:expansion/presentation/widgets/battle/battle_upgrade_triangle_bu
 class BattleTacticalBar extends StatelessWidget {
   const BattleTacticalBar({
     required this.base,
-    required this.projectilesActive,
     required this.onClose,
     super.key,
   });
 
   final BattleBase base;
-  final bool projectilesActive;
   final VoidCallback onClose;
 
   @override
@@ -63,16 +61,6 @@ class BattleTacticalBar extends StatelessWidget {
                   ),
                 ],
               ),
-              if (projectilesActive)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Text(
-                    loc.battleTacticalBusy,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: ExpansionColors.grey,
-                        ),
-                  ),
-                ),
               Row(
                 children: [
                   for (final type in TacticalUpgradeType.values)
@@ -88,7 +76,7 @@ class BattleTacticalBar extends StatelessWidget {
                           cost: preview.cost,
                           maxed: preview.maxed,
                           canAfford: canAfford,
-                          enabled: !projectilesActive && !preview.maxed,
+                          enabled: !preview.maxed,
                           onPressed: () => _onUpgrade(context, type),
                         );
                       },
@@ -111,13 +99,12 @@ class BattleTacticalBar extends StatelessWidget {
     final feedback = sl<AppFeedbackService>();
     switch (result) {
       case TacticalUpgradeResult.success:
-        feedback.show(loc.battleTacticalSuccess, kind: AppFeedbackKind.success);
+        break;
       case TacticalUpgradeResult.notEnoughResources:
         feedback.show(loc.battleTacticalNotEnough, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.maxLevel:
         feedback.show(loc.battleTacticalMax, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.busy:
-        feedback.show(loc.battleTacticalBusy, kind: AppFeedbackKind.warning);
       case TacticalUpgradeResult.invalidBase:
       case TacticalUpgradeResult.notPlayerBase:
         break;

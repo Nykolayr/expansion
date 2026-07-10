@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
@@ -10,6 +11,7 @@ import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/maps/maps_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_map_grid.dart';
 
 /// Карта кампании Classic (40 миссий).
@@ -21,6 +23,14 @@ class MapsPage extends StatefulWidget {
 }
 
 class _MapsPageState extends State<MapsPage> {
+  bool _mapTutorialChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadMaps();
+  }
+
   @override
   void activate() {
     super.activate();
@@ -29,6 +39,25 @@ class _MapsPageState extends State<MapsPage> {
 
   void _reloadMaps() {
     sl<MapsCubit>().load();
+  }
+
+  Future<void> _maybeShowMapTutorial() async {
+    if (_mapTutorialChecked) return;
+    _mapTutorialChecked = true;
+    final guest = await sl<GuestProfileRepository>().load();
+    if (!guest.firstBattleCompleted || guest.mapTutorialSeen) return;
+    if (!mounted) return;
+    final loc = AppLocalizations.of(context)!;
+    final ok = await showGameConfirmDialog(
+      context,
+      title: loc.mapTutorialTitle,
+      message: loc.mapTutorialBody,
+      confirmLabel: loc.mapTutorialDismiss,
+      cancelLabel: loc.mapTutorialLater,
+    );
+    if (ok) {
+      await sl<GuestProfileRepository>().markMapTutorialSeen();
+    }
   }
 
   String _sceneTitle(CampaignScene scene, AppLocalizations loc) {
@@ -86,15 +115,22 @@ class _MapsPageState extends State<MapsPage> {
                   ),
                 )
               else if (state.status == MapsStatus.ready) ...[
-                Expanded(
-                  child: CampaignMapGrid(
-                    scenes: state.scenes,
-                    currentMissionId: state.currentMissionId,
-                    selectedSceneId: state.selectedSceneId,
-                    resolveTitle: (s) => _sceneTitle(s, loc),
-                    onSceneTap: (scene) =>
-                        sl<MapsCubit>().selectScene(scene.id),
-                  ),
+                Builder(
+                  builder: (context) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _maybeShowMapTutorial();
+                    });
+                    return Expanded(
+                      child: CampaignMapGrid(
+                        scenes: state.scenes,
+                        currentMissionId: state.currentMissionId,
+                        selectedSceneId: state.selectedSceneId,
+                        resolveTitle: (s) => _sceneTitle(s, loc),
+                        onSceneTap: (scene) =>
+                            sl<MapsCubit>().selectScene(scene.id),
+                      ),
+                    );
+                  },
                 ),
                 if (state.selectedScene != null)
                   CampaignMissionPanel(

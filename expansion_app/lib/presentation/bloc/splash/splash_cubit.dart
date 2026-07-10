@@ -24,45 +24,62 @@ class SplashCubit extends Cubit<SplashState> {
   static const int _startCount = 98;
 
   Completer<void>? _typingDoneCompleter;
+  bool _startInProgress = false;
+
+  /// Сброс splash для повторного показа вступления (из настроек).
+  Future<void> requestIntroReplay() async {
+    await _prefs.setBool(PrefsKeys.splashShowIntro, true);
+    _typingDoneCompleter = null;
+    _startInProgress = false;
+    emit(SplashState.initial(showIntro: true));
+    AppLog.trace('splash intro replay requested', tag: 'Splash');
+  }
 
   Future<void> start({required int introTextLength}) async {
-    final showIntro = _prefs.getBool(PrefsKeys.splashShowIntro) ?? true;
-    _typingDoneCompleter = Completer<void>();
-    emit(SplashState.initial(showIntro: showIntro));
-    AppLog.trace('splash load start intro=$showIntro', tag: 'Splash');
+    if (_startInProgress || state.isSuccess) return;
+    _startInProgress = true;
+    try {
+      final showIntro = _prefs.getBool(PrefsKeys.splashShowIntro) ?? true;
+      _typingDoneCompleter = Completer<void>();
+      emit(SplashState.initial(showIntro: showIntro));
+      AppLog.trace('splash load start intro=$showIntro', tag: 'Splash');
 
-    final bootstrapFuture = _runBootstrap();
+      if (showIntro) {
+        // Сначала вступление на экране, потом тяжёлый bootstrap (БД не блокирует печать).
+        await _typingDoneCompleter!.future;
+        AppLog.trace('splash intro text done, hold 1s', tag: 'Splash');
+        await Future<void>.delayed(
+          const Duration(milliseconds: SplashIntroTiming.holdFullTextMs),
+        );
+        if (isClosed) return;
+        final bootstrapFuture = _runBootstrap();
+        await Future.wait<void>([
+          _finishProgressBar(),
+          bootstrapFuture,
+        ]);
+      } else {
+        final bootstrapFuture = _runBootstrap();
+        await _runProgressUntil(bootstrapFuture);
+      }
 
-    if (showIntro) {
-      await _typingDoneCompleter!.future;
-      AppLog.trace('splash intro text done, hold 1s', tag: 'Splash');
-      await Future<void>.delayed(
-        const Duration(milliseconds: SplashIntroTiming.holdFullTextMs),
-      );
       if (isClosed) return;
-      await Future.wait<void>([
-        _finishProgressBar(),
-        bootstrapFuture,
-      ]);
-    } else {
-      await _runProgressUntil(bootstrapFuture);
+      final guest = await _guest.load();
+      if (isClosed) return;
+      emit(
+        state.copyWith(
+          isSuccess: true,
+          introTypingComplete: true,
+          count: 0,
+          canContinue: guest.hasCampaignProgress,
+        ),
+      );
+      AppLog.trace(
+        'splash load done canContinue=${guest.hasCampaignProgress}',
+        tag: 'Splash',
+      );
+    } finally {
+      _startInProgress = false;
     }
-
-    if (isClosed) return;
-    final guest = await _guest.load();
-    if (isClosed) return;
-    emit(
-      state.copyWith(
-        isSuccess: true,
-        introTypingComplete: true,
-        count: 0,
-        canContinue: guest.hasCampaignProgress,
-      ),
-    );
-    AppLog.trace(
-      'splash load done canContinue=${guest.hasCampaignProgress}',
-      tag: 'Splash',
-    );
   }
 
   /// Обновить «Продолжить» / большую кнопку после смены прогресса (возврат на splash).
@@ -76,16 +93,19 @@ class SplashCubit extends Cubit<SplashState> {
     AppLog.trace('splash menu refresh canContinue=$canContinue', tag: 'Splash');
   }
 
-  /// Сохранить выбор галочки «Не показывать при следующей загрузке».
-  Future<void> applyIntroPreference({required bool dontShowOnNextLoad}) async {
-    if (dontShowOnNextLoad) {
-      await _prefs.setBool(PrefsKeys.splashShowIntro, false);
-      emit(state.copyWith(showIntro: false));
-      AppLog.trace('splash intro disabled for next launch', tag: 'Splash');
-    } else {
-      await _prefs.setBool(PrefsKeys.splashShowIntro, true);
-      AppLog.trace('splash intro enabled for next launch', tag: 'Splash');
-    }
+  /// Вступление показано — больше не показывать при следующих запусках.
+  Future<void> markIntroSeen() async {
+    await _prefs.setBool(PrefsKeys.splashShowIntro, false);
+    if (isClosed) return;
+    emit(state.copyWith(showIntro: false));
+    AppLog.trace('splash intro marked seen', tag: 'Splash');
+  }
+
+  /// Пропуск вступления: сразу к загрузке, запомнить «уже показали».
+  Future<void> skipIntro() async {
+    await markIntroSeen();
+    markIntroTypingComplete();
+    AppLog.trace('splash intro skipped', tag: 'Splash');
   }
 
   /// Прогресс полосы во время печати (небольшая часть, остальное — в конце).

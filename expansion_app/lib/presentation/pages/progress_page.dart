@@ -21,6 +21,12 @@ class ProgressPage extends StatefulWidget {
 
 class _ProgressPageState extends State<ProgressPage> {
   @override
+  void initState() {
+    super.initState();
+    sl<ProgressCubit>().load();
+  }
+
+  @override
   void activate() {
     super.activate();
     sl<ProgressCubit>().load();

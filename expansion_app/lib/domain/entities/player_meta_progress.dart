@@ -25,7 +25,7 @@ class PlayerMetaProgress extends Equatable {
           type: MetaUpgradeType.beginShips,
           level: 0,
           percentBonus: 0,
-          nextCost: 200,
+          nextCost: 180,
           stepPercent: 10,
         ),
       ],
@@ -74,11 +74,11 @@ class PlayerMetaProgress extends Equatable {
   }
 
   static MetaUpgradeSlot _slot(MetaUpgradeType type, {required int step}) {
-    return MetaUpgradeSlot(
+        return MetaUpgradeSlot(
       type: type,
       level: 0,
       percentBonus: 0,
-      nextCost: 200,
+      nextCost: 180,
       stepPercent: step,
     );
   }

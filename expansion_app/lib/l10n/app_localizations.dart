@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @settingsReplayIntroHint.
   ///
   /// In ru, this message translates to:
-  /// **'Открыть экран с полной историей'**
+  /// **'Показать вступительный текст на стартовом экране'**
   String get settingsReplayIntroHint;
 
   /// No description provided for @settingsLanguage.
@@ -745,6 +745,264 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Продолжить'**
   String get battleContinue;
+
+  /// No description provided for @battleVictoryRewardDetail.
+  ///
+  /// In ru, this message translates to:
+  /// **'База: {base} + миссия: {bonus} = {total} очков.'**
+  String battleVictoryRewardDetail(int base, int bonus, int total);
+
+  /// No description provided for @battleVictoryToMap.
+  ///
+  /// In ru, this message translates to:
+  /// **'На карту'**
+  String get battleVictoryToMap;
+
+  /// No description provided for @battleVictoryToUpgrades.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшения'**
+  String get battleVictoryToUpgrades;
+
+  /// No description provided for @battleVictoryNextMission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Следующая миссия ({id})'**
+  String battleVictoryNextMission(int id);
+
+  /// No description provided for @battleTutorialDragTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправка флота'**
+  String get battleTutorialDragTitle;
+
+  /// No description provided for @battleTutorialDragBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свайп от своей базы (синяя) к соседней цели. Отправится половина кораблей на базе.'**
+  String get battleTutorialDragBody;
+
+  /// No description provided for @battleTutorialCaptureTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Захват'**
+  String get battleTutorialCaptureTitle;
+
+  /// No description provided for @battleTutorialCaptureBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Смотрите на поле: флот летит к цели (пульс на базе). После захвата тапните захваченную базу.'**
+  String get battleTutorialCaptureBody;
+
+  /// No description provided for @battleTutorialUpgradeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Улучшения базы'**
+  String get battleTutorialUpgradeTitle;
+
+  /// No description provided for @battleTutorialUpgradeBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Тапните захваченную базу на поле. Купите улучшение или нажмите «Понятно» — дальше расскажем про врага и цель боя.'**
+  String get battleTutorialUpgradeBody;
+
+  /// No description provided for @battleTutorialGoalTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Цель боя'**
+  String get battleTutorialGoalTitle;
+
+  /// No description provided for @battleTutorialGoalBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Красные базы врага тоже отправляют флоты и захватывают ваши и нейтральные базы. Победа — когда не останется вражеских баз. Поражение — если потеряете все свои базы.'**
+  String get battleTutorialGoalBody;
+
+  /// No description provided for @battleTutorialDismiss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Понятно'**
+  String get battleTutorialDismiss;
+
+  /// No description provided for @battleTutorialSkip.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пропустить'**
+  String get battleTutorialSkip;
+
+  /// No description provided for @mapTutorialTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Карта кампании'**
+  String get mapTutorialTitle;
+
+  /// No description provided for @mapTutorialBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.'**
+  String get mapTutorialBody;
+
+  /// No description provided for @mapTutorialDismiss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вперёд'**
+  String get mapTutorialDismiss;
+
+  /// No description provided for @mapTutorialLater.
+  ///
+  /// In ru, this message translates to:
+  /// **'Позже'**
+  String get mapTutorialLater;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Справка'**
+  String get helpTitle;
+
+  /// No description provided for @helpBattleTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Бой'**
+  String get helpBattleTitle;
+
+  /// No description provided for @helpBattleBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Свайп между базами отправляет флот по прямой, если путь свободен. Захватите все вражеские базы. Астероиды бьют по щиту и кораблям.'**
+  String get helpBattleBody;
+
+  /// No description provided for @helpMapTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Карта'**
+  String get helpMapTitle;
+
+  /// No description provided for @helpMapBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'40 миссий Classic. Текущая отмечена мишенью. После победы открывается следующая система.'**
+  String get helpMapBody;
+
+  /// No description provided for @helpUpgradesTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Апгрейды'**
+  String get helpUpgradesTitle;
+
+  /// No description provided for @helpUpgradesBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Мета-апгрейды покупаются за очки между боями и сохраняются. Тактические — только внутри боя за ресурсы базы.'**
+  String get helpUpgradesBody;
+
+  /// No description provided for @helpDifficultyTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сложность'**
+  String get helpDifficultyTitle;
+
+  /// No description provided for @helpDifficultyBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лёгкая — медленнее AI и чуть быстрее ваш флот. Сложная — агрессивнее чужие. Мета-апгрейды при поражении не сбрасываются.'**
+  String get helpDifficultyBody;
+
+  /// No description provided for @settingsSound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Звук'**
+  String get settingsSound;
+
+  /// No description provided for @settingsSoundHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Эффекты боя (ассеты подключаются по мере переноса)'**
+  String get settingsSoundHint;
+
+  /// No description provided for @settingsHelp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Справка по игре'**
+  String get settingsHelp;
+
+  /// No description provided for @profileGuestLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Гость'**
+  String get profileGuestLabel;
+
+  /// No description provided for @profileDisplayName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get profileDisplayName;
+
+  /// No description provided for @profileDisplayNameHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Как отображать в профиле'**
+  String get profileDisplayNameHint;
+
+  /// No description provided for @profileSave.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить'**
+  String get profileSave;
+
+  /// No description provided for @profileMission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущая миссия'**
+  String get profileMission;
+
+  /// No description provided for @profileScore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Очки'**
+  String get profileScore;
+
+  /// No description provided for @profileStarted.
+  ///
+  /// In ru, this message translates to:
+  /// **'Кампания с'**
+  String get profileStarted;
+
+  /// No description provided for @profileAccountSoon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход и синхронизация — следующий этап (сервер MVP).'**
+  String get profileAccountSoon;
+
+  /// No description provided for @donateTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержать'**
+  String get donateTitle;
+
+  /// No description provided for @donateBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Expansion — инди-проект. Ссылка на репозиторий и будущие способы поддержки.'**
+  String get donateBody;
+
+  /// No description provided for @donateGithub.
+  ///
+  /// In ru, this message translates to:
+  /// **'GitHub проекта'**
+  String get donateGithub;
+
+  /// No description provided for @donateThanks.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасибо, что играете!'**
+  String get donateThanks;
+
+  /// No description provided for @donateOpenFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось открыть ссылку'**
+  String get donateOpenFailed;
 
   /// No description provided for @battleScenePlaceholder.
   ///

@@ -58,7 +58,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsReplayIntro => 'Show intro again';
 
   @override
-  String get settingsReplayIntroHint => 'Open the full story screen';
+  String get settingsReplayIntroHint =>
+      'Show the intro story on the splash screen';
 
   @override
   String get settingsLanguage => 'Interface language';
@@ -360,6 +361,151 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get battleContinue => 'Continue';
+
+  @override
+  String battleVictoryRewardDetail(int base, int bonus, int total) {
+    return 'Base: $base + mission: $bonus = $total points.';
+  }
+
+  @override
+  String get battleVictoryToMap => 'To map';
+
+  @override
+  String get battleVictoryToUpgrades => 'Upgrades';
+
+  @override
+  String battleVictoryNextMission(int id) {
+    return 'Next mission ($id)';
+  }
+
+  @override
+  String get battleTutorialDragTitle => 'Send a fleet';
+
+  @override
+  String get battleTutorialDragBody =>
+      'Swipe from your base (blue) to a target. Half the ships on the base will launch.';
+
+  @override
+  String get battleTutorialCaptureTitle => 'Capture';
+
+  @override
+  String get battleTutorialCaptureBody =>
+      'Watch the field: your fleet flies to the target (pulsing ring). After capture, tap the captured base.';
+
+  @override
+  String get battleTutorialUpgradeTitle => 'Base upgrades';
+
+  @override
+  String get battleTutorialUpgradeBody =>
+      'Tap the captured base on the field. Buy an upgrade or tap Got it — next we explain the enemy and the battle goal.';
+
+  @override
+  String get battleTutorialGoalTitle => 'Battle goal';
+
+  @override
+  String get battleTutorialGoalBody =>
+      'Red enemy bases also send fleets and capture your and neutral bases. Win by taking all enemy bases. You lose if you lose all your bases.';
+
+  @override
+  String get battleTutorialDismiss => 'Got it';
+
+  @override
+  String get battleTutorialSkip => 'Skip';
+
+  @override
+  String get mapTutorialTitle => 'Campaign map';
+
+  @override
+  String get mapTutorialBody =>
+      'Pick a system and tap Expansion to fight. Completed missions can be replayed.';
+
+  @override
+  String get mapTutorialDismiss => 'Let\'s go';
+
+  @override
+  String get mapTutorialLater => 'Later';
+
+  @override
+  String get helpTitle => 'Help';
+
+  @override
+  String get helpBattleTitle => 'Battle';
+
+  @override
+  String get helpBattleBody =>
+      'Swipe between bases to send fleets in a straight line when the path is clear. Capture all enemy bases. Asteroids damage shields and ships.';
+
+  @override
+  String get helpMapTitle => 'Map';
+
+  @override
+  String get helpMapBody =>
+      '40 Classic missions. The current one is marked. Winning unlocks the next system.';
+
+  @override
+  String get helpUpgradesTitle => 'Upgrades';
+
+  @override
+  String get helpUpgradesBody =>
+      'Meta upgrades cost points between battles and persist. Tactical upgrades cost base resources and reset each battle.';
+
+  @override
+  String get helpDifficultyTitle => 'Difficulty';
+
+  @override
+  String get helpDifficultyBody =>
+      'Easy slows the AI and slightly boosts your fleets. Hard makes aliens more aggressive. Meta upgrades are kept on defeat.';
+
+  @override
+  String get settingsSound => 'Sound';
+
+  @override
+  String get settingsSoundHint =>
+      'Battle SFX (assets added as they are ported)';
+
+  @override
+  String get settingsHelp => 'Game help';
+
+  @override
+  String get profileGuestLabel => 'Guest';
+
+  @override
+  String get profileDisplayName => 'Name';
+
+  @override
+  String get profileDisplayNameHint => 'Shown in your profile';
+
+  @override
+  String get profileSave => 'Save';
+
+  @override
+  String get profileMission => 'Current mission';
+
+  @override
+  String get profileScore => 'Points';
+
+  @override
+  String get profileStarted => 'Campaign since';
+
+  @override
+  String get profileAccountSoon =>
+      'Sign-in and cloud save — next step (server MVP).';
+
+  @override
+  String get donateTitle => 'Support';
+
+  @override
+  String get donateBody =>
+      'Expansion is an indie project. Repository link and more ways to support coming later.';
+
+  @override
+  String get donateGithub => 'Project on GitHub';
+
+  @override
+  String get donateThanks => 'Thanks for playing!';
+
+  @override
+  String get donateOpenFailed => 'Could not open the link';
 
   @override
   String battleScenePlaceholder(int sceneId) {

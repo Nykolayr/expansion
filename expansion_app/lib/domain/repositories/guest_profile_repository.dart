@@ -18,4 +18,10 @@ abstract class GuestProfileRepository {
   Future<void> clearDefeatStreak();
 
   Future<void> markAsteroidTutorialSeen();
+
+  Future<void> markMission1TutorialCompleted();
+
+  Future<void> markMapTutorialSeen();
+
+  Future<void> ensureCampaignStartedAt();
 }

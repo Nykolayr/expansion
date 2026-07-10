@@ -14,12 +14,14 @@ class BattleBaseView extends StatelessWidget {
     required this.base,
     required this.cellWidth,
     required this.cellHeight,
+    this.showUpgradeHint = false,
     super.key,
   });
 
   final BattleBase base;
   final double cellWidth;
   final double cellHeight;
+  final bool showUpgradeHint;
 
   static const TextStyle _shadow = TextStyle(
     shadows: [Shadow(color: Colors.black87, blurRadius: 4)],
@@ -32,6 +34,8 @@ class BattleBaseView extends StatelessWidget {
       BattleSide.enemy => Colors.redAccent,
       BattleSide.neutral => Colors.white,
     };
+
+    final statColor = ExpansionColors.accent;
 
     final minSide = math.min(cellWidth, cellHeight);
     final spriteSize =
@@ -96,17 +100,35 @@ class BattleBaseView extends StatelessWidget {
                   _HudLine(
                     text: '⛨${base.shield.round()}',
                     fontSize: statFont,
-                    color: hudColor,
+                    color: statColor,
                   ),
-                if (base.side == BattleSide.player)
+                if (base.side != BattleSide.neutral)
                   _HudLine(
                     text: '⚙${base.resources.round()}',
                     fontSize: statFont,
-                    color: ExpansionColors.accent,
+                    color: statColor,
                   ),
               ],
             ),
           ),
+          if (showUpgradeHint)
+            Positioned(
+              top: 2,
+              right: 2,
+              child: Text(
+                '▲',
+                style: TextStyle(
+                  color: Colors.amber,
+                  fontSize: (minSide * 0.30).clamp(20.0, 30.0),
+                  fontWeight: FontWeight.w900,
+                  height: 1,
+                  shadows: const [
+                    Shadow(color: Colors.black87, blurRadius: 2),
+                    Shadow(color: Colors.black54, blurRadius: 6),
+                  ],
+                ),
+              ),
+            ),
         ],
       ),
     );

@@ -13,10 +13,10 @@ class BattleDifficultyConfig {
     switch (difficulty) {
       case GameDifficulty.easy:
         return const BattleDifficultyConfig(
-          ticksPerEnemyTurn: 145,
-          playerFleetSpeedMul: 1.05,
-          enemyFleetSpeedMul: 0.92,
-          enemyGrowthSpeedMul: 0.92,
+          ticksPerEnemyTurn: 150,
+          playerFleetSpeedMul: 1.08,
+          enemyFleetSpeedMul: 0.9,
+          enemyGrowthSpeedMul: 0.9,
         );
       case GameDifficulty.average:
         return const BattleDifficultyConfig(

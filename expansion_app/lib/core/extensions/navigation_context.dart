@@ -12,6 +12,10 @@ extension AppNavigationX on BuildContext {
 
   void goToSettings() => push('/settings');
 
+  void goToHelp() => push('/help');
+
+  void goToDonate() => push('/donate');
+
   void goToIntroStory() => push('/intro-story');
 
   void goToBegin() => push('/begin');

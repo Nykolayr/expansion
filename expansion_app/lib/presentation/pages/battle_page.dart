@@ -9,7 +9,11 @@ import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
+import 'package:expansion/core/audio/game_audio_service.dart';
+import 'package:expansion/core/ui/game_haptic.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/game_core/battle/battle_victory_reward.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
@@ -18,6 +22,8 @@ import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/battle/battle_field_grid.dart';
+import 'package:expansion/presentation/widgets/battle/battle_mission_tutorial.dart';
+import 'package:expansion/presentation/widgets/battle/battle_tutorial_drag_hint.dart';
 import 'package:expansion/presentation/widgets/battle/battle_meteorite_tutorial.dart';
 import 'package:expansion/presentation/widgets/battle/battle_tactical_bar.dart';
 import 'package:expansion/presentation/widgets/dialogs/battle_outcome_dialog.dart';
@@ -76,37 +82,72 @@ class _BattlePageState extends State<BattlePage> {
     final won = outcome == BattleOutcome.playerWin;
     final cubit = sl<BattleCubit>();
     final difficultyCubit = sl<GameDifficultyCubit>();
+    final sceneId = cubit.state.sceneId;
 
-    var reward = 0;
+    BattleVictoryReward? reward;
     var defeatStreak = 0;
     if (won) {
       reward = await cubit.completeAfterVictory();
+      await sl<GameAudioService>().playVictory();
+      GameHaptic.success();
     } else {
       defeatStreak = await cubit.completeAfterDefeat();
+      await sl<GameAudioService>().playDefeat();
+      GameHaptic.warning();
     }
 
     if (!mounted) return;
 
+    final guest = await sl<GuestProfileRepository>().load();
     final showLowerHint = !won &&
         defeatStreak >= CampaignDifficultyPolicy.defeatHintStreakThreshold &&
         difficultyCubit.state != GameDifficulty.easy;
 
     Future<void> goToMaps() async {
+      await cubit.disposeBattle();
       await sl<MapsCubit>().load();
       if (!mounted) return;
       context.goToMaps();
     }
 
+    final nextMissionId = sceneId + 1;
+    final canNextMission =
+        won && nextMissionId <= 40 && nextMissionId <= guest.mapClassic;
+    final canUpgrades = won && guest.scoreClassic >= 180;
+
+    final extraActions = <BattleOutcomeExtraAction>[
+      if (canUpgrades)
+        (
+          label: loc.battleVictoryToUpgrades,
+          onTap: () async {
+            await cubit.disposeBattle();
+            if (!mounted) return;
+            context.goToUpgrades();
+          },
+        ),
+      if (canNextMission)
+        (
+          label: loc.battleVictoryNextMission(nextMissionId),
+          onTap: () async {
+            await cubit.disposeBattle();
+            if (!mounted) return;
+            context.goToBattle(sceneId: nextMissionId);
+          },
+        ),
+    ];
+
+    if (!mounted) return;
+
     await showBattleOutcomeDialog(
       context,
       won: won,
       title: won ? loc.battleVictoryTitle : loc.battleDefeatTitle,
-      body: won
-          ? loc.battleVictoryBodyWithScore(reward)
+      body: won && reward != null
+          ? '${loc.battleVictoryBody}\n\n${loc.battleVictoryRewardDetail(reward.basePoints, reward.missionBonus, reward.total)}'
           : showLowerHint
               ? loc.battleDefeatHintStreakBody
               : loc.battleDefeatBody,
-      continueLabel: loc.battleContinue,
+      continueLabel: won ? loc.battleVictoryToMap : loc.battleContinue,
       onContinue: goToMaps,
       secondaryLabel: showLowerHint ? loc.battleLowerDifficulty : null,
       onSecondary: showLowerHint
@@ -115,6 +156,7 @@ class _BattlePageState extends State<BattlePage> {
               await goToMaps();
             }
           : null,
+      extraActions: extraActions,
     );
   }
 
@@ -221,10 +263,12 @@ class _BattlePageState extends State<BattlePage> {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Stack(
                           fit: StackFit.expand,
+                          clipBehavior: Clip.none,
                           children: [
                             BattleFieldGrid(
                               snapshot: state.snapshot!,
                               selectedBaseId: state.selectedBaseId,
+                              upgradableBaseIds: cubit.upgradablePlayerBaseIds(),
                               onPlayerBaseTap: (id) {
                                 if (state.selectedBaseId == id) {
                                   cubit.clearBaseSelection();
@@ -244,18 +288,59 @@ class _BattlePageState extends State<BattlePage> {
                               BattleMeteoriteTutorial(
                                 onDismiss: cubit.dismissMeteoriteTutorial,
                               ),
+                            if (state.missionTutorialStep ==
+                                    MissionTutorialStep.drag ||
+                                state.missionTutorialStep ==
+                                    MissionTutorialStep.captureHint)
+                              IgnorePointer(
+                                child: BattleTutorialDragHint(
+                                  snapshot: state.snapshot!,
+                                  step: state.missionTutorialStep,
+                                  targetBaseId: state.tutorialTargetBaseId,
+                                ),
+                              ),
+                            if (state.missionTutorialStep ==
+                                MissionTutorialStep.goalOverlay)
+                              Positioned.fill(
+                                child: BattleMissionTutorial(
+                                  step: state.missionTutorialStep,
+                                  onSkip: cubit.skipMissionTutorial,
+                                  onDismissUpgrade:
+                                      cubit.dismissMissionTutorialUpgrade,
+                                  onDismissGoal:
+                                      cubit.dismissMissionTutorialGoal,
+                                  prominent: true,
+                                ),
+                              )
+                            else if (state.missionTutorialStep !=
+                                MissionTutorialStep.none)
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                child: BattleMissionTutorial(
+                                  step: state.missionTutorialStep,
+                                  onSkip: cubit.skipMissionTutorial,
+                                  onDismissUpgrade:
+                                      cubit.dismissMissionTutorialUpgrade,
+                                  onDismissGoal:
+                                      cubit.dismissMissionTutorialGoal,
+                                ),
+                              ),
+                            if (selectedBase != null && state.canInteract)
+                              Positioned(
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                child: BattleTacticalBar(
+                                  base: selectedBase,
+                                  onClose: cubit.clearBaseSelection,
+                                ),
+                              ),
                           ],
                         ),
                       ),
                     ),
-                    if (selectedBase != null && state.canInteract)
-                      BattleTacticalBar(
-                        base: selectedBase,
-                        projectilesActive:
-                            state.snapshot!.hasActiveProjectiles,
-                        onClose: cubit.clearBaseSelection,
-                      ),
-                    const Gap(4),
                   ],
                 ],
               );
