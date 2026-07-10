@@ -6,6 +6,8 @@ import 'package:expansion/game_core/battle/battle_pacing.dart';
 /// Команды UI → isolate.
 enum _BattleTickCommand {
   stop,
+  pause,
+  resume,
 }
 
 /// Сообщение isolate → UI: очередной тик.
@@ -67,6 +69,14 @@ class BattleTickLoop {
     _isolate = null;
     _onTick = null;
   }
+
+  void pause() {
+    _controlPort?.send(_BattleTickCommand.pause);
+  }
+
+  void resume() {
+    _controlPort?.send(_BattleTickCommand.resume);
+  }
 }
 
 void _isolateEntry(SendPort mainSendPort) {
@@ -74,23 +84,30 @@ void _isolateEntry(SendPort mainSendPort) {
   mainSendPort.send(controlReceive.sendPort);
 
   var running = true;
+  var paused = false;
   controlReceive.listen((message) {
     if (message == _BattleTickCommand.stop) {
       running = false;
       controlReceive.close();
+    } else if (message == _BattleTickCommand.pause) {
+      paused = true;
+    } else if (message == _BattleTickCommand.resume) {
+      paused = false;
     }
   });
 
-  unawaited(_runLoop(mainSendPort, () => running));
+  unawaited(_runLoop(mainSendPort, () => running, () => paused));
 }
 
 Future<void> _runLoop(
   SendPort mainSendPort,
   bool Function() isRunning,
+  bool Function() isPaused,
 ) async {
   while (isRunning()) {
     await Future<void>.delayed(BattleTickLoop.tickInterval);
     if (!isRunning()) break;
+    if (isPaused()) continue;
     mainSendPort.send(_BattleTickSignal.tick);
   }
 }

@@ -73,6 +73,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLanguageEn => 'English';
 
   @override
+  String get settingsDifficulty => 'Сложность кампании';
+
+  @override
+  String get settingsDifficultyHint =>
+      'Влияет на темп и тактику чужих. Применится со следующего боя.';
+
+  @override
+  String get battleDefeatHintStreakBody =>
+      'Несколько поражений подряд на этой миссии. Попробуйте снизить сложность в настройках — мета-апгрейды сохранятся.';
+
+  @override
+  String get battleLowerDifficulty => 'Снизить сложность';
+
+  @override
   String get splashDontShowAgain => 'Не показывать при следующей загрузке';
 
   @override
@@ -86,6 +100,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get battleTitle => 'Бой';
+
+  @override
+  String get battleLayoutNotFound =>
+      'Раскладка боя для этой миссии не найдена.';
+
+  @override
+  String get guestDefaultName => 'Гость';
+
+  @override
+  String get battlePauseTitle => 'Пауза';
+
+  @override
+  String get battlePauseContinue => 'Продолжить';
+
+  @override
+  String get battlePauseRestart => 'Перезапустить';
+
+  @override
+  String get battlePauseExitMain => 'Выйти в главное';
 
   @override
   String get profileTitle => 'Профиль';
@@ -195,7 +228,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tacticalUpgradeMaxShipsShort => 'Лимит';
 
   @override
-  String get battleMeteoriteTutorialTitle => 'Метеорит!';
+  String get battleMeteoriteTutorialTitle => 'Астероид!';
 
   @override
   String get battleMeteoriteTutorialBody =>

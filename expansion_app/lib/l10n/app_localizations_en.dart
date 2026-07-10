@@ -73,6 +73,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageEn => 'English';
 
   @override
+  String get settingsDifficulty => 'Campaign difficulty';
+
+  @override
+  String get settingsDifficultyHint =>
+      'Affects alien pace and tactics. Applies to the next battle.';
+
+  @override
+  String get battleDefeatHintStreakBody =>
+      'You\'ve lost this mission several times in a row. Try lowering the difficulty in Settings — your campaign upgrades stay.';
+
+  @override
+  String get battleLowerDifficulty => 'Lower difficulty';
+
+  @override
   String get splashDontShowAgain => 'Don\'t show on next launch';
 
   @override
@@ -86,6 +100,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get battleTitle => 'Battle';
+
+  @override
+  String get battleLayoutNotFound =>
+      'Battle layout for this mission was not found.';
+
+  @override
+  String get guestDefaultName => 'Guest';
+
+  @override
+  String get battlePauseTitle => 'Paused';
+
+  @override
+  String get battlePauseContinue => 'Continue';
+
+  @override
+  String get battlePauseRestart => 'Restart';
+
+  @override
+  String get battlePauseExitMain => 'Exit to main menu';
 
   @override
   String get profileTitle => 'Profile';
@@ -195,11 +228,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tacticalUpgradeMaxShipsShort => 'Cap';
 
   @override
-  String get battleMeteoriteTutorialTitle => 'Meteorite!';
+  String get battleMeteoriteTutorialTitle => 'Asteroid!';
 
   @override
   String get battleMeteoriteTutorialBody =>
-      'An asteroid crosses the field. On impact it drains shield first, then destroys ships. Keep your shield up or move fleets off its path.';
+      'An asteroid crosses the field. On impact it drains the shield first, then destroys ships. Keep your shield up or move fleets off its path.';
 
   @override
   String get battleMeteoriteTutorialDismiss => 'Got it';

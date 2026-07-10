@@ -224,6 +224,30 @@ abstract class AppLocalizations {
   /// **'English'**
   String get settingsLanguageEn;
 
+  /// No description provided for @settingsDifficulty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сложность кампании'**
+  String get settingsDifficulty;
+
+  /// No description provided for @settingsDifficultyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Влияет на темп и тактику чужих. Применится со следующего боя.'**
+  String get settingsDifficultyHint;
+
+  /// No description provided for @battleDefeatHintStreakBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Несколько поражений подряд на этой миссии. Попробуйте снизить сложность в настройках — мета-апгрейды сохранятся.'**
+  String get battleDefeatHintStreakBody;
+
+  /// No description provided for @battleLowerDifficulty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Снизить сложность'**
+  String get battleLowerDifficulty;
+
   /// No description provided for @splashDontShowAgain.
   ///
   /// In ru, this message translates to:
@@ -253,6 +277,42 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Бой'**
   String get battleTitle;
+
+  /// No description provided for @battleLayoutNotFound.
+  ///
+  /// In ru, this message translates to:
+  /// **'Раскладка боя для этой миссии не найдена.'**
+  String get battleLayoutNotFound;
+
+  /// No description provided for @guestDefaultName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Гость'**
+  String get guestDefaultName;
+
+  /// No description provided for @battlePauseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пауза'**
+  String get battlePauseTitle;
+
+  /// No description provided for @battlePauseContinue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить'**
+  String get battlePauseContinue;
+
+  /// No description provided for @battlePauseRestart.
+  ///
+  /// In ru, this message translates to:
+  /// **'Перезапустить'**
+  String get battlePauseRestart;
+
+  /// No description provided for @battlePauseExitMain.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти в главное'**
+  String get battlePauseExitMain;
 
   /// No description provided for @profileTitle.
   ///
@@ -455,7 +515,7 @@ abstract class AppLocalizations {
   /// No description provided for @battleMeteoriteTutorialTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Метеорит!'**
+  /// **'Астероид!'**
   String get battleMeteoriteTutorialTitle;
 
   /// No description provided for @battleMeteoriteTutorialBody.

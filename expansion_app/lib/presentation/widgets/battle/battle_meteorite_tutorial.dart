@@ -5,7 +5,7 @@ import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
-/// Пауза и подсказка при первом метеорите в миссии.
+/// Пауза и подсказка при первом астероиде.
 class BattleMeteoriteTutorial extends StatelessWidget {
   const BattleMeteoriteTutorial({
     required this.onDismiss,

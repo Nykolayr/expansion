@@ -3,17 +3,20 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
+import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
-/// Подтверждение действия (сброс кампании и т.п.).
-Future<bool> showGameConfirmDialog(
-  BuildContext context, {
-  required String title,
-  required String message,
-  required String confirmLabel,
-  required String cancelLabel,
-}) async {
-  final result = await showDialog<bool>(
+enum BattlePauseAction {
+  continueGame,
+  restart,
+  exitToMain,
+}
+
+/// Меню паузы боя в стиле игры.
+Future<BattlePauseAction?> showBattlePauseMenuDialog(BuildContext context) {
+  final loc = AppLocalizations.of(context)!;
+
+  return showDialog<BattlePauseAction>(
     context: context,
     barrierDismissible: false,
     barrierColor: Colors.black54,
@@ -31,28 +34,29 @@ Future<bool> showGameConfirmDialog(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                title,
+                loc.battlePauseTitle,
                 textAlign: TextAlign.center,
-                style: ExpansionTextStyles.bodyAccent(ctx, 20),
-              ),
-              const Gap(12),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: Theme.of(ctx).textTheme.bodyMedium,
+                style: ExpansionTextStyles.bodyAccent(ctx, 22),
               ),
               const Gap(20),
               GameLongButton(
-                label: confirmLabel,
-                onPressed: () => Navigator.of(ctx).pop(true),
+                label: loc.battlePauseContinue,
+                onPressed: () =>
+                    Navigator.of(ctx).pop(BattlePauseAction.continueGame),
               ),
               const Gap(10),
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(false),
-                child: Text(cancelLabel),
+              GameLongButton(
+                label: loc.battlePauseRestart,
+                onPressed: () =>
+                    Navigator.of(ctx).pop(BattlePauseAction.restart),
+              ),
+              const Gap(10),
+              GameLongButton(
+                label: loc.battlePauseExitMain,
+                onPressed: () =>
+                    Navigator.of(ctx).pop(BattlePauseAction.exitToMain),
               ),
             ],
           ),
@@ -60,5 +64,4 @@ Future<bool> showGameConfirmDialog(
       ),
     ),
   );
-  return result ?? false;
 }

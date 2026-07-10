@@ -8,6 +8,7 @@ class GameScreenBackBar extends StatelessWidget {
   const GameScreenBackBar({
     required this.title,
     this.onBack,
+    this.trailing,
     super.key,
   });
 
@@ -15,6 +16,9 @@ class GameScreenBackBar extends StatelessWidget {
 
   /// Если null — [context.pop].
   final VoidCallback? onBack;
+
+  /// Кнопка справа (например, пауза в бою).
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class GameScreenBackBar extends StatelessWidget {
                 style: ExpansionTextStyles.titleAccent(context, 22),
               ),
             ),
+            ?trailing,
           ],
         ),
       ),

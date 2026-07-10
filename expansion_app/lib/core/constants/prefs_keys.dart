@@ -11,4 +11,7 @@ abstract final class PrefsKeys {
   static const String guestFirstBattleCompleted = 'guest_first_battle_completed';
   static const String guestDisplayName = 'guest_display_name';
   static const String guestMetaProgress = 'guest_meta_progress';
+  static const String guestDefeatStreakSceneId = 'guest_defeat_streak_scene_id';
+  static const String guestDefeatStreakCount = 'guest_defeat_streak_count';
+  static const String guestAsteroidTutorialSeen = 'guest_asteroid_tutorial_seen';
 }

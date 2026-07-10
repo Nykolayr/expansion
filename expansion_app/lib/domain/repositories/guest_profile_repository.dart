@@ -11,4 +11,11 @@ abstract class GuestProfileRepository {
   Future<void> markFirstBattleCompleted();
 
   Future<void> setDifficulty(GameDifficulty difficulty);
+
+  /// Учитывает поражение на миссии; возвращает новую длину серии на этой миссии.
+  Future<int> recordMissionDefeat(int sceneId);
+
+  Future<void> clearDefeatStreak();
+
+  Future<void> markAsteroidTutorialSeen();
 }

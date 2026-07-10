@@ -32,6 +32,7 @@
 | `battle/battle_base_overlay_panel.dart` | Панель улучшений поверх поля, свайп/закрытие |
 | `battle/battle_victory_fireworks.dart` | Конфетти при победе |
 | `dialogs/battle_outcome_dialog.dart` | Итог боя: карточки, арт win/lost, кнопка |
+| `dialogs/battle_pause_menu_dialog.dart` | Меню паузы боя: продолжить / перезапуск / выход |
 | `battle/battle_entity_sprite.dart` | PNG спрайт базы/астероида |
 | `battle/battle_fleet_sprite.dart` | SVG летящего отряда (our_ship / enemy_ship), поворот |
 | `battle/battle_explosion_sprite.dart` | Анимация взрыва при столкновении отрядов |
@@ -43,6 +44,8 @@
 | `battle/battle_meteorite_tutorial.dart` | Оверлей-подсказка при первом метеорите |
 | `upgrades/meta_upgrade_tile.dart` | Строка мета-апгрейда с кнопкой покупки |
 | `dialogs/game_confirm_dialog.dart` | Диалог подтверждения (сброс кампании) |
+| `cards/game_stat_card.dart` | Карточка статистики (прогресс) |
+| `forms/difficulty_option_tile.dart` | Выбор сложности (вступление, настройки) |
 
-Страницы: `maps_page` (карта 40 миссий), скелеты `begin_page`, `battle_page`, `profile_page`, `progress_page`.
+Страницы: `maps_page` (карта 40 миссий), `begin_page`, `battle_page`, `progress_page`, `profile_page`.
 | `splash/splash_menu_direct.dart` | Enum позиций кнопок и пути SVG |

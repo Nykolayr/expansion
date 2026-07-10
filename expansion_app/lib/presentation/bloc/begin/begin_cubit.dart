@@ -44,6 +44,8 @@ class BeginCubit extends Cubit<BeginState> {
         difficulty: state.difficulty,
         univerKind: state.univerKind,
         firstBattleCompleted: false,
+        defeatStreakSceneId: 0,
+        defeatStreakCount: 0,
         meta: PlayerMetaProgress.fresh(),
       ),
     );

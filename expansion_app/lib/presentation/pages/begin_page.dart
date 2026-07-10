@@ -13,9 +13,11 @@ import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/begin/begin_cubit.dart';
 import 'package:expansion/presentation/bloc/begin/begin_state.dart';
+import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
+import 'package:expansion/presentation/widgets/forms/difficulty_option_tile.dart';
 
 class BeginPage extends StatefulWidget {
   const BeginPage({super.key});
@@ -49,6 +51,7 @@ class _BeginPageState extends State<BeginPage> {
 
     final cubit = sl<BeginCubit>();
     await cubit.startNewCampaign();
+    await sl<GameDifficultyCubit>().load();
     if (!mounted) return;
     context.replaceWithBattle(sceneId: 1);
   }
@@ -92,20 +95,20 @@ class _BeginPageState extends State<BeginPage> {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         const Gap(16),
-                        _DifficultyTile(
+                        DifficultyOptionTile(
                           label: loc.beginDifficultyEasy,
                           selected: state.difficulty == GameDifficulty.easy,
                           onTap: () => sl<BeginCubit>()
                               .selectDifficulty(GameDifficulty.easy),
                         ),
-                        _DifficultyTile(
+                        DifficultyOptionTile(
                           label: loc.beginDifficultyAverage,
                           selected:
                               state.difficulty == GameDifficulty.average,
                           onTap: () => sl<BeginCubit>()
                               .selectDifficulty(GameDifficulty.average),
                         ),
-                        _DifficultyTile(
+                        DifficultyOptionTile(
                           label: loc.beginDifficultyHard,
                           selected:
                               state.difficulty == GameDifficulty.difficult,
@@ -167,39 +170,6 @@ class _UniverTile extends StatelessWidget {
               : null,
           onTap: enabled ? onTap : null,
         ),
-      ),
-    );
-  }
-}
-
-class _DifficultyTile extends StatelessWidget {
-  const _DifficultyTile({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: ExpansionColors.background.withValues(alpha: 0.9),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: selected ? ExpansionColors.accent : ExpansionColors.grey,
-          width: selected ? 2 : 1,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        title: Text(label),
-        trailing: selected
-            ? const Icon(Icons.check_circle, color: ExpansionColors.accent)
-            : null,
-        onTap: onTap,
       ),
     );
   }

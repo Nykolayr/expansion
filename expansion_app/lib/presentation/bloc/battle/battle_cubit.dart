@@ -4,7 +4,8 @@ import 'dart:math';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expansion/core/logging/app_log.dart';
-import 'package:expansion/data/repositories/battle_session_loader.dart';
+import 'package:expansion/game_core/battle/battle_session_factory.dart';
+import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
@@ -23,19 +24,18 @@ import 'package:expansion/presentation/bloc/battle/battle_state.dart';
 
 class BattleCubit extends Cubit<BattleState> {
   BattleCubit(
-    this._loader,
+    this._sessionFactory,
     this._campaign,
     this._guest,
   ) : super(const BattleState());
 
-  final BattleSessionLoader _loader;
+  final BattleSessionFactory _sessionFactory;
   final CampaignRepository _campaign;
   final GuestProfileRepository _guest;
 
   final EnemyCommander _enemyCommander = const EnemyCommander();
   BattleEngine? _engine;
 
-  BattleEngine? get engine => _engine;
   final BattleTickLoop _tickLoop = BattleTickLoop();
   GameDifficulty _difficulty = GameDifficulty.average;
   int _enemyTickCounter = 0;
@@ -43,7 +43,7 @@ class BattleCubit extends Cubit<BattleState> {
   MetaBattleBonuses _bonuses = MetaBattleBonuses.none;
   DateTime? _battleStartedAt;
   bool _firstBattleEnemyGrace = false;
-  bool _meteoriteTutorialAcked = false;
+  bool _asteroidTutorialSeen = false;
 
   Future<void> loadMission(int sceneId) async {
     await _stopLoop();
@@ -54,6 +54,8 @@ class BattleCubit extends Cubit<BattleState> {
         sceneId: sceneId,
         clearSelection: true,
         outcome: null,
+        isPaused: false,
+        clearErrorKey: true,
       ),
     );
     AppLog.trace('battle load sceneId=$sceneId', tag: 'Battle');
@@ -64,19 +66,29 @@ class BattleCubit extends Cubit<BattleState> {
       _battleRng = Random(sceneId * 9973 + guest.mapClassic);
 
       _bonuses = MetaBattleBonuses.fromProgress(guest.meta);
-      final engine = await _loader.loadEngine(sceneId, bonuses: _bonuses);
+      final engine = await _sessionFactory.createEngine(
+        sceneId,
+        bonuses: _bonuses,
+        difficulty: guest.difficulty,
+      );
       if (engine == null) {
         emit(
           state.copyWith(
             status: BattleStatus.failure,
-            errorMessage: 'Layout not found',
+            errorKey: BattleErrorKey.layoutNotFound,
           ),
         );
         return;
       }
 
       final scenes = await _campaign.getCampaignScenes();
-      final scene = scenes.where((s) => s.id == sceneId).firstOrNull;
+      CampaignScene? scene;
+      for (final s in scenes) {
+        if (s.id == sceneId) {
+          scene = s;
+          break;
+        }
+      }
       _engine = engine..bindRandom(_battleRng!);
 
       emit(
@@ -86,13 +98,14 @@ class BattleCubit extends Cubit<BattleState> {
           briefingRu: scene?.battleRu ?? '',
           briefingEn: scene?.battleEn ?? '',
           clearSelection: true,
+          isPaused: false,
         ),
       );
 
       _enemyTickCounter = 0;
       _battleStartedAt = DateTime.now();
       _firstBattleEnemyGrace = !guest.firstBattleCompleted;
-      _meteoriteTutorialAcked = false;
+      _asteroidTutorialSeen = guest.asteroidTutorialSeen;
       await _tickLoop.start(_onTick);
       AppLog.trace(
         'battle tick loop started grace=$_firstBattleEnemyGrace',
@@ -111,7 +124,7 @@ class BattleCubit extends Cubit<BattleState> {
 
   void selectBase(int baseId) {
     final engine = _engine;
-    if (engine == null || !state.isPlaying) return;
+    if (engine == null || !state.canInteract) return;
     final base = engine.snapshot().baseById(baseId);
     if (base == null || base.side != BattleSide.player) return;
     emit(state.copyWith(selectedBaseId: baseId));
@@ -124,8 +137,7 @@ class BattleCubit extends Cubit<BattleState> {
   /// Свайп со своей базы на клетку с базой-целью.
   bool sendFleetDrag(int fromX, int fromY, int toX, int toY) {
     final engine = _engine;
-    if (engine == null || !state.isPlaying) return false;
-    if (state.snapshot!.hasActiveProjectiles) return false;
+    if (engine == null || !state.canInteract) return false;
 
     final from = engine.snapshot().baseAt(fromX, fromY);
     final to = engine.snapshot().baseAt(toX, toY);
@@ -159,6 +171,9 @@ class BattleCubit extends Cubit<BattleState> {
 
   void dismissMeteoriteTutorial() {
     emit(state.copyWith(showMeteoriteTutorial: false));
+    if (_asteroidTutorialSeen) return;
+    _asteroidTutorialSeen = true;
+    unawaited(_guest.markAsteroidTutorialSeen());
   }
 
   int tacticalCostFor(int baseId, TacticalUpgradeType type) {
@@ -171,13 +186,24 @@ class BattleCubit extends Cubit<BattleState> {
   TacticalUpgradeResult? purchaseTacticalUpgrade(TacticalUpgradeType type) {
     final engine = _engine;
     final baseId = state.selectedBaseId;
-    if (engine == null || baseId == null || !state.isPlaying) return null;
+    if (engine == null || baseId == null || !state.canInteract) return null;
 
     final result = engine.applyTacticalUpgrade(baseId, type);
     if (result == TacticalUpgradeResult.success) {
       _emitPlaying();
     }
     return result;
+  }
+
+  ({String current, String next, int cost, bool maxed})? tacticalPreview(
+    TacticalUpgradeType type,
+  ) {
+    final engine = _engine;
+    final baseId = state.selectedBaseId;
+    if (engine == null || baseId == null) return null;
+    final base = engine.snapshot().baseById(baseId);
+    if (base == null) return null;
+    return engine.tacticalPreview(base, type);
   }
 
   Future<int> completeAfterVictory() async {
@@ -191,16 +217,48 @@ class BattleCubit extends Cubit<BattleState> {
             : guest.mapClassic,
         firstBattleCompleted: true,
         scoreClassic: guest.scoreClassic + reward,
+        defeatStreakSceneId: 0,
+        defeatStreakCount: 0,
         meta: guest.meta.afterVictory(),
       ),
     );
     return reward;
   }
 
+  /// Учитывает поражение; возвращает серию поражений на текущей миссии.
+  Future<int> completeAfterDefeat() async {
+    return _guest.recordMissionDefeat(state.sceneId);
+  }
+
   Future<void> disposeBattle() async {
     await _stopLoop();
     _engine = null;
     emit(const BattleState());
+  }
+
+  Future<void> pauseBattle() async {
+    if (!state.isPlaying || state.isPaused) return;
+    _tickLoop.pause();
+    emit(state.copyWith(isPaused: true, clearSelection: true));
+    AppLog.trace('battle paused scene=${state.sceneId}', tag: 'Battle');
+  }
+
+  Future<void> resumeBattle() async {
+    if (!state.isPaused) return;
+    _tickLoop.resume();
+    emit(state.copyWith(isPaused: false));
+    AppLog.trace('battle resumed scene=${state.sceneId}', tag: 'Battle');
+  }
+
+  Future<void> restartMission() async {
+    final sceneId = state.sceneId;
+    AppLog.trace('battle restart scene=$sceneId', tag: 'Battle');
+    await loadMission(sceneId);
+  }
+
+  Future<void> leaveBattle() async {
+    AppLog.trace('battle leave to main', tag: 'Battle');
+    await disposeBattle();
   }
 
   Future<void> _stopLoop() async {
@@ -210,20 +268,21 @@ class BattleCubit extends Cubit<BattleState> {
   void _onTick() {
     final engine = _engine;
     final rng = _battleRng;
-    if (engine == null || rng == null || !state.isPlaying) return;
+    if (engine == null || rng == null || !state.isPlaying || state.isPaused) {
+      return;
+    }
     if (state.showMeteoriteTutorial) return;
 
     final asteroidsBefore = state.snapshot?.asteroids.length ?? 0;
     engine.tick();
     final asteroidsAfter = engine.snapshot().asteroids.length;
 
-    if (!_meteoriteTutorialAcked &&
+    if (!_asteroidTutorialSeen &&
         asteroidsBefore == 0 &&
         asteroidsAfter > 0) {
-      _meteoriteTutorialAcked = true;
       _emitPlaying();
       emit(state.copyWith(showMeteoriteTutorial: true));
-      AppLog.trace('meteorite tutorial pause', tag: 'Battle');
+      AppLog.trace('asteroid tutorial pause scene=${state.sceneId}', tag: 'Battle');
       return;
     }
 
@@ -298,13 +357,5 @@ class BattleCubit extends Cubit<BattleState> {
   Future<void> close() async {
     await disposeBattle();
     return super.close();
-  }
-}
-
-extension _FirstOrNull<E> on Iterable<E> {
-  E? get firstOrNull {
-    final iterator = this.iterator;
-    if (!iterator.moveNext()) return null;
-    return iterator.current;
   }
 }

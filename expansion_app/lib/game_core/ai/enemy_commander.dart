@@ -5,6 +5,7 @@ import 'package:expansion/domain/entities/battle_snapshot.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/game_core/ai/battle_intent.dart';
 import 'package:expansion/game_core/ai/enemy_personality.dart';
+import 'package:expansion/game_core/battle/battle_fleet_rules.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 
 /// «Мозг» чужих: один осмысленный ход за тик, без массового слива всех баз.
@@ -104,7 +105,7 @@ class EnemyCommander {
         .clamp(personality.minReserveShips, 14);
     final available = base.ships - reserve;
     if (available < 2) return 0;
-    return available;
+    return defaultFleetSendCount(available);
   }
 }
 

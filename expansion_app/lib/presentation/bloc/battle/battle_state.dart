@@ -5,6 +5,8 @@ import 'package:expansion/game_core/battle/battle_engine.dart';
 
 enum BattleStatus { initial, loading, playing, ended, failure }
 
+enum BattleErrorKey { layoutNotFound }
+
 class BattleState extends Equatable {
   const BattleState({
     this.status = BattleStatus.initial,
@@ -14,10 +16,12 @@ class BattleState extends Equatable {
     this.outcome,
     this.briefingRu = '',
     this.briefingEn = '',
+    this.errorKey,
     this.errorMessage,
     this.blockedCellX,
     this.blockedCellY,
     this.showMeteoriteTutorial = false,
+    this.isPaused = false,
   });
 
   final BattleStatus status;
@@ -27,16 +31,22 @@ class BattleState extends Equatable {
   final BattleOutcome? outcome;
   final String briefingRu;
   final String briefingEn;
+  final BattleErrorKey? errorKey;
   final String? errorMessage;
 
   /// Крестик на базе, блокирующей линию отправки.
   final int? blockedCellX;
   final int? blockedCellY;
 
-  /// Пауза при первом метеорите в миссии.
+  /// Пауза при первом астероиде.
   final bool showMeteoriteTutorial;
 
+  /// Меню паузы — тики остановлены.
+  final bool isPaused;
+
   bool get isPlaying => status == BattleStatus.playing;
+
+  bool get canInteract => isPlaying && !isPaused && !showMeteoriteTutorial;
 
   BattleState copyWith({
     BattleStatus? status,
@@ -47,11 +57,14 @@ class BattleState extends Equatable {
     BattleOutcome? outcome,
     String? briefingRu,
     String? briefingEn,
+    BattleErrorKey? errorKey,
+    bool clearErrorKey = false,
     String? errorMessage,
     int? blockedCellX,
     int? blockedCellY,
     bool clearBlocked = false,
     bool? showMeteoriteTutorial,
+    bool? isPaused,
   }) {
     return BattleState(
       status: status ?? this.status,
@@ -62,11 +75,13 @@ class BattleState extends Equatable {
       outcome: outcome ?? this.outcome,
       briefingRu: briefingRu ?? this.briefingRu,
       briefingEn: briefingEn ?? this.briefingEn,
+      errorKey: clearErrorKey ? null : errorKey ?? this.errorKey,
       errorMessage: errorMessage,
       blockedCellX: clearBlocked ? null : blockedCellX ?? this.blockedCellX,
       blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
       showMeteoriteTutorial:
           showMeteoriteTutorial ?? this.showMeteoriteTutorial,
+      isPaused: isPaused ?? this.isPaused,
     );
   }
 
@@ -79,9 +94,11 @@ class BattleState extends Equatable {
         outcome,
         briefingRu,
         briefingEn,
+        errorKey,
         errorMessage,
         blockedCellX,
         blockedCellY,
         showMeteoriteTutorial,
+        isPaused,
       ];
 }

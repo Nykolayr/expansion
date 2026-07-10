@@ -25,10 +25,15 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       ),
       firstBattleCompleted:
           _prefs.getBool(PrefsKeys.guestFirstBattleCompleted) ?? false,
-      displayName: _prefs.getString(PrefsKeys.guestDisplayName) ?? 'Гость',
+      displayName: _prefs.getString(PrefsKeys.guestDisplayName) ?? '',
       meta: PlayerMetaProgressCodec.decode(
         _prefs.getString(PrefsKeys.guestMetaProgress),
       ),
+      defeatStreakSceneId:
+          _prefs.getInt(PrefsKeys.guestDefeatStreakSceneId) ?? 0,
+      defeatStreakCount: _prefs.getInt(PrefsKeys.guestDefeatStreakCount) ?? 0,
+      asteroidTutorialSeen:
+          _prefs.getBool(PrefsKeys.guestAsteroidTutorialSeen) ?? false,
     );
   }
 
@@ -53,6 +58,18 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       PrefsKeys.guestMetaProgress,
       PlayerMetaProgressCodec.encode(profile.meta),
     );
+    await _prefs.setInt(
+      PrefsKeys.guestDefeatStreakSceneId,
+      profile.defeatStreakSceneId,
+    );
+    await _prefs.setInt(
+      PrefsKeys.guestDefeatStreakCount,
+      profile.defeatStreakCount,
+    );
+    await _prefs.setBool(
+      PrefsKeys.guestAsteroidTutorialSeen,
+      profile.asteroidTutorialSeen,
+    );
   }
 
   @override
@@ -71,5 +88,41 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
   Future<void> setDifficulty(GameDifficulty difficulty) async {
     final current = await load();
     await save(current.copyWith(difficulty: difficulty));
+  }
+
+  @override
+  Future<int> recordMissionDefeat(int sceneId) async {
+    final current = await load();
+    final count = current.defeatStreakSceneId == sceneId
+        ? current.defeatStreakCount + 1
+        : 1;
+    await save(
+      current.copyWith(
+        defeatStreakSceneId: sceneId,
+        defeatStreakCount: count,
+      ),
+    );
+    return count;
+  }
+
+  @override
+  Future<void> clearDefeatStreak() async {
+    final current = await load();
+    if (current.defeatStreakCount == 0 && current.defeatStreakSceneId == 0) {
+      return;
+    }
+    await save(
+      current.copyWith(
+        defeatStreakSceneId: 0,
+        defeatStreakCount: 0,
+      ),
+    );
+  }
+
+  @override
+  Future<void> markAsteroidTutorialSeen() async {
+    final current = await load();
+    if (current.asteroidTutorialSeen) return;
+    await save(current.copyWith(asteroidTutorialSeen: true));
   }
 }

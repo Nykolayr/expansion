@@ -53,6 +53,24 @@ class BattleBaseView extends StatelessWidget {
               size: spriteSize,
             ),
           ),
+          if (base.side != BattleSide.neutral)
+            Center(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: minSide * 0.08),
+                child: Container(
+                  width: minSide * 0.38,
+                  height: minSide * 0.38,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: hudColor.withValues(alpha: 0.42),
+                    border: Border.all(
+                      color: hudColor.withValues(alpha: 0.9),
+                      width: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           Center(
             child: Padding(
               padding: EdgeInsets.only(bottom: minSide * 0.08),

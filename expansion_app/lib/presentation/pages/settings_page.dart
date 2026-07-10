@@ -4,11 +4,15 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
+import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
+import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/forms/difficulty_option_tile.dart';
 
 /// Настройки (язык, вступление; звук — позже).
 class SettingsPage extends StatelessWidget {
@@ -75,6 +79,44 @@ class SettingsPage extends StatelessWidget {
                                 onTap: () => sl<AppLocaleCubit>()
                                     .setLocale(const Locale('en')),
                               ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                    const Gap(16),
+                    BlocBuilder<GameDifficultyCubit, GameDifficulty>(
+                      bloc: sl<GameDifficultyCubit>(),
+                      builder: (context, difficulty) {
+                        return Card(
+                          color: ExpansionColors.background.withValues(
+                            alpha: 0.92,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: ExpansionColors.accent,
+                              width: 1.5,
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: const Icon(
+                                  Icons.tune,
+                                  color: ExpansionColors.accent,
+                                ),
+                                title: Text(loc.settingsDifficulty),
+                                subtitle: Text(loc.settingsDifficultyHint),
+                              ),
+                              for (final level in GameDifficulty.values)
+                                DifficultyOptionTile(
+                                  embedded: true,
+                                  label: level.label(loc),
+                                  selected: difficulty == level,
+                                  onTap: () => sl<GameDifficultyCubit>()
+                                      .setDifficulty(level),
+                                ),
                             ],
                           ),
                         );

@@ -11,6 +11,9 @@ import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
+import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
+import 'package:expansion/game_core/battle/battle_fleet_rules.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 import 'package:expansion/game_core/battle/battle_pacing.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
@@ -25,6 +28,7 @@ class BattleEngine {
     required this.gridRows,
     required this.gridCols,
     this.bonuses = MetaBattleBonuses.none,
+    this.difficulty = GameDifficulty.average,
   })  : _bases = List.of(bases),
         _fleets = [],
         _asteroids = [],
@@ -33,6 +37,7 @@ class BattleEngine {
   factory BattleEngine.fromLayout(
     BattleLayout layout, {
     MetaBattleBonuses bonuses = MetaBattleBonuses.none,
+    GameDifficulty difficulty = GameDifficulty.average,
   }) {
     var nextId = 0;
     final bases = <BattleBase>[];
@@ -77,6 +82,7 @@ class BattleEngine {
       gridRows: layout.gridRows,
       gridCols: layout.gridCols,
       bonuses: bonuses,
+      difficulty: difficulty,
     );
   }
 
@@ -84,6 +90,7 @@ class BattleEngine {
   final int gridRows;
   final int gridCols;
   final MetaBattleBonuses bonuses;
+  final GameDifficulty difficulty;
   final List<BattleBase> _bases;
   final List<BattleFleet> _fleets;
   final List<BattleAsteroid> _asteroids;
@@ -105,8 +112,19 @@ class BattleEngine {
   static const double _baseFleetProgressPerTick =
       BattlePacing.fleetProgressPerTick;
 
-  double get _fleetProgressPerTick =>
-      _baseFleetProgressPerTick * bonuses.fleetSpeed;
+  double _fleetProgressForSide(BattleSide side) {
+    final diff = BattleDifficultyConfig.forDifficulty(difficulty);
+    return switch (side) {
+      BattleSide.player =>
+        _baseFleetProgressPerTick * bonuses.fleetSpeed * diff.playerFleetSpeedMul,
+      BattleSide.enemy =>
+        _baseFleetProgressPerTick * diff.enemyFleetSpeedMul,
+      BattleSide.neutral => _baseFleetProgressPerTick,
+    };
+  }
+
+  /// Половина кораблей на базе (минимум 1).
+  static int defaultSendCount(int shipsOnBase) => defaultFleetSendCount(shipsOnBase);
 
   static const double _resourceIncomePerTick = 0.12;
   static const int _tacticalBaseCost = 80;
@@ -149,7 +167,7 @@ class BattleEngine {
       return false;
     }
     final from = _base(fromId)!;
-    final fleetSize = shipCount ?? from.ships;
+    final fleetSize = shipCount ?? defaultSendCount(from.ships);
     if (fleetSize < 1 || fleetSize > from.ships) return false;
     _updateBase(fromId, from.copyWith(ships: from.ships - fleetSize));
     _fleets.add(
@@ -206,8 +224,10 @@ class BattleEngine {
       );
 
       if (base.ships < base.maxShips) {
-        final growthMul =
-            base.side == BattleSide.player ? bonuses.growthSpeed : 1.0;
+        final diff = BattleDifficultyConfig.forDifficulty(difficulty);
+        final growthMul = base.side == BattleSide.player
+            ? bonuses.growthSpeed
+            : diff.enemyGrowthSpeedMul;
         final threshold =
             (12 / (base.speedBuild * growthMul)).round().clamp(4, 28);
         var acc = base.growthAccumulator + 1;
@@ -408,7 +428,8 @@ class BattleEngine {
 
     for (var i = 0; i < _fleets.length; i++) {
       final fleet = _fleets[i];
-      final nextProgress = fleet.progress + _fleetProgressPerTick;
+      final step = _fleetProgressForSide(fleet.side);
+      final nextProgress = fleet.progress + step;
       if (nextProgress >= 1) {
         arrived.add(fleet);
       } else {

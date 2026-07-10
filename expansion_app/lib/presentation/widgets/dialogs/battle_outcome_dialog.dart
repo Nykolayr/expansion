@@ -16,6 +16,8 @@ Future<void> showBattleOutcomeDialog(
   required String body,
   required String continueLabel,
   required VoidCallback onContinue,
+  String? secondaryLabel,
+  VoidCallback? onSecondary,
 }) {
   return showDialog<void>(
     context: context,
@@ -27,6 +29,8 @@ Future<void> showBattleOutcomeDialog(
       body: body,
       continueLabel: continueLabel,
       onContinue: onContinue,
+      secondaryLabel: secondaryLabel,
+      onSecondary: onSecondary,
     ),
   );
 }
@@ -38,6 +42,8 @@ class _BattleOutcomeDialog extends StatefulWidget {
     required this.body,
     required this.continueLabel,
     required this.onContinue,
+    this.secondaryLabel,
+    this.onSecondary,
   });
 
   final bool won;
@@ -45,6 +51,8 @@ class _BattleOutcomeDialog extends StatefulWidget {
   final String body;
   final String continueLabel;
   final VoidCallback onContinue;
+  final String? secondaryLabel;
+  final VoidCallback? onSecondary;
 
   @override
   State<_BattleOutcomeDialog> createState() => _BattleOutcomeDialogState();
@@ -124,6 +132,16 @@ class _BattleOutcomeDialogState extends State<_BattleOutcomeDialog> {
                   ),
                 ),
                 const Gap(20),
+                if (widget.secondaryLabel != null && widget.onSecondary != null) ...[
+                  GameLongButton(
+                    label: widget.secondaryLabel!,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      widget.onSecondary!();
+                    },
+                  ),
+                  const Gap(12),
+                ],
                 GameLongButton(
                   label: widget.continueLabel,
                   onPressed: () {

@@ -11,7 +11,10 @@ class GuestProfile extends Equatable {
     this.difficulty = GameDifficulty.average,
     this.univerKind = UniverKind.classic,
     this.firstBattleCompleted = false,
-    this.displayName = 'Гость',
+    this.displayName = '',
+    this.defeatStreakSceneId = 0,
+    this.defeatStreakCount = 0,
+    this.asteroidTutorialSeen = false,
     PlayerMetaProgress? meta,
   }) : meta = meta ?? PlayerMetaProgress.fresh();
 
@@ -21,6 +24,15 @@ class GuestProfile extends Equatable {
   final UniverKind univerKind;
   final bool firstBattleCompleted;
   final String displayName;
+
+  /// Миссия, на которой копится серия поражений (0 — нет серии).
+  final int defeatStreakSceneId;
+
+  /// Подряд поражений на [defeatStreakSceneId].
+  final int defeatStreakCount;
+
+  /// Показана подсказка при первом астероиде.
+  final bool asteroidTutorialSeen;
   final PlayerMetaProgress meta;
 
   /// Есть что терять при «Новой игре» — показываем подтверждение сброса.
@@ -38,6 +50,9 @@ class GuestProfile extends Equatable {
     UniverKind? univerKind,
     bool? firstBattleCompleted,
     String? displayName,
+    int? defeatStreakSceneId,
+    int? defeatStreakCount,
+    bool? asteroidTutorialSeen,
     PlayerMetaProgress? meta,
   }) {
     return GuestProfile(
@@ -48,6 +63,9 @@ class GuestProfile extends Equatable {
       firstBattleCompleted:
           firstBattleCompleted ?? this.firstBattleCompleted,
       displayName: displayName ?? this.displayName,
+      defeatStreakSceneId: defeatStreakSceneId ?? this.defeatStreakSceneId,
+      defeatStreakCount: defeatStreakCount ?? this.defeatStreakCount,
+      asteroidTutorialSeen: asteroidTutorialSeen ?? this.asteroidTutorialSeen,
       meta: meta ?? this.meta,
     );
   }
@@ -60,6 +78,9 @@ class GuestProfile extends Equatable {
         univerKind,
         firstBattleCompleted,
         displayName,
+        defeatStreakSceneId,
+        defeatStreakCount,
+        asteroidTutorialSeen,
         meta,
       ];
 }

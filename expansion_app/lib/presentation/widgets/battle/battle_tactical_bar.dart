@@ -8,7 +8,6 @@ import 'package:expansion/core/ui/app_feedback_kind.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
-import 'package:expansion/game_core/battle/battle_engine.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
@@ -18,20 +17,19 @@ import 'package:expansion/presentation/widgets/battle/battle_upgrade_triangle_bu
 class BattleTacticalBar extends StatelessWidget {
   const BattleTacticalBar({
     required this.base,
-    required this.engine,
     required this.projectilesActive,
     required this.onClose,
     super.key,
   });
 
   final BattleBase base;
-  final BattleEngine engine;
   final bool projectilesActive;
   final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
+    final cubit = sl<BattleCubit>();
 
     return Material(
       color: ExpansionColors.background.withValues(alpha: 0.94),
@@ -80,7 +78,8 @@ class BattleTacticalBar extends StatelessWidget {
                   for (final type in TacticalUpgradeType.values)
                     Builder(
                       builder: (context) {
-                        final preview = engine.tacticalPreview(base, type);
+                        final preview = cubit.tacticalPreview(type);
+                        if (preview == null) return const SizedBox.shrink();
                         final canAfford = base.resources >= preview.cost;
                         return BattleUpgradeTriangleButton(
                           label: type.shortLabel(loc),
@@ -89,8 +88,7 @@ class BattleTacticalBar extends StatelessWidget {
                           cost: preview.cost,
                           maxed: preview.maxed,
                           canAfford: canAfford,
-                          enabled:
-                              !projectilesActive && !preview.maxed,
+                          enabled: !projectilesActive && !preview.maxed,
                           onPressed: () => _onUpgrade(context, type),
                         );
                       },
