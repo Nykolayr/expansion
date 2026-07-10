@@ -47,7 +47,12 @@ expansion_app/ios/Flutter/flutter_export_environment.sh
 # IDE / OS
 .idea/
 *.iml
+# Локальный .vscode — кроме общих конфигов запуска клиента
 .vscode/
+!expansion_app/.vscode/
+!expansion_app/.vscode/launch.json
+!expansion_app/.vscode/settings.json
+!expansion_app/.vscode/extensions.json
 .DS_Store
 Thumbs.db
 *.swp

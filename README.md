@@ -119,7 +119,7 @@ cd expansion
 
 **Из IDE:** Run and Debug → `Expansion (debug)` → **F5** (с отладчиком) или **Ctrl+F5** (без отладчика).
 
-Конфигурация: `expansion_app/.vscode/launch.json`.
+Конфигурация: [`expansion_app/.vscode/launch.json`](expansion_app/.vscode/launch.json) (в репозитории — F5 / Ctrl+F5 из коробки).
 
 **Из терминала:**
 
