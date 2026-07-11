@@ -1022,11 +1022,419 @@ abstract class AppLocalizations {
   /// **'Кампания с'**
   String get profileStarted;
 
-  /// No description provided for @profileAccountSoon.
+  /// No description provided for @profileAccountHint.
   ///
   /// In ru, this message translates to:
-  /// **'Вход и синхронизация — следующий этап (сервер MVP).'**
-  String get profileAccountSoon;
+  /// **'Аккаунт сохраняет прогресс в облаке и открывает рейтинг.'**
+  String get profileAccountHint;
+
+  /// No description provided for @profileRegister.
+  ///
+  /// In ru, this message translates to:
+  /// **'Зарегистрироваться'**
+  String get profileRegister;
+
+  /// No description provided for @profileLogin.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get profileLogin;
+
+  /// No description provided for @profileAccountTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт'**
+  String get profileAccountTitle;
+
+  /// No description provided for @profileLogout.
+  ///
+  /// In ru, this message translates to:
+  /// **'Выйти'**
+  String get profileLogout;
+
+  /// No description provided for @profileLogoutSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы вышли из аккаунта'**
+  String get profileLogoutSuccess;
+
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить аккаунт'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @profileDeleteAccountTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить аккаунт?'**
+  String get profileDeleteAccountTitle;
+
+  /// No description provided for @profileDeleteAccountBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Прогресс на сервере и рейтинг будут удалены без возможности восстановления.'**
+  String get profileDeleteAccountBody;
+
+  /// No description provided for @profileDeleteAccountConfirm.
+  ///
+  /// In ru, this message translates to:
+  /// **'Удалить'**
+  String get profileDeleteAccountConfirm;
+
+  /// No description provided for @profileDeleteAccountSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт удалён'**
+  String get profileDeleteAccountSuccess;
+
+  /// No description provided for @progressLeaderboard.
+  ///
+  /// In ru, this message translates to:
+  /// **'Лучшие результаты'**
+  String get progressLeaderboard;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Рейтинг'**
+  String get leaderboardTitle;
+
+  /// No description provided for @leaderboardEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока никого в таблице — будьте первым!'**
+  String get leaderboardEmpty;
+
+  /// No description provided for @leaderboardLoadFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить рейтинг'**
+  String get leaderboardLoadFailed;
+
+  /// No description provided for @leaderboardGuestHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Можешь быть в таблице — зарегистрируйся'**
+  String get leaderboardGuestHint;
+
+  /// No description provided for @leaderboardMission.
+  ///
+  /// In ru, this message translates to:
+  /// **'Миссия {mission}'**
+  String leaderboardMission(int mission);
+
+  /// No description provided for @authLoginTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вход'**
+  String get authLoginTitle;
+
+  /// No description provided for @authRegisterTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Регистрация'**
+  String get authRegisterTitle;
+
+  /// No description provided for @authForgotTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забыл пароль'**
+  String get authForgotTitle;
+
+  /// No description provided for @authResetTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый пароль'**
+  String get authResetTitle;
+
+  /// No description provided for @authVerifyTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтверждение email'**
+  String get authVerifyTitle;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль'**
+  String get authPassword;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум 6 символов'**
+  String get authPasswordHint;
+
+  /// No description provided for @authNewPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый пароль'**
+  String get authNewPassword;
+
+  /// No description provided for @authNick.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ник'**
+  String get authNick;
+
+  /// No description provided for @authNickHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'3–20 символов, буквы, цифры, _'**
+  String get authNickHint;
+
+  /// No description provided for @authRealName.
+  ///
+  /// In ru, this message translates to:
+  /// **'Имя'**
+  String get authRealName;
+
+  /// No description provided for @authLoginAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Войти'**
+  String get authLoginAction;
+
+  /// No description provided for @authRegisterAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Зарегистрироваться'**
+  String get authRegisterAction;
+
+  /// No description provided for @authForgotLink.
+  ///
+  /// In ru, this message translates to:
+  /// **'Забыл пароль'**
+  String get authForgotLink;
+
+  /// No description provided for @authForgotAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить код'**
+  String get authForgotAction;
+
+  /// No description provided for @authResetAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сохранить пароль'**
+  String get authResetAction;
+
+  /// No description provided for @authVerifyAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Подтвердить'**
+  String get authVerifyAction;
+
+  /// No description provided for @authVerifyCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код из письма'**
+  String get authVerifyCode;
+
+  /// No description provided for @authNoAccount.
+  ///
+  /// In ru, this message translates to:
+  /// **'Нет аккаунта?'**
+  String get authNoAccount;
+
+  /// No description provided for @authHaveAccount.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уже есть аккаунт?'**
+  String get authHaveAccount;
+
+  /// No description provided for @authBackToLogin.
+  ///
+  /// In ru, this message translates to:
+  /// **'К входу'**
+  String get authBackToLogin;
+
+  /// No description provided for @authRegisterHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ник виден в рейтинге. Имя — в скобках рядом с ником.'**
+  String get authRegisterHint;
+
+  /// No description provided for @authForgotBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Введите email — отправим код для сброса пароля.'**
+  String get authForgotBody;
+
+  /// No description provided for @authVerifyBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен на {email}. Введите его ниже.'**
+  String authVerifyBody(String email);
+
+  /// No description provided for @authResetBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен на {email}. Придумайте новый пароль.'**
+  String authResetBody(String email);
+
+  /// No description provided for @authVerifySent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код отправлен на почту'**
+  String get authVerifySent;
+
+  /// No description provided for @authResetSent.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код для сброса отправлен'**
+  String get authResetSent;
+
+  /// No description provided for @authLoginSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Вы вошли в аккаунт'**
+  String get authLoginSuccess;
+
+  /// No description provided for @authRegisterSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аккаунт создан'**
+  String get authRegisterSuccess;
+
+  /// No description provided for @authResetSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль обновлён — войдите с новым'**
+  String get authResetSuccess;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось выполнить запрос'**
+  String get authErrorGeneric;
+
+  /// No description provided for @authErrorEmailExists.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот email уже зарегистрирован — войдите'**
+  String get authErrorEmailExists;
+
+  /// No description provided for @authErrorNickTaken.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот ник занят'**
+  String get authErrorNickTaken;
+
+  /// No description provided for @authErrorEmailSend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отправить письмо — попробуйте позже'**
+  String get authErrorEmailSend;
+
+  /// No description provided for @authErrorInvalidCredentials.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный email или пароль'**
+  String get authErrorInvalidCredentials;
+
+  /// No description provided for @authErrorInvalidCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный или просроченный код'**
+  String get authErrorInvalidCode;
+
+  /// No description provided for @authNickChecking.
+  ///
+  /// In ru, this message translates to:
+  /// **'Проверяем ник…'**
+  String get authNickChecking;
+
+  /// No description provided for @authNickAvailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ник свободен'**
+  String get authNickAvailable;
+
+  /// No description provided for @authNickTaken.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ник занят'**
+  String get authNickTaken;
+
+  /// No description provided for @authNickTooShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ник слишком короткий'**
+  String get authNickTooShort;
+
+  /// No description provided for @authNickInvalid.
+  ///
+  /// In ru, this message translates to:
+  /// **'Недопустимые символы в нике'**
+  String get authNickInvalid;
+
+  /// No description provided for @authNickReserved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Этот ник зарезервирован'**
+  String get authNickReserved;
+
+  /// No description provided for @authMergeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Два сохранения'**
+  String get authMergeTitle;
+
+  /// No description provided for @authMergeBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'На устройстве и на сервере есть прогресс. Что оставить?'**
+  String get authMergeBody;
+
+  /// No description provided for @authMergeLocal.
+  ///
+  /// In ru, this message translates to:
+  /// **'На устройстве'**
+  String get authMergeLocal;
+
+  /// No description provided for @authMergeServer.
+  ///
+  /// In ru, this message translates to:
+  /// **'На сервере'**
+  String get authMergeServer;
+
+  /// No description provided for @authMergeMissionScore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Миссия {mission} · очки {score}'**
+  String authMergeMissionScore(int mission, int score);
+
+  /// No description provided for @newMissionsBannerTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новые миссии!'**
+  String get newMissionsBannerTitle;
+
+  /// No description provided for @newMissionsBannerBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'На сервере появились новые уровни — они уже на устройстве, можно играть офлайн.'**
+  String get newMissionsBannerBody;
+
+  /// No description provided for @newMissionsBannerAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'На карту'**
+  String get newMissionsBannerAction;
+
+  /// No description provided for @newMissionsBannerDismiss.
+  ///
+  /// In ru, this message translates to:
+  /// **'Понятно'**
+  String get newMissionsBannerDismiss;
 
   /// No description provided for @donateTitle.
   ///

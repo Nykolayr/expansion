@@ -1,30 +1,35 @@
 # Текущее состояние expansion_server
 
-## Описание
+## Стадия
 
-Backend для игры **Expansion**: аккаунты, синхронизация прогресса, доставка контента миссий в клиент и админку.
+**v0.2 — auth + profile + leaderboard (MariaDB)**
 
-## Текущая стадия
+### Реализовано
 
-**Заготовка монорепо** — код API ещё не инициализирован.
-
-### Что есть
-
-1. ✅ Структура в монорепо `D:\Projects\expansion\expansion_server\`
-2. ✅ Черновик контракта: `API_DOCS.md`
-3. ✅ Правила Cursor: `.cursor/rules/`
-4. ✅ Legacy-референс: `D:\Projects\expansion_old\apiserver`
+- MariaDB миграция `migrations/001_initial.sql`
+- Auth: register → verify email, login, refresh, forgot/reset password, logout
+- Уникальный **nick**, **realName**, `GET /auth/nick-available`
+- Profile: GET/PUT (зеркало GuestProfile)
+- Leaderboard: топ 50, label `Ник (имя)`
+- Delete account
+- SMTP (nodemailer, как Joy Pick)
 
 ### Следующие шаги
 
-1. `package.json`, `app.js`, `api/routes/`
-2. `.env.example` (DB, JWT)
-3. Миграции `database/migrations/`
-4. Реализовать маршруты по `API_DOCS.md`
-5. Подключить клиент (`expansion_app`) поэтапно
+1. Деплой на Beget VPS + prod `.env`
+2. **Клиент** (`expansion_app`): экраны auth, синк, рейтинг (подэтап 2)
 
-## Связь
+## Документация
 
-- Клиент: [`../expansion_app/`](../expansion_app/)
-- Админка: [`../expansion_admin/`](../expansion_admin/)
-- Концепция: [`../.cursor/rules/project-concept.mdc`](../.cursor/rules/project-concept.mdc)
+- [`API_DOCS.md`](API_DOCS.md)
+- [`../docs/auth-account-spec.md`](../docs/auth-account-spec.md)
+
+## Локально
+
+```bash
+npm install
+cp .env.example .env
+npm run migrate
+npm start
+npm run load-check
+```

@@ -51,6 +51,50 @@ class CampaignLocalDataSource {
     });
   }
 
+  /// OTA: upsert сцен и layouts с сервера (offline-кэш в SQLite).
+  Future<int> mergeRemoteContent({
+    required int contentVersion,
+    required List<CampaignSceneRow> scenes,
+    required List<BattlePlacementRow> placements,
+  }) async {
+    final db = await _db;
+    await db.transaction((txn) async {
+      for (final scene in scenes) {
+        await txn.insert(
+          GameDatabaseMigrations.tableCampaignScenes,
+          scene.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+
+      final sceneIds = placements.map((p) => p.sceneId).toSet();
+      for (final sceneId in sceneIds) {
+        await txn.delete(
+          GameDatabaseMigrations.tableBattlePlacements,
+          where: 'scene_id = ?',
+          whereArgs: [sceneId],
+        );
+      }
+      for (final placement in placements) {
+        await txn.insert(
+          GameDatabaseMigrations.tableBattlePlacements,
+          placement.toMap(),
+        );
+      }
+
+      await txn.delete(GameDatabaseMigrations.tableContentMeta);
+      await txn.insert(
+        GameDatabaseMigrations.tableContentMeta,
+        {
+          'id': 1,
+          'content_version': contentVersion,
+          'seeded_at': DateTime.now().toUtc().toIso8601String(),
+        },
+      );
+    });
+    return contentVersion;
+  }
+
   Future<List<CampaignSceneRow>> fetchScenesOrdered() async {
     final db = await _db;
     final rows = await db.query(

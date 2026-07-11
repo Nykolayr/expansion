@@ -7,10 +7,13 @@ import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/enums/univer_kind.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 
+import 'package:expansion/presentation/services/profile_sync_service.dart';
+
 class GuestProfileRepositoryImpl implements GuestProfileRepository {
-  GuestProfileRepositoryImpl(this._prefs);
+  GuestProfileRepositoryImpl(this._prefs, [this._sync]);
 
   final SharedPreferences _prefs;
+  final ProfileSyncService? _sync;
 
   @override
   Future<GuestProfile> load() async {
@@ -100,6 +103,7 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       PrefsKeys.guestCampaignStartedAt,
       profile.campaignStartedAtMillis,
     );
+    _sync?.schedulePush(profile);
   }
 
   @override

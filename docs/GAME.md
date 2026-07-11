@@ -9,7 +9,10 @@
 | Документ | Содержание |
 |----------|------------|
 | **[`expansion_app/docs/game-concept.md`](../expansion_app/docs/game-concept.md)** | Утверждённая концепция v1: Classic 40 миссий, бой 5×8, прогресс, гость |
-| [`expansion_app/docs/game-plan.md`](../expansion_app/docs/game-plan.md) | План фаз разработки |
+| **[`ROADMAP.md`](ROADMAP.md)** | **Текущий план: сервер → арты → кампания** |
+| [`expansion_app/docs/game-plan.md`](../expansion_app/docs/game-plan.md) | Исторические фазы разработки клиента |
+| [`expansion_app/docs/campaign-missions-1-15.md`](../expansion_app/docs/campaign-missions-1-15.md) | Дизайн миссий 1–15 (м6+ — пункт 3 roadmap) |
+| **[`campaign-content-ota.md`](campaign-content-ota.md)** | **OTA: новые миссии только через сервер** |
 | [`expansion_app/docs/project-specs.md`](../expansion_app/docs/project-specs.md) | Экраны, стек, API-план |
 
 ## Клиент
@@ -25,4 +28,5 @@
 
 ## API и контент
 
-Контент миссий сейчас в **`expansion_app/assets/scenes/`**. В перспективе: админка → API → SQLite на устройстве. См. [`API.md`](API.md).
+Исходники JSON: **`expansion_app/assets/scenes/`**.  
+**Prod:** OTA через **`GET /api/content/pack`** → SQLite на устройстве. Канон: **[`campaign-content-ota.md`](campaign-content-ota.md)**. REST: [`API.md`](API.md).

@@ -1,0 +1,6 @@
+PassengerEnabled on
+PassengerNodejs /home/a/autogie1/danilagames.ru/node-v18.19.0-linux-x64/bin/node
+PassengerAppRoot /home/a/autogie1/danilagames.ru/public_html/expansion_api
+PassengerAppType node
+PassengerStartupFile app.beget.js
+PassengerFriendlyErrorPages on

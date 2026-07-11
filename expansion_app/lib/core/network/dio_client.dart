@@ -1,12 +1,14 @@
 ﻿import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:expansion/core/constants/api_config.dart';
 
-/// Обертка над [Dio]: base URL, таймауты, заголовки, перехватчики.
-///
-/// Токен авторизации подключай в [_AuthInterceptor] (через GetIt после появления слоя auth).
+import 'package:expansion/core/constants/api_config.dart';
+import 'package:expansion/core/network/auth_interceptor.dart';
+import 'package:expansion/core/storage/auth_token_storage.dart';
+
+/// Обертка над [Dio]: base URL, таймауты, Bearer + refresh.
 class DioClient {
-  DioClient() {
+  DioClient(this._tokenStorage) {
+    _authInterceptor = AuthInterceptor(_tokenStorage);
     _dio = Dio(
       BaseOptions(
         baseUrl: ApiConfig.baseUrl,
@@ -19,7 +21,7 @@ class DioClient {
         },
       ),
     );
-    _dio.interceptors.add(_AuthInterceptor());
+    _dio.interceptors.add(_authInterceptor);
     if (kDebugMode) {
       _dio.interceptors.add(
         LogInterceptor(
@@ -29,23 +31,25 @@ class DioClient {
         ),
       );
     }
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          options.extra['dio'] = _dio;
+          handler.next(options);
+        },
+      ),
+    );
   }
 
+  final AuthTokenStorage _tokenStorage;
   late final Dio _dio;
+  late final AuthInterceptor _authInterceptor;
 
   Dio get dio => _dio;
-}
 
-class _AuthInterceptor extends Interceptor {
-  @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) {
-    // final token = sl<AuthTokenReader>().readSync();
-    // if (token != null && token.isNotEmpty) {
-    //   options.headers['Authorization'] = 'Bearer $token';
-    // }
-    handler.next(options);
+  AuthInterceptor get authInterceptor => _authInterceptor;
+
+  void bindTokenRefresh(Future<bool> Function() refreshSession) {
+    _authInterceptor.refreshSession = refreshSession;
   }
 }

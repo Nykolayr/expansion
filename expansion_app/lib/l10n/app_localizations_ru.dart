@@ -521,8 +521,226 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileStarted => 'Кампания с';
 
   @override
-  String get profileAccountSoon =>
-      'Вход и синхронизация — следующий этап (сервер MVP).';
+  String get profileAccountHint =>
+      'Аккаунт сохраняет прогресс в облаке и открывает рейтинг.';
+
+  @override
+  String get profileRegister => 'Зарегистрироваться';
+
+  @override
+  String get profileLogin => 'Войти';
+
+  @override
+  String get profileAccountTitle => 'Аккаунт';
+
+  @override
+  String get profileLogout => 'Выйти';
+
+  @override
+  String get profileLogoutSuccess => 'Вы вышли из аккаунта';
+
+  @override
+  String get profileDeleteAccount => 'Удалить аккаунт';
+
+  @override
+  String get profileDeleteAccountTitle => 'Удалить аккаунт?';
+
+  @override
+  String get profileDeleteAccountBody =>
+      'Прогресс на сервере и рейтинг будут удалены без возможности восстановления.';
+
+  @override
+  String get profileDeleteAccountConfirm => 'Удалить';
+
+  @override
+  String get profileDeleteAccountSuccess => 'Аккаунт удалён';
+
+  @override
+  String get progressLeaderboard => 'Лучшие результаты';
+
+  @override
+  String get leaderboardTitle => 'Рейтинг';
+
+  @override
+  String get leaderboardEmpty => 'Пока никого в таблице — будьте первым!';
+
+  @override
+  String get leaderboardLoadFailed => 'Не удалось загрузить рейтинг';
+
+  @override
+  String get leaderboardGuestHint => 'Можешь быть в таблице — зарегистрируйся';
+
+  @override
+  String leaderboardMission(int mission) {
+    return 'Миссия $mission';
+  }
+
+  @override
+  String get authLoginTitle => 'Вход';
+
+  @override
+  String get authRegisterTitle => 'Регистрация';
+
+  @override
+  String get authForgotTitle => 'Забыл пароль';
+
+  @override
+  String get authResetTitle => 'Новый пароль';
+
+  @override
+  String get authVerifyTitle => 'Подтверждение email';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Пароль';
+
+  @override
+  String get authPasswordHint => 'Минимум 6 символов';
+
+  @override
+  String get authNewPassword => 'Новый пароль';
+
+  @override
+  String get authNick => 'Ник';
+
+  @override
+  String get authNickHint => '3–20 символов, буквы, цифры, _';
+
+  @override
+  String get authRealName => 'Имя';
+
+  @override
+  String get authLoginAction => 'Войти';
+
+  @override
+  String get authRegisterAction => 'Зарегистрироваться';
+
+  @override
+  String get authForgotLink => 'Забыл пароль';
+
+  @override
+  String get authForgotAction => 'Отправить код';
+
+  @override
+  String get authResetAction => 'Сохранить пароль';
+
+  @override
+  String get authVerifyAction => 'Подтвердить';
+
+  @override
+  String get authVerifyCode => 'Код из письма';
+
+  @override
+  String get authNoAccount => 'Нет аккаунта?';
+
+  @override
+  String get authHaveAccount => 'Уже есть аккаунт?';
+
+  @override
+  String get authBackToLogin => 'К входу';
+
+  @override
+  String get authRegisterHint =>
+      'Ник виден в рейтинге. Имя — в скобках рядом с ником.';
+
+  @override
+  String get authForgotBody =>
+      'Введите email — отправим код для сброса пароля.';
+
+  @override
+  String authVerifyBody(String email) {
+    return 'Код отправлен на $email. Введите его ниже.';
+  }
+
+  @override
+  String authResetBody(String email) {
+    return 'Код отправлен на $email. Придумайте новый пароль.';
+  }
+
+  @override
+  String get authVerifySent => 'Код отправлен на почту';
+
+  @override
+  String get authResetSent => 'Код для сброса отправлен';
+
+  @override
+  String get authLoginSuccess => 'Вы вошли в аккаунт';
+
+  @override
+  String get authRegisterSuccess => 'Аккаунт создан';
+
+  @override
+  String get authResetSuccess => 'Пароль обновлён — войдите с новым';
+
+  @override
+  String get authErrorGeneric => 'Не удалось выполнить запрос';
+
+  @override
+  String get authErrorEmailExists => 'Этот email уже зарегистрирован — войдите';
+
+  @override
+  String get authErrorNickTaken => 'Этот ник занят';
+
+  @override
+  String get authErrorEmailSend =>
+      'Не удалось отправить письмо — попробуйте позже';
+
+  @override
+  String get authErrorInvalidCredentials => 'Неверный email или пароль';
+
+  @override
+  String get authErrorInvalidCode => 'Неверный или просроченный код';
+
+  @override
+  String get authNickChecking => 'Проверяем ник…';
+
+  @override
+  String get authNickAvailable => 'Ник свободен';
+
+  @override
+  String get authNickTaken => 'Ник занят';
+
+  @override
+  String get authNickTooShort => 'Ник слишком короткий';
+
+  @override
+  String get authNickInvalid => 'Недопустимые символы в нике';
+
+  @override
+  String get authNickReserved => 'Этот ник зарезервирован';
+
+  @override
+  String get authMergeTitle => 'Два сохранения';
+
+  @override
+  String get authMergeBody =>
+      'На устройстве и на сервере есть прогресс. Что оставить?';
+
+  @override
+  String get authMergeLocal => 'На устройстве';
+
+  @override
+  String get authMergeServer => 'На сервере';
+
+  @override
+  String authMergeMissionScore(int mission, int score) {
+    return 'Миссия $mission · очки $score';
+  }
+
+  @override
+  String get newMissionsBannerTitle => 'Новые миссии!';
+
+  @override
+  String get newMissionsBannerBody =>
+      'На сервере появились новые уровни — они уже на устройстве, можно играть офлайн.';
+
+  @override
+  String get newMissionsBannerAction => 'На карту';
+
+  @override
+  String get newMissionsBannerDismiss => 'Понятно';
 
   @override
   String get donateTitle => 'Поддержать';

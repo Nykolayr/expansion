@@ -6,6 +6,9 @@ import 'package:intl/intl.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/extensions/navigation_context.dart';
+import 'package:expansion/core/ui/app_feedback_kind.dart';
+import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
@@ -50,6 +53,128 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _nameController.addListener(_onNameChanged);
     sl<ProfileCubit>().load();
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    sl<ProfileCubit>().load();
+  }
+
+  Future<void> _confirmDeleteAccount(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(loc.profileDeleteAccountTitle),
+        content: Text(loc.profileDeleteAccountBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(loc.beginResetCancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: FilledButton.styleFrom(
+              backgroundColor: ExpansionColors.red,
+            ),
+            child: Text(loc.profileDeleteAccountConfirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    final ok = await sl<ProfileCubit>().deleteAccount();
+    if (!context.mounted) return;
+
+    if (ok) {
+      sl<AppFeedbackService>().show(
+        loc.profileDeleteAccountSuccess,
+        kind: AppFeedbackKind.success,
+      );
+    } else {
+      sl<AppFeedbackService>().show(loc.authErrorGeneric);
+    }
+  }
+
+  Future<void> _logout(BuildContext context) async {
+    final loc = AppLocalizations.of(context)!;
+    final ok = await sl<ProfileCubit>().logout();
+    if (!context.mounted) return;
+
+    if (ok) {
+      sl<AppFeedbackService>().show(
+        loc.profileLogoutSuccess,
+        kind: AppFeedbackKind.success,
+      );
+    } else {
+      sl<AppFeedbackService>().show(loc.authErrorGeneric);
+    }
+  }
+
+  Widget _accountSection(BuildContext context, ProfileState state) {
+    final loc = AppLocalizations.of(context)!;
+
+    if (state.accountLoading) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (state.isLoggedIn) {
+      final user = state.accountUser!;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            loc.profileAccountTitle,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const Gap(8),
+          GameStatCard(title: loc.authNick, value: user.nick),
+          const Gap(12),
+          GameStatCard(title: loc.authEmail, value: user.email),
+          const Gap(12),
+          OutlinedButton(
+            onPressed: () => _logout(context),
+            child: Text(loc.profileLogout),
+          ),
+          const Gap(8),
+          TextButton(
+            onPressed: () => _confirmDeleteAccount(context),
+            style: TextButton.styleFrom(foregroundColor: ExpansionColors.red),
+            child: Text(loc.profileDeleteAccount),
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          loc.profileAccountHint,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const Gap(12),
+        FilledButton(
+          onPressed: () => context.goToAuthRegister(),
+          style: FilledButton.styleFrom(
+            backgroundColor: ExpansionColors.accent,
+            foregroundColor: ExpansionColors.black,
+          ),
+          child: Text(loc.profileRegister),
+        ),
+        const Gap(8),
+        OutlinedButton(
+          onPressed: () => context.goToAuthLogin(),
+          child: Text(loc.profileLogin),
+        ),
+      ],
+    );
   }
 
   @override
@@ -187,10 +312,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           value: _startedLabel(state, loc),
                         ),
                         const Gap(24),
-                        Text(
-                          loc.profileAccountSoon,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
+                        _accountSection(context, state),
                       ],
                     );
                   },

@@ -5,7 +5,9 @@ import 'package:gap/gap.dart';
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
+import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/extensions/univer_kind_l10n.dart';
+import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/progress/progress_cubit.dart';
 import 'package:expansion/presentation/bloc/progress/progress_state.dart';
@@ -93,6 +95,15 @@ class _ProgressPageState extends State<ProgressPage> {
                         GameStatCard(
                           title: loc.progressEnemyPower,
                           value: '${state.enemyPower}',
+                        ),
+                        const Gap(24),
+                        FilledButton(
+                          onPressed: () => context.goToLeaderboard(),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: ExpansionColors.accent,
+                            foregroundColor: ExpansionColors.black,
+                          ),
+                          child: Text(loc.progressLeaderboard),
                         ),
                       ],
                     );

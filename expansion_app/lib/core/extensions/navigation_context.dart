@@ -32,4 +32,12 @@ extension AppNavigationX on BuildContext {
   void goToProgress() => push('/progress');
 
   void goToUpgrades() => push('/upgrades');
+
+  void goToAuthLogin() => push('/auth/login');
+
+  void goToAuthRegister() => push('/auth/register');
+
+  void goToAuthForgot() => push('/auth/forgot');
+
+  void goToLeaderboard() => push('/leaderboard');
 }

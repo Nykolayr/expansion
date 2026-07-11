@@ -1,6 +1,7 @@
 # Кампания Classic: миссии 1–15 (дизайн)
 
 > Статус: **утверждено** (2026-07-10). Реализация — по одной миссии + playtest.  
+> **Публикация м6+:** только OTA на сервер — [`docs/campaign-content-ota.md`](../../docs/campaign-content-ota.md).  
 > Арт: канон имён в `BattleVisualId` / `BattleAssets.targetAssetPaths`; промпты для ИИ — отдельным блоком позже.
 
 ## Параметры захватываемых баз

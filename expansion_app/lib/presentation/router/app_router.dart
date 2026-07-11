@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:expansion/presentation/pages/auth/auth_forgot_page.dart';
+import 'package:expansion/presentation/pages/auth/auth_login_page.dart';
+import 'package:expansion/presentation/pages/auth/auth_register_page.dart';
 import 'package:expansion/presentation/pages/battle_page.dart';
 import 'package:expansion/presentation/pages/donate_page.dart';
 import 'package:expansion/presentation/pages/help_page.dart';
 import 'package:expansion/presentation/pages/begin_page.dart';
 import 'package:expansion/presentation/pages/intro_story_page.dart';
+import 'package:expansion/presentation/pages/leaderboard_page.dart';
 import 'package:expansion/presentation/pages/maps_page.dart';
 import 'package:expansion/presentation/pages/profile_page.dart';
 import 'package:expansion/presentation/pages/progress_page.dart';
@@ -93,6 +97,34 @@ final GoRouter appRouter = GoRouter(
       name: 'upgrades',
       builder: (BuildContext context, GoRouterState state) {
         return const UpgradesPage();
+      },
+    ),
+    GoRoute(
+      path: '/auth/login',
+      name: 'authLogin',
+      builder: (BuildContext context, GoRouterState state) {
+        return const AuthLoginPage();
+      },
+    ),
+    GoRoute(
+      path: '/auth/register',
+      name: 'authRegister',
+      builder: (BuildContext context, GoRouterState state) {
+        return const AuthRegisterPage();
+      },
+    ),
+    GoRoute(
+      path: '/auth/forgot',
+      name: 'authForgot',
+      builder: (BuildContext context, GoRouterState state) {
+        return const AuthForgotPage();
+      },
+    ),
+    GoRoute(
+      path: '/leaderboard',
+      name: 'leaderboard',
+      builder: (BuildContext context, GoRouterState state) {
+        return const LeaderboardPage();
       },
     ),
   ],

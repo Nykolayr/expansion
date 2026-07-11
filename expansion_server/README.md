@@ -6,32 +6,28 @@ Backend API для игры **Expansion**.
 
 | Файл | Назначение |
 |------|------------|
-| [`API_DOCS.md`](API_DOCS.md) | Канон REST (черновик) |
-| [`CURRENT_STAGE.md`](CURRENT_STAGE.md) | Текущий этап |
+| [`API_DOCS.md`](API_DOCS.md) | Канон REST |
+| [`../docs/auth-account-spec.md`](../docs/auth-account-spec.md) | Spec аккаунта и рейтинга |
 | [`../docs/API.md`](../docs/API.md) | Хаб API |
-| [`.cursor/API_DOCUMENTATION.md`](.cursor/API_DOCUMENTATION.md) | Точка входа для агента |
-
-## Связь
-
-- Клиент: [`../expansion_app/`](../expansion_app/)
-- Админка: [`../expansion_admin/`](../expansion_admin/)
-- Workspace: [`../expansion.code-workspace`](../expansion.code-workspace)
-- Legacy: `D:\Projects\expansion_old\apiserver`
 
 ## Статус
 
-**MVP API** — `api/server.js`: health, auth (JWT in-memory), profile, content/version.
+**v0.2** — MariaDB, email+password auth, verify email, profile sync, leaderboard, delete account.
+
+## Prod (redmobi VPS + danilagames.ru)
+
+См. **[`deploy/VPS.md`](deploy/VPS.md)** — канон деплоя.
+
+| Компонент | URL |
+|-----------|-----|
+| Заглушка сайта | https://danilagames.ru/ |
+| API (пока IP) | http://46.173.25.193/api/health |
+| API (после DNS) | https://expansion-api.danilagames.ru/api |
 
 ```bash
-cd expansion_server
-npm install
-cp .env.example .env
-npm start
+npm run load-check
+.\deploy\sync-vps.ps1
 ```
-
-Load-check: `node -e "require('./api/server'); console.log('ok')"` — сервер слушает порт; для CI достаточно `require('./api/routes/auth')`.
-
-Клиент: `ContentSyncService` — заготовка проверки `/api/content/version`.
 
 ## Git
 

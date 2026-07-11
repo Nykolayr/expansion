@@ -5,7 +5,8 @@ abstract final class GameDatabaseConstants {
   /// Миграции схемы таблиц ([GameDatabaseMigrations]).
   static const int schemaVersion = 2;
 
-  /// Версия набора контента (сиды из assets). Увеличивать при смене JSON.
+  /// Версия набора контента **в APK (offline-baseline)**. Увеличивать только при смене
+  /// bundled м1–м5. Новые миссии м6+ — OTA на сервере, см. docs/campaign-content-ota.md.
   static const int bundledContentVersion = 6;
 
   static const int campaignMissionCount = 40;

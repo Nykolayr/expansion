@@ -37,3 +37,9 @@ class RequestTimeoutException extends ServerException {
 class UnknownServerException extends ServerException {
   const UnknownServerException(super.message);
 }
+
+class ConflictException extends ServerException {
+  const ConflictException(super.message, {this.code});
+
+  final String? code;
+}

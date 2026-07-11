@@ -52,6 +52,11 @@ class ErrorHandler {
         return BadRequestException(_userMessage(msg));
       case 401:
         return UnauthorizedException(_userMessage(msg));
+      case 409:
+        return ConflictException(
+          _userMessage(msg),
+          code: _codeFromResponse(exception),
+        );
       case 404:
         return NotFoundException(_userMessage(msg));
       case 500:
@@ -76,6 +81,16 @@ class ErrorHandler {
       if (m != null) return m.toString();
     }
     if (data is String && data.trim().isNotEmpty) return data;
+    return null;
+  }
+
+  static String? _codeFromResponse(DioException exception) {
+    final data = exception.response?.data;
+    if (data is Map<String, dynamic>) {
+      final code = data['code'];
+      if (code is String) return code;
+      if (code != null) return code.toString();
+    }
     return null;
   }
 }

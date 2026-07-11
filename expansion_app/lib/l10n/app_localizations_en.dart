@@ -521,8 +521,225 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileStarted => 'Campaign since';
 
   @override
-  String get profileAccountSoon =>
-      'Sign-in and cloud save — next step (server MVP).';
+  String get profileAccountHint =>
+      'An account saves progress to the cloud and unlocks the leaderboard.';
+
+  @override
+  String get profileRegister => 'Sign up';
+
+  @override
+  String get profileLogin => 'Sign in';
+
+  @override
+  String get profileAccountTitle => 'Account';
+
+  @override
+  String get profileLogout => 'Sign out';
+
+  @override
+  String get profileLogoutSuccess => 'Signed out';
+
+  @override
+  String get profileDeleteAccount => 'Delete account';
+
+  @override
+  String get profileDeleteAccountTitle => 'Delete account?';
+
+  @override
+  String get profileDeleteAccountBody =>
+      'Server progress and leaderboard entry will be permanently removed.';
+
+  @override
+  String get profileDeleteAccountConfirm => 'Delete';
+
+  @override
+  String get profileDeleteAccountSuccess => 'Account deleted';
+
+  @override
+  String get progressLeaderboard => 'Top scores';
+
+  @override
+  String get leaderboardTitle => 'Leaderboard';
+
+  @override
+  String get leaderboardEmpty => 'No entries yet — be the first!';
+
+  @override
+  String get leaderboardLoadFailed => 'Could not load leaderboard';
+
+  @override
+  String get leaderboardGuestHint => 'You could be on the board — sign up';
+
+  @override
+  String leaderboardMission(int mission) {
+    return 'Mission $mission';
+  }
+
+  @override
+  String get authLoginTitle => 'Sign in';
+
+  @override
+  String get authRegisterTitle => 'Sign up';
+
+  @override
+  String get authForgotTitle => 'Forgot password';
+
+  @override
+  String get authResetTitle => 'New password';
+
+  @override
+  String get authVerifyTitle => 'Verify email';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authPasswordHint => 'At least 6 characters';
+
+  @override
+  String get authNewPassword => 'New password';
+
+  @override
+  String get authNick => 'Nickname';
+
+  @override
+  String get authNickHint => '3–20 chars: letters, digits, _';
+
+  @override
+  String get authRealName => 'Name';
+
+  @override
+  String get authLoginAction => 'Sign in';
+
+  @override
+  String get authRegisterAction => 'Sign up';
+
+  @override
+  String get authForgotLink => 'Forgot password';
+
+  @override
+  String get authForgotAction => 'Send code';
+
+  @override
+  String get authResetAction => 'Save password';
+
+  @override
+  String get authVerifyAction => 'Confirm';
+
+  @override
+  String get authVerifyCode => 'Code from email';
+
+  @override
+  String get authNoAccount => 'No account?';
+
+  @override
+  String get authHaveAccount => 'Already have an account?';
+
+  @override
+  String get authBackToLogin => 'Back to sign in';
+
+  @override
+  String get authRegisterHint =>
+      'Nickname appears on the leaderboard. Name is shown in parentheses.';
+
+  @override
+  String get authForgotBody => 'Enter your email — we\'ll send a reset code.';
+
+  @override
+  String authVerifyBody(String email) {
+    return 'Code sent to $email. Enter it below.';
+  }
+
+  @override
+  String authResetBody(String email) {
+    return 'Code sent to $email. Choose a new password.';
+  }
+
+  @override
+  String get authVerifySent => 'Verification code sent';
+
+  @override
+  String get authResetSent => 'Reset code sent';
+
+  @override
+  String get authLoginSuccess => 'Signed in';
+
+  @override
+  String get authRegisterSuccess => 'Account created';
+
+  @override
+  String get authResetSuccess => 'Password updated — sign in with the new one';
+
+  @override
+  String get authErrorGeneric => 'Request failed';
+
+  @override
+  String get authErrorEmailExists =>
+      'This email is already registered — sign in';
+
+  @override
+  String get authErrorNickTaken => 'This nickname is taken';
+
+  @override
+  String get authErrorEmailSend => 'Could not send email — try again later';
+
+  @override
+  String get authErrorInvalidCredentials => 'Invalid email or password';
+
+  @override
+  String get authErrorInvalidCode => 'Invalid or expired code';
+
+  @override
+  String get authNickChecking => 'Checking nickname…';
+
+  @override
+  String get authNickAvailable => 'Nickname available';
+
+  @override
+  String get authNickTaken => 'Nickname taken';
+
+  @override
+  String get authNickTooShort => 'Nickname too short';
+
+  @override
+  String get authNickInvalid => 'Invalid characters in nickname';
+
+  @override
+  String get authNickReserved => 'This nickname is reserved';
+
+  @override
+  String get authMergeTitle => 'Two saves found';
+
+  @override
+  String get authMergeBody =>
+      'Progress exists on this device and on the server. Which one to keep?';
+
+  @override
+  String get authMergeLocal => 'On device';
+
+  @override
+  String get authMergeServer => 'On server';
+
+  @override
+  String authMergeMissionScore(int mission, int score) {
+    return 'Mission $mission · score $score';
+  }
+
+  @override
+  String get newMissionsBannerTitle => 'New missions!';
+
+  @override
+  String get newMissionsBannerBody =>
+      'New levels are on your device — play offline anytime.';
+
+  @override
+  String get newMissionsBannerAction => 'Open map';
+
+  @override
+  String get newMissionsBannerDismiss => 'Got it';
 
   @override
   String get donateTitle => 'Support';

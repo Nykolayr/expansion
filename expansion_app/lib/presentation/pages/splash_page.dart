@@ -14,6 +14,7 @@ import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_cubit.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_state.dart';
+import 'package:expansion/presentation/widgets/splash/new_missions_banner.dart';
 import 'package:expansion/presentation/widgets/splash/splash_intro_overlay.dart';
 import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
 import 'package:expansion/presentation/widgets/splash/splash_loader_panel.dart';
@@ -186,6 +187,26 @@ class _SplashPageState extends State<SplashPage> {
                 SplashIntroOverlay(
                   onSkip: _onSkipIntro,
                 ),
+              BlocBuilder<AppBootstrapCubit, AppBootstrapState>(
+                bloc: sl<AppBootstrapCubit>(),
+                builder: (context, bootstrap) {
+                  if (!state.isSuccess || !bootstrap.showNewMissionsBanner) {
+                    return const SizedBox.shrink();
+                  }
+                  return Align(
+                    alignment: Alignment.topCenter,
+                    child: NewMissionsBanner(
+                      onOpenMaps: () {
+                        sl<AppBootstrapCubit>().acknowledgeNewMissions();
+                        context.goToMaps();
+                      },
+                      onDismiss: () {
+                        sl<AppBootstrapCubit>().acknowledgeNewMissions();
+                      },
+                    ),
+                  );
+                },
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: AnimatedContainer(

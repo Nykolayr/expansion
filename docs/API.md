@@ -22,8 +22,10 @@ Backend **в разработке**. Клиент сейчас работает 
 
 | Зона | Назначение |
 |------|------------|
-| `POST /api/auth/*` | Регистрация, вход, refresh |
-| `GET/PUT /api/profile` | Прогресс аккаунта, мета-апгрейды |
+| `GET /api/leaderboard` | Топ-50 по очкам (только зарегистрированные) |
+| `POST /api/auth/*` | Регистрация (verify email), вход, refresh, forgot/reset |
+| `GET/PUT /api/profile` | Прогресс аккаунта (= GuestProfile) |
+| `DELETE /api/account` | Удаление аккаунта |
 | `GET /api/content/*` | Сценарии, миссии (синх с админкой) |
 | `/api/admin/*` | CRUD контента, пользователи (JWT admin) |
 

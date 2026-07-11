@@ -36,6 +36,7 @@ alwaysApply: true
 - **Гость:** SharedPreferences, без сервера.
 - **Аккаунт:** JWT + синхронизация через API (позже).
 - Токены — `SecureStorageService`, не в prefs.
+- **Миссии м6+:** OTA с сервера — **`docs/campaign-content-ota.md`**, не релиз APK.
 
 ## Игровой цикл (Classic v1)
 

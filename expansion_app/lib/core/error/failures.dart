@@ -17,3 +17,13 @@ class ServerFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure(super.message);
 }
+
+/// Auth/API с кодом сервера (`CONFLICT`, `NICK_TAKEN`, …).
+class AuthFailure extends Failure {
+  const AuthFailure(super.message, {this.code});
+
+  final String? code;
+
+  @override
+  List<Object?> get props => [message, code];
+}

@@ -1,0 +1,21 @@
+---
+description: OTA миссии — публикация только через сервер, не через релиз APK
+alwaysApply: true
+---
+
+# OTA-миссии — только через сервер
+
+> Канон: [`docs/campaign-content-ota.md`](../../docs/campaign-content-ota.md)
+
+## С этого момента (2026-07-11)
+
+- **Новые миссии и правки раскладок** — публикация **только** через server OTA (`contentVersion` + `npm run content:build` + seed).
+- **Не** повышать `GameDatabaseConstants.bundledContentVersion` ради новых миссий в prod (baseline в APK = offline м1–м5).
+- JSON-исходники — в `expansion_app/assets/scenes/`; prod — MariaDB `campaign_content` на VPS.
+- Исключение: **новая механика в Dart** (hazard, variant, бой) — нужен релиз клиента.
+
+## Агент при задаче «новая миссия»
+
+1. Правки JSON в `assets/scenes/`.
+2. Сборка и seed: `expansion_server` → `content:build` / `content:seed` / `deploy-vps.ps1`.
+3. **Не** предлагать store-release для контент-only изменений.
