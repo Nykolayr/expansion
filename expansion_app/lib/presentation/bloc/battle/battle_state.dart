@@ -30,6 +30,7 @@ class BattleState extends Equatable {
     this.blockedCellX,
     this.blockedCellY,
     this.showMeteoriteTutorial = false,
+    this.showDebrisTutorial = false,
     this.missionTutorialStep = MissionTutorialStep.none,
     this.tutorialTargetBaseId,
     this.featureIntro,
@@ -52,6 +53,9 @@ class BattleState extends Equatable {
 
   /// Пауза при первом астероиде.
   final bool showMeteoriteTutorial;
+
+  /// Пауза при первых обломках.
+  final bool showDebrisTutorial;
 
   /// Пошаговый туториал миссии 1.
   final MissionTutorialStep missionTutorialStep;
@@ -84,6 +88,7 @@ class BattleState extends Equatable {
   /// На шагах drag/captureHint тики идут — иначе флот «застревает» в пути.
   bool get tutorialPausesTicks =>
       showMeteoriteTutorial ||
+      showDebrisTutorial ||
       featureIntroActive ||
       missionTutorialStep == MissionTutorialStep.upgradeOverlay ||
       missionTutorialStep == MissionTutorialStep.goalOverlay;
@@ -92,6 +97,7 @@ class BattleState extends Equatable {
       isPlaying &&
       !isPaused &&
       !showMeteoriteTutorial &&
+      !showDebrisTutorial &&
       !featureIntroActive;
 
   /// Свайп флота — только когда панель статуса базы закрыта.
@@ -116,6 +122,7 @@ class BattleState extends Equatable {
     int? blockedCellY,
     bool clearBlocked = false,
     bool? showMeteoriteTutorial,
+    bool? showDebrisTutorial,
     MissionTutorialStep? missionTutorialStep,
     int? tutorialTargetBaseId,
     bool clearTutorialTarget = false,
@@ -138,6 +145,7 @@ class BattleState extends Equatable {
       blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
       showMeteoriteTutorial:
           showMeteoriteTutorial ?? this.showMeteoriteTutorial,
+      showDebrisTutorial: showDebrisTutorial ?? this.showDebrisTutorial,
       missionTutorialStep: missionTutorialStep ?? this.missionTutorialStep,
       tutorialTargetBaseId:
           clearTutorialTarget ? null : tutorialTargetBaseId ?? this.tutorialTargetBaseId,
@@ -161,6 +169,7 @@ class BattleState extends Equatable {
         blockedCellX,
         blockedCellY,
         showMeteoriteTutorial,
+        showDebrisTutorial,
         missionTutorialStep,
         tutorialTargetBaseId,
         featureIntro,

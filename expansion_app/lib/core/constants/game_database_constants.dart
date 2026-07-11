@@ -6,7 +6,7 @@ abstract final class GameDatabaseConstants {
   static const int schemaVersion = 2;
 
   /// Версия набора контента (сиды из assets). Увеличивать при смене JSON.
-  static const int bundledContentVersion = 5;
+  static const int bundledContentVersion = 6;
 
   static const int campaignMissionCount = 40;
 }

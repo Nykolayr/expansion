@@ -20,5 +20,6 @@ abstract final class BattlePacing {
   static const double resourceIncomePerTick = 0.4;
 
   static const double asteroidProgressPerTick = 0.013;
+  static const double debrisProgressPerTick = 0.009;
   static const int asteroidSpawnIntervalTicks = 900;
 }

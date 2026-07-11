@@ -421,7 +421,7 @@ class _AsteroidMarker extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             BattleEntitySprite(
-              assetPath: BattleAssets.asteroid(asteroid.visualIndex),
+              assetPath: BattleAssets.hazardSprite(asteroid),
               size: _markerSize,
             ),
             Text(

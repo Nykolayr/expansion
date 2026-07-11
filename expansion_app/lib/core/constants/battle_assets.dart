@@ -1,4 +1,6 @@
+import 'package:expansion/domain/entities/battle_asteroid.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/enums/battle_hazard_kind.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/battle_visual_id.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
@@ -65,6 +67,13 @@ abstract final class BattleAssets {
           NeutralBaseKind.base => BattleVisualId.baseLarge,
           null => BattleVisualId.baseSmall,
         },
+    };
+  }
+
+  static String hazardSprite(BattleAsteroid hazard) {
+    return switch (hazard.kind) {
+      BattleHazardKind.debris => _placeholderPath(BattleVisualId.hazardDebris),
+      BattleHazardKind.asteroid => asteroid(hazard.visualIndex),
     };
   }
 

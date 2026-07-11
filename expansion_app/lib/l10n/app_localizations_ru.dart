@@ -427,6 +427,20 @@ class AppLocalizationsRu extends AppLocalizations {
       'Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.';
 
   @override
+  String get battleIntroRichBaseTitle => 'Богатая база';
+
+  @override
+  String get battleIntroRichBaseBody =>
+      'Даёт в 5 раз больше ресурсов (×5). Захватывайте для апгрейдов. Не отправляйте отсюда флот в атаку — держите базу в тылу.';
+
+  @override
+  String get battleDebrisTutorialTitle => 'Метеоритный поток!';
+
+  @override
+  String get battleDebrisTutorialBody =>
+      'Метеоритный поток летит поперёк по центру поля. Уничтожает 80% кораблей флота и гарнизона на пути и пролетает дальше — не ведите корабли через центр без нужды.';
+
+  @override
   String metaUpgradeLevelShort(int level) {
     return 'Ур. $level';
   }

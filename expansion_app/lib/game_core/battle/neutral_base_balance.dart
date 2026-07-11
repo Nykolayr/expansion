@@ -6,8 +6,9 @@ import 'package:expansion/domain/enums/neutral_base_variant.dart';
 /// Базовые small / middle / large отличаются **только лимитом** кораблей.
 /// Спец-варианты ([NeutralBaseVariant]) — другие пропорции и завышенные значения.
 abstract final class NeutralBaseBalance {
-  static const double standardSpeedBuild = 0.1;
+  static const double standardSpeedBuild = 0.055;
   static const double standardSpeedResources = 0.15;
+  static const double richResourceIncomeMultiplier = 5.0;
 
   static const int smallMaxShips = 30;
   static const int middleMaxShips = 50;
@@ -97,7 +98,8 @@ abstract final class NeutralBaseBalance {
 
     return switch (variant) {
       NeutralBaseVariant.rich => base.copyWith(
-          speedResources: base.speedResources * 1.6,
+          speedResources:
+              base.speedResources * richResourceIncomeMultiplier,
         ),
       NeutralBaseVariant.shielded => base.copyWith(
           shield: switch (kind) {

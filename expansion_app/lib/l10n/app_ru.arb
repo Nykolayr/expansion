@@ -175,6 +175,10 @@
   "battleIntroMediumBaseBody": "Старт 40 кораблей, лимит 50. Сложнее захватить, чем малую (20/30).",
   "battleIntroLargeBaseTitle": "Большая база",
   "battleIntroLargeBaseBody": "Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.",
+  "battleIntroRichBaseTitle": "Богатая база",
+  "battleIntroRichBaseBody": "Даёт в 5 раз больше ресурсов (×5). Захватывайте для апгрейдов. Не отправляйте отсюда флот в атаку — держите базу в тылу.",
+  "battleDebrisTutorialTitle": "Метеоритный поток!",
+  "battleDebrisTutorialBody": "Метеоритный поток летит поперёк по центру поля. Уничтожает 80% кораблей флота и гарнизона на пути и пролетает дальше — не ведите корабли через центр без нужды.",
   "metaUpgradeLevelShort": "Ур. {level}",
   "@metaUpgradeLevelShort": {
     "placeholders": {

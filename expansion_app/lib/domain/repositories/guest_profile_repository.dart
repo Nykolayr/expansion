@@ -19,6 +19,8 @@ abstract class GuestProfileRepository {
 
   Future<void> markAsteroidTutorialSeen();
 
+  Future<void> markDebrisTutorialSeen();
+
   Future<void> markMission1TutorialCompleted();
 
   Future<void> markMapTutorialSeen();

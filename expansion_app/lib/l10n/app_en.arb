@@ -166,6 +166,10 @@
   "battleIntroMediumBaseBody": "Starts with 40 ships, cap 50. Harder to capture than small (20/30).",
   "battleIntroLargeBaseTitle": "Large base",
   "battleIntroLargeBaseBody": "Starts with 60 ships, cap 80. Capture last — send a large fleet.",
+  "battleIntroRichBaseTitle": "Rich base",
+  "battleIntroRichBaseBody": "5× resource income. Capture for upgrades. Don't send attack fleets from here — keep it as a rear base.",
+  "battleDebrisTutorialTitle": "Meteor stream!",
+  "battleDebrisTutorialBody": "A meteor stream crosses the center of the field. Destroys 80% of fleet and garrison ships in its path and keeps moving — don't route ships through the center unless you must.",
   "metaUpgradeLevelShort": "Lv {level}",
   "@metaUpgradeLevelShort": {
     "placeholders": {

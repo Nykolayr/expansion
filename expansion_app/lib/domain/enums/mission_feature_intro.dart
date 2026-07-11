@@ -1,7 +1,8 @@
 /// Новая механика, которую показываем один раз при старте миссии.
 enum MissionFeatureIntro {
   mediumBase,
-  largeBase;
+  largeBase,
+  richBase;
 
   String get storageKey => name;
 
@@ -9,6 +10,7 @@ enum MissionFeatureIntro {
     return switch (sceneId) {
       2 => MissionFeatureIntro.mediumBase,
       4 => MissionFeatureIntro.largeBase,
+      5 => MissionFeatureIntro.richBase,
       _ => null,
     };
   }

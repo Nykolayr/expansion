@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:expansion/domain/entities/battle_asteroid.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
+import 'package:expansion/domain/enums/battle_hazard_kind.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
+import 'package:expansion/game_core/battle/battle_mission_hazards.dart';
 import 'package:expansion/game_core/battle/battle_tactical_balance.dart';
 import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
@@ -401,7 +406,7 @@ void main() {
           buildUpgradeLevel: 0,
           growthMul: 1,
         ),
-        28,
+        42,
       );
       expect(
         BattleTacticalBalance.shipGrowthThresholdTicks(
@@ -409,7 +414,7 @@ void main() {
           buildUpgradeLevel: 1,
           growthMul: 1,
         ),
-        22,
+        32,
       );
       expect(
         BattleTacticalBalance.shipGrowthThresholdTicks(
@@ -417,7 +422,7 @@ void main() {
           buildUpgradeLevel: 3,
           growthMul: 1,
         ),
-        14,
+        21,
       );
     });
 
@@ -549,11 +554,117 @@ void main() {
         ],
       );
 
-      for (var i = 0; i < 40; i++) {
+      for (var i = 0; i < 45; i++) {
         engine.tick(spawnAsteroids: false);
       }
 
       expect(engine.snapshot().baseById(0)!.ships, greaterThanOrEqualTo(30));
+    });
+
+    test('mission 5 spawns debris along corridor row 4', () {
+      final engine = BattleEngine(
+        sceneId: 5,
+        gridRows: 8,
+        gridCols: 5,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 3,
+            y: 7,
+            side: BattleSide.player,
+            ships: 50,
+            shield: 0,
+            isCommandBase: true,
+          ),
+        ],
+      )..bindRandom(Random(42));
+
+      BattleAsteroid? debris;
+      for (var i = 0; i < 1500 && debris == null; i++) {
+        engine.tick();
+        for (final hazard in engine.snapshot().asteroids) {
+          if (hazard.kind == BattleHazardKind.debris) {
+            debris = hazard;
+            break;
+          }
+        }
+      }
+
+      expect(debris, isNotNull);
+      expect(debris!.fromY, BattleMissionHazards.debrisCorridorRow);
+      expect(debris.toY, BattleMissionHazards.debrisCorridorRow);
+    });
+
+    test('debris survives base hit and keeps moving', () {
+      final engine = BattleEngine(
+        sceneId: 5,
+        gridRows: 8,
+        gridCols: 5,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 3,
+            y: 4,
+            side: BattleSide.player,
+            ships: 40,
+            shield: 0,
+          ),
+        ],
+      );
+
+      engine.debugPlaceDebrisForTest(power: 12, progress: 0.45);
+      engine.tick(spawnAsteroids: false);
+
+      final snap = engine.snapshot();
+      expect(snap.asteroids, hasLength(1));
+      expect(snap.asteroids.first.kind, BattleHazardKind.debris);
+      expect(snap.baseById(0)!.ships, 8);
+    });
+
+    test('debris destroys 80 percent of fleet and keeps moving', () {
+      final engine = BattleEngine(
+        sceneId: 5,
+        gridRows: 8,
+        gridCols: 5,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 1,
+            y: 4,
+            side: BattleSide.player,
+            ships: 50,
+            shield: 0,
+            isCommandBase: true,
+          ),
+          const BattleBase(
+            id: 1,
+            x: 5,
+            y: 4,
+            side: BattleSide.neutral,
+            ships: 5,
+            shield: 0,
+          ),
+        ],
+      );
+
+      engine.debugPlaceFleetForTest(
+        fromBaseId: 0,
+        toBaseId: 1,
+        ships: 25,
+        progress: 0.5,
+      );
+      engine.debugPlaceDebrisForTest(power: 70, progress: 0.5);
+      engine.tick(spawnAsteroids: false);
+
+      final snap = engine.snapshot();
+      expect(snap.asteroids, hasLength(1));
+      expect(snap.fleets, hasLength(1));
+      expect(snap.fleets.first.ships, 5);
+    });
+
+    test('mission 5 does not spawn asteroids', () {
+      expect(BattleMissionHazards.asteroidsEnabled(5), isFalse);
+      expect(BattleMissionHazards.debrisEnabled(5), isTrue);
     });
   });
 }

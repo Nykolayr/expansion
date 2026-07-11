@@ -34,6 +34,8 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       defeatStreakCount: _prefs.getInt(PrefsKeys.guestDefeatStreakCount) ?? 0,
       asteroidTutorialSeen:
           _prefs.getBool(PrefsKeys.guestAsteroidTutorialSeen) ?? false,
+      debrisTutorialSeen:
+          _prefs.getBool(PrefsKeys.guestDebrisTutorialSeen) ?? false,
       mission1TutorialCompleted:
           _prefs.getBool(PrefsKeys.guestMission1TutorialCompleted) ?? false,
       mapTutorialSeen: _prefs.getBool(PrefsKeys.guestMapTutorialSeen) ?? false,
@@ -77,6 +79,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     await _prefs.setBool(
       PrefsKeys.guestAsteroidTutorialSeen,
       profile.asteroidTutorialSeen,
+    );
+    await _prefs.setBool(
+      PrefsKeys.guestDebrisTutorialSeen,
+      profile.debrisTutorialSeen,
     );
     await _prefs.setBool(
       PrefsKeys.guestMission1TutorialCompleted,
@@ -148,6 +154,13 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     final current = await load();
     if (current.asteroidTutorialSeen) return;
     await save(current.copyWith(asteroidTutorialSeen: true));
+  }
+
+  @override
+  Future<void> markDebrisTutorialSeen() async {
+    final current = await load();
+    if (current.debrisTutorialSeen) return;
+    await save(current.copyWith(debrisTutorialSeen: true));
   }
 
   @override

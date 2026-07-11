@@ -15,6 +15,7 @@ class GuestProfile extends Equatable {
     this.defeatStreakSceneId = 0,
     this.defeatStreakCount = 0,
     this.asteroidTutorialSeen = false,
+    this.debrisTutorialSeen = false,
     this.mission1TutorialCompleted = false,
     this.mapTutorialSeen = false,
     Set<String>? seenFeatureIntros,
@@ -38,6 +39,9 @@ class GuestProfile extends Equatable {
 
   /// Показана подсказка при первом астероиде.
   final bool asteroidTutorialSeen;
+
+  /// Показана подсказка при первых обломках (м5).
+  final bool debrisTutorialSeen;
 
   /// Пройден пошаговый туториал миссии 1.
   final bool mission1TutorialCompleted;
@@ -73,6 +77,7 @@ class GuestProfile extends Equatable {
     int? defeatStreakSceneId,
     int? defeatStreakCount,
     bool? asteroidTutorialSeen,
+    bool? debrisTutorialSeen,
     bool? mission1TutorialCompleted,
     bool? mapTutorialSeen,
     Set<String>? seenFeatureIntros,
@@ -90,6 +95,7 @@ class GuestProfile extends Equatable {
       defeatStreakSceneId: defeatStreakSceneId ?? this.defeatStreakSceneId,
       defeatStreakCount: defeatStreakCount ?? this.defeatStreakCount,
       asteroidTutorialSeen: asteroidTutorialSeen ?? this.asteroidTutorialSeen,
+      debrisTutorialSeen: debrisTutorialSeen ?? this.debrisTutorialSeen,
       mission1TutorialCompleted:
           mission1TutorialCompleted ?? this.mission1TutorialCompleted,
       mapTutorialSeen: mapTutorialSeen ?? this.mapTutorialSeen,
@@ -111,6 +117,7 @@ class GuestProfile extends Equatable {
         defeatStreakSceneId,
         defeatStreakCount,
         asteroidTutorialSeen,
+        debrisTutorialSeen,
         mission1TutorialCompleted,
         mapTutorialSeen,
         seenFeatureIntros,

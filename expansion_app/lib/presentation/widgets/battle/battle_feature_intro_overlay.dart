@@ -35,6 +35,12 @@ class BattleFeatureIntroOverlay extends StatelessWidget {
           BattleAssets.neutralLarge,
           1.0,
         ),
+      MissionFeatureIntro.richBase => (
+          loc.battleIntroRichBaseTitle,
+          loc.battleIntroRichBaseBody,
+          BattleAssets.neutralSmall,
+          0.85,
+        ),
     };
 
     return Stack(

@@ -45,5 +45,6 @@ abstract final class FreshInstallGuard {
     await prefs.setBool(PrefsKeys.guestMission1TutorialCompleted, false);
     await prefs.setBool(PrefsKeys.guestMapTutorialSeen, false);
     await prefs.setBool(PrefsKeys.guestAsteroidTutorialSeen, false);
+    await prefs.setBool(PrefsKeys.guestDebrisTutorialSeen, false);
   }
 }

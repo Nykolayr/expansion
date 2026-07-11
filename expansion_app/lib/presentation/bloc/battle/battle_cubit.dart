@@ -11,6 +11,8 @@ import 'package:expansion/game_core/battle/battle_session_factory.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
+import 'package:expansion/domain/entities/battle_asteroid.dart';
+import 'package:expansion/domain/enums/battle_hazard_kind.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/domain/enums/mission_feature_intro.dart';
@@ -52,10 +54,12 @@ class BattleCubit extends Cubit<BattleState> {
   DateTime? _battleStartedAt;
   bool _firstBattleEnemyGrace = false;
   bool _asteroidTutorialSeen = false;
+  bool _debrisTutorialSeen = false;
+  bool _isMapReplay = false;
   int _initialPlayerBaseCount = 0;
   DateTime? _missionTutorialEndedAt;
 
-  Future<void> loadMission(int sceneId) async {
+  Future<void> loadMission(int sceneId, {bool? isMapReplay}) async {
     await _stopLoop();
     _engine = null;
     emit(
@@ -67,6 +71,8 @@ class BattleCubit extends Cubit<BattleState> {
         isPaused: false,
         clearErrorKey: true,
         clearFeatureIntro: true,
+        showMeteoriteTutorial: false,
+        showDebrisTutorial: false,
       ),
     );
     AppLog.trace('battle load sceneId=$sceneId', tag: 'Battle');
@@ -104,16 +110,15 @@ class BattleCubit extends Cubit<BattleState> {
       _initialPlayerBaseCount = engine.snapshot().playerBases.length;
       _missionTutorialEndedAt = null;
 
+      _isMapReplay = isMapReplay ?? sceneId < guest.mapClassic;
+
       final tutorialStep = sceneId == 1 && !guest.mission1TutorialCompleted
           ? MissionTutorialStep.drag
           : MissionTutorialStep.none;
 
       MissionFeatureIntro? featureIntro;
-      if (tutorialStep == MissionTutorialStep.none) {
-        final intro = MissionFeatureIntro.forScene(sceneId);
-        if (intro != null && !guest.hasSeenFeatureIntro(intro.storageKey)) {
-          featureIntro = intro;
-        }
+      if (tutorialStep == MissionTutorialStep.none && !_isMapReplay) {
+        featureIntro = MissionFeatureIntro.forScene(sceneId);
       }
 
       if (sceneId == 1 && tutorialStep != MissionTutorialStep.none) {
@@ -138,10 +143,11 @@ class BattleCubit extends Cubit<BattleState> {
       _enemyTickCounter = 0;
       _battleStartedAt = DateTime.now();
       _firstBattleEnemyGrace = !guest.firstBattleCompleted;
-      _asteroidTutorialSeen = guest.asteroidTutorialSeen;
+      _asteroidTutorialSeen = _isMapReplay;
+      _debrisTutorialSeen = _isMapReplay;
       await _tickLoop.start(_onTick);
       AppLog.trace(
-        'battle tick loop started grace=$_firstBattleEnemyGrace',
+        'battle tick loop started grace=$_firstBattleEnemyGrace replay=$_isMapReplay',
         tag: 'Battle',
       );
     } catch (e, stackTrace) {
@@ -234,16 +240,18 @@ class BattleCubit extends Cubit<BattleState> {
 
   void dismissMeteoriteTutorial() {
     emit(state.copyWith(showMeteoriteTutorial: false));
-    if (_asteroidTutorialSeen) return;
     _asteroidTutorialSeen = true;
-    unawaited(_guest.markAsteroidTutorialSeen());
+  }
+
+  void dismissDebrisTutorial() {
+    emit(state.copyWith(showDebrisTutorial: false));
+    _debrisTutorialSeen = true;
   }
 
   Future<void> dismissFeatureIntro() async {
     final intro = state.featureIntro;
     if (intro == null) return;
     emit(state.copyWith(clearFeatureIntro: true));
-    await _guest.markFeatureIntroSeen(intro.storageKey);
     AppLog.trace('feature intro dismissed ${intro.name}', tag: 'Battle');
   }
 
@@ -404,7 +412,7 @@ class BattleCubit extends Cubit<BattleState> {
   Future<void> restartMission() async {
     final sceneId = state.sceneId;
     AppLog.trace('battle restart scene=$sceneId', tag: 'Battle');
-    await loadMission(sceneId);
+    await loadMission(sceneId, isMapReplay: _isMapReplay);
   }
 
   Future<void> leaveBattle() async {
@@ -424,14 +432,27 @@ class BattleCubit extends Cubit<BattleState> {
     }
     if (state.tutorialPausesTicks) return;
 
-    final asteroidsBefore = state.snapshot?.asteroids.length ?? 0;
+    final hazardsBefore = state.snapshot?.asteroids ?? const [];
     engine.tick(spawnAsteroids: !state.tutorialPausesAsteroids);
-    final asteroidsAfter = engine.snapshot().asteroids.length;
+    final hazardsAfter = engine.snapshot().asteroids;
+
+    int countOf(List<BattleAsteroid> hazards, BattleHazardKind kind) =>
+        hazards.where((h) => h.kind == kind).length;
+
+    if (!state.missionTutorialActive &&
+        !_debrisTutorialSeen &&
+        countOf(hazardsAfter, BattleHazardKind.debris) >
+            countOf(hazardsBefore, BattleHazardKind.debris)) {
+      _emitPlaying();
+      emit(state.copyWith(showDebrisTutorial: true));
+      AppLog.trace('debris tutorial pause scene=${state.sceneId}', tag: 'Battle');
+      return;
+    }
 
     if (!state.missionTutorialActive &&
         !_asteroidTutorialSeen &&
-        asteroidsBefore == 0 &&
-        asteroidsAfter > 0) {
+        countOf(hazardsAfter, BattleHazardKind.asteroid) >
+            countOf(hazardsBefore, BattleHazardKind.asteroid)) {
       _emitPlaying();
       emit(state.copyWith(showMeteoriteTutorial: true));
       AppLog.trace('asteroid tutorial pause scene=${state.sceneId}', tag: 'Battle');

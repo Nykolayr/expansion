@@ -427,6 +427,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'Starts with 60 ships, cap 80. Capture last — send a large fleet.';
 
   @override
+  String get battleIntroRichBaseTitle => 'Rich base';
+
+  @override
+  String get battleIntroRichBaseBody =>
+      '5× resource income. Capture for upgrades. Don\'t send attack fleets from here — keep it as a rear base.';
+
+  @override
+  String get battleDebrisTutorialTitle => 'Meteor stream!';
+
+  @override
+  String get battleDebrisTutorialBody =>
+      'A meteor stream crosses the center of the field. Destroys 80% of fleet and garrison ships in its path and keeps moving — don\'t route ships through the center unless you must.';
+
+  @override
   String metaUpgradeLevelShort(int level) {
     return 'Lv $level';
   }

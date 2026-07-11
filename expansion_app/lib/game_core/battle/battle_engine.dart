@@ -9,6 +9,7 @@ import 'package:expansion/domain/entities/battle_layout.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/entities/placed_base.dart';
+import 'package:expansion/domain/enums/battle_hazard_kind.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
@@ -116,13 +117,19 @@ class BattleEngine {
   int _nextAsteroidId = 1;
   int _nextExplosionId = 1;
   int _asteroidSpawnCounter = 0;
+  int _debrisSpawnCounter = 0;
   Random? _random;
 
   static const double _asteroidProgressPerTick =
       BattlePacing.asteroidProgressPerTick;
+  static const double _debrisProgressPerTick =
+      BattlePacing.debrisProgressPerTick;
 
   int get _asteroidSpawnIntervalTicks =>
       BattleMissionHazards.asteroidSpawnIntervalTicks(sceneId);
+
+  int get _debrisSpawnIntervalTicks =>
+      BattleMissionHazards.debrisSpawnIntervalTicks(sceneId);
 
   void bindRandom(Random random) => _random = random;
 
@@ -217,6 +224,7 @@ class BattleEngine {
     _resolveAsteroidFleetCollisions();
     if (spawnAsteroids) {
       _maybeSpawnAsteroid();
+      _maybeSpawnDebris();
     }
     _economyTick();
   }
@@ -369,6 +377,39 @@ class BattleEngine {
     return TacticalUpgradeResult.success;
   }
 
+  void _maybeSpawnDebris() {
+    if (!BattleMissionHazards.debrisEnabled(sceneId)) return;
+    final rng = _random;
+    if (rng == null) return;
+    _debrisSpawnCounter++;
+    if (_debrisSpawnCounter < _debrisSpawnIntervalTicks) return;
+    _debrisSpawnCounter = 0;
+
+    final row = BattleMissionHazards.debrisCorridorRow;
+    final leftToRight = rng.nextBool();
+    final from = leftToRight ? (1, row) : (gridCols, row);
+    final to = leftToRight ? (gridCols, row) : (1, row);
+    final power = BattleMissionHazards.debrisDisplayPowerMin +
+        rng.nextInt(
+          BattleMissionHazards.debrisDisplayPowerMax -
+              BattleMissionHazards.debrisDisplayPowerMin +
+              1,
+        );
+
+    _asteroids.add(
+      BattleAsteroid(
+        id: _nextAsteroidId++,
+        fromX: from.$1,
+        fromY: from.$2,
+        toX: to.$1,
+        toY: to.$2,
+        power: power,
+        kind: BattleHazardKind.debris,
+        visualIndex: 5,
+      ),
+    );
+  }
+
   void _maybeSpawnAsteroid() {
     if (!BattleMissionHazards.asteroidsEnabled(sceneId)) return;
     final rng = _random;
@@ -392,6 +433,7 @@ class BattleEngine {
         toX: to.$1,
         toY: to.$2,
         power: power,
+        kind: BattleHazardKind.asteroid,
         visualIndex: visualIndex,
       ),
     );
@@ -402,7 +444,10 @@ class BattleEngine {
 
     for (var i = 0; i < _asteroids.length; i++) {
       final ast = _asteroids[i];
-      final nextProgress = ast.progress + _asteroidProgressPerTick;
+      final step = ast.kind == BattleHazardKind.debris
+          ? _debrisProgressPerTick
+          : _asteroidProgressPerTick;
+      final nextProgress = ast.progress + step;
       if (nextProgress >= 1) {
         removeIds.add(ast.id);
         continue;
@@ -415,8 +460,12 @@ class BattleEngine {
       final base = _baseAtCell(cell.$1, cell.$2);
       if (base != null) {
         _spawnExplosion(base.x.toDouble(), base.y.toDouble());
-        _applyAsteroidHit(base.id, updated.power);
-        removeIds.add(updated.id);
+        if (updated.kind == BattleHazardKind.debris) {
+          _applyDebrisHitToBase(base.id);
+        } else {
+          _applyAsteroidHit(base.id, updated.power);
+          removeIds.add(updated.id);
+        }
       }
     }
 
@@ -462,6 +511,17 @@ class BattleEngine {
 
         _spawnExplosion((pa.$1 + pf.$1) / 2, (pa.$2 + pf.$2) / 2);
 
+        if (ast.kind == BattleHazardKind.debris) {
+          final lost = _debrisShipsDestroyed(f.ships);
+          final remaining = f.ships - lost;
+          if (remaining <= 0) {
+            removeFleets.add(fleet.id);
+          } else {
+            fleetUpdates[fleet.id] = f.copyWith(ships: remaining);
+          }
+          break;
+        }
+
         final power = ast.power;
         final ships = f.ships;
 
@@ -500,6 +560,27 @@ class BattleEngine {
       final updated = asteroidUpdates[_asteroids[i].id];
       if (updated != null) _asteroids[i] = updated;
     }
+  }
+
+  int _debrisShipsDestroyed(int ships) {
+    if (ships <= 0) return 0;
+    final lost =
+        (ships * BattleMissionHazards.debrisShipLossFraction).round();
+    return lost.clamp(1, ships);
+  }
+
+  void _applyDebrisHitToBase(int baseId) {
+    final base = _base(baseId);
+    if (base == null) return;
+
+    final lost = _debrisShipsDestroyed(base.ships);
+    _updateBase(
+      baseId,
+      base.copyWith(
+        shield: 0,
+        ships: base.ships - lost,
+      ),
+    );
   }
 
   void _applyAsteroidHit(int baseId, int power) {
@@ -880,6 +961,29 @@ class BattleEngine {
         toX: gridX,
         toY: gridY,
         power: power,
+        kind: BattleHazardKind.asteroid,
+      ),
+    );
+  }
+
+  /// Тестовый обломок в коридоре м5.
+  void debugPlaceDebrisForTest({
+    required int power,
+    double progress = 0.5,
+    bool leftToRight = true,
+  }) {
+    final row = BattleMissionHazards.debrisCorridorRow;
+    _asteroids.add(
+      BattleAsteroid(
+        id: _nextAsteroidId++,
+        fromX: leftToRight ? 1 : gridCols,
+        fromY: row,
+        toX: leftToRight ? gridCols : 1,
+        toY: row,
+        power: power,
+        kind: BattleHazardKind.debris,
+        visualIndex: 5,
+        progress: progress,
       ),
     );
   }

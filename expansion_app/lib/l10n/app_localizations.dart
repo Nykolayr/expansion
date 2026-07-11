@@ -854,6 +854,30 @@ abstract class AppLocalizations {
   /// **'Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.'**
   String get battleIntroLargeBaseBody;
 
+  /// No description provided for @battleIntroRichBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Богатая база'**
+  String get battleIntroRichBaseTitle;
+
+  /// No description provided for @battleIntroRichBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Даёт в 5 раз больше ресурсов (×5). Захватывайте для апгрейдов. Не отправляйте отсюда флот в атаку — держите базу в тылу.'**
+  String get battleIntroRichBaseBody;
+
+  /// No description provided for @battleDebrisTutorialTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метеоритный поток!'**
+  String get battleDebrisTutorialTitle;
+
+  /// No description provided for @battleDebrisTutorialBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Метеоритный поток летит поперёк по центру поля. Уничтожает 80% кораблей флота и гарнизона на пути и пролетает дальше — не ведите корабли через центр без нужды.'**
+  String get battleDebrisTutorialBody;
+
   /// No description provided for @metaUpgradeLevelShort.
   ///
   /// In ru, this message translates to:

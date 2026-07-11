@@ -1,7 +1,7 @@
 /// Баланс тактических апгрейдов внутри боя.
 abstract final class BattleTacticalBalance {
-  /// Тиков на +1 корабль при базовой скорости (speedBuild 0.1, без апгрейда).
-  static const int baseShipGrowthTicks = 28;
+  /// Тиков на +1 корабль при speedBuild 0.1, без апгрейда.
+  static const int baseShipGrowthTicks = 42;
 
   /// Множитель скорости постройки по уровню тактического апгрейда.
   /// Индекс = [BattleBase.buildUpgradeLevel].
