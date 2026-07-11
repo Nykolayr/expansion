@@ -51,6 +51,7 @@ flutter:
     - assets/images/
     - assets/images/bases/
     - assets/images/asteroids/
+    - assets/images/hazards/
     - assets/images/explosion/
     - assets/svg/
     - assets/scenes/

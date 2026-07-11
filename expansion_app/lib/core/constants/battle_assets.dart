@@ -6,7 +6,7 @@ import 'package:expansion/domain/enums/battle_visual_id.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
 import 'package:expansion/domain/enums/neutral_base_variant.dart';
 
-/// Пути к спрайтам боя. [BattleVisualId] — канон имён; пока legacy-заглушки.
+/// Пути к спрайтам боя. [BattleVisualId] — канон имён; top-down PNG в `assets/images/`.
 abstract final class BattleAssets {
   static const String playerMain = 'assets/images/our.png';
   static const String enemyMain = 'assets/images/enemy.png';
@@ -74,6 +74,13 @@ abstract final class BattleAssets {
     return switch (hazard.kind) {
       BattleHazardKind.debris => _placeholderPath(BattleVisualId.hazardDebris),
       BattleHazardKind.asteroid => asteroid(hazard.visualIndex),
+      BattleHazardKind.comet => _placeholderPath(BattleVisualId.hazardComet),
+      BattleHazardKind.pulse => _placeholderPath(BattleVisualId.hazardPulse),
+      BattleHazardKind.mine => _placeholderPath(BattleVisualId.hazardMine),
+      BattleHazardKind.solarWind =>
+        _placeholderPath(BattleVisualId.hazardSolarWind),
+      BattleHazardKind.wormhole =>
+        _placeholderPath(BattleVisualId.hazardWormhole),
     };
   }
 
@@ -81,25 +88,29 @@ abstract final class BattleAssets {
     return _placeholderPath(visualIdFor(base));
   }
 
+  static String _spritePath(BattleVisualId id) {
+    return targetAssetPaths[id] ?? neutralSmall;
+  }
+
   static String _placeholderPath(BattleVisualId id) {
     return switch (id) {
-      BattleVisualId.hqPlayer => playerMain,
-      BattleVisualId.hqEnemy => enemyMain,
-      BattleVisualId.baseSmall => neutralSmall,
-      BattleVisualId.baseMedium => neutralMiddle,
-      BattleVisualId.baseLarge => neutralLarge,
-      BattleVisualId.baseRich => neutralSmall,
-      BattleVisualId.baseShielded => neutralMiddle,
-      BattleVisualId.baseFactory => neutralSmall,
-      BattleVisualId.baseBunker => neutralLarge,
-      BattleVisualId.hazardAsteroid => asteroid(1),
-      BattleVisualId.hazardComet => asteroid(3),
-      BattleVisualId.hazardDebris => asteroid(5),
-      BattleVisualId.hazardPulse => 'assets/images/explosion/explosion_03.png',
-      BattleVisualId.hazardDrone => playerFleet,
-      BattleVisualId.hazardMine => asteroid(2),
-      BattleVisualId.hazardSolarWind => asteroid(4),
-      BattleVisualId.hazardWormhole => asteroid(4),
+      BattleVisualId.hqPlayer => _spritePath(id),
+      BattleVisualId.hqEnemy => _spritePath(id),
+      BattleVisualId.baseSmall => _spritePath(id),
+      BattleVisualId.baseMedium => _spritePath(id),
+      BattleVisualId.baseLarge => _spritePath(id),
+      BattleVisualId.baseRich => _spritePath(id),
+      BattleVisualId.baseShielded => _spritePath(id),
+      BattleVisualId.baseFactory => _spritePath(id),
+      BattleVisualId.baseBunker => _spritePath(id),
+      BattleVisualId.hazardAsteroid => _spritePath(id),
+      BattleVisualId.hazardComet => _spritePath(id),
+      BattleVisualId.hazardDebris => _spritePath(id),
+      BattleVisualId.hazardPulse => _spritePath(id),
+      BattleVisualId.hazardDrone => _spritePath(id),
+      BattleVisualId.hazardMine => _spritePath(id),
+      BattleVisualId.hazardSolarWind => _spritePath(id),
+      BattleVisualId.hazardWormhole => _spritePath(id),
       BattleVisualId.fleetPlayer => playerFleet,
       BattleVisualId.fleetEnemy => enemyFleet,
     };

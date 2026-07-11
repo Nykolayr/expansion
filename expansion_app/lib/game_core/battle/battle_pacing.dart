@@ -21,5 +21,9 @@ abstract final class BattlePacing {
 
   static const double asteroidProgressPerTick = 0.013;
   static const double debrisProgressPerTick = 0.009;
+  static const double cometProgressPerTick = 0.021;
+  static const double pulseProgressPerTick = 0.024;
+  static const double solarWindProgressPerTick = 0.011;
+  static const double wormholeProgressPerTick = 0.019;
   static const int asteroidSpawnIntervalTicks = 900;
 }

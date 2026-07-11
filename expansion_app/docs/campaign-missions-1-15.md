@@ -44,13 +44,13 @@
 | Миссия вводит | Id | Статус кода |
 |---------------|-----|-------------|
 | 1 | `hazard_asteroid` | ✅ |
-| 3 | `hazard_comet` | план |
+| 3 | `hazard_comet` | ✅ |
 | 5 | `hazard_debris` | ✅ |
-| 7 | `hazard_pulse` | план |
-| 9 | `hazard_drone` | план |
-| 11 | `hazard_mine` | план |
-| 13 | `hazard_solar_wind` | план |
-| 15 | `hazard_wormhole` | план |
+| 7 | `hazard_pulse` | ✅ |
+| 9 | `hazard_drone` | ✅ |
+| 11 | `hazard_mine` | ✅ |
+| 13 | `hazard_solar_wind` | ✅ |
+| 15 | `hazard_wormhole` | ✅ |
 
 Конфиг: `BattleMissionHazards`.
 
@@ -94,4 +94,4 @@
 2. ✅ М1: только малые базы
 3. ✅ М2: карта фланга + средние базы
 4. ✅ М5: песочные часы + rich + обломки
-5. М6… — по утверждению после playtest предыдущей
+5. ✅ М6–М15: раскладки + hazards (comet/pulse/drone/mine/solar/wormhole)
