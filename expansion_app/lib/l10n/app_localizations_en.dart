@@ -413,6 +413,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get battleTutorialSkip => 'Skip';
 
   @override
+  String get battleIntroMediumBaseTitle => 'Medium base';
+
+  @override
+  String get battleIntroMediumBaseBody =>
+      'Starts with 40 ships, cap 50. Harder to capture than small (20/30).';
+
+  @override
+  String get battleIntroLargeBaseTitle => 'Large base';
+
+  @override
+  String get battleIntroLargeBaseBody =>
+      'Starts with 60 ships, cap 80. Capture last — send a large fleet.';
+
+  @override
+  String metaUpgradeLevelShort(int level) {
+    return 'Lv $level';
+  }
+
+  @override
   String get mapTutorialTitle => 'Campaign map';
 
   @override

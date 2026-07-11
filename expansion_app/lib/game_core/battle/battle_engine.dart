@@ -8,6 +8,7 @@ import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_layout.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
+import 'package:expansion/domain/entities/placed_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
@@ -15,9 +16,13 @@ import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/game_core/battle/battle_difficulty_config.dart';
 import 'package:expansion/game_core/battle/battle_fleet_rules.dart';
 import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
+import 'package:expansion/game_core/battle/battle_mission_hazards.dart';
 import 'package:expansion/game_core/battle/battle_pacing.dart';
 import 'package:expansion/game_core/battle/battle_tactical_balance.dart';
+import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
+import 'package:expansion/domain/enums/neutral_base_kind.dart';
+import 'package:expansion/domain/enums/neutral_base_variant.dart';
 
 enum BattleOutcome { playerWin, playerLose }
 
@@ -48,7 +53,7 @@ class BattleEngine {
 
     for (final placed in layout.placements) {
       final side = _sideForRole(placed.role);
-      final stats = _parseStats(placed.statsJson);
+      final stats = _resolvePlacementStats(placed);
       var ships = stats.ships;
       if (side == BattleSide.player &&
           placed.role == PlacementRole.playerMain &&
@@ -74,6 +79,7 @@ class BattleEngine {
           shield: stats.shield,
           maxShips: stats.maxShips,
           neutralKind: placed.neutralKind,
+          neutralVariant: stats.variant,
           isCommandBase: placed.role == PlacementRole.playerMain ||
               placed.role == PlacementRole.enemyMain,
           resources: resources,
@@ -116,7 +122,7 @@ class BattleEngine {
       BattlePacing.asteroidProgressPerTick;
 
   int get _asteroidSpawnIntervalTicks =>
-      BattlePacing.asteroidSpawnIntervalForScene(sceneId);
+      BattleMissionHazards.asteroidSpawnIntervalTicks(sceneId);
 
   void bindRandom(Random random) => _random = random;
 
@@ -247,6 +253,7 @@ class BattleEngine {
       );
 
       if (base.ships < base.maxShips) {
+        // maxShips — порог автопостройки, не потолок вместимости.
         final diff = BattleDifficultyConfig.forDifficulty(difficulty);
         final growthMul = base.side == BattleSide.player
             ? bonuses.growthSpeed
@@ -280,7 +287,7 @@ class BattleEngine {
     return base.resources >= tacticalUpgradeCost(base, type);
   }
 
-  /// Есть ресурсы на хотя бы одно тактическое улучшение (для иконки и тапа игрока).
+  /// Есть ресурсы на хотя бы одно тактическое улучшение (жёлтый ▲ на базе).
   bool hasAffordableTacticalUpgrade(BattleBase base) {
     if (base.side != BattleSide.player) return false;
     for (final type in TacticalUpgradeType.values) {
@@ -289,9 +296,9 @@ class BattleEngine {
     return false;
   }
 
-  /// База доступна для панели статуса.
+  /// База игрока — панель статуса всегда доступна по тапу.
   bool canOpenTacticalStatus(BattleBase base) =>
-      hasAffordableTacticalUpgrade(base);
+      base.side == BattleSide.player;
 
   /// Текущее и следующее значение для UI улучшений.
   ({String current, String next, int cost, bool maxed}) tacticalPreview(
@@ -363,6 +370,7 @@ class BattleEngine {
   }
 
   void _maybeSpawnAsteroid() {
+    if (!BattleMissionHazards.asteroidsEnabled(sceneId)) return;
     final rng = _random;
     if (rng == null) return;
     _asteroidSpawnCounter++;
@@ -662,7 +670,7 @@ class BattleEngine {
       _updateBase(
         toId,
         target.copyWith(
-          ships: (target.ships + fleetSize).clamp(0, target.maxShips),
+          ships: target.ships + fleetSize,
         ),
       );
       return;
@@ -695,8 +703,7 @@ class BattleEngine {
       return;
     }
 
-    final capturedShips =
-        (remaining - garrison).round().clamp(1, target.maxShips);
+    final capturedShips = (remaining - garrison).round().clamp(1, 99999);
     _updateBase(
       toId,
       target.copyWith(
@@ -780,6 +787,24 @@ class BattleEngine {
     }
   }
 
+  static _BaseStats _resolvePlacementStats(PlacedBase placed) {
+    if (placed.role == PlacementRole.neutral) {
+      if (placed.statsJson != null && placed.statsJson!.isNotEmpty) {
+        return _parseStats(placed.statsJson);
+      }
+      final kind = placed.neutralKind ?? NeutralBaseKind.smallBase;
+      final profile = NeutralBaseBalance.profileFor(kind: kind);
+      return _BaseStats(
+        ships: profile.ships,
+        shield: profile.shield,
+        maxShips: profile.maxShips,
+        speedBuild: profile.speedBuild,
+        speedResources: profile.speedResources,
+      );
+    }
+    return _parseStats(placed.statsJson);
+  }
+
   static _BaseStats _parseStats(String? statsJson) {
     if (statsJson == null || statsJson.isEmpty) {
       return const _BaseStats(
@@ -792,6 +817,17 @@ class BattleEngine {
     }
     try {
       final map = jsonDecode(statsJson) as Map<String, dynamic>;
+      if (map.containsKey('neutralKind')) {
+        final profile = NeutralBaseBalance.fromJsonMap(map);
+        return _BaseStats(
+          ships: profile.ships,
+          shield: profile.shield,
+          maxShips: profile.maxShips,
+          speedBuild: profile.speedBuild,
+          speedResources: profile.speedResources,
+          variant: NeutralBaseVariant.fromLegacy(map['variant'] as String?),
+        );
+      }
       return _BaseStats(
         ships: map['ships'] as int? ?? map['inicialShips'] as int? ?? 50,
         shield: (map['shild'] as num?)?.toDouble() ?? 0,
@@ -856,6 +892,7 @@ class _BaseStats {
     required this.maxShips,
     required this.speedBuild,
     required this.speedResources,
+    this.variant,
   });
 
   final int ships;
@@ -863,4 +900,5 @@ class _BaseStats {
   final int maxShips;
   final double speedBuild;
   final double speedResources;
+  final NeutralBaseVariant? variant;
 }

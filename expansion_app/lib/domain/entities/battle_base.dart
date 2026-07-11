@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
+import 'package:expansion/domain/enums/neutral_base_variant.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 
 /// База на поле боя (состояние одной партии).
@@ -15,6 +16,7 @@ class BattleBase extends Equatable {
     required this.shield,
     this.maxShips = 200,
     this.neutralKind,
+    this.neutralVariant,
     this.isCommandBase = false,
     this.resources = 0,
     this.speedBuild = 0.1,
@@ -31,8 +33,11 @@ class BattleBase extends Equatable {
   final BattleSide side;
   final int ships;
   final double shield;
+  /// Порог автопостройки: при [ships] >= [maxShips] новые корабли не растут.
+  /// Подкрепления с других баз могут превышать [maxShips].
   final int maxShips;
   final NeutralBaseKind? neutralKind;
+  final NeutralBaseVariant? neutralVariant;
 
   /// Главная «матка» (our/enemy.png); захваченные узлы — спрайты bases/.
   final bool isCommandBase;
@@ -68,6 +73,7 @@ class BattleBase extends Equatable {
     BattleSide? side,
     int? maxShips,
     NeutralBaseKind? neutralKind,
+    NeutralBaseVariant? neutralVariant,
     bool? isCommandBase,
     double? resources,
     double? speedBuild,
@@ -86,6 +92,7 @@ class BattleBase extends Equatable {
       shield: shield ?? this.shield,
       maxShips: maxShips ?? this.maxShips,
       neutralKind: neutralKind ?? this.neutralKind,
+      neutralVariant: neutralVariant ?? this.neutralVariant,
       isCommandBase: isCommandBase ?? this.isCommandBase,
       resources: resources ?? this.resources,
       speedBuild: speedBuild ?? this.speedBuild,
@@ -108,6 +115,7 @@ class BattleBase extends Equatable {
         shield,
         maxShips,
         neutralKind,
+        neutralVariant,
         isCommandBase,
         resources,
         speedBuild,

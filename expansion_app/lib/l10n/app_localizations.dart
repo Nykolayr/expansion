@@ -830,6 +830,36 @@ abstract class AppLocalizations {
   /// **'Пропустить'**
   String get battleTutorialSkip;
 
+  /// No description provided for @battleIntroMediumBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Средняя база'**
+  String get battleIntroMediumBaseTitle;
+
+  /// No description provided for @battleIntroMediumBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старт 40 кораблей, лимит 50. Сложнее захватить, чем малую (20/30).'**
+  String get battleIntroMediumBaseBody;
+
+  /// No description provided for @battleIntroLargeBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Большая база'**
+  String get battleIntroLargeBaseTitle;
+
+  /// No description provided for @battleIntroLargeBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.'**
+  String get battleIntroLargeBaseBody;
+
+  /// No description provided for @metaUpgradeLevelShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ур. {level}'**
+  String metaUpgradeLevelShort(int level);
+
   /// No description provided for @mapTutorialTitle.
   ///
   /// In ru, this message translates to:

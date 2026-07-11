@@ -23,5 +23,7 @@ abstract class GuestProfileRepository {
 
   Future<void> markMapTutorialSeen();
 
+  Future<void> markFeatureIntroSeen(String storageKey);
+
   Future<void> ensureCampaignStartedAt();
 }

@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:expansion/core/constants/game_layout.dart';
 import 'package:expansion/data/models/battle_placement_row.dart';
 import 'package:expansion/data/models/campaign_scene_row.dart';
 import 'package:expansion/data/seed/campaign_snake_order.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
+import 'package:expansion/domain/enums/neutral_base_variant.dart';
 import 'package:expansion/domain/enums/placement_role.dart';
 import 'package:expansion/domain/enums/scene_node_kind.dart';
+import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 
 /// Парсинг bundled `scenes.json` и `objects_N.json` (camelCase legacy).
 abstract final class SceneAssetParser {
@@ -72,14 +76,23 @@ abstract final class SceneAssetParser {
         if (item is! Map<String, dynamic>) continue;
         final coords = item['coordinates'] as Map<String, dynamic>?;
         if (coords == null) continue;
+        final kind = NeutralBaseKind.fromLegacyType(
+              item['typeNeutral'] as String?,
+            );
+        final variant = NeutralBaseVariant.fromLegacy(item['variant'] as String?);
         placements.add(
           BattlePlacementRow(
             sceneId: sceneId,
             role: PlacementRole.neutral,
             x: coords['x'] as int,
             y: coords['y'] as int,
-            neutralKind: NeutralBaseKind.fromLegacyType(
-              item['typeNeutral'] as String?,
+            neutralKind: kind,
+            statsJson: jsonEncode(
+              NeutralBaseBalance.encodePlacement(
+                kind: kind ?? NeutralBaseKind.smallBase,
+                variant: variant,
+                overrides: item,
+              ),
             ),
           ),
         );

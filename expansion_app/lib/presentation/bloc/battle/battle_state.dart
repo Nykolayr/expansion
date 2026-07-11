@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:expansion/domain/entities/battle_snapshot.dart';
+import 'package:expansion/domain/enums/mission_feature_intro.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
 
 enum BattleStatus { initial, loading, playing, ended, failure }
@@ -31,6 +32,7 @@ class BattleState extends Equatable {
     this.showMeteoriteTutorial = false,
     this.missionTutorialStep = MissionTutorialStep.none,
     this.tutorialTargetBaseId,
+    this.featureIntro,
     this.isPaused = false,
   });
 
@@ -57,6 +59,9 @@ class BattleState extends Equatable {
   /// Цель свайпа (для подсказки «захват»).
   final int? tutorialTargetBaseId;
 
+  /// Интро новой механики (средняя/большая база…) — пауза в начале миссии.
+  final MissionFeatureIntro? featureIntro;
+
   /// Меню паузы — тики остановлены.
   final bool isPaused;
 
@@ -65,16 +70,29 @@ class BattleState extends Equatable {
   bool get missionTutorialActive =>
       missionTutorialStep != MissionTutorialStep.none;
 
-  /// Враг не ходит, пока идёт туториал миссии 1.
-  bool get tutorialPausesEnemy => missionTutorialActive;
+  bool get featureIntroActive => featureIntro != null;
 
-  /// Новые астероиды не спавнятся во время туториала.
-  bool get tutorialPausesAsteroids => missionTutorialActive;
+  /// Враг не ходит, пока идёт туториал миссии 1 или интро механики.
+  bool get tutorialPausesEnemy =>
+      missionTutorialActive || featureIntroActive;
 
-  bool get tutorialPausesTicks => showMeteoriteTutorial;
+  /// Новые астероиды не спавнятся во время туториала / интро.
+  bool get tutorialPausesAsteroids =>
+      missionTutorialActive || featureIntroActive;
+
+  /// Тики боя: пауза на карточках туториала, интро механики и астероиде.
+  /// На шагах drag/captureHint тики идут — иначе флот «застревает» в пути.
+  bool get tutorialPausesTicks =>
+      showMeteoriteTutorial ||
+      featureIntroActive ||
+      missionTutorialStep == MissionTutorialStep.upgradeOverlay ||
+      missionTutorialStep == MissionTutorialStep.goalOverlay;
 
   bool get canInteract =>
-      isPlaying && !isPaused && !showMeteoriteTutorial;
+      isPlaying &&
+      !isPaused &&
+      !showMeteoriteTutorial &&
+      !featureIntroActive;
 
   /// Свайп флота — только когда панель статуса базы закрыта.
   bool get canSendFleet => canInteract && selectedBaseId == null;
@@ -101,6 +119,8 @@ class BattleState extends Equatable {
     MissionTutorialStep? missionTutorialStep,
     int? tutorialTargetBaseId,
     bool clearTutorialTarget = false,
+    MissionFeatureIntro? featureIntro,
+    bool clearFeatureIntro = false,
     bool? isPaused,
   }) {
     return BattleState(
@@ -121,6 +141,8 @@ class BattleState extends Equatable {
       missionTutorialStep: missionTutorialStep ?? this.missionTutorialStep,
       tutorialTargetBaseId:
           clearTutorialTarget ? null : tutorialTargetBaseId ?? this.tutorialTargetBaseId,
+      featureIntro:
+          clearFeatureIntro ? null : featureIntro ?? this.featureIntro,
       isPaused: isPaused ?? this.isPaused,
     );
   }
@@ -141,6 +163,7 @@ class BattleState extends Equatable {
         showMeteoriteTutorial,
         missionTutorialStep,
         tutorialTargetBaseId,
+        featureIntro,
         isPaused,
       ];
 }

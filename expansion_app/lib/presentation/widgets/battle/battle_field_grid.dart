@@ -273,9 +273,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
       return;
     }
     final base = widget.snapshot.baseAt(cell.$1, cell.$2);
-    if (base != null &&
-        base.side == BattleSide.player &&
-        widget.upgradableBaseIds.contains(base.id)) {
+    if (base != null && base.side == BattleSide.player) {
       widget.onPlayerBaseTap(base.id);
       return;
     }

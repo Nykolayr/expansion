@@ -2,9 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
+import 'package:expansion/domain/enums/neutral_base_kind.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/game_core/battle/battle_engine.dart';
 import 'package:expansion/game_core/battle/battle_tactical_balance.dart';
+import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/game_core/battle/battle_fleet_rules.dart';
 import 'package:expansion/game_core/battle/battle_victory_reward.dart';
@@ -377,6 +379,21 @@ void main() {
       expect(snap.fleets, hasLength(1));
       expect(snap.fleets.first.ships, 12);
     });
+    test('neutral base kinds use distinct max ship limits', () {
+      expect(
+        NeutralBaseBalance.profileFor(kind: NeutralBaseKind.smallBase).maxShips,
+        30,
+      );
+      expect(
+        NeutralBaseBalance.profileFor(kind: NeutralBaseKind.middleBase).maxShips,
+        50,
+      );
+      expect(
+        NeutralBaseBalance.profileFor(kind: NeutralBaseKind.base).maxShips,
+        80,
+      );
+    });
+
     test('build speed upgrade lowers ship growth threshold', () {
       expect(
         BattleTacticalBalance.shipGrowthThresholdTicks(
@@ -447,6 +464,96 @@ void main() {
       final slowShips = slowEngine.snapshot().baseById(0)!.ships;
       final fastShips = fastEngine.snapshot().baseById(0)!.ships;
       expect(fastShips, greaterThan(slowShips));
+    });
+
+    test('reinforcement can exceed build cap maxShips', () {
+      final engine = BattleEngine(
+        sceneId: 99,
+        gridRows: 5,
+        gridCols: 8,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 0,
+            y: 2,
+            side: BattleSide.player,
+            ships: 25,
+            shield: 0,
+            maxShips: 30,
+          ),
+          const BattleBase(
+            id: 1,
+            x: 4,
+            y: 2,
+            side: BattleSide.player,
+            ships: 50,
+            shield: 0,
+            maxShips: 30,
+          ),
+        ],
+      );
+
+      engine.debugPlaceFleetForTest(
+        fromBaseId: 1,
+        toBaseId: 0,
+        ships: 15,
+        progress: 0.99,
+      );
+      engine.tick(spawnAsteroids: false);
+
+      expect(engine.snapshot().baseById(0)!.ships, 40);
+    });
+
+    test('auto build stops when ships reach maxShips', () {
+      final engine = BattleEngine(
+        sceneId: 99,
+        gridRows: 5,
+        gridCols: 8,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 0,
+            y: 2,
+            side: BattleSide.player,
+            ships: 30,
+            shield: 0,
+            maxShips: 30,
+            speedBuild: 0.1,
+          ),
+        ],
+      );
+
+      for (var i = 0; i < 50; i++) {
+        engine.tick(spawnAsteroids: false);
+      }
+
+      expect(engine.snapshot().baseById(0)!.ships, 30);
+    });
+
+    test('auto build resumes after ships drop below maxShips', () {
+      final engine = BattleEngine(
+        sceneId: 99,
+        gridRows: 5,
+        gridCols: 8,
+        bases: [
+          const BattleBase(
+            id: 0,
+            x: 0,
+            y: 2,
+            side: BattleSide.player,
+            ships: 29,
+            shield: 0,
+            maxShips: 30,
+            speedBuild: 0.1,
+          ),
+        ],
+      );
+
+      for (var i = 0; i < 40; i++) {
+        engine.tick(spawnAsteroids: false);
+      }
+
+      expect(engine.snapshot().baseById(0)!.ships, greaterThanOrEqualTo(30));
     });
   });
 }

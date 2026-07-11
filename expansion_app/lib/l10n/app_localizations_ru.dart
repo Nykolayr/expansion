@@ -413,6 +413,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get battleTutorialSkip => 'Пропустить';
 
   @override
+  String get battleIntroMediumBaseTitle => 'Средняя база';
+
+  @override
+  String get battleIntroMediumBaseBody =>
+      'Старт 40 кораблей, лимит 50. Сложнее захватить, чем малую (20/30).';
+
+  @override
+  String get battleIntroLargeBaseTitle => 'Большая база';
+
+  @override
+  String get battleIntroLargeBaseBody =>
+      'Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.';
+
+  @override
+  String metaUpgradeLevelShort(int level) {
+    return 'Ур. $level';
+  }
+
+  @override
   String get mapTutorialTitle => 'Карта кампании';
 
   @override

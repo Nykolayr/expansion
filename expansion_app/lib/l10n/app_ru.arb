@@ -171,6 +171,16 @@
   "battleTutorialGoalBody": "Красные базы врага тоже отправляют флоты и захватывают ваши и нейтральные базы. Победа — когда не останется вражеских баз. Поражение — если потеряете все свои базы.",
   "battleTutorialDismiss": "Понятно",
   "battleTutorialSkip": "Пропустить",
+  "battleIntroMediumBaseTitle": "Средняя база",
+  "battleIntroMediumBaseBody": "Старт 40 кораблей, лимит 50. Сложнее захватить, чем малую (20/30).",
+  "battleIntroLargeBaseTitle": "Большая база",
+  "battleIntroLargeBaseBody": "Старт 60 кораблей, лимит 80. Берите последней — нужен крупный флот.",
+  "metaUpgradeLevelShort": "Ур. {level}",
+  "@metaUpgradeLevelShort": {
+    "placeholders": {
+      "level": { "type": "int" }
+    }
+  },
   "mapTutorialTitle": "Карта кампании",
   "mapTutorialBody": "Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.",
   "mapTutorialDismiss": "Вперёд",

@@ -17,9 +17,11 @@ class GuestProfile extends Equatable {
     this.asteroidTutorialSeen = false,
     this.mission1TutorialCompleted = false,
     this.mapTutorialSeen = false,
+    Set<String>? seenFeatureIntros,
     this.campaignStartedAtMillis = 0,
     PlayerMetaProgress? meta,
-  }) : meta = meta ?? PlayerMetaProgress.fresh();
+  })  : seenFeatureIntros = seenFeatureIntros ?? const {},
+        meta = meta ?? PlayerMetaProgress.fresh();
 
   final int mapClassic;
   final int scoreClassic;
@@ -43,6 +45,9 @@ class GuestProfile extends Equatable {
   /// Показана подсказка на карте кампании.
   final bool mapTutorialSeen;
 
+  /// Один раз показанные интро новых механик (mediumBase, largeBase, …).
+  final Set<String> seenFeatureIntros;
+
   /// Unix-ms старта кампании (0 — не задано).
   final int campaignStartedAtMillis;
   final PlayerMetaProgress meta;
@@ -54,6 +59,9 @@ class GuestProfile extends Equatable {
       scoreClassic > 0 ||
       meta.enemyPowerLevel > 0 ||
       meta.slots.any((slot) => slot.level > 0);
+
+  bool hasSeenFeatureIntro(String storageKey) =>
+      seenFeatureIntros.contains(storageKey);
 
   GuestProfile copyWith({
     int? mapClassic,
@@ -67,6 +75,7 @@ class GuestProfile extends Equatable {
     bool? asteroidTutorialSeen,
     bool? mission1TutorialCompleted,
     bool? mapTutorialSeen,
+    Set<String>? seenFeatureIntros,
     int? campaignStartedAtMillis,
     PlayerMetaProgress? meta,
   }) {
@@ -84,6 +93,7 @@ class GuestProfile extends Equatable {
       mission1TutorialCompleted:
           mission1TutorialCompleted ?? this.mission1TutorialCompleted,
       mapTutorialSeen: mapTutorialSeen ?? this.mapTutorialSeen,
+      seenFeatureIntros: seenFeatureIntros ?? this.seenFeatureIntros,
       campaignStartedAtMillis:
           campaignStartedAtMillis ?? this.campaignStartedAtMillis,
       meta: meta ?? this.meta,
@@ -103,6 +113,7 @@ class GuestProfile extends Equatable {
         asteroidTutorialSeen,
         mission1TutorialCompleted,
         mapTutorialSeen,
+        seenFeatureIntros,
         campaignStartedAtMillis,
         meta,
       ];

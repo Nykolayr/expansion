@@ -162,6 +162,16 @@
   "battleTutorialGoalBody": "Red enemy bases also send fleets and capture your and neutral bases. Win by taking all enemy bases. You lose if you lose all your bases.",
   "battleTutorialDismiss": "Got it",
   "battleTutorialSkip": "Skip",
+  "battleIntroMediumBaseTitle": "Medium base",
+  "battleIntroMediumBaseBody": "Starts with 40 ships, cap 50. Harder to capture than small (20/30).",
+  "battleIntroLargeBaseTitle": "Large base",
+  "battleIntroLargeBaseBody": "Starts with 60 ships, cap 80. Capture last — send a large fleet.",
+  "metaUpgradeLevelShort": "Lv {level}",
+  "@metaUpgradeLevelShort": {
+    "placeholders": {
+      "level": { "type": "int" }
+    }
+  },
   "mapTutorialTitle": "Campaign map",
   "mapTutorialBody": "Pick a system and tap Expansion to fight. Completed missions can be replayed.",
   "mapTutorialDismiss": "Let's go",

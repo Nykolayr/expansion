@@ -1,11 +1,9 @@
 {
-
    "mainShipEnemy": {
       "coordinates": {
-         "x": 3,
+         "x": 5,
          "y": 1
       },
-      "description": "Это вражеский корабль",
       "shild": 100.0,
       "ships": 100,
       "speedBuild": 0.1,
@@ -18,10 +16,9 @@
    },
    "mainShipOur": {
       "coordinates": {
-         "x": 3,
+         "x": 1,
          "y": 7
       },
-      "description": "Это наш корабль",
       "shild": 100.0,
       "ships": 100,
       "speedBuild": 0.1,
@@ -35,15 +32,15 @@
    "neutral": [
       {
          "coordinates": {
-            "x": 1,
+            "x": 2,
             "y": 2
          },
-         "typeNeutral": "base",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
          "coordinates": {
-            "x": 5,
+            "x": 3,
             "y": 2
          },
          "typeNeutral": "midleBase",
@@ -54,7 +51,7 @@
             "x": 2,
             "y": 3
          },
-         "typeNeutral": "midleBase",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
@@ -62,7 +59,7 @@
             "x": 4,
             "y": 3
          },
-         "typeNeutral": "base",
+         "typeNeutral": "midleBase",
          "typeStatus": "neutral"
       },
       {
@@ -75,18 +72,34 @@
       },
       {
          "coordinates": {
-            "x": 5,
-            "y": 5
+            "x": 1,
+            "y": 4
          },
-         "typeNeutral": "midleBase",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
          "coordinates": {
-            "x": 1,
+            "x": 5,
+            "y": 4
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 2,
             "y": 5
          },
-         "typeNeutral": "base",
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
          "typeStatus": "neutral"
       },
       {
@@ -94,7 +107,7 @@
             "x": 2,
             "y": 6
          },
-         "typeNeutral": "base",
+         "typeNeutral": "midleBase",
          "typeStatus": "neutral"
       },
       {
@@ -102,23 +115,15 @@
             "x": 4,
             "y": 6
          },
-         "typeNeutral": "midleBase",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
          "coordinates": {
-            "x": 1,
+            "x": 3,
             "y": 7
          },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
-      },
-      {
-         "coordinates": {
-            "x": 5,
-            "y": 7
-         },
-         "typeNeutral": "base",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       }
    ]

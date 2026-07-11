@@ -5,8 +5,6 @@ import 'package:gap/gap.dart';
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
-import 'package:expansion/core/ui/app_feedback_kind.dart';
-import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_cubit.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_state.dart';
@@ -36,23 +34,8 @@ class _UpgradesPageState extends State<UpgradesPage> {
         fit: StackFit.expand,
         children: [
           Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          BlocConsumer<UpgradesCubit, UpgradesState>(
+          BlocBuilder<UpgradesCubit, UpgradesState>(
             bloc: sl<UpgradesCubit>(),
-            listenWhen: (p, c) => p.messageKey != c.messageKey && c.messageKey != null,
-            listener: (context, state) {
-              final text = switch (state.messageKey) {
-                'success' => loc.metaUpgradePurchased,
-                'notEnough' => loc.metaUpgradeNotEnough,
-                _ => '',
-              };
-              if (text.isEmpty) return;
-              sl<AppFeedbackService>().show(
-                text,
-                kind: state.messageKey == 'success'
-                    ? AppFeedbackKind.success
-                    : AppFeedbackKind.warning,
-              );
-            },
             builder: (context, state) {
               final profile = state.profile;
               return Column(

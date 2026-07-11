@@ -21,11 +21,4 @@ abstract final class BattlePacing {
 
   static const double asteroidProgressPerTick = 0.013;
   static const int asteroidSpawnIntervalTicks = 900;
-
-  /// Ранние миссии — реже астероиды (playtest v0).
-  static int asteroidSpawnIntervalForScene(int sceneId) {
-    if (sceneId <= 3) return 1200;
-    if (sceneId <= 10) return 1050;
-    return asteroidSpawnIntervalTicks;
-  }
 }

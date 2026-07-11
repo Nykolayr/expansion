@@ -37,6 +37,9 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       mission1TutorialCompleted:
           _prefs.getBool(PrefsKeys.guestMission1TutorialCompleted) ?? false,
       mapTutorialSeen: _prefs.getBool(PrefsKeys.guestMapTutorialSeen) ?? false,
+      seenFeatureIntros: _decodeFeatureIntros(
+        _prefs.getString(PrefsKeys.guestSeenFeatureIntros),
+      ),
       campaignStartedAtMillis:
           _prefs.getInt(PrefsKeys.guestCampaignStartedAt) ?? 0,
     );
@@ -82,6 +85,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     await _prefs.setBool(
       PrefsKeys.guestMapTutorialSeen,
       profile.mapTutorialSeen,
+    );
+    await _prefs.setString(
+      PrefsKeys.guestSeenFeatureIntros,
+      profile.seenFeatureIntros.join(','),
     );
     await _prefs.setInt(
       PrefsKeys.guestCampaignStartedAt,
@@ -158,6 +165,17 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
   }
 
   @override
+  Future<void> markFeatureIntroSeen(String storageKey) async {
+    final current = await load();
+    if (current.hasSeenFeatureIntro(storageKey)) return;
+    await save(
+      current.copyWith(
+        seenFeatureIntros: {...current.seenFeatureIntros, storageKey},
+      ),
+    );
+  }
+
+  @override
   Future<void> ensureCampaignStartedAt() async {
     final current = await load();
     if (current.campaignStartedAtMillis > 0) return;
@@ -166,5 +184,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
         campaignStartedAtMillis: DateTime.now().millisecondsSinceEpoch,
       ),
     );
+  }
+
+  static Set<String> _decodeFeatureIntros(String? raw) {
+    if (raw == null || raw.trim().isEmpty) return {};
+    return raw.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty).toSet();
   }
 }

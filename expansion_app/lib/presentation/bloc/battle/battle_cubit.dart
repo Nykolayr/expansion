@@ -13,6 +13,7 @@ import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
+import 'package:expansion/domain/enums/mission_feature_intro.dart';
 import 'package:expansion/domain/enums/tactical_upgrade_type.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
@@ -65,6 +66,7 @@ class BattleCubit extends Cubit<BattleState> {
         outcome: null,
         isPaused: false,
         clearErrorKey: true,
+        clearFeatureIntro: true,
       ),
     );
     AppLog.trace('battle load sceneId=$sceneId', tag: 'Battle');
@@ -106,6 +108,14 @@ class BattleCubit extends Cubit<BattleState> {
           ? MissionTutorialStep.drag
           : MissionTutorialStep.none;
 
+      MissionFeatureIntro? featureIntro;
+      if (tutorialStep == MissionTutorialStep.none) {
+        final intro = MissionFeatureIntro.forScene(sceneId);
+        if (intro != null && !guest.hasSeenFeatureIntro(intro.storageKey)) {
+          featureIntro = intro;
+        }
+      }
+
       if (sceneId == 1 && tutorialStep != MissionTutorialStep.none) {
         engine.setTutorialCaptureBonusBaseId(
           engine.mission1TutorialCaptureBaseId,
@@ -121,6 +131,7 @@ class BattleCubit extends Cubit<BattleState> {
           clearSelection: true,
           isPaused: false,
           missionTutorialStep: tutorialStep,
+          featureIntro: featureIntro,
         ),
       );
 
@@ -150,6 +161,8 @@ class BattleCubit extends Cubit<BattleState> {
     final base = engine.snapshot().baseById(baseId);
     if (base == null || base.side != BattleSide.player) return;
 
+    if (state.missionTutorialStep == MissionTutorialStep.drag) return;
+
     if (state.missionTutorialStep == MissionTutorialStep.captureHint) {
       final snap = engine.snapshot();
       if (snap.playerBases.length <= _initialPlayerBaseCount) return;
@@ -161,8 +174,6 @@ class BattleCubit extends Cubit<BattleState> {
       );
       return;
     }
-
-    if (!_canOpenBaseStatus(base)) return;
 
     emit(state.copyWith(selectedBaseId: baseId));
   }
@@ -226,6 +237,14 @@ class BattleCubit extends Cubit<BattleState> {
     if (_asteroidTutorialSeen) return;
     _asteroidTutorialSeen = true;
     unawaited(_guest.markAsteroidTutorialSeen());
+  }
+
+  Future<void> dismissFeatureIntro() async {
+    final intro = state.featureIntro;
+    if (intro == null) return;
+    emit(state.copyWith(clearFeatureIntro: true));
+    await _guest.markFeatureIntroSeen(intro.storageKey);
+    AppLog.trace('feature intro dismissed ${intro.name}', tag: 'Battle');
   }
 
   Future<void> skipMissionTutorial() async {
@@ -301,7 +320,7 @@ class BattleCubit extends Cubit<BattleState> {
     return result;
   }
 
-  /// Базы с доступным тактическим улучшением (для подсветки и тапа).
+  /// Базы с доступным тактическим улучшением (жёлтый ▲ на поле).
   Set<int> upgradablePlayerBaseIds() {
     final engine = _engine;
     final snap = state.snapshot;
@@ -313,8 +332,6 @@ class BattleCubit extends Cubit<BattleState> {
     }
     return ids;
   }
-
-  bool _canOpenBaseStatus(BattleBase base) => _showsUpgradeHint(base);
 
   bool _showsUpgradeHint(BattleBase base) {
     final engine = _engine;

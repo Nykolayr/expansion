@@ -1,0 +1,22 @@
+/// Канонический id спрайта (имя файла без пути). Арт — позже, пока legacy-заглушки.
+enum BattleVisualId {
+  hqPlayer,
+  hqEnemy,
+  baseSmall,
+  baseMedium,
+  baseLarge,
+  baseRich,
+  baseShielded,
+  baseFactory,
+  baseBunker,
+  hazardAsteroid,
+  hazardComet,
+  hazardDebris,
+  hazardPulse,
+  hazardDrone,
+  hazardMine,
+  hazardSolarWind,
+  hazardWormhole,
+  fleetPlayer,
+  fleetEnemy,
+}
