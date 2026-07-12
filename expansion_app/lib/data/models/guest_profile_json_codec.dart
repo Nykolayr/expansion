@@ -38,6 +38,8 @@ abstract final class GuestProfileJsonCodec {
       seenFeatureIntros: seen,
       campaignStartedAtMillis:
           json['campaignStartedAtMillis'] as int? ?? 0,
+      campaignEpilogueSeenForCount:
+          json['campaignEpilogueSeenForCount'] as int? ?? 0,
       meta: meta,
     );
   }
@@ -62,6 +64,7 @@ abstract final class GuestProfileJsonCodec {
       'mapTutorialSeen': profile.mapTutorialSeen,
       'seenFeatureIntros': profile.seenFeatureIntros.toList(),
       'campaignStartedAtMillis': profile.campaignStartedAtMillis,
+      'campaignEpilogueSeenForCount': profile.campaignEpilogueSeenForCount,
       'meta': PlayerMetaProgressCodec.toMap(profile.meta),
     };
   }

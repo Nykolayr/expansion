@@ -94,6 +94,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get introStoryTitle => 'Story';
 
   @override
+  String get campaignEpilogueTitle => 'Victory';
+
+  @override
+  String get campaignEpilogueDismiss => 'To the map';
+
+  @override
+  String campaignEpilogueText(int missionCount) {
+    return 'Commander! Thanks to your leadership alone, we shattered the invaders and secured this star sector. All $missionCount systems in this campaign are ours.\n\nScouts report new routes are open. Dozens of star systems await colonists. Humanity looks into the void with hope again — and once more, it looks to you.\n\nCatch your breath, strengthen your bases, ready the fleet. Expansion continues. This victory is yours.';
+  }
+
+  @override
   String get mapsTitle => 'Campaign map';
 
   @override

@@ -132,17 +132,22 @@ class BattleBaseHud extends StatelessWidget {
       clipBehavior: Clip.none,
       fit: StackFit.expand,
       children: [
-        Center(
-          child: Padding(
-            padding: EdgeInsets.only(bottom: minSide * 0.08),
-            child: Text(
-              '${base.ships}',
-              style: BattleBaseView._shadow.copyWith(
-                color: hudColor,
-                fontSize: shipFont,
-                fontWeight: FontWeight.w900,
-                height: 1,
-              ),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: Text(
+            '${base.ships}',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: hudColor,
+              fontSize: shipFont,
+              fontWeight: FontWeight.w900,
+              height: 1,
+              shadows: const [
+                Shadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 2),
+                Shadow(color: Colors.black87, blurRadius: 4),
+              ],
             ),
           ),
         ),

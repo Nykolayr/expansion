@@ -22,6 +22,8 @@ abstract final class PrefsKeys {
   static const String guestMapTutorialSeen = 'guest_map_tutorial_seen';
   static const String guestSeenFeatureIntros = 'guest_seen_feature_intros';
   static const String guestCampaignStartedAt = 'guest_campaign_started_at';
+  static const String guestCampaignEpilogueSeenForCount =
+      'guest_campaign_epilogue_seen_for_count';
   static const String soundEnabled = 'sound_enabled';
 
   /// Последняя OTA-версия контента, о которой игрок уже видел баннер.

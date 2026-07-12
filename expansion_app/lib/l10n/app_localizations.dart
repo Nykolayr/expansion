@@ -260,6 +260,24 @@ abstract class AppLocalizations {
   /// **'История'**
   String get introStoryTitle;
 
+  /// No description provided for @campaignEpilogueTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Победа'**
+  String get campaignEpilogueTitle;
+
+  /// No description provided for @campaignEpilogueDismiss.
+  ///
+  /// In ru, this message translates to:
+  /// **'К карте'**
+  String get campaignEpilogueDismiss;
+
+  /// No description provided for @campaignEpilogueText.
+  ///
+  /// In ru, this message translates to:
+  /// **'Командир! Благодаря только вашему командованию мы разгромили вторгшихся захватчиков и очистили звёздный сектор от угрозы. Все {missionCount} систем этой кампании — под нашим контролем.\n\nРазведка докладывает: открыты новые маршруты. Впереди десятки звёздных систем, готовых принять колонистов. Человечество снова смотрит в глубину космоса с надеждой — и снова на вас.\n\nОтдышитесь, укрепите базы, готовьте флот. Экспансия продолжается. Это ваша победа.'**
+  String campaignEpilogueText(int missionCount);
+
   /// No description provided for @mapsTitle.
   ///
   /// In ru, this message translates to:

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/audio/game_audio_service.dart';
 import 'package:expansion/core/constants/asset_paths.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
@@ -38,7 +40,7 @@ class GameCompactSkewButton extends StatelessWidget {
     return Opacity(
       opacity: enabled ? 1 : 0.45,
       child: GestureDetector(
-        onTap: enabled ? onPressed : null,
+        onTap: enabled ? () => _onTap(onPressed!) : null,
         child: SizedBox(
           width: buttonWidth,
           height: height,
@@ -62,5 +64,10 @@ class GameCompactSkewButton extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onTap(VoidCallback action) {
+    sl<GameAudioService>().playUiClick();
+    action();
   }
 }

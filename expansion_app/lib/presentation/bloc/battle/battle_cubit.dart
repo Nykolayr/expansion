@@ -8,6 +8,7 @@ import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/logging/app_log.dart';
 import 'package:expansion/core/ui/game_haptic.dart';
 import 'package:expansion/game_core/battle/battle_session_factory.dart';
+import 'package:expansion/game_core/battle/battle_tick_events.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/domain/entities/meta_battle_bonuses.dart';
@@ -356,6 +357,7 @@ class BattleCubit extends Cubit<BattleState> {
 
     final result = engine.applyTacticalUpgrade(baseId, type);
     if (result == TacticalUpgradeResult.success) {
+      unawaited(sl<GameAudioService>().playUpgrade());
       final tutorialStep = state.missionTutorialStep;
       final nextTutorialStep =
           tutorialStep == MissionTutorialStep.upgradeOverlay
@@ -413,13 +415,15 @@ class BattleCubit extends Cubit<BattleState> {
 
   Future<BattleVictoryReward> completeAfterVictory() async {
     final guest = await _guest.load();
-    final nextMission = (state.sceneId + 1).clamp(1, 40);
-    final reward = BattleRewardCalculator.forMission(state.sceneId);
+    final missionCount = (await _campaign.getCampaignScenes()).length;
+    final sceneId = state.sceneId;
+    final nextMapClassic = sceneId >= missionCount
+        ? missionCount + 1
+        : (sceneId + 1 > guest.mapClassic ? sceneId + 1 : guest.mapClassic);
+    final reward = BattleRewardCalculator.forMission(sceneId);
     await _guest.save(
       guest.copyWith(
-        mapClassic: nextMission > guest.mapClassic
-            ? nextMission
-            : guest.mapClassic,
+        mapClassic: nextMapClassic,
         firstBattleCompleted: true,
         scoreClassic: guest.scoreClassic + reward.total,
         defeatStreakSceneId: 0,
@@ -499,8 +503,14 @@ class BattleCubit extends Cubit<BattleState> {
     if (state.tutorialPausesTicks) return;
 
     final hazardsBefore = state.snapshot?.asteroids ?? const [];
-    engine.tick(spawnAsteroids: !state.tutorialPausesAsteroids);
+    final hazardIdsBefore = hazardsBefore.map((h) => h.id).toSet();
+    final tickEvents = engine.tick(spawnAsteroids: !state.tutorialPausesAsteroids);
     final hazardsAfter = engine.snapshot().asteroids;
+
+    _playBattleSfx(
+      tickEvents: tickEvents,
+      newHazards: hazardsAfter.where((h) => !hazardIdsBefore.contains(h.id)),
+    );
 
     int countOf(List<BattleAsteroid> hazards, BattleHazardKind kind) =>
         hazards.where((h) => h.kind == kind).length;
@@ -591,6 +601,36 @@ class BattleCubit extends Cubit<BattleState> {
         case WaitIntent():
           break;
       }
+    }
+  }
+
+  static const _hazardKindsWithPass = {
+    BattleHazardKind.asteroid,
+    BattleHazardKind.debris,
+    BattleHazardKind.comet,
+    BattleHazardKind.pulse,
+    BattleHazardKind.solarWind,
+    BattleHazardKind.wormhole,
+    BattleHazardKind.drone,
+  };
+
+  void _playBattleSfx({
+    required BattleTickEvents tickEvents,
+    required Iterable<BattleAsteroid> newHazards,
+  }) {
+    final audio = sl<GameAudioService>();
+    for (var i = 0; i < tickEvents.fleetClashCount; i++) {
+      unawaited(audio.playFleetClash());
+    }
+    for (final hazard in newHazards) {
+      unawaited(audio.playHazardSpawn());
+      if (!_hazardKindsWithPass.contains(hazard.kind)) continue;
+      unawaited(
+        Future<void>.delayed(const Duration(milliseconds: 400), () {
+          if (isClosed) return;
+          unawaited(audio.playHazardPass());
+        }),
+      );
     }
   }
 

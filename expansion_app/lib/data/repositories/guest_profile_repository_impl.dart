@@ -47,6 +47,8 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       ),
       campaignStartedAtMillis:
           _prefs.getInt(PrefsKeys.guestCampaignStartedAt) ?? 0,
+      campaignEpilogueSeenForCount:
+          _prefs.getInt(PrefsKeys.guestCampaignEpilogueSeenForCount) ?? 0,
     );
   }
 
@@ -102,6 +104,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
     await _prefs.setInt(
       PrefsKeys.guestCampaignStartedAt,
       profile.campaignStartedAtMillis,
+    );
+    await _prefs.setInt(
+      PrefsKeys.guestCampaignEpilogueSeenForCount,
+      profile.campaignEpilogueSeenForCount,
     );
     _sync?.schedulePush(profile);
   }
@@ -189,6 +195,15 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       current.copyWith(
         seenFeatureIntros: {...current.seenFeatureIntros, storageKey},
       ),
+    );
+  }
+
+  @override
+  Future<void> markCampaignEpilogueSeen(int missionCount) async {
+    final current = await load();
+    if (current.campaignEpilogueSeenForCount >= missionCount) return;
+    await save(
+      current.copyWith(campaignEpilogueSeenForCount: missionCount),
     );
   }
 

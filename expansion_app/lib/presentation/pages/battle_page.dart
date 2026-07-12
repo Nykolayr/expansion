@@ -11,6 +11,7 @@ import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/core/audio/game_audio_service.dart';
 import 'package:expansion/core/ui/game_haptic.dart';
+import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/domain/enums/game_difficulty.dart';
 import 'package:expansion/game_core/battle/battle_victory_reward.dart';
@@ -102,6 +103,8 @@ class _BattlePageState extends State<BattlePage> {
     if (!mounted) return;
 
     final guest = await sl<GuestProfileRepository>().load();
+    final missionCount =
+        (await sl<CampaignRepository>().getCampaignScenes()).length;
     final showLowerHint = !won &&
         defeatStreak >= CampaignDifficultyPolicy.defeatHintStreakThreshold &&
         difficultyCubit.state != GameDifficulty.easy;
@@ -114,8 +117,9 @@ class _BattlePageState extends State<BattlePage> {
     }
 
     final nextMissionId = sceneId + 1;
-    final canNextMission =
-        won && nextMissionId <= 40 && nextMissionId <= guest.mapClassic;
+    final canNextMission = won &&
+        nextMissionId <= missionCount &&
+        nextMissionId <= guest.mapClassic;
     final canUpgrades = won && guest.scoreClassic >= 180;
 
     final extraActions = <BattleOutcomeExtraAction>[

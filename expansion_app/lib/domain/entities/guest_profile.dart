@@ -20,6 +20,7 @@ class GuestProfile extends Equatable {
     this.mapTutorialSeen = false,
     Set<String>? seenFeatureIntros,
     this.campaignStartedAtMillis = 0,
+    this.campaignEpilogueSeenForCount = 0,
     PlayerMetaProgress? meta,
   })  : seenFeatureIntros = seenFeatureIntros ?? const {},
         meta = meta ?? PlayerMetaProgress.fresh();
@@ -54,6 +55,9 @@ class GuestProfile extends Equatable {
 
   /// Unix-ms старта кампании (0 — не задано).
   final int campaignStartedAtMillis;
+
+  /// Для скольких миссий кампании уже показан эпилог (0 — ни разу).
+  final int campaignEpilogueSeenForCount;
   final PlayerMetaProgress meta;
 
   /// Есть что терять при «Новой игре» — показываем подтверждение сброса.
@@ -82,6 +86,7 @@ class GuestProfile extends Equatable {
     bool? mapTutorialSeen,
     Set<String>? seenFeatureIntros,
     int? campaignStartedAtMillis,
+    int? campaignEpilogueSeenForCount,
     PlayerMetaProgress? meta,
   }) {
     return GuestProfile(
@@ -102,6 +107,8 @@ class GuestProfile extends Equatable {
       seenFeatureIntros: seenFeatureIntros ?? this.seenFeatureIntros,
       campaignStartedAtMillis:
           campaignStartedAtMillis ?? this.campaignStartedAtMillis,
+      campaignEpilogueSeenForCount: campaignEpilogueSeenForCount ??
+          this.campaignEpilogueSeenForCount,
       meta: meta ?? this.meta,
     );
   }
@@ -122,6 +129,7 @@ class GuestProfile extends Equatable {
         mapTutorialSeen,
         seenFeatureIntros,
         campaignStartedAtMillis,
+        campaignEpilogueSeenForCount,
         meta,
       ];
 }

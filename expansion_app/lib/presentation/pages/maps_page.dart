@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/domain/campaign/campaign_progress.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
@@ -12,9 +13,10 @@ import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/maps/maps_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
+import 'package:expansion/presentation/widgets/maps/campaign_epilogue_overlay.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_map_grid.dart';
 
-/// Карта кампании Classic (40 миссий).
+/// Карта кампании Classic.
 class MapsPage extends StatefulWidget {
   const MapsPage({super.key});
 
@@ -24,6 +26,9 @@ class MapsPage extends StatefulWidget {
 
 class _MapsPageState extends State<MapsPage> {
   bool _mapTutorialChecked = false;
+  bool _epilogueChecked = false;
+  bool _epilogueVisible = false;
+  String? _epilogueText;
 
   @override
   void initState() {
@@ -39,6 +44,25 @@ class _MapsPageState extends State<MapsPage> {
 
   void _reloadMaps() {
     sl<MapsCubit>().load();
+  }
+
+  Future<void> _maybeShowCampaignEpilogue(int missionCount) async {
+    if (_epilogueChecked) return;
+    _epilogueChecked = true;
+    final guest = await sl<GuestProfileRepository>().load();
+    if (!CampaignProgress.shouldShowEpilogue(guest, missionCount)) return;
+    if (!mounted) return;
+    final loc = AppLocalizations.of(context)!;
+    setState(() {
+      _epilogueVisible = true;
+      _epilogueText = loc.campaignEpilogueText(missionCount);
+    });
+  }
+
+  Future<void> _dismissCampaignEpilogue(int missionCount) async {
+    await sl<GuestProfileRepository>().markCampaignEpilogueSeen(missionCount);
+    if (!mounted) return;
+    setState(() => _epilogueVisible = false);
   }
 
   Future<void> _maybeShowMapTutorial() async {
@@ -115,7 +139,11 @@ class _MapsPageState extends State<MapsPage> {
                 Builder(
                   builder: (context) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _maybeShowMapTutorial();
+                      final missionCount = state.scenes.length;
+                      _maybeShowCampaignEpilogue(missionCount).then((_) {
+                        if (!mounted || _epilogueVisible) return;
+                        _maybeShowMapTutorial();
+                      });
                     });
                     return Expanded(
                       child: CampaignMapGrid(
@@ -140,12 +168,22 @@ class _MapsPageState extends State<MapsPage> {
                     ),
                     onStart: _onStartBattle,
                   ),
-              ]               else
+              ] else
                 const SizedBox.shrink(),
             ],
           );
         },
       ),
+          if (_epilogueVisible && _epilogueText != null)
+            Positioned.fill(
+              child: CampaignEpilogueOverlay(
+                text: _epilogueText!,
+                onDismiss: () {
+                  final count = sl<MapsCubit>().state.scenes.length;
+                  _dismissCampaignEpilogue(count);
+                },
+              ),
+            ),
         ],
       ),
     );

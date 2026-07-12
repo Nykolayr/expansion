@@ -20,6 +20,7 @@ import 'package:expansion/game_core/battle/battle_line_of_sight.dart';
 import 'package:expansion/game_core/battle/battle_mission_hazards.dart';
 import 'package:expansion/game_core/battle/battle_pacing.dart';
 import 'package:expansion/game_core/battle/battle_tactical_balance.dart';
+import 'package:expansion/game_core/battle/battle_tick_events.dart';
 import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 import 'package:expansion/game_core/battle/tactical_upgrade_result.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
@@ -235,9 +236,9 @@ class BattleEngine {
     return true;
   }
 
-  void tick({bool spawnAsteroids = true}) {
+  BattleTickEvents tick({bool spawnAsteroids = true}) {
     _tick++;
-    _advanceFleets();
+    var fleetClashes = _advanceFleets();
     _advanceExplosions();
     _advanceAsteroids();
     _resolveAsteroidFleetCollisions();
@@ -251,6 +252,7 @@ class BattleEngine {
       _maybeSpawnWormhole();
     }
     _economyTick();
+    return BattleTickEvents(fleetClashCount: fleetClashes);
   }
 
   void _advanceExplosions() {
@@ -971,7 +973,7 @@ class BattleEngine {
     }
   }
 
-  void _advanceFleets() {
+  int _advanceFleets() {
     final arrived = <BattleFleet>[];
 
     for (var i = 0; i < _fleets.length; i++) {
@@ -986,7 +988,7 @@ class BattleEngine {
       }
     }
 
-    _resolveMidairFleetClashes();
+    final fleetClashes = _resolveMidairFleetClashes();
 
     for (final fleet in arrived) {
       _fleets.remove(fleet);
@@ -996,6 +998,7 @@ class BattleEngine {
         fleetSize: fleet.ships,
       );
     }
+    return fleetClashes;
   }
 
   double _fleetTravelDistance(BattleFleet fleet) {
@@ -1018,10 +1021,11 @@ class BattleEngine {
     );
   }
 
-  void _resolveMidairFleetClashes() {
+  int _resolveMidairFleetClashes() {
     const collideRadius = 0.38;
     final removeIds = <int>{};
     final updates = <int, BattleFleet>{};
+    var clashes = 0;
 
     for (var i = 0; i < _fleets.length; i++) {
       final a = _fleets[i];
@@ -1038,6 +1042,7 @@ class BattleEngine {
         final dy = pa.$2 - pb.$2;
         if (dx * dx + dy * dy > collideRadius * collideRadius) continue;
 
+        clashes++;
         _spawnExplosion((pa.$1 + pb.$1) / 2, (pa.$2 + pb.$2) / 2);
 
         final aShips = updates[a.id]?.ships ?? a.ships;
@@ -1056,7 +1061,7 @@ class BattleEngine {
       }
     }
 
-    if (removeIds.isEmpty && updates.isEmpty) return;
+    if (removeIds.isEmpty && updates.isEmpty) return clashes;
 
     _fleets.removeWhere((f) => removeIds.contains(f.id));
     for (var i = 0; i < _fleets.length; i++) {
@@ -1065,6 +1070,7 @@ class BattleEngine {
         _fleets[i] = updated;
       }
     }
+    return clashes;
   }
 
   BattleOutcome? outcome() {

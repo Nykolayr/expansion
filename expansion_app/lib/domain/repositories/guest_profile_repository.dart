@@ -27,5 +27,8 @@ abstract class GuestProfileRepository {
 
   Future<void> markFeatureIntroSeen(String storageKey);
 
+  /// Эпилог кампании показан для [missionCount] миссий (актуально при OTA).
+  Future<void> markCampaignEpilogueSeen(int missionCount);
+
   Future<void> ensureCampaignStartedAt();
 }

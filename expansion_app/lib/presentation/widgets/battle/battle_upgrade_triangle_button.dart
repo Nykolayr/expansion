@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:expansion/core/audio/game_audio_service.dart';
+import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 
 /// Кнопка-«треугольник»: сверху будущее значение, снизу текущее, цена внизу.
@@ -35,7 +37,12 @@ class BattleUpgradeTriangleButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: canTap ? onPressed : null,
+          onTap: canTap
+              ? () {
+                  sl<GameAudioService>().playUiClick();
+                  onPressed?.call();
+                }
+              : null,
           borderRadius: BorderRadius.circular(8),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),

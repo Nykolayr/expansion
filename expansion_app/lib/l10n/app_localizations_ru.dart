@@ -94,6 +94,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get introStoryTitle => 'История';
 
   @override
+  String get campaignEpilogueTitle => 'Победа';
+
+  @override
+  String get campaignEpilogueDismiss => 'К карте';
+
+  @override
+  String campaignEpilogueText(int missionCount) {
+    return 'Командир! Благодаря только вашему командованию мы разгромили вторгшихся захватчиков и очистили звёздный сектор от угрозы. Все $missionCount систем этой кампании — под нашим контролем.\n\nРазведка докладывает: открыты новые маршруты. Впереди десятки звёздных систем, готовых принять колонистов. Человечество снова смотрит в глубину космоса с надеждой — и снова на вас.\n\nОтдышитесь, укрепите базы, готовьте флот. Экспансия продолжается. Это ваша победа.';
+  }
+
+  @override
   String get mapsTitle => 'Карта кампании';
 
   @override
