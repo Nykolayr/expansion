@@ -1,12 +1,22 @@
 # Аудио боя
 
-Положите сюда MP3 (короткие SFX):
+Короткие SFX (MP3):
 
-- `fleet_send.mp3` — отправка флота
-- `capture.mp3` — захват базы
-- `victory.mp3` — победа
-- `defeat.mp3` — поражение
+| Файл | Событие | Заглушка (ffmpeg synth) |
+|------|---------|-------------------------|
+| `fleet_send.mp3` | Отправка флота | whoosh (pink noise) |
+| `capture.mp3` | Захват базы | короткий «дин» ~988 Hz |
+| `victory.mp3` | Победа | восходящая арпеджио C-E-G-C |
+| `defeat.mp3` | Поражение | нисходящие низкие тоны |
 
-`GameAudioService` играет их через `AssetSource('audio/...')`. Пока файлов нет — воспроизведение тихо пропускается.
+`GameAudioService` → `AssetSource('audio/...')`. Звук можно выключить в настройках.
 
-Референс ассетов: legacy `expansion_old` (при переносе проверить лицензию/качество).
+## Перегенерация заглушек
+
+```powershell
+cd expansion_server
+npm install ffmpeg-static --no-save   # или ffmpeg в PATH
+node scripts/generate-audio-stubs.js
+```
+
+Позже — заменить файлы на нормальные SFX (legacy / Suno / Freesound). Референс: `expansion_old` (лицензия).

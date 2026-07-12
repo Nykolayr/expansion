@@ -7,12 +7,13 @@ import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/extensions/univer_kind_l10n.dart';
-import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/progress/progress_cubit.dart';
 import 'package:expansion/presentation/bloc/progress/progress_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/cards/game_stat_card.dart';
+import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class ProgressPage extends StatefulWidget {
   const ProgressPage({super.key});
@@ -64,46 +65,59 @@ class _ProgressPageState extends State<ProgressPage> {
                       );
                     }
 
-                    return ListView(
-                      padding: const EdgeInsets.all(24),
+                    return Stack(
                       children: [
-                        GameStatCard(
-                          title: loc.progressCurrentMission,
-                          value: '${state.currentMission} / 40',
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.progressUniver,
-                          value: state.univer.label(loc),
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.progressDifficulty,
-                          value: state.difficulty.label(loc),
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.progressCompleted,
-                          value: '${state.completedMissions}',
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.progressScore,
-                          value: '${state.score}',
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.progressEnemyPower,
-                          value: '${state.enemyPower}',
-                        ),
-                        const Gap(24),
-                        FilledButton(
-                          onPressed: () => context.goToLeaderboard(),
-                          style: FilledButton.styleFrom(
-                            backgroundColor: ExpansionColors.accent,
-                            foregroundColor: ExpansionColors.black,
+                        ListView(
+                          padding: EdgeInsets.fromLTRB(
+                            24,
+                            24,
+                            24,
+                            GameStickyBottomBar.scrollPadding(context),
                           ),
-                          child: Text(loc.progressLeaderboard),
+                          children: [
+                            GameStatCard(
+                              title: loc.progressCurrentMission,
+                              value: '${state.currentMission} / 40',
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.progressUniver,
+                              value: state.univer.label(loc),
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.progressDifficulty,
+                              value: state.difficulty.label(loc),
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.progressCompleted,
+                              value: '${state.completedMissions}',
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.progressScore,
+                              value: '${state.score}',
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.progressEnemyPower,
+                              value: '${state.enemyPower}',
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: GameStickyBottomBar(
+                            child: Center(
+                              child: GameLongButton(
+                                label: loc.progressLeaderboard,
+                                onPressed: () => context.goToLeaderboard(),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     );

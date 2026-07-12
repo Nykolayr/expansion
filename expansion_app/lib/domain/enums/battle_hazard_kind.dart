@@ -7,4 +7,5 @@ enum BattleHazardKind {
   mine,
   solarWind,
   wormhole,
+  drone,
 }

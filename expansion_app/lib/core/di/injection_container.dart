@@ -178,6 +178,7 @@ Future<void> initDependencies() async {
       sl<CampaignContentSyncService>(),
       sl<CampaignLocalDataSource>(),
       sl<SharedPreferences>(),
+      sl<GuestProfileRepository>(),
     ),
   );
 

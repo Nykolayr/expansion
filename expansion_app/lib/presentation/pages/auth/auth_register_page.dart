@@ -126,6 +126,13 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
           if (state.step == RegisterStep.verification) {
             return AuthPageShell(
               title: loc.authVerifyTitle,
+              bottomBar: AuthPrimaryButton(
+                label: loc.authVerifyAction,
+                loading: loading,
+                onPressed: () {
+                  cubit.submitVerificationCode(_codeController.text);
+                },
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -140,14 +147,6 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
                       counterText: '',
                     ),
                   ),
-                  const AuthFormGap(size: 24),
-                  AuthPrimaryButton(
-                    label: loc.authVerifyAction,
-                    loading: loading,
-                    onPressed: () {
-                      cubit.submitVerificationCode(_codeController.text);
-                    },
-                  ),
                 ],
               ),
             );
@@ -155,6 +154,28 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
 
           return AuthPageShell(
             title: loc.authRegisterTitle,
+            bottomBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AuthPrimaryButton(
+                  label: loc.authRegisterAction,
+                  loading: loading,
+                  onPressed: () {
+                    cubit
+                      ..updateEmail(_emailController.text)
+                      ..updatePassword(_passwordController.text)
+                      ..updateNick(_nickController.text)
+                      ..updateRealName(_realNameController.text)
+                      ..submitCredentials();
+                  },
+                ),
+                AuthLinkRow(
+                  prompt: loc.authHaveAccount,
+                  actionLabel: loc.authLoginAction,
+                  onPressed: () => context.goToAuthLogin(),
+                ),
+              ],
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -194,24 +215,6 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
                   textCapitalization: TextCapitalization.words,
                   onChanged: cubit.updateRealName,
                   decoration: InputDecoration(labelText: loc.authRealName),
-                ),
-                const AuthFormGap(size: 24),
-                AuthPrimaryButton(
-                  label: loc.authRegisterAction,
-                  loading: loading,
-                  onPressed: () {
-                    cubit
-                      ..updateEmail(_emailController.text)
-                      ..updatePassword(_passwordController.text)
-                      ..updateNick(_nickController.text)
-                      ..updateRealName(_realNameController.text)
-                      ..submitCredentials();
-                  },
-                ),
-                AuthLinkRow(
-                  prompt: loc.authHaveAccount,
-                  actionLabel: loc.authLoginAction,
-                  onPressed: () => context.goToAuthLogin(),
                 ),
               ],
             ),

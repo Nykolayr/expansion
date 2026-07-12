@@ -3,16 +3,21 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
+import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class AuthPageShell extends StatelessWidget {
   const AuthPageShell({
     required this.title,
     required this.child,
+    required this.bottomBar,
     super.key,
   });
 
   final String title;
   final Widget child;
+  final Widget bottomBar;
 
   @override
   Widget build(BuildContext context) {
@@ -32,12 +37,18 @@ class AuthPageShell extends StatelessWidget {
                     24,
                     16,
                     24,
-                    24 + MediaQuery.viewInsetsOf(context).bottom,
+                    GameStickyBottomBar.scrollPadding(context),
                   ),
                   child: child,
                 ),
               ),
             ],
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: GameStickyBottomBar(child: bottomBar),
           ),
         ],
       ),
@@ -59,11 +70,23 @@ class AuthLinkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(prompt, style: Theme.of(context).textTheme.bodyMedium),
-        TextButton(onPressed: onPressed, child: Text(actionLabel)),
+        const Gap(8),
+        Text(
+          prompt,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const Gap(8),
+        Center(
+          child: GameLongButton(
+            label: actionLabel,
+            fontSize: 16,
+            onPressed: onPressed,
+          ),
+        ),
       ],
     );
   }
@@ -83,17 +106,37 @@ class AuthPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        onPressed: loading ? null : onPressed,
-        child: loading
-            ? const SizedBox(
-                height: 22,
-                width: 22,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : Text(label),
+    return Center(
+      child: GameLongButton(
+        label: label,
+        loading: loading,
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
+
+class AuthSecondaryButton extends StatelessWidget {
+  const AuthSecondaryButton({
+    required this.label,
+    required this.onPressed,
+    this.labelColor,
+    super.key,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final Color? labelColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GameCompactSkewButton(
+        label: label,
+        fullWidth: true,
+        fontSize: 15,
+        labelColor: labelColor,
+        onPressed: onPressed,
       ),
     );
   }

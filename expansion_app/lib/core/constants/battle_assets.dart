@@ -6,7 +6,7 @@ import 'package:expansion/domain/enums/battle_visual_id.dart';
 import 'package:expansion/domain/enums/neutral_base_kind.dart';
 import 'package:expansion/domain/enums/neutral_base_variant.dart';
 
-/// Пути к спрайтам боя. [BattleVisualId] — канон имён; top-down PNG в `assets/images/`.
+/// Пути к спрайтам боя. Top-down PNG в `assets/images/` (RGBA).
 abstract final class BattleAssets {
   static const String playerMain = 'assets/images/our.png';
   static const String enemyMain = 'assets/images/enemy.png';
@@ -21,7 +21,6 @@ abstract final class BattleAssets {
   static const String battleWinArt = 'assets/images/win.png';
   static const String battleDefeatArt = 'assets/images/lost.png';
 
-  /// Целевые пути (файлы появятся на арт-пассе).
   static const Map<BattleVisualId, String> targetAssetPaths = {
     BattleVisualId.hqPlayer: 'assets/images/hq_player.png',
     BattleVisualId.hqEnemy: 'assets/images/hq_enemy.png',
@@ -81,6 +80,7 @@ abstract final class BattleAssets {
         _placeholderPath(BattleVisualId.hazardSolarWind),
       BattleHazardKind.wormhole =>
         _placeholderPath(BattleVisualId.hazardWormhole),
+      BattleHazardKind.drone => _placeholderPath(BattleVisualId.hazardDrone),
     };
   }
 

@@ -58,10 +58,12 @@ class BattleCubit extends Cubit<BattleState> {
   bool _isMapReplay = false;
   int _initialPlayerBaseCount = 0;
   DateTime? _missionTutorialEndedAt;
+  List<MissionFeatureIntro> _pendingFeatureIntros = [];
 
   Future<void> loadMission(int sceneId, {bool? isMapReplay}) async {
     await _stopLoop();
     _engine = null;
+    _pendingFeatureIntros = [];
     emit(
       state.copyWith(
         status: BattleStatus.loading,
@@ -110,15 +112,32 @@ class BattleCubit extends Cubit<BattleState> {
       _initialPlayerBaseCount = engine.snapshot().playerBases.length;
       _missionTutorialEndedAt = null;
 
-      _isMapReplay = isMapReplay ?? sceneId < guest.mapClassic;
-
       final tutorialStep = sceneId == 1 && !guest.mission1TutorialCompleted
           ? MissionTutorialStep.drag
           : MissionTutorialStep.none;
 
       MissionFeatureIntro? featureIntro;
-      if (tutorialStep == MissionTutorialStep.none && !_isMapReplay) {
-        featureIntro = MissionFeatureIntro.forScene(sceneId);
+      if (tutorialStep == MissionTutorialStep.none) {
+        _isMapReplay = isMapReplay ?? sceneId < guest.mapClassic;
+        _pendingFeatureIntros = MissionFeatureIntro.forScene(
+          sceneId,
+          mission1TutorialCompleted: guest.mission1TutorialCompleted,
+        )
+            .where(
+              (i) => MissionFeatureIntro.shouldShowAtMission(
+                sceneId: sceneId,
+                mapClassic: guest.mapClassic,
+                isMapReplay: _isMapReplay,
+                hasSeenIntro: guest.hasSeenFeatureIntro(i.storageKey),
+              ),
+            )
+            .toList();
+        if (_pendingFeatureIntros.isNotEmpty) {
+          featureIntro = _pendingFeatureIntros.first;
+        }
+      } else {
+        _isMapReplay = isMapReplay ?? sceneId < guest.mapClassic;
+        _pendingFeatureIntros = [];
       }
 
       if (sceneId == 1 && tutorialStep != MissionTutorialStep.none) {
@@ -143,8 +162,14 @@ class BattleCubit extends Cubit<BattleState> {
       _enemyTickCounter = 0;
       _battleStartedAt = DateTime.now();
       _firstBattleEnemyGrace = !guest.firstBattleCompleted;
-      _asteroidTutorialSeen = _isMapReplay;
-      _debrisTutorialSeen = _isMapReplay;
+      _asteroidTutorialSeen = _isMapReplay ||
+          guest.asteroidTutorialSeen ||
+          guest.hasSeenFeatureIntro(MissionFeatureIntro.asteroid.storageKey) ||
+          guest.mapClassic > 1;
+      _debrisTutorialSeen = _isMapReplay ||
+          guest.debrisTutorialSeen ||
+          guest.hasSeenFeatureIntro(MissionFeatureIntro.debris.storageKey) ||
+          guest.mapClassic > 5;
       await _tickLoop.start(_onTick);
       AppLog.trace(
         'battle tick loop started grace=$_firstBattleEnemyGrace replay=$_isMapReplay',
@@ -238,20 +263,41 @@ class BattleCubit extends Cubit<BattleState> {
 
   void clearBlockedCell() => emit(state.copyWith(clearBlocked: true));
 
-  void dismissMeteoriteTutorial() {
+  Future<void> dismissMeteoriteTutorial() async {
     emit(state.copyWith(showMeteoriteTutorial: false));
     _asteroidTutorialSeen = true;
+    await _guest.markAsteroidTutorialSeen();
+    await _guest.markFeatureIntroSeen(MissionFeatureIntro.asteroid.storageKey);
   }
 
-  void dismissDebrisTutorial() {
+  Future<void> dismissDebrisTutorial() async {
     emit(state.copyWith(showDebrisTutorial: false));
     _debrisTutorialSeen = true;
+    await _guest.markDebrisTutorialSeen();
+    await _guest.markFeatureIntroSeen(MissionFeatureIntro.debris.storageKey);
   }
 
   Future<void> dismissFeatureIntro() async {
     final intro = state.featureIntro;
     if (intro == null) return;
-    emit(state.copyWith(clearFeatureIntro: true));
+
+    if (intro == MissionFeatureIntro.asteroid) {
+      _asteroidTutorialSeen = true;
+    }
+    if (intro == MissionFeatureIntro.debris) {
+      _debrisTutorialSeen = true;
+    }
+
+    if (_pendingFeatureIntros.isNotEmpty &&
+        _pendingFeatureIntros.first == intro) {
+      _pendingFeatureIntros.removeAt(0);
+    }
+
+    if (_pendingFeatureIntros.isEmpty) {
+      emit(state.copyWith(clearFeatureIntro: true));
+    } else {
+      emit(state.copyWith(featureIntro: _pendingFeatureIntros.first));
+    }
     AppLog.trace('feature intro dismissed ${intro.name}', tag: 'Battle');
   }
 
@@ -381,7 +427,27 @@ class BattleCubit extends Cubit<BattleState> {
         meta: guest.meta.afterVictory(),
       ),
     );
+    await _persistMissionFeatureIntrosAfterVictory(state.sceneId);
     return reward;
+  }
+
+  Future<void> _persistMissionFeatureIntrosAfterVictory(int sceneId) async {
+    final guest = await _guest.load();
+    final mission1Done =
+        guest.mission1TutorialCompleted || sceneId == 1;
+    final intros = MissionFeatureIntro.forScene(
+      sceneId,
+      mission1TutorialCompleted: mission1Done,
+    );
+    for (final intro in intros) {
+      await _guest.markFeatureIntroSeen(intro.storageKey);
+      if (intro == MissionFeatureIntro.asteroid) {
+        await _guest.markAsteroidTutorialSeen();
+      }
+      if (intro == MissionFeatureIntro.debris) {
+        await _guest.markDebrisTutorialSeen();
+      }
+    }
   }
 
   /// Учитывает поражение; возвращает серию поражений на текущей миссии.
@@ -439,7 +505,8 @@ class BattleCubit extends Cubit<BattleState> {
     int countOf(List<BattleAsteroid> hazards, BattleHazardKind kind) =>
         hazards.where((h) => h.kind == kind).length;
 
-    if (!state.missionTutorialActive &&
+    if (!_isMapReplay &&
+        !state.missionTutorialActive &&
         !_debrisTutorialSeen &&
         countOf(hazardsAfter, BattleHazardKind.debris) >
             countOf(hazardsBefore, BattleHazardKind.debris)) {
@@ -449,7 +516,8 @@ class BattleCubit extends Cubit<BattleState> {
       return;
     }
 
-    if (!state.missionTutorialActive &&
+    if (!_isMapReplay &&
+        !state.missionTutorialActive &&
         !_asteroidTutorialSeen &&
         countOf(hazardsAfter, BattleHazardKind.asteroid) >
             countOf(hazardsBefore, BattleHazardKind.asteroid)) {

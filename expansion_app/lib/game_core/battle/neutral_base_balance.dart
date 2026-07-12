@@ -9,6 +9,7 @@ abstract final class NeutralBaseBalance {
   static const double standardSpeedBuild = 0.055;
   static const double standardSpeedResources = 0.15;
   static const double richResourceIncomeMultiplier = 5.0;
+  static const double factoryBuildSpeedMultiplier = 5.0;
 
   static const int smallMaxShips = 30;
   static const int middleMaxShips = 50;
@@ -110,7 +111,7 @@ abstract final class NeutralBaseBalance {
         ),
       NeutralBaseVariant.factory => base.copyWith(
           ships: (base.ships * 0.7).round().clamp(1, 999),
-          speedBuild: base.speedBuild * 1.4,
+          speedBuild: base.speedBuild * factoryBuildSpeedMultiplier,
         ),
       NeutralBaseVariant.bunker => base.copyWith(
           maxShips: (base.maxShips * 1.4).round(),

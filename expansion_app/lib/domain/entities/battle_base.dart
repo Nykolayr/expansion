@@ -25,6 +25,7 @@ class BattleBase extends Equatable {
     this.buildUpgradeLevel = 0,
     this.maxShipsUpgradeLevel = 0,
     this.growthAccumulator = 0,
+    this.regenShieldCap,
   });
 
   final int id;
@@ -67,6 +68,13 @@ class BattleBase extends Equatable {
   bool isTacticalMaxed(TacticalUpgradeType type) =>
       tacticalLevelFor(type) >= maxTacticalLevel;
 
+  /// Базовый щит щитовой базы (`variant: shielded`): к нему восстанавливается щит.
+  final double? regenShieldCap;
+
+  /// Целевой щит с учётом тактических улучшений (+20 за уровень).
+  double get effectiveRegenShieldCap =>
+      regenShieldCap == null ? shield : regenShieldCap! + shieldUpgradeLevel * 20;
+
   BattleBase copyWith({
     int? ships,
     double? shield,
@@ -82,6 +90,7 @@ class BattleBase extends Equatable {
     int? buildUpgradeLevel,
     int? maxShipsUpgradeLevel,
     int? growthAccumulator,
+    double? regenShieldCap,
   }) {
     return BattleBase(
       id: id,
@@ -102,6 +111,7 @@ class BattleBase extends Equatable {
       maxShipsUpgradeLevel:
           maxShipsUpgradeLevel ?? this.maxShipsUpgradeLevel,
       growthAccumulator: growthAccumulator ?? this.growthAccumulator,
+      regenShieldCap: regenShieldCap ?? this.regenShieldCap,
     );
   }
 
@@ -124,5 +134,6 @@ class BattleBase extends Equatable {
         buildUpgradeLevel,
         maxShipsUpgradeLevel,
         growthAccumulator,
+        regenShieldCap,
       ];
 }

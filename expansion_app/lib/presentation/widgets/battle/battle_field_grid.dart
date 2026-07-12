@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:expansion/core/constants/battle_assets.dart';
@@ -8,6 +10,7 @@ import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/entities/battle_explosion.dart';
 import 'package:expansion/domain/entities/battle_fleet.dart';
 import 'package:expansion/domain/entities/battle_snapshot.dart';
+import 'package:expansion/domain/enums/battle_hazard_kind.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/presentation/widgets/battle/battle_base_view.dart';
 import 'package:expansion/presentation/widgets/battle/battle_drag_line_painter.dart';
@@ -61,8 +64,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: LayoutBuilder(
+    return LayoutBuilder(
         builder: (context, constraints) {
         final gridW = constraints.maxWidth;
         final gridH = constraints.maxHeight;
@@ -137,6 +139,14 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
                   spacing: BattleFieldGrid._spacing,
                 ),
               ),
+              ...widget.snapshot.bases.map(
+                (base) => _BaseHudMarker(
+                  base: base,
+                  cellW: cellW,
+                  cellH: cellH,
+                  spacing: BattleFieldGrid._spacing,
+                ),
+              ),
               if (_dragFromX != null &&
                   _dragStartLocal != null &&
                   _dragCurrentLocal != null)
@@ -159,7 +169,6 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
           ),
         );
       },
-      ),
     );
   }
 
@@ -201,6 +210,7 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
               cellWidth: innerW,
               cellHeight: innerH,
               showUpgradeHint: widget.upgradableBaseIds.contains(base.id),
+              showHud: false,
             ),
           ),
           if (blocked)
@@ -320,6 +330,44 @@ class _BattleFieldGridState extends State<BattleFieldGrid> {
   }
 }
 
+class _BaseHudMarker extends StatelessWidget {
+  const _BaseHudMarker({
+    required this.base,
+    required this.cellW,
+    required this.cellH,
+    required this.spacing,
+  });
+
+  final BattleBase base;
+  final double cellW;
+  final double cellH;
+  final double spacing;
+
+  static const double _cellPad = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    final innerW = cellW - _cellPad * 2;
+    final innerH = cellH - _cellPad * 2;
+    final left = (base.x - 1) * (cellW + spacing) + _cellPad;
+    final top = (base.y - 1) * (cellH + spacing) + _cellPad;
+
+    return Positioned(
+      left: left,
+      top: top,
+      width: innerW,
+      height: innerH,
+      child: IgnorePointer(
+        child: BattleBaseHud(
+          base: base,
+          cellWidth: innerW,
+          cellHeight: innerH,
+        ),
+      ),
+    );
+  }
+}
+
 class _FleetMarker extends StatelessWidget {
   const _FleetMarker({
     required this.fleet,
@@ -401,36 +449,54 @@ class _AsteroidMarker extends StatelessWidget {
   final double cellH;
   final double spacing;
 
-  static const double _markerSize = 30;
+  static const double _defaultMarkerSize = 30;
+  static const double _cometMarkerSize = 58;
+  static const double _droneMarkerSize = 44;
+
+  double get _markerSize => switch (asteroid.kind) {
+        BattleHazardKind.comet => _cometMarkerSize,
+        BattleHazardKind.debris => 36,
+        BattleHazardKind.drone => _droneMarkerSize,
+        _ => _defaultMarkerSize,
+      };
 
   @override
   Widget build(BuildContext context) {
-    final t = asteroid.progress.clamp(0.0, 1.0);
-    final cx = asteroid.fromX + (asteroid.toX - asteroid.fromX) * t;
-    final cy = asteroid.fromY + (asteroid.toY - asteroid.fromY) * t;
-    final left = (cx - 1) * (cellW + spacing) + cellW / 2 - _markerSize / 2;
-    final top = (cy - 1) * (cellH + spacing) + cellH / 2 - _markerSize / 2;
+    final (cx, cy) = asteroid.gridPosition();
+    final markerSize = _markerSize;
+    final left = (cx - 1) * (cellW + spacing) + cellW / 2 - markerSize / 2;
+    final top = (cy - 1) * (cellH + spacing) + cellH / 2 - markerSize / 2;
+
+    final (tdx, tdy) = asteroid.gridTangent();
+    final angle = switch (asteroid.kind) {
+      BattleHazardKind.comet || BattleHazardKind.drone =>
+        atan2(tdy, tdx) + pi / 2,
+      _ => 0.0,
+    };
 
     return Positioned(
       left: left,
       top: top,
       child: SizedBox(
-        width: _markerSize,
-        height: _markerSize,
+        width: markerSize,
+        height: markerSize,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            BattleEntitySprite(
-              assetPath: BattleAssets.hazardSprite(asteroid),
-              size: _markerSize,
+            Transform.rotate(
+              angle: angle,
+              child: BattleEntitySprite(
+                assetPath: BattleAssets.hazardSprite(asteroid),
+                size: markerSize,
+              ),
             ),
             Text(
               '${asteroid.power}',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 8,
+                fontSize: asteroid.kind == BattleHazardKind.comet ? 10 : 8,
                 fontWeight: FontWeight.bold,
-                shadows: [Shadow(color: Colors.black, blurRadius: 3)],
+                shadows: const [Shadow(color: Colors.black, blurRadius: 3)],
               ),
             ),
           ],

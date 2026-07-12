@@ -48,16 +48,13 @@ class _MapsPageState extends State<MapsPage> {
     if (!guest.firstBattleCompleted || guest.mapTutorialSeen) return;
     if (!mounted) return;
     final loc = AppLocalizations.of(context)!;
-    final ok = await showGameConfirmDialog(
+    await showGameConfirmDialog(
       context,
       title: loc.mapTutorialTitle,
       message: loc.mapTutorialBody,
       confirmLabel: loc.mapTutorialDismiss,
-      cancelLabel: loc.mapTutorialLater,
     );
-    if (ok) {
-      await sl<GuestProfileRepository>().markMapTutorialSeen();
-    }
+    await sl<GuestProfileRepository>().markMapTutorialSeen();
   }
 
   String _sceneTitle(CampaignScene scene, AppLocalizations loc) {

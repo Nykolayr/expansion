@@ -14,7 +14,11 @@ import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/bloc/profile/profile_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/cards/game_stat_card.dart';
+import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
+import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class _CapitalizeFirstLetterFormatter extends TextInputFormatter {
   @override
@@ -63,25 +67,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _confirmDeleteAccount(BuildContext context) async {
     final loc = AppLocalizations.of(context)!;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(loc.profileDeleteAccountTitle),
-        content: Text(loc.profileDeleteAccountBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(loc.beginResetCancel),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: FilledButton.styleFrom(
-              backgroundColor: ExpansionColors.red,
-            ),
-            child: Text(loc.profileDeleteAccountConfirm),
-          ),
-        ],
-      ),
+    final confirmed = await showGameConfirmDialog(
+      context,
+      title: loc.profileDeleteAccountTitle,
+      message: loc.profileDeleteAccountBody,
+      confirmLabel: loc.profileDeleteAccountConfirm,
+      cancelLabel: loc.beginResetCancel,
     );
 
     if (confirmed != true || !context.mounted) return;
@@ -114,7 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  Widget _accountSection(BuildContext context, ProfileState state) {
+  Widget _accountInfoSection(BuildContext context, ProfileState state) {
     final loc = AppLocalizations.of(context)!;
 
     if (state.accountLoading) {
@@ -137,42 +128,65 @@ class _ProfilePageState extends State<ProfilePage> {
           GameStatCard(title: loc.authNick, value: user.nick),
           const Gap(12),
           GameStatCard(title: loc.authEmail, value: user.email),
-          const Gap(12),
-          OutlinedButton(
-            onPressed: () => _logout(context),
-            child: Text(loc.profileLogout),
-          ),
-          const Gap(8),
-          TextButton(
-            onPressed: () => _confirmDeleteAccount(context),
-            style: TextButton.styleFrom(foregroundColor: ExpansionColors.red),
-            child: Text(loc.profileDeleteAccount),
-          ),
         ],
       );
     }
 
+    return Text(
+      loc.profileAccountHint,
+      style: Theme.of(context).textTheme.bodyMedium,
+    );
+  }
+
+  Widget _bottomActions(BuildContext context, ProfileState state) {
+    final loc = AppLocalizations.of(context)!;
+
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          loc.profileAccountHint,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        const Gap(12),
-        FilledButton(
-          onPressed: () => context.goToAuthRegister(),
-          style: FilledButton.styleFrom(
-            backgroundColor: ExpansionColors.accent,
-            foregroundColor: ExpansionColors.black,
+        Center(
+          child: GameLongButton(
+            label: loc.profileSave,
+            fontSize: 16,
+            onPressed: _canSave ? _saveName : null,
           ),
-          child: Text(loc.profileRegister),
         ),
-        const Gap(8),
-        OutlinedButton(
-          onPressed: () => context.goToAuthLogin(),
-          child: Text(loc.profileLogin),
-        ),
+        if (state.isLoggedIn) ...[
+          const Gap(8),
+          Center(
+            child: GameLongButton(
+              label: loc.profileLogout,
+              fontSize: 16,
+              onPressed: () => _logout(context),
+            ),
+          ),
+          const Gap(8),
+          Center(
+            child: GameCompactSkewButton(
+              label: loc.profileDeleteAccount,
+              fullWidth: true,
+              fontSize: 15,
+              labelColor: ExpansionColors.red,
+              onPressed: () => _confirmDeleteAccount(context),
+            ),
+          ),
+        ] else if (!state.accountLoading) ...[
+          const Gap(8),
+          Center(
+            child: GameLongButton(
+              label: loc.profileRegister,
+              onPressed: () => context.goToAuthRegister(),
+            ),
+          ),
+          const Gap(8),
+          Center(
+            child: GameLongButton(
+              label: loc.profileLogin,
+              fontSize: 16,
+              onPressed: () => context.goToAuthLogin(),
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -259,60 +273,59 @@ class _ProfilePageState extends State<ProfilePage> {
                       _nameController.text = profile.displayName;
                     }
 
-                    return ListView(
-                      padding: EdgeInsets.fromLTRB(
-                        24,
-                        24,
-                        24,
-                        24 + MediaQuery.viewInsetsOf(context).bottom,
-                      ),
+                    return Stack(
                       children: [
-                        Text(
-                          _displayName(loc, state),
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        const Gap(16),
-                        TextField(
-                          controller: _nameController,
-                          focusNode: _nameFocus,
-                          inputFormatters: [
-                            _CapitalizeFirstLetterFormatter(),
+                        ListView(
+                          padding: EdgeInsets.fromLTRB(
+                            24,
+                            24,
+                            24,
+                            GameStickyBottomBar.scrollPadding(context),
+                          ),
+                          children: [
+                            Text(
+                              _displayName(loc, state),
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            const Gap(16),
+                            TextField(
+                              controller: _nameController,
+                              focusNode: _nameFocus,
+                              inputFormatters: [
+                                _CapitalizeFirstLetterFormatter(),
+                              ],
+                              decoration: InputDecoration(
+                                labelText: loc.profileDisplayName,
+                                hintText: loc.profileDisplayNameHint,
+                              ),
+                            ),
+                            const Gap(16),
+                            GameStatCard(
+                              title: loc.profileMission,
+                              value: '${profile.mapClassic} / 40',
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.profileScore,
+                              value: '${profile.scoreClassic}',
+                            ),
+                            const Gap(12),
+                            GameStatCard(
+                              title: loc.profileStarted,
+                              value: _startedLabel(state, loc),
+                            ),
+                            const Gap(24),
+                            _accountInfoSection(context, state),
                           ],
-                          decoration: InputDecoration(
-                            labelText: loc.profileDisplayName,
-                            hintText: loc.profileDisplayNameHint,
+                        ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: GameStickyBottomBar(
+                            child: _bottomActions(context, state),
                           ),
                         ),
-                        const Gap(12),
-                        FilledButton(
-                          onPressed: _canSave ? _saveName : null,
-                          style: FilledButton.styleFrom(
-                            backgroundColor: ExpansionColors.accent,
-                            foregroundColor: ExpansionColors.black,
-                            disabledBackgroundColor:
-                                ExpansionColors.grey.withValues(alpha: 0.35),
-                            disabledForegroundColor:
-                                ExpansionColors.white.withValues(alpha: 0.5),
-                          ),
-                          child: Text(loc.profileSave),
-                        ),
-                        const Gap(16),
-                        GameStatCard(
-                          title: loc.profileMission,
-                          value: '${profile.mapClassic} / 40',
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.profileScore,
-                          value: '${profile.scoreClassic}',
-                        ),
-                        const Gap(12),
-                        GameStatCard(
-                          title: loc.profileStarted,
-                          value: _startedLabel(state, loc),
-                        ),
-                        const Gap(24),
-                        _accountSection(context, state),
                       ],
                     );
                   },

@@ -62,6 +62,22 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
           if (state.step == ForgotStep.reset) {
             return AuthPageShell(
               title: loc.authResetTitle,
+              bottomBar: AuthPrimaryButton(
+                label: loc.authResetAction,
+                loading: loading,
+                onPressed: () async {
+                  final ok = await cubit.submitReset(
+                    code: _codeController.text,
+                    newPassword: _passwordController.text,
+                  );
+                  if (!context.mounted || !ok) return;
+                  sl<AppFeedbackService>().show(
+                    loc.authResetSuccess,
+                    kind: AppFeedbackKind.success,
+                  );
+                  context.goToAuthLogin();
+                },
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -85,23 +101,6 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
                       helperText: loc.authPasswordHint,
                     ),
                   ),
-                  const AuthFormGap(size: 24),
-                  AuthPrimaryButton(
-                    label: loc.authResetAction,
-                    loading: loading,
-                    onPressed: () async {
-                      final ok = await cubit.submitReset(
-                        code: _codeController.text,
-                        newPassword: _passwordController.text,
-                      );
-                      if (!context.mounted || !ok) return;
-                      sl<AppFeedbackService>().show(
-                        loc.authResetSuccess,
-                        kind: AppFeedbackKind.success,
-                      );
-                      context.goToAuthLogin();
-                    },
-                  ),
                 ],
               ),
             );
@@ -109,6 +108,25 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
 
           return AuthPageShell(
             title: loc.authForgotTitle,
+            bottomBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AuthPrimaryButton(
+                  label: loc.authForgotAction,
+                  loading: loading,
+                  onPressed: () {
+                    cubit
+                      ..updateEmail(_emailController.text)
+                      ..submitEmail();
+                  },
+                ),
+                const Gap(8),
+                AuthSecondaryButton(
+                  label: loc.authBackToLogin,
+                  onPressed: () => context.goToAuthLogin(),
+                ),
+              ],
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -120,21 +138,6 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
                   autocorrect: false,
                   onChanged: cubit.updateEmail,
                   decoration: InputDecoration(labelText: loc.authEmail),
-                ),
-                const AuthFormGap(size: 24),
-                AuthPrimaryButton(
-                  label: loc.authForgotAction,
-                  loading: loading,
-                  onPressed: () {
-                    cubit
-                      ..updateEmail(_emailController.text)
-                      ..submitEmail();
-                  },
-                ),
-                const Gap(12),
-                TextButton(
-                  onPressed: () => context.goToAuthLogin(),
-                  child: Text(loc.authBackToLogin),
                 ),
               ],
             ),

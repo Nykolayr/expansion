@@ -431,7 +431,49 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get battleIntroRichBaseBody =>
-      'Даёт в 5 раз больше ресурсов (×5). Захватывайте для апгрейдов. Не отправляйте отсюда флот в атаку — держите базу в тылу.';
+      'Даёт в 5 раз больше ресурсов (×5). Захватывайте для улучшений. Не отправляйте отсюда флот в атаку — держите базу в тылу.';
+
+  @override
+  String get battleIntroShieldedBaseTitle => 'База со щитом';
+
+  @override
+  String get battleIntroShieldedBaseBody =>
+      'Стартовый щит поглощает урон от астероидов, комет и прочих космических угроз. Сначала бейте по щиту, потом по кораблям.';
+
+  @override
+  String get battleIntroFactoryBaseTitle => 'Фабрика';
+
+  @override
+  String get battleIntroFactoryBaseBody =>
+      'Строит корабли в 5 раз быстрее (×5), но стартовый гарнизон меньше. Захватите и удержите — фабрика быстро разгонится.';
+
+  @override
+  String get battleIntroBunkerBaseTitle => 'Бункер';
+
+  @override
+  String get battleIntroBunkerBaseBody =>
+      'Высокий лимит кораблей и крепкий гарнизон, но медленный рост. Сложнее выбить, нужен крупный флот.';
+
+  @override
+  String get battleIntroCometTitle => 'Комета!';
+
+  @override
+  String get battleIntroCometBody =>
+      'Комета влетает по дуге от угла поля. Бьёт базы и флоты на пути — следите за неожиданными траекториями.';
+
+  @override
+  String get battleIntroPulseTitle => 'Энергоимпульс!';
+
+  @override
+  String get battleIntroPulseBody =>
+      'Импульс расходится от центра по кресту. Задевает базы и флоты на линиях — планируйте маршруты с запасом.';
+
+  @override
+  String get battleIntroDroneTitle => 'Дроны снабжения';
+
+  @override
+  String get battleIntroDroneBody =>
+      'Периодически подкидывают корабли на базы врага. Давите вражеские базы быстрее, пока дроны их усиливают.';
 
   @override
   String get battleDebrisTutorialTitle => 'Метеоритный поток!';

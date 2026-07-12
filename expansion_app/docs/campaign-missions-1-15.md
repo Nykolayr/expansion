@@ -32,7 +32,7 @@
 |-----------|--------|-----------|
 | `rich` | `speedResources` ×5 | `base_rich` |
 | `shielded` | щит 30 / 40 / 50 по размеру | `base_shielded` |
-| `factory` | `speedBuild` ×1.4, `ships` ×0.7 | `base_factory` |
+| `factory` | `speedBuild` ×5, `ships` ×0.7 | `base_factory` |
 | `bunker` | `maxShips` ×1.4, `speedBuild` ×0.75 | `base_bunker` |
 
 Матки (HQ): лимит 200, статы из `mainShipOur` / `mainShipEnemy`.

@@ -18,13 +18,16 @@
 |------|------------|
 | `splash/splash_side_button.dart` | Боковая SVG-кнопка меню splash |
 | `splash/splash_line_buttons.dart` | Ряд из трёх кнопок (верх/низ меню) |
-| `buttons/game_long_button.dart` | Широкая кнопка со скосом (`bottom_long.svg`) |
-| `buttons/game_compact_skew_button.dart` | Компактная кнопка со скосом (`bottom_middle_in.svg`) |
+| `buttons/game_long_button.dart` | Широкая кнопка со скосом (`bottom_long.svg`); `loading` |
+| `buttons/game_compact_skew_button.dart` | Компактная кнопка со скосом; `fullWidth`, `labelColor` |
+| `auth/auth_page_shell.dart` | Оболочка auth-экрана; `AuthPrimaryButton`, `AuthSecondaryButton`, `AuthLinkRow` |
+| `splash/new_missions_banner.dart` | OTA-баннер «новые миссии» на splash |
 | `splash/splash_long_button.dart` | Обёртка [GameLongButton] для splash |
 | `splash/splash_loader_panel.dart` | Карточка вступления и полоса загрузки |
 | `splash/splash_pretext_typer.dart` | Печать вступительного текста посимвольно |
 | `app_bar/game_screen_back_bar.dart` | Заголовок экрана с кнопкой «назад» |
 | `layout/game_screen_scaffold.dart` | Фон + back bar + тело или `placeholderMessage` |
+| `layout/game_sticky_bottom_bar.dart` | Закреплённая панель кнопок поверх скролла |
 | `maps/map_scene_tile.dart` | Узел миссии на карте кампании |
 | `maps/campaign_map_grid.dart` | Сетка 5×N + панель описания миссии |
 | `battle/battle_field_grid.dart` | Поле 5×8: свайп отправки, тап — улучшения |

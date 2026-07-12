@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/constants/battle_assets.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
+import 'package:expansion/domain/enums/battle_visual_id.dart';
 import 'package:expansion/domain/enums/mission_feature_intro.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/battle/battle_entity_sprite.dart';
@@ -22,26 +23,7 @@ class BattleFeatureIntroOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final (title, body, assetPath, scale) = switch (feature) {
-      MissionFeatureIntro.mediumBase => (
-          loc.battleIntroMediumBaseTitle,
-          loc.battleIntroMediumBaseBody,
-          BattleAssets.neutralMiddle,
-          1.0,
-        ),
-      MissionFeatureIntro.largeBase => (
-          loc.battleIntroLargeBaseTitle,
-          loc.battleIntroLargeBaseBody,
-          BattleAssets.neutralLarge,
-          1.0,
-        ),
-      MissionFeatureIntro.richBase => (
-          loc.battleIntroRichBaseTitle,
-          loc.battleIntroRichBaseBody,
-          BattleAssets.neutralSmall,
-          0.85,
-        ),
-    };
+    final (title, body, assetPath, scale) = _content(loc, feature);
 
     return Stack(
       fit: StackFit.expand,
@@ -94,5 +76,78 @@ class BattleFeatureIntroOverlay extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  static (String title, String body, String assetPath, double scale)
+      _content(AppLocalizations loc, MissionFeatureIntro feature) {
+    final paths = BattleAssets.targetAssetPaths;
+    return switch (feature) {
+      MissionFeatureIntro.mediumBase => (
+          loc.battleIntroMediumBaseTitle,
+          loc.battleIntroMediumBaseBody,
+          BattleAssets.neutralMiddle,
+          1.0,
+        ),
+      MissionFeatureIntro.largeBase => (
+          loc.battleIntroLargeBaseTitle,
+          loc.battleIntroLargeBaseBody,
+          BattleAssets.neutralLarge,
+          1.0,
+        ),
+      MissionFeatureIntro.richBase => (
+          loc.battleIntroRichBaseTitle,
+          loc.battleIntroRichBaseBody,
+          paths[BattleVisualId.baseRich]!,
+          0.85,
+        ),
+      MissionFeatureIntro.shieldedBase => (
+          loc.battleIntroShieldedBaseTitle,
+          loc.battleIntroShieldedBaseBody,
+          paths[BattleVisualId.baseShielded]!,
+          0.9,
+        ),
+      MissionFeatureIntro.factoryBase => (
+          loc.battleIntroFactoryBaseTitle,
+          loc.battleIntroFactoryBaseBody,
+          paths[BattleVisualId.baseFactory]!,
+          0.78,
+        ),
+      MissionFeatureIntro.bunkerBase => (
+          loc.battleIntroBunkerBaseTitle,
+          loc.battleIntroBunkerBaseBody,
+          paths[BattleVisualId.baseBunker]!,
+          1.0,
+        ),
+      MissionFeatureIntro.asteroid => (
+          loc.battleMeteoriteTutorialTitle,
+          loc.battleMeteoriteTutorialBody,
+          BattleAssets.asteroid(1),
+          0.9,
+        ),
+      MissionFeatureIntro.comet => (
+          loc.battleIntroCometTitle,
+          loc.battleIntroCometBody,
+          paths[BattleVisualId.hazardComet]!,
+          0.9,
+        ),
+      MissionFeatureIntro.debris => (
+          loc.battleDebrisTutorialTitle,
+          loc.battleDebrisTutorialBody,
+          paths[BattleVisualId.hazardDebris]!,
+          0.9,
+        ),
+      MissionFeatureIntro.pulse => (
+          loc.battleIntroPulseTitle,
+          loc.battleIntroPulseBody,
+          paths[BattleVisualId.hazardPulse]!,
+          0.9,
+        ),
+      MissionFeatureIntro.drone => (
+          loc.battleIntroDroneTitle,
+          loc.battleIntroDroneBody,
+          paths[BattleVisualId.hazardDrone]!,
+          0.9,
+        ),
+    };
   }
 }

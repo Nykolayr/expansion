@@ -9,6 +9,8 @@ import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_cubit.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
+import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({super.key});
@@ -53,52 +55,61 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                         );
                       }
 
-                      return Column(
+                      final guestPad = !state.isLoggedIn
+                          ? GameStickyBottomBar.scrollPadding(context)
+                          : 8.0;
+
+                      return Stack(
                         children: [
-                          Expanded(
-                            child: state.entries.isEmpty
-                                ? Center(child: Text(loc.leaderboardEmpty))
-                                : ListView.separated(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      16,
-                                      8,
-                                      16,
-                                      8,
-                                    ),
-                                    itemCount: state.entries.length,
-                                    separatorBuilder: (_, _) =>
-                                        const Divider(height: 1),
-                                    itemBuilder: (context, index) {
-                                      final entry = state.entries[index];
-                                      return ListTile(
-                                        leading: SizedBox(
-                                          width: 36,
-                                          child: Text(
-                                            '${entry.rank}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          ),
-                                        ),
-                                        title: Text(entry.label),
-                                        subtitle: Text(
-                                          loc.leaderboardMission(
-                                            entry.mapClassic,
-                                          ),
-                                        ),
-                                        trailing: Text(
-                                          '${entry.scoreClassic}',
+                          state.entries.isEmpty
+                              ? Center(child: Text(loc.leaderboardEmpty))
+                              : ListView.separated(
+                                  padding: EdgeInsets.fromLTRB(
+                                    16,
+                                    8,
+                                    16,
+                                    guestPad,
+                                  ),
+                                  itemCount: state.entries.length,
+                                  separatorBuilder: (_, _) =>
+                                      const Divider(height: 1),
+                                  itemBuilder: (context, index) {
+                                    final entry = state.entries[index];
+                                    return ListTile(
+                                      leading: SizedBox(
+                                        width: 36,
+                                        child: Text(
+                                          '${entry.rank}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium,
                                         ),
-                                      );
-                                    },
-                                  ),
-                          ),
+                                      ),
+                                      title: Text(entry.label),
+                                      subtitle: Text(
+                                        loc.leaderboardMission(
+                                          entry.mapClassic,
+                                        ),
+                                      ),
+                                      trailing: Text(
+                                        '${entry.scoreClassic}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium,
+                                      ),
+                                    );
+                                  },
+                                ),
                           if (!state.isLoggedIn)
-                            _GuestLeaderboardBanner(
-                              onRegister: () => context.goToAuthRegister(),
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              child: GameStickyBottomBar(
+                                child: _GuestLeaderboardBanner(
+                                  onRegister: () => context.goToAuthRegister(),
+                                ),
+                              ),
                             ),
                         ],
                       );
@@ -123,30 +134,24 @@ class _GuestLeaderboardBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
 
-    return Material(
-      color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.95),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                loc.leaderboardGuestHint,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const Gap(12),
-              FilledButton(
-                onPressed: onRegister,
-                child: Text(loc.profileRegister),
-              ),
-            ],
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          loc.leaderboardGuestHint,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const Gap(12),
+        Center(
+          child: GameLongButton(
+            label: loc.profileRegister,
+            fontSize: 16,
+            onPressed: onRegister,
           ),
         ),
-      ),
+      ],
     );
   }
 }

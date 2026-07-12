@@ -86,6 +86,9 @@ class BattleEngine {
           resources: resources,
           speedBuild: stats.speedBuild,
           speedResources: stats.speedResources,
+          regenShieldCap: stats.variant == NeutralBaseVariant.shielded
+              ? stats.shield
+              : null,
         ),
       );
     }
@@ -138,6 +141,8 @@ class BattleEngine {
       BattlePacing.solarWindProgressPerTick;
   static const double _wormholeProgressPerTick =
       BattlePacing.wormholeProgressPerTick;
+  static const double _droneProgressPerTick =
+      BattlePacing.droneProgressPerTick;
 
   int get _asteroidSpawnIntervalTicks =>
       BattleMissionHazards.asteroidSpawnIntervalTicks(sceneId);
@@ -269,8 +274,11 @@ class BattleEngine {
 
   void _economyTick() {
     for (var i = 0; i < _bases.length; i++) {
-      var base = _bases[i];
-      if (base.side == BattleSide.neutral) continue;
+      var base = _tickShieldRegen(_bases[i]);
+      if (base.side == BattleSide.neutral) {
+        _bases[i] = base;
+        continue;
+      }
 
       final incomeMul =
           base.side == BattleSide.player ? bonuses.resourceIncome : 1.0;
@@ -306,21 +314,52 @@ class BattleEngine {
       if (_droneReinforcementCounter >=
           BattleMissionHazards.droneReinforcementIntervalTicks(sceneId)) {
         _droneReinforcementCounter = 0;
-        _applyDroneReinforcement();
+        _spawnDroneDelivery();
       }
     }
   }
 
-  void _applyDroneReinforcement() {
+  BattleBase _tickShieldRegen(BattleBase base) {
+    final cap = base.regenShieldCap;
+    if (cap == null) return base;
+    final target = base.effectiveRegenShieldCap;
+    if (base.shield >= target) return base;
+    return base.copyWith(
+      shield: min(target, base.shield + BattlePacing.shieldRegenPerTick),
+    );
+  }
+
+  void _spawnDroneDelivery() {
+    final rng = _random;
+    if (rng == null) return;
     final ships = BattleMissionHazards.droneReinforcementShips(sceneId);
     if (ships <= 0) return;
 
-    for (var i = 0; i < _bases.length; i++) {
-      final base = _bases[i];
-      if (base.side != BattleSide.enemy || !base.isCommandBase) continue;
-      _bases[i] = base.copyWith(ships: base.ships + ships);
-      return;
-    }
+    final enemyBases =
+        _bases.where((base) => base.side == BattleSide.enemy).toList();
+    if (enemyBases.isEmpty) return;
+
+    final target = enemyBases[rng.nextInt(enemyBases.length)];
+    final corners = <(int, int)>[
+      (1, 1),
+      (gridCols, 1),
+      (1, gridRows),
+      (gridCols, gridRows),
+    ];
+    final start = corners[rng.nextInt(corners.length)];
+
+    _asteroids.add(
+      BattleAsteroid(
+        id: _nextAsteroidId++,
+        fromX: start.$1,
+        fromY: start.$2,
+        toX: target.x,
+        toY: target.y,
+        power: ships,
+        kind: BattleHazardKind.drone,
+        visualIndex: 1,
+      ),
+    );
   }
 
   int tacticalUpgradeCost(BattleBase base, TacticalUpgradeType type) {
@@ -425,7 +464,7 @@ class BattleEngine {
     if (_debrisSpawnCounter < _debrisSpawnIntervalTicks) return;
     _debrisSpawnCounter = 0;
 
-    final row = BattleMissionHazards.debrisCorridorRow;
+    final row = BattleMissionHazards.debrisCorridorRow(sceneId);
     final leftToRight = rng.nextBool();
     final from = leftToRight ? (1, row) : (gridCols, row);
     final to = leftToRight ? (gridCols, row) : (1, row);
@@ -489,22 +528,60 @@ class BattleEngine {
     }
     _cometSpawnCounter = 0;
 
-    final col = BattleMissionHazards.cometCorridorColumn;
-    final topToBottom = rng.nextBool();
-    final from = topToBottom ? (col, 2) : (col, 6);
-    final to = topToBottom ? (col, 6) : (col, 2);
+    final arc = _randomCometArc(rng);
 
     _asteroids.add(
       BattleAsteroid(
         id: _nextAsteroidId++,
-        fromX: from.$1,
-        fromY: from.$2,
-        toX: to.$1,
-        toY: to.$2,
-        power: BattleMissionHazards.cometPower,
+        fromX: arc.$1,
+        fromY: arc.$2,
+        toX: arc.$3,
+        toY: arc.$4,
+        power: BattleMissionHazards.cometPower(sceneId),
         kind: BattleHazardKind.comet,
         visualIndex: 1,
+        arcControlX: arc.$5,
+        arcControlY: arc.$6,
       ),
+    );
+  }
+
+  /// Случайная дуга кометы: угол → противоположный/диагональный угол, изгиб через центр.
+  (int, int, int, int, double, double) _randomCometArc(Random rng) {
+    final corners = <(int, int)>[
+      (1, 1),
+      (gridCols, 1),
+      (1, gridRows),
+      (gridCols, gridRows),
+    ];
+    final startIdx = rng.nextInt(corners.length);
+    final start = corners[startIdx];
+    final endCandidates = <(int, int)>[
+      for (var i = 0; i < corners.length; i++)
+        if (i != startIdx) corners[i],
+    ];
+    final end = endCandidates[rng.nextInt(endCandidates.length)];
+
+    final midX = (start.$1 + end.$1) / 2.0;
+    final midY = (start.$2 + end.$2) / 2.0;
+    final dx = end.$1 - start.$1;
+    final dy = end.$2 - start.$2;
+    final len = sqrt(dx * dx + dy * dy);
+    final perpX = len > 0 ? -dy / len : 0.0;
+    final perpY = len > 0 ? dx / len : 1.0;
+    final sign = rng.nextBool() ? 1.0 : -1.0;
+    final bulge = sign * (1.5 + rng.nextDouble() * 2.0);
+    final centerX = (gridCols + 1) / 2.0;
+    final centerY = (gridRows + 1) / 2.0;
+    final centerPull = 0.35 + rng.nextDouble() * 0.45;
+
+    return (
+      start.$1,
+      start.$2,
+      end.$1,
+      end.$2,
+      midX + perpX * bulge + (centerX - midX) * centerPull,
+      midY + perpY * bulge + (centerY - midY) * centerPull,
     );
   }
 
@@ -516,8 +593,8 @@ class BattleEngine {
     }
     _pulseSpawnCounter = 0;
 
-    final originX = BattleMissionHazards.pulseOriginX;
-    final originY = BattleMissionHazards.pulseOriginY;
+    final originX = BattleMissionHazards.pulseOriginX(sceneId);
+    final originY = BattleMissionHazards.pulseOriginY(sceneId);
     final targets = <(int, int)>[
       (1, originY),
       (5, originY),
@@ -533,7 +610,7 @@ class BattleEngine {
           fromY: originY,
           toX: target.$1,
           toY: target.$2,
-          power: BattleMissionHazards.pulsePower,
+          power: BattleMissionHazards.pulsePower(sceneId),
           kind: BattleHazardKind.pulse,
           visualIndex: 1,
         ),
@@ -545,7 +622,8 @@ class BattleEngine {
     if (!BattleMissionHazards.mineEnabled(sceneId)) return;
     final activeMines =
         _asteroids.where((a) => a.kind == BattleHazardKind.mine).length;
-    if (activeMines >= BattleMissionHazards.mineCells.length) return;
+    final mineCells = BattleMissionHazards.mineCells(sceneId);
+    if (activeMines >= mineCells.length) return;
 
     _mineSpawnCounter++;
     if (_mineSpawnCounter < BattleMissionHazards.mineRespawnIntervalTicks(sceneId)) {
@@ -553,7 +631,7 @@ class BattleEngine {
     }
     _mineSpawnCounter = 0;
 
-    for (final cell in BattleMissionHazards.mineCells) {
+    for (final cell in mineCells) {
       final occupied = _asteroids.any(
         (a) =>
             a.kind == BattleHazardKind.mine &&
@@ -569,7 +647,7 @@ class BattleEngine {
           fromY: cell.$2,
           toX: cell.$1,
           toY: cell.$2,
-          power: BattleMissionHazards.minePower,
+          power: BattleMissionHazards.minePower(sceneId),
           kind: BattleHazardKind.mine,
           visualIndex: 1,
         ),
@@ -599,7 +677,7 @@ class BattleEngine {
         fromY: row,
         toX: gridCols,
         toY: row,
-        power: BattleMissionHazards.solarWindPower,
+        power: BattleMissionHazards.solarWindPower(sceneId),
         kind: BattleHazardKind.solarWind,
         visualIndex: 1,
       ),
@@ -625,7 +703,7 @@ class BattleEngine {
           fromY: 6,
           toX: 4,
           toY: 2,
-          power: BattleMissionHazards.wormholePower,
+          power: BattleMissionHazards.wormholePower(sceneId),
           kind: BattleHazardKind.wormhole,
           visualIndex: 1,
         ),
@@ -638,7 +716,7 @@ class BattleEngine {
           fromY: 6,
           toX: 2,
           toY: 2,
-          power: BattleMissionHazards.wormholePower,
+          power: BattleMissionHazards.wormholePower(sceneId),
           kind: BattleHazardKind.wormhole,
           visualIndex: 1,
         ),
@@ -651,6 +729,22 @@ class BattleEngine {
 
     for (var i = 0; i < _asteroids.length; i++) {
       final ast = _asteroids[i];
+      if (ast.kind == BattleHazardKind.drone) {
+        final nextProgress = ast.progress + _droneProgressPerTick;
+        if (nextProgress >= 1) {
+          final base = _baseAtCell(ast.toX, ast.toY);
+          if (base != null && base.side == BattleSide.enemy) {
+            _updateBase(
+              base.id,
+              base.copyWith(ships: base.ships + ast.power),
+            );
+          }
+          removeIds.add(ast.id);
+        } else {
+          _asteroids[i] = ast.copyWith(progress: nextProgress);
+        }
+        continue;
+      }
       if (ast.kind == BattleHazardKind.mine) {
         final cell = (ast.fromX, ast.fromY);
         final base = _baseAtCell(cell.$1, cell.$2);
@@ -670,6 +764,7 @@ class BattleEngine {
         BattleHazardKind.wormhole => _wormholeProgressPerTick,
         BattleHazardKind.asteroid => _asteroidProgressPerTick,
         BattleHazardKind.mine => 0,
+        BattleHazardKind.drone => 0,
       };
       final nextProgress = ast.progress + step;
       if (nextProgress >= 1) {
@@ -704,16 +799,11 @@ class BattleEngine {
     return (pos.$1.round().clamp(1, gridCols), pos.$2.round().clamp(1, gridRows));
   }
 
-  (double x, double y) _asteroidGridPosition(BattleAsteroid ast) {
-    final t = ast.progress.clamp(0.0, 1.0);
-    return (
-      ast.fromX + (ast.toX - ast.fromX) * t,
-      ast.fromY + (ast.toY - ast.fromY) * t,
-    );
-  }
+  (double x, double y) _asteroidGridPosition(BattleAsteroid ast) =>
+      ast.gridPosition();
 
   void _resolveAsteroidFleetCollisions() {
-    const collideRadius = 0.38;
+    const defaultCollideRadius = 0.38;
     final removeFleets = <int>{};
     final removeAsteroids = <int>{};
     final fleetUpdates = <int, BattleFleet>{};
@@ -722,6 +812,7 @@ class BattleEngine {
     for (var ai = 0; ai < _asteroids.length; ai++) {
       var ast = asteroidUpdates[_asteroids[ai].id] ?? _asteroids[ai];
       if (removeAsteroids.contains(ast.id)) continue;
+      if (ast.kind == BattleHazardKind.drone) continue;
 
       final pa = _asteroidGridPosition(ast);
 
@@ -730,6 +821,9 @@ class BattleEngine {
 
         final f = fleetUpdates[fleet.id] ?? fleet;
         final pf = _fleetGridPosition(f);
+        final collideRadius = ast.kind == BattleHazardKind.comet
+            ? 0.48
+            : defaultCollideRadius;
         final dx = pa.$1 - pf.$1;
         final dy = pa.$2 - pf.$2;
         if (dx * dx + dy * dy > collideRadius * collideRadius) continue;
@@ -1039,6 +1133,10 @@ class BattleEngine {
         shield: 0,
         ships: capturedShips,
         resources: _resourcesOnCapture(attackerSide, toId),
+        shieldUpgradeLevel: 0,
+        buildUpgradeLevel: 0,
+        maxShipsUpgradeLevel: 0,
+        growthAccumulator: 0,
         speedBuild: target.speedBuild > 0 ? target.speedBuild : 0.1,
         speedResources:
             target.speedResources > 0 ? target.speedResources : 0.1,
@@ -1218,7 +1316,7 @@ class BattleEngine {
     double progress = 0.5,
     bool leftToRight = true,
   }) {
-    final row = BattleMissionHazards.debrisCorridorRow;
+    final row = BattleMissionHazards.debrisCorridorRow(sceneId);
     _asteroids.add(
       BattleAsteroid(
         id: _nextAsteroidId++,

@@ -4,30 +4,26 @@
          "x": 3,
          "y": 1
       },
-      "shild": 100.0,
+      "shild": 100,
       "ships": 100,
       "speedBuild": 0.1,
       "inicialShips": 100,
       "speedResources": 0.1,
       "maxShips": 200,
-      "typeStatus": "enemy",
-      "size": 100,
-      "path": "assets/images/enemy.png"
+      "typeStatus": "enemy"
    },
    "mainShipOur": {
       "coordinates": {
          "x": 3,
          "y": 7
       },
-      "shild": 100.0,
+      "shild": 100,
       "ships": 100,
       "speedBuild": 0.1,
       "inicialShips": 100,
       "speedResources": 0.1,
       "maxShips": 200,
-      "typeStatus": "our",
-      "size": 100,
-      "path": "assets/images/our.png"
+      "typeStatus": "our"
    },
    "neutral": [
       {
@@ -35,8 +31,27 @@
             "x": 1,
             "y": 2
          },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "shielded"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 2
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 2
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
       },
       {
          "coordinates": {
@@ -44,14 +59,33 @@
             "y": 2
          },
          "typeNeutral": "midleBase",
-         "typeStatus": "neutral"
+         "typeStatus": "neutral",
+         "variant": "shielded"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 2
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral",
+         "variant": "factory"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 3
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "bunker"
       },
       {
          "coordinates": {
             "x": 2,
             "y": 3
          },
-         "typeNeutral": "midleBase",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
@@ -59,12 +93,21 @@
             "x": 4,
             "y": 3
          },
-         "typeNeutral": "base",
+         "typeNeutral": "smallBase",
          "typeStatus": "neutral"
       },
       {
          "coordinates": {
-            "x": 3,
+            "x": 5,
+            "y": 3
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "bunker"
+      },
+      {
+         "coordinates": {
+            "x": 2,
             "y": 4
          },
          "typeNeutral": "midleBase",
@@ -72,8 +115,16 @@
       },
       {
          "coordinates": {
-            "x": 5,
-            "y": 5
+            "x": 3,
+            "y": 4
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 4
          },
          "typeNeutral": "midleBase",
          "typeStatus": "neutral"
@@ -83,15 +134,52 @@
             "x": 1,
             "y": 5
          },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral",
+         "variant": "factory"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 5
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral",
+         "variant": "factory"
       },
       {
          "coordinates": {
             "x": 2,
             "y": 6
          },
-         "typeNeutral": "base",
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "shielded"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 6
+         },
+         "typeNeutral": "midleBase",
          "typeStatus": "neutral"
       },
       {
@@ -100,23 +188,8 @@
             "y": 6
          },
          "typeNeutral": "midleBase",
-         "typeStatus": "neutral"
-      },
-      {
-         "coordinates": {
-            "x": 1,
-            "y": 7
-         },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
-      },
-      {
-         "coordinates": {
-            "x": 5,
-            "y": 7
-         },
-         "typeNeutral": "base",
-         "typeStatus": "neutral"
+         "typeStatus": "neutral",
+         "variant": "shielded"
       }
    ]
 }

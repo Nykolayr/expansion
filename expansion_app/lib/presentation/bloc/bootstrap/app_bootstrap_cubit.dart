@@ -7,6 +7,7 @@ import 'package:expansion/core/logging/app_log.dart';
 import 'package:expansion/data/datasources/local/campaign_local_datasource.dart';
 import 'package:expansion/data/datasources/local/game_database.dart';
 import 'package:expansion/data/seed/campaign_content_seeder.dart';
+import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
 import 'package:expansion/presentation/services/campaign_content_sync_service.dart';
 
@@ -18,6 +19,7 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
     this._contentSync,
     this._local,
     this._prefs,
+    this._guestProfile,
   ) : super(const AppBootstrapState.idle());
 
   final GameDatabase _gameDatabase;
@@ -25,6 +27,7 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
   final CampaignContentSyncService _contentSync;
   final CampaignLocalDataSource _local;
   final SharedPreferences _prefs;
+  final GuestProfileRepository _guestProfile;
 
   Future<void> initialize() async {
     if (state.isReady) {
@@ -45,8 +48,10 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
           GameDatabaseConstants.bundledContentVersion;
       final acknowledged =
           _prefs.getInt(PrefsKeys.lastAcknowledgedContentVersion) ?? 0;
-      final showBanner = storedVersion >
-              GameDatabaseConstants.bundledContentVersion &&
+      final guest = await _guestProfile.load();
+      final hasCompletedMission = guest.mapClassic > 1;
+      final showBanner = hasCompletedMission &&
+          storedVersion > GameDatabaseConstants.bundledContentVersion &&
           storedVersion > acknowledged;
 
       emit(

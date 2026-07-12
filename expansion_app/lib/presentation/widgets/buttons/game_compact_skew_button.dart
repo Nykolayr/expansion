@@ -13,6 +13,9 @@ class GameCompactSkewButton extends StatelessWidget {
     this.width = 120,
     this.height = 44,
     this.fontSize = 14,
+    this.fullWidth = false,
+    this.maxWidth,
+    this.labelColor,
     super.key,
   });
 
@@ -21,31 +24,37 @@ class GameCompactSkewButton extends StatelessWidget {
   final double width;
   final double height;
   final double fontSize;
+  final bool fullWidth;
+  final double? maxWidth;
+  final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
     final enabled = onPressed != null;
+    final buttonWidth = fullWidth
+        ? (maxWidth ?? MediaQuery.sizeOf(context).width - 48)
+        : width;
 
     return Opacity(
       opacity: enabled ? 1 : 0.45,
       child: GestureDetector(
-        onTap: onPressed,
+        onTap: enabled ? onPressed : null,
         child: SizedBox(
-          width: width,
+          width: buttonWidth,
           height: height,
           child: Stack(
             alignment: Alignment.center,
             children: [
               SvgPicture.asset(
                 AssetPaths.svg('bottom_middle_in.svg'),
-                width: width,
+                width: buttonWidth,
                 height: height,
                 fit: BoxFit.fill,
               ),
               Text(
                 label,
                 style: ExpansionTextStyles.bodyAccent(context, fontSize).copyWith(
-                  color: enabled ? ExpansionColors.black : ExpansionColors.grey,
+                  color: labelColor ?? (enabled ? null : ExpansionColors.grey),
                 ),
               ),
             ],

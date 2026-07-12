@@ -81,6 +81,31 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
 
           return AuthPageShell(
             title: loc.authLoginTitle,
+            bottomBar: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AuthPrimaryButton(
+                  label: loc.authLoginAction,
+                  loading: loading,
+                  onPressed: () {
+                    context.read<LoginCubit>().submit(
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                        );
+                  },
+                ),
+                const Gap(8),
+                AuthSecondaryButton(
+                  label: loc.authForgotLink,
+                  onPressed: () => context.goToAuthForgot(),
+                ),
+                AuthLinkRow(
+                  prompt: loc.authNoAccount,
+                  actionLabel: loc.authRegisterAction,
+                  onPressed: () => context.goToAuthRegister(),
+                ),
+              ],
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -99,27 +124,6 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   decoration: InputDecoration(
                     labelText: loc.authPassword,
                   ),
-                ),
-                const AuthFormGap(size: 24),
-                AuthPrimaryButton(
-                  label: loc.authLoginAction,
-                  loading: loading,
-                  onPressed: () {
-                    context.read<LoginCubit>().submit(
-                          email: _emailController.text,
-                          password: _passwordController.text,
-                        );
-                  },
-                ),
-                const Gap(12),
-                TextButton(
-                  onPressed: () => context.goToAuthForgot(),
-                  child: Text(loc.authForgotLink),
-                ),
-                AuthLinkRow(
-                  prompt: loc.authNoAccount,
-                  actionLabel: loc.authRegisterAction,
-                  onPressed: () => context.goToAuthRegister(),
                 ),
               ],
             ),

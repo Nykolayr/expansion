@@ -434,6 +434,48 @@ class AppLocalizationsEn extends AppLocalizations {
       '5× resource income. Capture for upgrades. Don\'t send attack fleets from here — keep it as a rear base.';
 
   @override
+  String get battleIntroShieldedBaseTitle => 'Shielded base';
+
+  @override
+  String get battleIntroShieldedBaseBody =>
+      'Starts with a shield that absorbs hazard damage. Break the shield before destroying ships.';
+
+  @override
+  String get battleIntroFactoryBaseTitle => 'Factory base';
+
+  @override
+  String get battleIntroFactoryBaseBody =>
+      'Builds ships 5× faster (×5) but starts with fewer. Hold it and production ramps up quickly.';
+
+  @override
+  String get battleIntroBunkerBaseTitle => 'Bunker base';
+
+  @override
+  String get battleIntroBunkerBaseBody =>
+      'High ship cap and tough garrison, slower growth. Hard to crack — send a large fleet.';
+
+  @override
+  String get battleIntroCometTitle => 'Comet!';
+
+  @override
+  String get battleIntroCometBody =>
+      'A comet sweeps in on an arc from a field corner. It hits bases and fleets in its path — watch for unpredictable trajectories.';
+
+  @override
+  String get battleIntroPulseTitle => 'Energy pulse!';
+
+  @override
+  String get battleIntroPulseBody =>
+      'A pulse spreads from the center in a cross pattern. Hits bases and fleets on those lines — plan routes carefully.';
+
+  @override
+  String get battleIntroDroneTitle => 'Supply drones';
+
+  @override
+  String get battleIntroDroneBody =>
+      'Periodically reinforce enemy bases with free ships. Pressure enemy bases before drones stack up.';
+
+  @override
   String get battleDebrisTutorialTitle => 'Meteor stream!';
 
   @override

@@ -11,22 +11,26 @@ class GameLongButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.fontSize = 20,
+    this.loading = false,
+    this.maxWidth,
     super.key,
   });
 
   final String label;
   final VoidCallback? onPressed;
   final double fontSize;
+  final bool loading;
+  final double? maxWidth;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width - 30;
-    final enabled = onPressed != null;
+    final width = maxWidth ?? MediaQuery.sizeOf(context).width - 30;
+    final enabled = onPressed != null && !loading;
 
     return Opacity(
       opacity: enabled ? 1 : 0.45,
       child: GestureDetector(
-        onTap: onPressed,
+        onTap: enabled ? onPressed : null,
         child: SizedBox(
           width: width,
           child: Stack(
@@ -37,12 +41,19 @@ class GameLongButton extends StatelessWidget {
                 width: width,
                 fit: BoxFit.fitWidth,
               ),
-              Text(
-                label,
-                style: ExpansionTextStyles.bodyAccent(context, fontSize).copyWith(
-                  color: enabled ? null : ExpansionColors.grey,
+              if (loading)
+                const SizedBox(
+                  height: 22,
+                  width: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              else
+                Text(
+                  label,
+                  style: ExpansionTextStyles.bodyAccent(context, fontSize).copyWith(
+                    color: onPressed != null ? null : ExpansionColors.grey,
+                  ),
                 ),
-              ),
             ],
           ),
         ),

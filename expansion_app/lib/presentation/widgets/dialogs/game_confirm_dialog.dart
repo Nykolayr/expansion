@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
+import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
 /// Подтверждение действия (сброс кампании и т.п.).
@@ -11,7 +12,7 @@ Future<bool> showGameConfirmDialog(
   required String title,
   required String message,
   required String confirmLabel,
-  required String cancelLabel,
+  String? cancelLabel,
 }) async {
   final result = await showDialog<bool>(
     context: context,
@@ -29,32 +30,45 @@ Future<bool> showGameConfirmDialog(
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style: ExpansionTextStyles.bodyAccent(ctx, 20),
-              ),
-              const Gap(12),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: Theme.of(ctx).textTheme.bodyMedium,
-              ),
-              const Gap(20),
-              GameLongButton(
-                label: confirmLabel,
-                onPressed: () => Navigator.of(ctx).pop(true),
-              ),
-              const Gap(10),
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(false),
-                child: Text(cancelLabel),
-              ),
-            ],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final buttonWidth = constraints.maxWidth;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: ExpansionTextStyles.bodyAccent(ctx, 20),
+                  ),
+                  const Gap(12),
+                  Text(
+                    message,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(ctx).textTheme.bodyMedium,
+                  ),
+                  const Gap(20),
+                  GameLongButton(
+                    label: confirmLabel,
+                    maxWidth: buttonWidth,
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                  ),
+                  if (cancelLabel != null) ...[
+                    const Gap(10),
+                    Center(
+                      child: GameCompactSkewButton(
+                        label: cancelLabel,
+                        fullWidth: true,
+                        maxWidth: buttonWidth,
+                        fontSize: 15,
+                        onPressed: () => Navigator.of(ctx).pop(false),
+                      ),
+                    ),
+                  ],
+                ],
+              );
+            },
           ),
         ),
       ),

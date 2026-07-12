@@ -863,8 +863,80 @@ abstract class AppLocalizations {
   /// No description provided for @battleIntroRichBaseBody.
   ///
   /// In ru, this message translates to:
-  /// **'Даёт в 5 раз больше ресурсов (×5). Захватывайте для апгрейдов. Не отправляйте отсюда флот в атаку — держите базу в тылу.'**
+  /// **'Даёт в 5 раз больше ресурсов (×5). Захватывайте для улучшений. Не отправляйте отсюда флот в атаку — держите базу в тылу.'**
   String get battleIntroRichBaseBody;
+
+  /// No description provided for @battleIntroShieldedBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'База со щитом'**
+  String get battleIntroShieldedBaseTitle;
+
+  /// No description provided for @battleIntroShieldedBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стартовый щит поглощает урон от астероидов, комет и прочих космических угроз. Сначала бейте по щиту, потом по кораблям.'**
+  String get battleIntroShieldedBaseBody;
+
+  /// No description provided for @battleIntroFactoryBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Фабрика'**
+  String get battleIntroFactoryBaseTitle;
+
+  /// No description provided for @battleIntroFactoryBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Строит корабли в 5 раз быстрее (×5), но стартовый гарнизон меньше. Захватите и удержите — фабрика быстро разгонится.'**
+  String get battleIntroFactoryBaseBody;
+
+  /// No description provided for @battleIntroBunkerBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Бункер'**
+  String get battleIntroBunkerBaseTitle;
+
+  /// No description provided for @battleIntroBunkerBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Высокий лимит кораблей и крепкий гарнизон, но медленный рост. Сложнее выбить, нужен крупный флот.'**
+  String get battleIntroBunkerBaseBody;
+
+  /// No description provided for @battleIntroCometTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комета!'**
+  String get battleIntroCometTitle;
+
+  /// No description provided for @battleIntroCometBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комета влетает по дуге от угла поля. Бьёт базы и флоты на пути — следите за неожиданными траекториями.'**
+  String get battleIntroCometBody;
+
+  /// No description provided for @battleIntroPulseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Энергоимпульс!'**
+  String get battleIntroPulseTitle;
+
+  /// No description provided for @battleIntroPulseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Импульс расходится от центра по кресту. Задевает базы и флоты на линиях — планируйте маршруты с запасом.'**
+  String get battleIntroPulseBody;
+
+  /// No description provided for @battleIntroDroneTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Дроны снабжения'**
+  String get battleIntroDroneTitle;
+
+  /// No description provided for @battleIntroDroneBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Периодически подкидывают корабли на базы врага. Давите вражеские базы быстрее, пока дроны их усиливают.'**
+  String get battleIntroDroneBody;
 
   /// No description provided for @battleDebrisTutorialTitle.
   ///

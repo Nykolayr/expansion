@@ -35,9 +35,9 @@ class EnemyUpgradeAdvisor {
     candidates.sort((a, b) => a.score.compareTo(b.score));
 
     final poolSize = switch (difficulty) {
-      GameDifficulty.easy => 4,
-      GameDifficulty.average => 3,
-      GameDifficulty.difficult => 2,
+      GameDifficulty.easy => 3,
+      GameDifficulty.average => 2,
+      GameDifficulty.difficult => 1,
     };
     final pool = candidates.length <= poolSize
         ? candidates
@@ -54,9 +54,9 @@ class EnemyUpgradeAdvisor {
 
   bool _skipUpgradeRoll(GameDifficulty difficulty, Random random) {
     final chance = switch (difficulty) {
-      GameDifficulty.easy => 0.38,
-      GameDifficulty.average => 0.14,
-      GameDifficulty.difficult => 0.04,
+      GameDifficulty.easy => 0.14,
+      GameDifficulty.average => 0.06,
+      GameDifficulty.difficult => 0.03,
     };
     return random.nextDouble() < chance;
   }

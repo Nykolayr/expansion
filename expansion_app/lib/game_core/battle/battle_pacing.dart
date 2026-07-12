@@ -19,11 +19,14 @@ abstract final class BattlePacing {
   /// Доход ресурсов базы за тик (× speedResources базы).
   static const double resourceIncomePerTick = 0.4;
 
+  static const double shieldRegenPerTick = 0.35;
+
   static const double asteroidProgressPerTick = 0.013;
   static const double debrisProgressPerTick = 0.009;
   static const double cometProgressPerTick = 0.021;
   static const double pulseProgressPerTick = 0.024;
   static const double solarWindProgressPerTick = 0.011;
   static const double wormholeProgressPerTick = 0.019;
+  static const double droneProgressPerTick = 0.032;
   static const int asteroidSpawnIntervalTicks = 900;
 }

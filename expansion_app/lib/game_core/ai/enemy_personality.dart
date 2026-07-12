@@ -15,15 +15,6 @@ class EnemyPersonality {
     switch (difficulty) {
       case GameDifficulty.easy:
         return const EnemyPersonality(
-          skipTurnChance: 0.14,
-          suboptimalChoiceChance: 0.32,
-          attackNeutralBias: 0.72,
-          minAttackMargin: 6,
-          reserveFraction: 0.35,
-          minReserveShips: 4,
-        );
-      case GameDifficulty.average:
-        return const EnemyPersonality(
           skipTurnChance: 0.08,
           suboptimalChoiceChance: 0.16,
           attackNeutralBias: 0.55,
@@ -31,13 +22,22 @@ class EnemyPersonality {
           reserveFraction: 0.28,
           minReserveShips: 3,
         );
-      case GameDifficulty.difficult:
+      case GameDifficulty.average:
         return const EnemyPersonality(
           skipTurnChance: 0.04,
           suboptimalChoiceChance: 0.08,
-          attackNeutralBias: 0.42,
+          attackNeutralBias: 0.45,
           minAttackMargin: 3,
           reserveFraction: 0.22,
+          minReserveShips: 2,
+        );
+      case GameDifficulty.difficult:
+        return const EnemyPersonality(
+          skipTurnChance: 0.02,
+          suboptimalChoiceChance: 0.04,
+          attackNeutralBias: 0.38,
+          minAttackMargin: 2,
+          reserveFraction: 0.18,
           minReserveShips: 2,
         );
     }
