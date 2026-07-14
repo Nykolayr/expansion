@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class AuthPageShell extends StatelessWidget {
@@ -22,33 +22,40 @@ class AuthPageShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      // Фон на весь экран — как в профиле при вводе имени; скролл учитывает клавиатуру.
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GameScreenBackBar(title: title),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.fromLTRB(
-                    24,
-                    16,
-                    24,
-                    GameStickyBottomBar.scrollPadding(context),
-                  ),
-                  child: child,
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    GameScreenBackBar(title: title),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.fromLTRB(
+                          24,
+                          16,
+                          24,
+                          GameStickyBottomBar.scrollPadding(context),
+                        ),
+                        child: child,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: GameStickyBottomBar(child: bottomBar),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: GameStickyBottomBar(child: bottomBar),
+                ),
+              ],
+            ),
           ),
         ],
       ),

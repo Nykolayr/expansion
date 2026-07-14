@@ -74,12 +74,23 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
 
     result.fold(
-      (failure) => emit(
-        state.copyWith(
-          status: RegisterStatus.failure,
-          errorMessage: _message(failure),
-        ),
-      ),
+      (failure) {
+        if (failure is AuthFailure && failure.code == 'CONFLICT') {
+          emit(
+            state.copyWith(
+              status: RegisterStatus.emailExists,
+              email: state.email.trim(),
+            ),
+          );
+          return;
+        }
+        emit(
+          state.copyWith(
+            status: RegisterStatus.failure,
+            errorMessage: _message(failure),
+          ),
+        );
+      },
       (_) => emit(
         state.copyWith(
           status: RegisterStatus.initial,

@@ -29,4 +29,10 @@ abstract final class PrefsKeys {
   /// Последняя OTA-версия контента, о которой игрок уже видел баннер.
   static const String lastAcknowledgedContentVersion =
       'last_acknowledged_content_version';
+
+  static const String guestAdsRemoved = 'guest_ads_removed';
+  static const String guestSupporterTier = 'guest_supporter_tier';
+  static const String deviceId = 'device_id';
+  static const String adsBattlesSinceInterstitial = 'ads_battles_since_interstitial';
+  static const String adsLastInterstitialMillis = 'ads_last_interstitial_millis';
 }

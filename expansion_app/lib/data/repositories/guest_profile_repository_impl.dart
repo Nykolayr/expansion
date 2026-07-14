@@ -8,12 +8,18 @@ import 'package:expansion/domain/enums/univer_kind.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 
 import 'package:expansion/presentation/services/profile_sync_service.dart';
+import 'package:expansion/presentation/services/expansion_platform_sync_service.dart';
 
 class GuestProfileRepositoryImpl implements GuestProfileRepository {
   GuestProfileRepositoryImpl(this._prefs, [this._sync]);
 
   final SharedPreferences _prefs;
   final ProfileSyncService? _sync;
+  ExpansionPlatformSyncService? _platformSync;
+
+  void bindPlatformSync(ExpansionPlatformSyncService service) {
+    _platformSync = service;
+  }
 
   @override
   Future<GuestProfile> load() async {
@@ -49,6 +55,8 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
           _prefs.getInt(PrefsKeys.guestCampaignStartedAt) ?? 0,
       campaignEpilogueSeenForCount:
           _prefs.getInt(PrefsKeys.guestCampaignEpilogueSeenForCount) ?? 0,
+      adsRemoved: _prefs.getBool(PrefsKeys.guestAdsRemoved) ?? false,
+      supporterTier: _prefs.getInt(PrefsKeys.guestSupporterTier) ?? 0,
     );
   }
 
@@ -109,7 +117,10 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       PrefsKeys.guestCampaignEpilogueSeenForCount,
       profile.campaignEpilogueSeenForCount,
     );
+    await _prefs.setBool(PrefsKeys.guestAdsRemoved, profile.adsRemoved);
+    await _prefs.setInt(PrefsKeys.guestSupporterTier, profile.supporterTier);
     _sync?.schedulePush(profile);
+    _platformSync?.scheduleGuestSync();
   }
 
   @override
@@ -215,6 +226,15 @@ class GuestProfileRepositoryImpl implements GuestProfileRepository {
       current.copyWith(
         campaignStartedAtMillis: DateTime.now().millisecondsSinceEpoch,
       ),
+    );
+  }
+
+  @override
+  Future<void> addBonusScore(int points) async {
+    if (points <= 0) return;
+    final current = await load();
+    await save(
+      current.copyWith(scoreClassic: current.scoreClassic + points),
     );
   }
 

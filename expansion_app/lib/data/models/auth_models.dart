@@ -1,3 +1,4 @@
+import 'package:expansion/domain/entities/account_update_result.dart';
 import 'package:expansion/domain/entities/auth_session.dart';
 import 'package:expansion/domain/entities/auth_user.dart';
 
@@ -33,6 +34,20 @@ class AuthSessionModel extends AuthSession {
       accessToken: json['accessToken'] as String,
       refreshToken: json['refreshToken'] as String,
       user: AuthUserModel.fromJson(json['user'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class AccountUpdateModel extends AccountUpdateResult {
+  const AccountUpdateModel({
+    required super.user,
+    required super.passwordChanged,
+  });
+
+  factory AccountUpdateModel.fromJson(Map<String, dynamic> json) {
+    return AccountUpdateModel(
+      user: AuthUserModel.fromJson(json),
+      passwordChanged: json['passwordChanged'] as bool? ?? false,
     );
   }
 }

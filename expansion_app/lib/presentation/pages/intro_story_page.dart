@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/splash/splash_pretext_typer.dart';
 
 /// Отдельный экран вступительной истории (из настроек).
@@ -19,14 +19,12 @@ class IntroStoryPage extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            GameAssets.splashBackground,
-            fit: BoxFit.cover,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GameScreenBackBar(title: loc.introStoryTitle),
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GameScreenBackBar(title: loc.introStoryTitle),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
@@ -51,6 +49,7 @@ class IntroStoryPage extends StatelessWidget {
               ),
               const Gap(16),
             ],
+          ),
           ),
         ],
       ),

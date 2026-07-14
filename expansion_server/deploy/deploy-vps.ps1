@@ -54,9 +54,16 @@ if (Test-Path $secrets) {
   & scp @scpArgs $secrets "$($vps.SshHost):$remoteDir/.env"
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 } else {
-  Write-Host 'No deploy/secrets/expansion-api.env — merge SMTP from Beget into server .env'
+  Write-Host 'No deploy/secrets/expansion-api.env — merge SMTP from Joy Pick VPS into server .env'
+  $joyKey = Join-Path $env:USERPROFILE '.ssh\id_ed25519'
+  $joyHost = 'root@45.84.225.22'
   $smtpFragment = Join-Path $env:TEMP 'expansion-smtp-fragment.env'
-  $smtpLines = & ssh @scpArgs $beget.SshHost "grep -E '^(SMTP_|EMAIL_FROM=)' $($beget.DanilagamesRoot)/.env 2>/dev/null || true"
+  if (Test-Path $joyKey) {
+    $smtpLines = & ssh -o ConnectTimeout=30 -i $joyKey $joyHost "grep -E '^(SMTP_|EMAIL_FROM=)' /opt/joypick/.env 2>/dev/null || true"
+  } else {
+    Write-Host 'Joy Pick key missing — fallback to Beget danilagames .env'
+    $smtpLines = & ssh @scpArgs $beget.SshHost "grep -E '^(SMTP_|EMAIL_FROM=)' $($beget.DanilagamesRoot)/.env 2>/dev/null || true"
+  }
   $smtpText = ($smtpLines | ForEach-Object { $_.TrimEnd("`r") }) -join "`n"
   if ($smtpText.Trim().Length -gt 0) {
     Write-UnixTextFile -Path $smtpFragment -Content $smtpText

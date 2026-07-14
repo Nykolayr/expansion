@@ -6,7 +6,10 @@
 
 ## Статус
 
-Backend **в разработке**. Клиент сейчас работает **офлайн** (prefs, SQLite, bundled assets).
+Backend **v0.3** на VPS: auth, profile, OTA, leaderboard, **platform admin**, expansion remote config.  
+Админ UI: **https://danilagames.ru/admin/** (Beget). См. **`docs/admin-platform.md`**.
+
+Клиент: офлайн-first + синхронизация аккаунта и **remote monetization flags**.
 
 ## Канонический контракт REST
 
@@ -26,8 +29,10 @@ Backend **в разработке**. Клиент сейчас работает 
 | `POST /api/auth/*` | Регистрация (verify email), вход, refresh, forgot/reset |
 | `GET/PUT /api/profile` | Прогресс аккаунта (= GuestProfile) |
 | `DELETE /api/account` | Удаление аккаунта |
-| `GET /api/content/*` | Сценарии, миссии (синх с админкой) |
-| `/api/admin/*` | CRUD контента, пользователи (JWT admin) |
+| `GET /api/content/*` | OTA кампания |
+| `/api/platform/*` | Admin login, список игр |
+| `/api/expansion/*` | Remote config, guest sync, monetization events |
+| `/api/admin/expansion/*` | Админка Expansion (игроки, финансы, toggles) |
 
 Детали уточняются при старте `expansion_server`. Legacy-референс: `D:\Projects\expansion_old\apiserver`.
 

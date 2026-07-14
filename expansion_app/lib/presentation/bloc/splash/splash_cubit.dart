@@ -44,21 +44,15 @@ class SplashCubit extends Cubit<SplashState> {
       emit(SplashState.initial(showIntro: showIntro));
       AppLog.trace('splash load start intro=$showIntro', tag: 'Splash');
 
+      final bootstrapFuture = _runBootstrap();
+
       if (showIntro) {
-        // Сначала вступление на экране, потом тяжёлый bootstrap (БД не блокирует печать).
-        await _typingDoneCompleter!.future;
-        AppLog.trace('splash intro text done, hold 1s', tag: 'Splash');
-        await Future<void>.delayed(
-          const Duration(milliseconds: SplashIntroTiming.holdFullTextMs),
-        );
-        if (isClosed) return;
-        final bootstrapFuture = _runBootstrap();
         await Future.wait<void>([
-          _finishProgressBar(),
           bootstrapFuture,
+          _runIntroSequence(),
+          _runProgressUntil(bootstrapFuture),
         ]);
       } else {
-        final bootstrapFuture = _runBootstrap();
         await _runProgressUntil(bootstrapFuture);
       }
 
@@ -125,6 +119,17 @@ class SplashCubit extends Cubit<SplashState> {
     AppLog.trace('splash intro typing complete', tag: 'Splash');
   }
 
+  Future<void> _runIntroSequence() async {
+    await _typingDoneCompleter!.future;
+    if (isClosed) return;
+    if (_prefs.getBool(PrefsKeys.splashShowIntro) ?? false) {
+      AppLog.trace('splash intro text done, hold', tag: 'Splash');
+      await Future<void>.delayed(
+        const Duration(milliseconds: SplashIntroTiming.holdFullTextMs),
+      );
+    }
+  }
+
   Future<void> _runBootstrap() async {
     try {
       await _bootstrap.initialize();
@@ -133,27 +138,7 @@ class SplashCubit extends Cubit<SplashState> {
     }
   }
 
-  Future<void> _finishProgressBar() async {
-    final fromCount = state.count.clamp(0, _startCount);
-    if (fromCount <= 0) {
-      emit(state.copyWith(count: 0));
-      return;
-    }
-
-    final stepMs = (SplashIntroTiming.barFinishMs / fromCount)
-        .ceil()
-        .clamp(8, 80);
-
-    for (var k = fromCount; k >= 0; k--) {
-      if (isClosed) return;
-      emit(state.copyWith(count: k));
-      if (k > 0) {
-        await Future<void>.delayed(Duration(milliseconds: stepMs));
-      }
-    }
-  }
-
-  /// Полоса загрузки до завершения [task] (bootstrap вместо фиксированных 2 с).
+  /// Полоса загрузки до завершения [task] (bootstrap + ads + OTA).
   Future<void> _runProgressUntil(Future<void> task) async {
     final startedAt = DateTime.now();
     const tick = Duration(milliseconds: 40);
@@ -174,7 +159,7 @@ class SplashCubit extends Cubit<SplashState> {
 
       final elapsed = DateTime.now().difference(startedAt);
       final ratio = (elapsed.inMilliseconds /
-              SplashIntroTiming.skipIntroLoadMs.inMilliseconds)
+              SplashIntroTiming.progressAnimationCap.inMilliseconds)
           .clamp(0.0, 0.95);
       final count =
           (_startCount * (1 - ratio)).round().clamp(0, _startCount);

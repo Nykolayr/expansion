@@ -956,6 +956,54 @@ abstract class AppLocalizations {
   /// **'Периодически подкидывают корабли на базы врага. Давите вражеские базы быстрее, пока дроны их усиливают.'**
   String get battleIntroDroneBody;
 
+  /// No description provided for @battleIntroSmallBaseTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Малая база'**
+  String get battleIntroSmallBaseTitle;
+
+  /// No description provided for @battleIntroSmallBaseBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Старт 20 кораблей, лимит 30. Проще всего захватить — с неё удобно начинать экспансию.'**
+  String get battleIntroSmallBaseBody;
+
+  /// No description provided for @battleIntroMineTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Космические мины'**
+  String get battleIntroMineTitle;
+
+  /// No description provided for @battleIntroMineBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Стоят на фиксированных клетках и срабатывают, когда флот пересекает линию. Разведывайте маршрут перед атакой.'**
+  String get battleIntroMineBody;
+
+  /// No description provided for @battleIntroSolarWindTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Солнечный ветер'**
+  String get battleIntroSolarWindTitle;
+
+  /// No description provided for @battleIntroSolarWindBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Волна проходит по целой строке поля. Бьёт все базы и флоты на линии — считайте тайминг отправки.'**
+  String get battleIntroSolarWindBody;
+
+  /// No description provided for @battleIntroWormholeTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Червоточина'**
+  String get battleIntroWormholeTitle;
+
+  /// No description provided for @battleIntroWormholeBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Телепортирует пересекающий флот в другую точку поля. Короткий путь с риском — иногда безопаснее обойти.'**
+  String get battleIntroWormholeBody;
+
   /// No description provided for @battleDebrisTutorialTitle.
   ///
   /// In ru, this message translates to:
@@ -1003,6 +1051,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Справка'**
   String get helpTitle;
+
+  /// No description provided for @helpTabGame.
+  ///
+  /// In ru, this message translates to:
+  /// **'Основное'**
+  String get helpTabGame;
+
+  /// No description provided for @helpTabObjects.
+  ///
+  /// In ru, this message translates to:
+  /// **'Объекты'**
+  String get helpTabObjects;
+
+  /// No description provided for @helpSubsectionBases.
+  ///
+  /// In ru, this message translates to:
+  /// **'Базы'**
+  String get helpSubsectionBases;
+
+  /// No description provided for @helpSubsectionSpaceObjects.
+  ///
+  /// In ru, this message translates to:
+  /// **'Космические объекты'**
+  String get helpSubsectionSpaceObjects;
 
   /// No description provided for @helpBattleTitle.
   ///
@@ -1135,6 +1207,72 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Аккаунт'**
   String get profileAccountTitle;
+
+  /// No description provided for @profileAccountEditTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Редактирование аккаунта'**
+  String get profileAccountEditTitle;
+
+  /// No description provided for @profileAccountEditHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Измените имя, ник или пароль. Email изменить нельзя.'**
+  String get profileAccountEditHint;
+
+  /// No description provided for @profileAccountSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Изменения сохранены'**
+  String get profileAccountSaved;
+
+  /// No description provided for @profileEmailReadonlyHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email нельзя изменить'**
+  String get profileEmailReadonlyHint;
+
+  /// No description provided for @profileChangePasswordSection.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль'**
+  String get profileChangePasswordSection;
+
+  /// No description provided for @profileChangePasswordHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Заполните только если хотите сменить пароль.'**
+  String get profileChangePasswordHint;
+
+  /// No description provided for @profileCurrentPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Текущий пароль'**
+  String get profileCurrentPassword;
+
+  /// No description provided for @profileNewPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Новый пароль'**
+  String get profileNewPassword;
+
+  /// No description provided for @profileCurrentPasswordRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Для смены пароля нужен текущий пароль.'**
+  String get profileCurrentPasswordRequired;
+
+  /// No description provided for @profileWrongCurrentPassword.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неверный текущий пароль'**
+  String get profileWrongCurrentPassword;
+
+  /// No description provided for @profilePasswordChangedRelogin.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пароль изменён — войдите снова'**
+  String get profilePasswordChangedRelogin;
 
   /// No description provided for @profileLogout.
   ///
@@ -1535,7 +1673,7 @@ abstract class AppLocalizations {
   /// No description provided for @donateBody.
   ///
   /// In ru, this message translates to:
-  /// **'Expansion — инди-проект. Ссылка на репозиторий и будущие способы поддержки.'**
+  /// **'Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.'**
   String get donateBody;
 
   /// No description provided for @donateGithub.
@@ -1555,6 +1693,192 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Не удалось открыть ссылку'**
   String get donateOpenFailed;
+
+  /// No description provided for @donateTier1.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержать · {price}'**
+  String donateTier1(String price);
+
+  /// No description provided for @donateTier2.
+  ///
+  /// In ru, this message translates to:
+  /// **'Больше поддержки · {price}'**
+  String donateTier2(String price);
+
+  /// No description provided for @donateTier3.
+  ///
+  /// In ru, this message translates to:
+  /// **'Максимальная поддержка · {price}'**
+  String donateTier3(String price);
+
+  /// No description provided for @donateRemoveAds.
+  ///
+  /// In ru, this message translates to:
+  /// **'Убрать рекламу · {price}'**
+  String donateRemoveAds(String price);
+
+  /// No description provided for @donatePriceFallback.
+  ///
+  /// In ru, this message translates to:
+  /// **'скоро в сторе'**
+  String get donatePriceFallback;
+
+  /// No description provided for @donateStoreUnavailable.
+  ///
+  /// In ru, this message translates to:
+  /// **'Покупки доступны в сборке из Google Play или RuStore после публикации.'**
+  String get donateStoreUnavailable;
+
+  /// No description provided for @donateDisabledByAdmin.
+  ///
+  /// In ru, this message translates to:
+  /// **'Донаты временно отключены администратором.'**
+  String get donateDisabledByAdmin;
+
+  /// No description provided for @donatePurchaseFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось начать покупку. Проверьте стор и интернет.'**
+  String get donatePurchaseFailed;
+
+  /// No description provided for @donatePurchasePending.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.'**
+  String get donatePurchasePending;
+
+  /// No description provided for @donateRestore.
+  ///
+  /// In ru, this message translates to:
+  /// **'Восстановить покупки'**
+  String get donateRestore;
+
+  /// No description provided for @donateRestoreDone.
+  ///
+  /// In ru, this message translates to:
+  /// **'Запрос на восстановление отправлен.'**
+  String get donateRestoreDone;
+
+  /// No description provided for @donateSupporterStatus.
+  ///
+  /// In ru, this message translates to:
+  /// **'Уровень поддержки: {tier}'**
+  String donateSupporterStatus(int tier);
+
+  /// No description provided for @donateSupporterHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Косметический значок — без бонусов в бою.'**
+  String get donateSupporterHint;
+
+  /// No description provided for @donateAdsRemoved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Реклама отключена. Спасибо!'**
+  String get donateAdsRemoved;
+
+  /// No description provided for @settingsDonate.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержать проект'**
+  String get settingsDonate;
+
+  /// No description provided for @settingsDonateHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Донат и отключение рекламы'**
+  String get settingsDonateHint;
+
+  /// No description provided for @settingsFeedback.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обратная связь'**
+  String get settingsFeedback;
+
+  /// No description provided for @settingsFeedbackHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщить об ошибке или предложить идею'**
+  String get settingsFeedbackHint;
+
+  /// No description provided for @feedbackAction.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обратная связь'**
+  String get feedbackAction;
+
+  /// No description provided for @feedbackTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Обратная связь'**
+  String get feedbackTitle;
+
+  /// No description provided for @feedbackHintGuest.
+  ///
+  /// In ru, this message translates to:
+  /// **'Опишите проблему или идею. Укажите email — мы сможем ответить.'**
+  String get feedbackHintGuest;
+
+  /// No description provided for @feedbackHintLoggedIn.
+  ///
+  /// In ru, this message translates to:
+  /// **'Опишите проблему или идею. Ответ придёт на email вашего аккаунта.'**
+  String get feedbackHintLoggedIn;
+
+  /// No description provided for @feedbackEmailLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Email'**
+  String get feedbackEmailLabel;
+
+  /// No description provided for @feedbackMessageLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сообщение'**
+  String get feedbackMessageLabel;
+
+  /// No description provided for @feedbackSend.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отправить'**
+  String get feedbackSend;
+
+  /// No description provided for @feedbackSuccess.
+  ///
+  /// In ru, this message translates to:
+  /// **'Спасибо! Сообщение отправлено.'**
+  String get feedbackSuccess;
+
+  /// No description provided for @feedbackFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось отправить. Попробуйте позже.'**
+  String get feedbackFailed;
+
+  /// No description provided for @feedbackEmailRequired.
+  ///
+  /// In ru, this message translates to:
+  /// **'Укажите email'**
+  String get feedbackEmailRequired;
+
+  /// No description provided for @feedbackEmailInvalid.
+  ///
+  /// In ru, this message translates to:
+  /// **'Некорректный email'**
+  String get feedbackEmailInvalid;
+
+  /// No description provided for @feedbackMessageTooShort.
+  ///
+  /// In ru, this message translates to:
+  /// **'Минимум 10 символов'**
+  String get feedbackMessageTooShort;
+
+  /// No description provided for @battleVictoryRewardedAd.
+  ///
+  /// In ru, this message translates to:
+  /// **'Реклама: +{bonus} очков'**
+  String battleVictoryRewardedAd(int bonus);
 
   /// No description provided for @battleScenePlaceholder.
   ///

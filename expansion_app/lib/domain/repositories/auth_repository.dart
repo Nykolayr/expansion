@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:expansion/core/error/failures.dart';
+import 'package:expansion/domain/entities/account_update_result.dart';
 import 'package:expansion/domain/entities/auth_session.dart';
 import 'package:expansion/domain/entities/auth_user.dart';
 
@@ -42,6 +43,13 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> logout();
 
   Future<Either<Failure, void>> deleteAccount();
+
+  Future<Either<Failure, AccountUpdateResult>> updateAccount({
+    required String realName,
+    required String nick,
+    String currentPassword = '',
+    String newPassword = '',
+  });
 
   Future<void> clearLocalSession();
 }

@@ -4,6 +4,7 @@ import 'package:expansion/core/error/exceptions.dart';
 import 'package:expansion/core/error/failures.dart';
 import 'package:expansion/core/storage/auth_token_storage.dart';
 import 'package:expansion/data/datasources/remote/auth_remote_datasource.dart';
+import 'package:expansion/domain/entities/account_update_result.dart';
 import 'package:expansion/domain/entities/auth_session.dart';
 import 'package:expansion/domain/entities/auth_user.dart';
 import 'package:expansion/domain/repositories/auth_repository.dart';
@@ -149,6 +150,27 @@ class AuthRepositoryImpl implements AuthRepository {
       await _remote.deleteAccount();
       await clearLocalSession();
     });
+  }
+
+  @override
+  Future<Either<Failure, AccountUpdateResult>> updateAccount({
+    required String realName,
+    required String nick,
+    String currentPassword = '',
+    String newPassword = '',
+  }) async {
+    if (!await isLoggedIn()) {
+      return const Left(AuthFailure('Not logged in', code: 'NO_SESSION'));
+    }
+
+    return _guard(
+      () => _remote.updateAccount(
+        realName: realName,
+        nick: nick,
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      ),
+    );
   }
 
   @override

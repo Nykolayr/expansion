@@ -1,67 +1,52 @@
 # Expansion — текущий план работ
 
-> **Утверждено:** 2026-07-11.  
-> Порядок приоритетов изменён: **сервер → арты → кампания**.
+> **Обновлено:** 2026-07-12.  
+> Порядок приоритетов: **сервер → кампания → релиз монетизации**.
 
-Исторические фазы разработки клиента — в [`expansion_app/docs/game-plan.md`](../expansion_app/docs/game-plan.md).  
-Этот документ — **актуальный фокус** на ближайшие этапы.
+Исторические фазы разработки клиента — в [`expansion_app/docs/game-plan.md`](../expansion_app/docs/game-plan.md).
 
 ---
 
-## 1. Сервер для приложения — **следующий фокус**
+## 1. Сервер + аккаунты — **готово к тесту**
 
-**Спецификация:** [`auth-account-spec.md`](auth-account-spec.md) — **утверждено 2026-07-11**.
+**Спецификация:** [`auth-account-spec.md`](auth-account-spec.md)
 
-**Пакет:** `expansion_server/`  
-**Контракт:** `expansion_server/API_DOCS.md` (канон REST)
+| Задача | Статус |
+|--------|--------|
+| API v0.3 (auth, profile, leaderboard, OTA, platform admin) | ✅ VPS `46.173.25.193` |
+| Web-админка HTML | ✅ `danilagames.ru/admin/` |
+| SMTP | ✅ синк с Beget; **проверить регистрацию на устройстве** |
+| Клиент: экраны auth, merge, leaderboard, delete | ✅ |
+| Bootstrap: pull профиля + refresh JWT | ✅ |
 
-| Задача | Содержание |
+**Твоя проверка:** регистрация → код → вход → рейтинг → удаление аккаунта.
+
+---
+
+## 2. Арты — **сделано пользователем** ✅
+
+---
+
+## 3. Кампания Classic (м1–15)
+
+**Дизайн:** [`campaign-missions-1-15.md`](../expansion_app/docs/campaign-missions-1-15.md)  
+**OTA:** [`campaign-content-ota.md`](campaign-content-ota.md)
+
+| Статус | Содержание |
 |--------|------------|
-| Регистрация | Email + пароль, **верификация кодом** до создания аккаунта |
-| Авторизация | Вход, JWT + refresh, secure storage на клиенте |
-| SMTP | Как Joy Pick (`SMTP_*`, nodemailer) — verify + reset password |
-| БД | users, profiles (зеркало `GuestProfile`), коды, refresh tokens |
-| Гость → аккаунт | Перенос локального прогресса; при конфликте — выбор пользователя |
-| Рейтинг | `GET /api/leaderboard` — топ **50**, подпись **`Ник (имя)`** |
-| Имя / ник | При регистрации; **ник уникален** |
-| БД | **MariaDB**; прод — **Beget VPS** |
-| Удаление | `DELETE /api/account` |
+| ✅ М1–М5 | bundled v6 в APK |
+| ✅ М6–М15 | layouts + hazards в OTA (с v10); battle-подсказки м3–м15 (v11) |
+| 🔜 М16–М40 | layouts в JSON; hazards по плану 16–40 |
 
-**Клиент:** экраны `/auth/*`, `/leaderboard`, кнопки в профиле и прогрессе (см. spec).
-
-**Статус:** сервер **v0.2** на redmobi VPS; заглушка danilagames.ru; SMTP — дописать в `/opt/expansion-api/.env`.
+**Твоя проверка:** OTA с v6 → v11, пройти м6–м15, баннер новых миссий.
 
 ---
 
-## 2. Арты для объектов (включая будущие)
+## 4. Монетизация — **код готов, сторы — на тебе**
 
-**Цель:** единый набор спрайтов для боя и кампании; пользователь генерирует/рисует картинки по промптам.
-
-| Задача | Содержание |
-|--------|------------|
-| Каталог объектов | Базы (small/middle/large, HQ, варианты `rich` / `shielded` / `factory` / `bunker`), hazards, UI-бой |
-| Канон имён | `BattleVisualId`, `BattleAssets` — id ↔ путь к ассету |
-| Промпты | Отдельный документ: промпт на каждый объект (RU/EN, стиль, размер, прозрачность) |
-| Создание | **Пользователь** — по промптам; интеграция файлов в `assets/images/` |
-
-**Статус:** после пункта 1 (или параллельно, если не блокирует сервер).
-
----
-
-## 3. Продолжение кампании (новые миссии)
-
-**Канон дизайна:** [`expansion_app/docs/campaign-missions-1-15.md`](../expansion_app/docs/campaign-missions-1-15.md)  
-**Публикация:** **[`campaign-content-ota.md`](campaign-content-ota.md)** — **с 2026-07-11 все новые миссии только через сервер OTA**, без релиза APK.
-
-| Сделано | Следующее |
-|---------|-----------|
-| М1–М5 (playtest м5 — ок) | **М6 «Альциона»** — `shielded` базы, без нового hazard |
-| Астероид (м1), debris/метеоритный поток (м5) | М3 комета, м7+ hazards — **по одному на миссию** |
-| OTA контент v7 на сервере | М6+ — правки JSON → `content:build` → seed VPS |
-
-**Правило:** одна новая механика hazard на миссию; playtest после каждой миссии; план → утверждение → код → **OTA seed**, не store.
-
-**Статус:** м6 — следующая после артов (или по согласованию).
+- Remote config + админка toggles ✅  
+- Yandex Ads + IAP в клиенте ✅  
+- **Твоя сторона:** РСЯ, Play IAP, release `--dart-define` — [`monetization-setup-ru.md`](monetization-setup-ru.md)
 
 ---
 
@@ -69,8 +54,7 @@
 
 | Документ | Назначение |
 |----------|------------|
-| **[`auth-account-spec.md`](auth-account-spec.md)** | **Аккаунт, auth, рейтинг — утверждённая spec** |
+| [`auth-account-spec.md`](auth-account-spec.md) | Auth + рейтинг |
+| [`admin-platform.md`](admin-platform.md) | HTML-админка |
 | [`API.md`](API.md) | Хаб REST |
-| [`GAME.md`](GAME.md) | Хаб игровой документации |
-| [`expansion_app/docs/game-concept.md`](../expansion_app/docs/game-concept.md) | Канон механик v1 |
-| [`.cursor/rules/project-concept.mdc`](../.cursor/rules/project-concept.mdc) | Архитектура платформы |
+| [`GAME.md`](GAME.md) | Хаб игры |

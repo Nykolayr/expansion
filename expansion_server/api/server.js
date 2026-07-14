@@ -9,12 +9,26 @@ const profileRoutes = require('./routes/profile');
 const contentRoutes = require('./routes/content');
 const leaderboardRoutes = require('./routes/leaderboard');
 const accountRoutes = require('./routes/account');
+const feedbackRoutes = require('./routes/feedback');
+const platformRoutes = require('./routes/platform');
+const { router: expansionRoutes, adminRouter: expansionAdminRoutes } = require('./routes/expansion');
 const { pingDatabase } = require('./config/database');
+const { transporter, verifyTransporter } = require('./config/email');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
 
-app.use(cors());
+const corsOrigins = (process.env.CORS_ORIGINS || 'https://danilagames.ru')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+app.use(
+  cors({
+    origin: corsOrigins,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 app.get('/api/health', async (_req, res) => {
@@ -27,8 +41,10 @@ app.get('/api/health', async (_req, res) => {
   res.json({
     ok: true,
     service: 'expansion-api',
-    version: '0.2.0',
+    version: '0.3.0',
     db,
+    emailConfigured: Boolean(transporter),
+    emailSmtpOk: transporter ? await verifyTransporter() : false,
   });
 });
 
@@ -37,6 +53,10 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/content', contentRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/account', accountRoutes);
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/platform', platformRoutes);
+app.use('/api/expansion', expansionRoutes);
+app.use('/api/admin/expansion', expansionAdminRoutes);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

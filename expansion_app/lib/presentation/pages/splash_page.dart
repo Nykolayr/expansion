@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/logging/app_log.dart';
@@ -20,6 +19,7 @@ import 'package:expansion/presentation/widgets/splash/splash_line_buttons.dart';
 import 'package:expansion/presentation/widgets/splash/splash_loader_panel.dart';
 import 'package:expansion/presentation/widgets/splash/splash_long_button.dart';
 import 'package:expansion/presentation/widgets/splash/splash_menu_direct.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 
 /// Стартовый экран игры (legacy `SplashPage`).
 class SplashPage extends StatefulWidget {
@@ -133,12 +133,11 @@ class _SplashPageState extends State<SplashPage> {
           body: Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
-                GameAssets.splashBackground,
-                width: size.width,
-                height: size.height,
-                fit: BoxFit.fill,
-              ),
+              GameMenuBackdrop(fit: BoxFit.fill),
+              GameMenuTheme(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
               Center(
                 child: Column(
                   children: [
@@ -228,6 +227,9 @@ class _SplashPageState extends State<SplashPage> {
                                 )
                               : const SizedBox.shrink())
                       : const SizedBox.shrink(),
+                ),
+              ),
+                  ],
                 ),
               ),
             ],

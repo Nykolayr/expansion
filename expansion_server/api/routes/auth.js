@@ -58,20 +58,31 @@ async function findUserByEmail(email) {
   return rows[0] || null;
 }
 
-async function isNickTaken(nickNormalized) {
+async function isNickTakenByUser(nickNormalized) {
   const [rows] = await getPool().query(
     `SELECT id FROM users WHERE nick_normalized = ? LIMIT 1`,
     [nickNormalized],
   );
-  if (rows.length) return true;
+  return rows.length > 0;
+}
 
+/** Блокируем только чужие незавершённые регистрации (не свой email). */
+async function isNickPendingByOtherEmail(nickNormalized, email) {
+  const normalizedEmail = normalizeEmail(email);
   const [pending] = await getPool().query(
     `SELECT id FROM email_verifications
      WHERE nick_normalized = ? AND expires_at > UTC_TIMESTAMP()
+       AND email <> ?
      LIMIT 1`,
-    [nickNormalized],
+    [nickNormalized, normalizedEmail],
   );
   return pending.length > 0;
+}
+
+async function purgeExpiredVerifications() {
+  await getPool().query(
+    `DELETE FROM email_verifications WHERE expires_at <= UTC_TIMESTAMP()`,
+  );
 }
 
 router.get('/nick-available', async (req, res) => {
@@ -81,7 +92,9 @@ router.get('/nick-available', async (req, res) => {
   }
 
   try {
-    const taken = await isNickTaken(validation.nickNormalized);
+    await purgeExpiredVerifications();
+    // Для UI — занят только у реально зарегистрированных аккаунтов.
+    const taken = await isNickTakenByUser(validation.nickNormalized);
     return res.json({ available: !taken });
   } catch (error) {
     console.error(error);
@@ -115,6 +128,7 @@ router.post('/register', async (req, res) => {
   }
 
   try {
+    await purgeExpiredVerifications();
     const existing = await findUserByEmail(email);
     if (existing) {
       return res.status(409).json({
@@ -124,7 +138,11 @@ router.post('/register', async (req, res) => {
       });
     }
 
-    if (await isNickTaken(nickValidation.nickNormalized)) {
+    if (await isNickTakenByUser(nickValidation.nickNormalized)) {
+      return res.status(409).json({ error: 'nick taken', code: 'NICK_TAKEN' });
+    }
+
+    if (await isNickPendingByOtherEmail(nickValidation.nickNormalized, email)) {
       return res.status(409).json({ error: 'nick taken', code: 'NICK_TAKEN' });
     }
 

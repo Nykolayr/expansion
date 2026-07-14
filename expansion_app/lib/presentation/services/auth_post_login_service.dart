@@ -1,5 +1,7 @@
+import 'package:expansion/core/logging/app_log.dart';
 import 'package:expansion/data/datasources/remote/profile_remote_datasource.dart';
 import 'package:expansion/domain/entities/guest_profile.dart';
+import 'package:expansion/domain/repositories/auth_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/services/profile_sync_service.dart';
 
@@ -7,11 +9,42 @@ enum ProgressMergeChoice { keepLocal, keepServer }
 
 /// После login/register: синхронизация локального и серверного профиля.
 class AuthPostLoginService {
-  AuthPostLoginService(this._guest, this._profileRemote, this._sync);
+  AuthPostLoginService(this._auth, this._guest, this._profileRemote, this._sync);
 
+  final AuthRepository _auth;
   final GuestProfileRepository _guest;
   final ProfileRemoteDataSource _profileRemote;
   final ProfileSyncService _sync;
+
+  /// Холодный старт: refresh JWT, подтянуть профиль с сервера или отправить локальный.
+  Future<void> syncOnColdStart() async {
+    if (!await _auth.isLoggedIn()) return;
+
+    final refresh = await _auth.refreshSession();
+    if (refresh.isLeft()) {
+      AppLog.trace('bootstrap auth skip (session expired)', tag: 'AuthBootstrap');
+      return;
+    }
+
+    try {
+      final local = await loadLocalProfile();
+      final server = await fetchServerProfile();
+
+      if (needsMergeChoice(local: local, server: server)) {
+        await pushLocalProfile(local);
+        return;
+      }
+
+      await syncAfterAuth();
+    } catch (e, stackTrace) {
+      AppLog.error(
+        'bootstrap profile sync failed',
+        tag: 'AuthBootstrap',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
+  }
 
   Future<void> applyServerProfile(GuestProfile serverProfile) async {
     _sync.pause();
@@ -63,7 +96,7 @@ class AuthPostLoginService {
     ProgressMergeChoice? forcedChoice,
     String? realName,
   }) async {
-    final local = await loadLocalProfile();
+    var local = await loadLocalProfile();
     final server = await fetchServerProfile();
 
     if (forcedChoice != null &&
@@ -86,13 +119,16 @@ class AuthPostLoginService {
       return;
     }
 
-    await pushLocalProfile(local, realName: realName);
-    if (realName != null && realName.trim().isNotEmpty) {
-      final name = realName.trim();
-      if (local.displayName != name) {
-        await _saveLocalPaused(local.copyWith(displayName: name));
-      }
+    final trimmedRealName = realName?.trim() ?? '';
+    if (trimmedRealName.isNotEmpty && local.displayName.trim().isEmpty) {
+      local = local.copyWith(displayName: trimmedRealName);
+      await _saveLocalPaused(local);
     }
+
+    await pushLocalProfile(
+      local,
+      realName: trimmedRealName.isEmpty ? null : trimmedRealName,
+    );
   }
 
   Future<void> _saveLocalPaused(GuestProfile profile) async {

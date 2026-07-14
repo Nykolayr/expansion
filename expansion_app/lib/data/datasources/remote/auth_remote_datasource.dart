@@ -151,4 +151,26 @@ class AuthRemoteDataSource {
       throw ErrorHandler.handle(e);
     }
   }
+
+  Future<AccountUpdateModel> updateAccount({
+    required String realName,
+    required String nick,
+    String currentPassword = '',
+    String newPassword = '',
+  }) async {
+    try {
+      final response = await _dio.patch<Map<String, dynamic>>(
+        '/account',
+        data: <String, dynamic>{
+          'realName': realName,
+          'nick': nick,
+          if (newPassword.isNotEmpty) 'currentPassword': currentPassword,
+          if (newPassword.isNotEmpty) 'newPassword': newPassword,
+        },
+      );
+      return AccountUpdateModel.fromJson(response.data!);
+    } on DioException catch (e) {
+      throw ErrorHandler.handle(e);
+    }
+  }
 }

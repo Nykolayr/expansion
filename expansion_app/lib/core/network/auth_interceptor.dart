@@ -25,6 +25,7 @@ class AuthInterceptor extends Interceptor {
     '/content/',
     '/leaderboard',
     '/health',
+    '/expansion/',
   ];
 
   bool _isPublic(RequestOptions options) {

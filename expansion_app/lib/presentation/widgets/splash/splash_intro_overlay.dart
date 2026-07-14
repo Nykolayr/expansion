@@ -5,6 +5,7 @@ import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/splash/splash_pretext_typer.dart';
 
 /// Полноэкранное вступление — не внизу под заголовком, чтобы его было видно.
@@ -58,20 +59,11 @@ class SplashIntroOverlay extends StatelessWidget {
                   ),
                 ),
               ),
-              const Gap(8),
-              TextButton(
+              const Gap(12),
+              GameLongButton(
+                label: loc.battleTutorialSkip,
                 onPressed: onSkip,
-                style: TextButton.styleFrom(
-                  foregroundColor: ExpansionColors.accent,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: Text(
-                  loc.battleTutorialSkip,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: ExpansionColors.accent,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
+                fontSize: 18,
               ),
             ],
           ),

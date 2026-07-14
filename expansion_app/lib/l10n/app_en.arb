@@ -190,6 +190,14 @@
   "battleIntroPulseBody": "A pulse spreads from the center in a cross pattern. Hits bases and fleets on those lines — plan routes carefully.",
   "battleIntroDroneTitle": "Supply drones",
   "battleIntroDroneBody": "Periodically reinforce enemy bases with free ships. Pressure enemy bases before drones stack up.",
+  "battleIntroSmallBaseTitle": "Small base",
+  "battleIntroSmallBaseBody": "Starts with 20 ships, cap 30. Easiest to capture — good for the first expansions.",
+  "battleIntroMineTitle": "Space mines",
+  "battleIntroMineBody": "Mines sit on fixed cells and detonate when a fleet crosses them. Scout routes before sending a large attack.",
+  "battleIntroSolarWindTitle": "Solar wind",
+  "battleIntroSolarWindBody": "A wave sweeps across a whole row of the grid. Hits every base and fleet on that line — time your launches.",
+  "battleIntroWormholeTitle": "Wormhole",
+  "battleIntroWormholeBody": "Teleports crossing fleets to another point on the field. A shortcut with risk — sometimes a longer path is safer.",
   "battleDebrisTutorialTitle": "Meteor stream!",
   "battleDebrisTutorialBody": "A meteor stream crosses the center of the field. Destroys 80% of fleet and garrison ships in its path and keeps moving — don't route ships through the center unless you must.",
   "metaUpgradeLevelShort": "Lv {level}",
@@ -203,6 +211,10 @@
   "mapTutorialDismiss": "Let's go",
   "mapTutorialLater": "Later",
   "helpTitle": "Help",
+  "helpTabGame": "Basics",
+  "helpTabObjects": "Objects",
+  "helpSubsectionBases": "Bases",
+  "helpSubsectionSpaceObjects": "Space objects",
   "helpBattleTitle": "Battle",
   "helpBattleBody": "Swipe between bases to send fleets in a straight line when the path is clear. Capture all enemy bases. Asteroids damage shields and ships.",
   "helpMapTitle": "Map",
@@ -225,6 +237,17 @@
   "profileRegister": "Sign up",
   "profileLogin": "Sign in",
   "profileAccountTitle": "Account",
+  "profileAccountEditTitle": "Edit account",
+  "profileAccountEditHint": "Change your name, nick, or password. Email cannot be changed.",
+  "profileAccountSaved": "Changes saved",
+  "profileEmailReadonlyHint": "Email cannot be changed",
+  "profileChangePasswordSection": "Password",
+  "profileChangePasswordHint": "Fill in only if you want to change your password.",
+  "profileCurrentPassword": "Current password",
+  "profileNewPassword": "New password",
+  "profileCurrentPasswordRequired": "Current password is required to set a new one.",
+  "profileWrongCurrentPassword": "Wrong current password",
+  "profilePasswordChangedRelogin": "Password changed — please sign in again",
   "profileLogout": "Sign out",
   "profileLogoutSuccess": "Signed out",
   "profileDeleteAccount": "Delete account",
@@ -312,10 +335,71 @@
   "newMissionsBannerAction": "Open map",
   "newMissionsBannerDismiss": "Got it",
   "donateTitle": "Support",
-  "donateBody": "Expansion is an indie project. Repository link and more ways to support coming later.",
+  "donateBody": "Expansion is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.",
   "donateGithub": "Project on GitHub",
   "donateThanks": "Thanks for playing!",
   "donateOpenFailed": "Could not open the link",
+  "donateTier1": "Support · {price}",
+  "@donateTier1": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateTier2": "More support · {price}",
+  "@donateTier2": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateTier3": "Top support · {price}",
+  "@donateTier3": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateRemoveAds": "Remove ads · {price}",
+  "@donateRemoveAds": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donatePriceFallback": "coming to store",
+  "donateStoreUnavailable": "Purchases work in Google Play or RuStore builds after release.",
+  "donateDisabledByAdmin": "Donations are temporarily disabled by the administrator.",
+  "donatePurchaseFailed": "Could not start purchase. Check the store and connection.",
+  "donatePurchasePending": "Thank you! Purchase is processing — status updates in a few seconds.",
+  "donateRestore": "Restore purchases",
+  "donateRestoreDone": "Restore request sent.",
+  "donateSupporterStatus": "Supporter level: {tier}",
+  "@donateSupporterStatus": {
+    "placeholders": {
+      "tier": { "type": "int" }
+    }
+  },
+  "donateSupporterHint": "Cosmetic badge only — no battle bonuses.",
+  "donateAdsRemoved": "Ads removed. Thank you!",
+  "settingsDonate": "Support the project",
+  "settingsDonateHint": "Donate and remove ads",
+  "settingsFeedback": "Feedback",
+  "settingsFeedbackHint": "Report a bug or suggest an idea",
+  "feedbackAction": "Feedback",
+  "feedbackTitle": "Feedback",
+  "feedbackHintGuest": "Describe the issue or idea. Add your email so we can reply.",
+  "feedbackHintLoggedIn": "Describe the issue or idea. We will reply to your account email.",
+  "feedbackEmailLabel": "Email",
+  "feedbackMessageLabel": "Message",
+  "feedbackSend": "Send",
+  "feedbackSuccess": "Thank you! Your message was sent.",
+  "feedbackFailed": "Could not send. Please try again later.",
+  "feedbackEmailRequired": "Email is required",
+  "feedbackEmailInvalid": "Invalid email",
+  "feedbackMessageTooShort": "At least 10 characters",
+  "battleVictoryRewardedAd": "Watch ad: +{bonus} pts",
+  "@battleVictoryRewardedAd": {
+    "placeholders": {
+      "bonus": { "type": "int" }
+    }
+  },
   "battleScenePlaceholder": "Mission {sceneId}. Battle gameplay — phase 3.",
   "@battleScenePlaceholder": {
     "placeholders": {

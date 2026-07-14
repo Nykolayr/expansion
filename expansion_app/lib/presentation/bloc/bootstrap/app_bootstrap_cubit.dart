@@ -4,12 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:expansion/core/constants/game_database_constants.dart';
 import 'package:expansion/core/constants/prefs_keys.dart';
 import 'package:expansion/core/logging/app_log.dart';
+import 'package:expansion/core/monetization/donate_billing_service.dart';
+import 'package:expansion/core/monetization/game_ads_service.dart';
 import 'package:expansion/data/datasources/local/campaign_local_datasource.dart';
 import 'package:expansion/data/datasources/local/game_database.dart';
 import 'package:expansion/data/seed/campaign_content_seeder.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/presentation/bloc/bootstrap/app_bootstrap_state.dart';
+import 'package:expansion/presentation/services/auth_post_login_service.dart';
 import 'package:expansion/presentation/services/campaign_content_sync_service.dart';
+import 'package:expansion/presentation/services/expansion_platform_sync_service.dart';
 
 /// Подготовка приложения: SQLite seed + OTA контент (offline-first).
 class AppBootstrapCubit extends Cubit<AppBootstrapState> {
@@ -20,6 +24,10 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
     this._local,
     this._prefs,
     this._guestProfile,
+    this._platformSync,
+    this._authPostLogin,
+    this._ads,
+    this._billing,
   ) : super(const AppBootstrapState.idle());
 
   final GameDatabase _gameDatabase;
@@ -28,6 +36,10 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
   final CampaignLocalDataSource _local;
   final SharedPreferences _prefs;
   final GuestProfileRepository _guestProfile;
+  final ExpansionPlatformSyncService _platformSync;
+  final AuthPostLoginService _authPostLogin;
+  final GameAdsService _ads;
+  final DonateBillingService _billing;
 
   Future<void> initialize() async {
     if (state.isReady) {
@@ -42,6 +54,13 @@ class AppBootstrapCubit extends Cubit<AppBootstrapState> {
       await _gameDatabase.database;
       await _contentSeeder.seedIfNeeded();
       await _contentSync.syncIfNeeded();
+      await _platformSync.refreshRemoteConfig();
+      await Future.wait<void>([
+        _platformSync.syncGuestNow(),
+        _authPostLogin.syncOnColdStart(),
+        _ads.init(),
+        _billing.init(),
+      ]);
 
       final storedVersion =
           await _local.getStoredContentVersion() ??

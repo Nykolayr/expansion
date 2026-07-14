@@ -199,6 +199,14 @@
   "battleIntroPulseBody": "Импульс расходится от центра по кресту. Задевает базы и флоты на линиях — планируйте маршруты с запасом.",
   "battleIntroDroneTitle": "Дроны снабжения",
   "battleIntroDroneBody": "Периодически подкидывают корабли на базы врага. Давите вражеские базы быстрее, пока дроны их усиливают.",
+  "battleIntroSmallBaseTitle": "Малая база",
+  "battleIntroSmallBaseBody": "Старт 20 кораблей, лимит 30. Проще всего захватить — с неё удобно начинать экспансию.",
+  "battleIntroMineTitle": "Космические мины",
+  "battleIntroMineBody": "Стоят на фиксированных клетках и срабатывают, когда флот пересекает линию. Разведывайте маршрут перед атакой.",
+  "battleIntroSolarWindTitle": "Солнечный ветер",
+  "battleIntroSolarWindBody": "Волна проходит по целой строке поля. Бьёт все базы и флоты на линии — считайте тайминг отправки.",
+  "battleIntroWormholeTitle": "Червоточина",
+  "battleIntroWormholeBody": "Телепортирует пересекающий флот в другую точку поля. Короткий путь с риском — иногда безопаснее обойти.",
   "battleDebrisTutorialTitle": "Метеоритный поток!",
   "battleDebrisTutorialBody": "Метеоритный поток летит поперёк по центру поля. Уничтожает 80% кораблей флота и гарнизона на пути и пролетает дальше — не ведите корабли через центр без нужды.",
   "metaUpgradeLevelShort": "Ур. {level}",
@@ -212,6 +220,10 @@
   "mapTutorialDismiss": "Вперёд",
   "mapTutorialLater": "Позже",
   "helpTitle": "Справка",
+  "helpTabGame": "Основное",
+  "helpTabObjects": "Объекты",
+  "helpSubsectionBases": "Базы",
+  "helpSubsectionSpaceObjects": "Космические объекты",
   "helpBattleTitle": "Бой",
   "helpBattleBody": "Свайп между базами отправляет флот по прямой, если путь свободен. Захватите все вражеские базы. Астероиды бьют по щиту и кораблям.",
   "helpMapTitle": "Карта",
@@ -234,6 +246,17 @@
   "profileRegister": "Зарегистрироваться",
   "profileLogin": "Войти",
   "profileAccountTitle": "Аккаунт",
+  "profileAccountEditTitle": "Редактирование аккаунта",
+  "profileAccountEditHint": "Измените имя, ник или пароль. Email изменить нельзя.",
+  "profileAccountSaved": "Изменения сохранены",
+  "profileEmailReadonlyHint": "Email нельзя изменить",
+  "profileChangePasswordSection": "Пароль",
+  "profileChangePasswordHint": "Заполните только если хотите сменить пароль.",
+  "profileCurrentPassword": "Текущий пароль",
+  "profileNewPassword": "Новый пароль",
+  "profileCurrentPasswordRequired": "Для смены пароля нужен текущий пароль.",
+  "profileWrongCurrentPassword": "Неверный текущий пароль",
+  "profilePasswordChangedRelogin": "Пароль изменён — войдите снова",
   "profileLogout": "Выйти",
   "profileLogoutSuccess": "Вы вышли из аккаунта",
   "profileDeleteAccount": "Удалить аккаунт",
@@ -321,10 +344,71 @@
   "newMissionsBannerAction": "На карту",
   "newMissionsBannerDismiss": "Понятно",
   "donateTitle": "Поддержать",
-  "donateBody": "Expansion — инди-проект. Ссылка на репозиторий и будущие способы поддержки.",
+  "donateBody": "Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.",
   "donateGithub": "GitHub проекта",
   "donateThanks": "Спасибо, что играете!",
   "donateOpenFailed": "Не удалось открыть ссылку",
+  "donateTier1": "Поддержать · {price}",
+  "@donateTier1": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateTier2": "Больше поддержки · {price}",
+  "@donateTier2": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateTier3": "Максимальная поддержка · {price}",
+  "@donateTier3": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donateRemoveAds": "Убрать рекламу · {price}",
+  "@donateRemoveAds": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donatePriceFallback": "скоро в сторе",
+  "donateStoreUnavailable": "Покупки доступны в сборке из Google Play или RuStore после публикации.",
+  "donateDisabledByAdmin": "Донаты временно отключены администратором.",
+  "donatePurchaseFailed": "Не удалось начать покупку. Проверьте стор и интернет.",
+  "donatePurchasePending": "Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.",
+  "donateRestore": "Восстановить покупки",
+  "donateRestoreDone": "Запрос на восстановление отправлен.",
+  "donateSupporterStatus": "Уровень поддержки: {tier}",
+  "@donateSupporterStatus": {
+    "placeholders": {
+      "tier": { "type": "int" }
+    }
+  },
+  "donateSupporterHint": "Косметический значок — без бонусов в бою.",
+  "donateAdsRemoved": "Реклама отключена. Спасибо!",
+  "settingsDonate": "Поддержать проект",
+  "settingsDonateHint": "Донат и отключение рекламы",
+  "settingsFeedback": "Обратная связь",
+  "settingsFeedbackHint": "Сообщить об ошибке или предложить идею",
+  "feedbackAction": "Обратная связь",
+  "feedbackTitle": "Обратная связь",
+  "feedbackHintGuest": "Опишите проблему или идею. Укажите email — мы сможем ответить.",
+  "feedbackHintLoggedIn": "Опишите проблему или идею. Ответ придёт на email вашего аккаунта.",
+  "feedbackEmailLabel": "Email",
+  "feedbackMessageLabel": "Сообщение",
+  "feedbackSend": "Отправить",
+  "feedbackSuccess": "Спасибо! Сообщение отправлено.",
+  "feedbackFailed": "Не удалось отправить. Попробуйте позже.",
+  "feedbackEmailRequired": "Укажите email",
+  "feedbackEmailInvalid": "Некорректный email",
+  "feedbackMessageTooShort": "Минимум 10 символов",
+  "battleVictoryRewardedAd": "Реклама: +{bonus} очков",
+  "@battleVictoryRewardedAd": {
+    "placeholders": {
+      "bonus": { "type": "int" }
+    }
+  },
   "battleScenePlaceholder": "Миссия {sceneId}. Бой — в разработке (фаза 3).",
   "@battleScenePlaceholder": {
     "placeholders": {

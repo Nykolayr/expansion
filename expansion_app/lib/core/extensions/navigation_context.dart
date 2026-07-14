@@ -29,11 +29,32 @@ extension AppNavigationX on BuildContext {
 
   void goToProfile() => push('/profile');
 
+  void goToProfileAccountEdit({
+    required String realName,
+    required String nick,
+    required String email,
+  }) =>
+      push(
+        '/profile/account',
+        extra: {
+          'realName': realName,
+          'nick': nick,
+          'email': email,
+        },
+      );
+
   void goToProgress() => push('/progress');
 
   void goToUpgrades() => push('/upgrades');
 
-  void goToAuthLogin() => push('/auth/login');
+  void goToAuthLogin({String? email}) {
+    final trimmed = email?.trim();
+    if (trimmed != null && trimmed.isNotEmpty) {
+      push('/auth/login?email=${Uri.encodeComponent(trimmed)}');
+      return;
+    }
+    push('/auth/login');
+  }
 
   void goToAuthRegister() => push('/auth/register');
 

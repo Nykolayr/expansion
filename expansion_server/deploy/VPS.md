@@ -8,9 +8,24 @@
 |-----------|-----|--------|
 | Заглушка сайта | [danilagames.ru](https://danilagames.ru/) Beget | `deploy-danilagames-placeholder.ps1` |
 | REST API | VPS `/opt/expansion-api` pm2 | `deploy-vps.ps1` |
-| SMTP | из `.env` на Beget `danilagames.ru/public_html` | подтягивается автоматически |
+| SMTP | Joy Pick VPS `/opt/joypick/.env` (канон) | `deploy/sync-smtp-from-joypick.ps1` или автоматически в `deploy-vps.ps1` |
 
-Joy Pick / joypick.world — **не используем**.
+Joy Pick API: `45.84.225.22:/opt/joypick` — **источник рабочего SMTP** (тот же `autogid70@gmail.com`, но другой app password, чем был в старом danilagames `.env`).
+
+## Проверка почты (если регистрация падает 503)
+
+1. Открой в браузере: **http://46.173.25.193/api/health**
+2. Смотри поля:
+   - `emailConfigured: true` — переменные SMTP заданы
+   - `emailSmtpOk: true` — Gmail реально пускает (**должно быть true**)
+3. Если `emailSmtpOk: false` — на VPS:
+   ```powershell
+   cd D:\Projects\expansion\expansion_server
+   .\deploy\sync-smtp-from-joypick.ps1
+   ```
+4. Повтори регистрацию в приложении.
+
+**Почему Joy Pick работал, а Expansion нет:** разные серверы и разные `.env`. Expansion брал SMTP из `danilagames.ru/public_html/.env` на Beget (протухший пароль). Joy Pick — из `/opt/joypick/.env` на `45.84.225.22` (рабочий пароль).
 
 ## SSH
 
@@ -38,7 +53,7 @@ cd D:\Projects\expansion\expansion_server
 deploy/secrets/expansion-api.env   ← copy from deploy/secrets.example/
 ```
 
-Если файл есть — деплой заливает его на VPS. Если нет — **SMTP** берётся из Beget `danilagames.ru/public_html/.env`, DB/JWT остаются на сервере.
+Если файла нет — **SMTP** берётся из Joy Pick VPS `/opt/joypick/.env` (fallback: Beget `danilagames.ru/public_html/.env`), DB/JWT остаются на сервере.
 
 ## URL API
 

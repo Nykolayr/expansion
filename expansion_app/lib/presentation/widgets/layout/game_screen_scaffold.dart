@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 
 /// Общий каркас игрового экрана: фон, «назад», заголовок и тело или текст-заглушка.
 class GameScreenScaffold extends StatelessWidget {
@@ -49,19 +49,19 @@ class GameScreenScaffold extends StatelessWidget {
         );
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            GameAssets.splashBackground,
-            fit: BoxFit.cover,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GameScreenBackBar(title: title),
-              Expanded(child: content),
-            ],
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GameScreenBackBar(title: title),
+                Expanded(child: content),
+              ],
+            ),
           ),
         ],
       ),

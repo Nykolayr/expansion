@@ -42,6 +42,34 @@ function createTransporter() {
 
 const transporter = createTransporter();
 
+let smtpVerifyCache = { checkedAt: 0, ok: null };
+
+async function verifyTransporter(force = false) {
+  if (!transporter) {
+    smtpVerifyCache = { checkedAt: Date.now(), ok: false };
+    return false;
+  }
+
+  const now = Date.now();
+  if (
+    !force &&
+    smtpVerifyCache.ok !== null &&
+    now - smtpVerifyCache.checkedAt < 5 * 60 * 1000
+  ) {
+    return smtpVerifyCache.ok;
+  }
+
+  try {
+    await transporter.verify();
+    smtpVerifyCache = { checkedAt: now, ok: true };
+    return true;
+  } catch (error) {
+    console.error('SMTP verify failed:', error.message);
+    smtpVerifyCache = { checkedAt: now, ok: false };
+    return false;
+  }
+}
+
 function appName() {
   return process.env.APP_NAME || 'Expansion';
 }
@@ -97,7 +125,7 @@ function defaultResetText(code) {
   return `Код сброса пароля ${name}: ${code}\n\nКод действует 15 минут.`;
 }
 
-async function sendMail({ to, subject, html, text }) {
+async function sendMail({ to, subject, html, text, replyTo }) {
   if (!transporter) {
     return {
       success: false,
@@ -110,6 +138,7 @@ async function sendMail({ to, subject, html, text }) {
     const info = await transporter.sendMail({
       from: `"${appName()}" <${fromEmail()}>`,
       to,
+      replyTo,
       subject,
       html,
       text,
@@ -159,8 +188,65 @@ async function sendPasswordResetCode(email, code, options = {}) {
   return sendMail({ to: email, subject, html, text });
 }
 
+function feedbackRecipient() {
+  return (
+    process.env.FEEDBACK_TO ||
+    process.env.ADMIN_EMAIL ||
+    process.env.SMTP_USER ||
+    null
+  );
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+async function sendUserFeedback({
+  message,
+  fromEmail,
+  nick,
+  userId,
+  clientMeta = {},
+}) {
+  const to = feedbackRecipient();
+  if (!to) {
+    return {
+      success: false,
+      error: 'Feedback recipient not configured',
+      code: 'FEEDBACK_NOT_CONFIGURED',
+    };
+  }
+
+  const lines = [
+    `From: ${fromEmail}`,
+    nick ? `Nick: ${nick}` : null,
+    userId ? `User ID: ${userId}` : 'Guest',
+    '',
+    message,
+    '',
+    clientMeta.userAgent ? `User-Agent: ${clientMeta.userAgent}` : null,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  const subject = `[${appName()}] Обратная связь${nick ? ` — ${nick}` : ''}`;
+
+  return sendMail({
+    to,
+    replyTo: fromEmail,
+    subject,
+    text: lines,
+    html: `<pre style="font-family:Arial,sans-serif;white-space:pre-wrap;line-height:1.5;">${escapeHtml(lines)}</pre>`,
+  });
+}
+
 module.exports = {
   sendVerificationCode,
   sendPasswordResetCode,
+  sendUserFeedback,
   transporter,
+  verifyTransporter,
 };

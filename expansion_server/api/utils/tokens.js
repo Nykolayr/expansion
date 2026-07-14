@@ -41,9 +41,33 @@ function verificationExpiresAt() {
   return date;
 }
 
+const ADMIN_ACCESS_TTL = process.env.ADMIN_JWT_TTL || '8h';
+
+function signAdminToken(username) {
+  return jwt.sign(
+    {
+      sub: 'platform-admin',
+      username,
+      role: 'platform_admin',
+    },
+    JWT_SECRET,
+    { expiresIn: ADMIN_ACCESS_TTL },
+  );
+}
+
+function verifyAdminToken(token) {
+  const payload = jwt.verify(token, JWT_SECRET);
+  if (payload.role !== 'platform_admin') {
+    throw new Error('not admin');
+  }
+  return payload;
+}
+
 module.exports = {
   signAccessToken,
   verifyAccessToken,
+  signAdminToken,
+  verifyAdminToken,
   generateRefreshToken,
   hashRefreshToken,
   refreshExpiresAt,

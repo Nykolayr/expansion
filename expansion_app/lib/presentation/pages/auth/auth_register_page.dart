@@ -10,6 +10,7 @@ import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/auth/register_cubit.dart';
 import 'package:expansion/presentation/bloc/auth/register_state.dart';
+import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/services/auth_post_login_service.dart';
 import 'package:expansion/presentation/widgets/auth/auth_messages.dart';
 import 'package:expansion/presentation/widgets/auth/auth_page_shell.dart';
@@ -71,6 +72,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     }
 
     if (!context.mounted) return;
+    await sl<ProfileCubit>().load();
+    if (!context.mounted) return;
     sl<AppFeedbackService>().show(
       AppLocalizations.of(context)!.authRegisterSuccess,
       kind: AppFeedbackKind.success,
@@ -103,6 +106,13 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
         listenWhen: (p, c) =>
             p.status != c.status || p.step != c.step,
         listener: (context, state) {
+          if (state.status == RegisterStatus.emailExists) {
+            sl<AppFeedbackService>().show(
+              resolveAuthMessage(loc, 'authErrorEmailExists'),
+            );
+            context.goToAuthLogin(email: state.email);
+            return;
+          }
           if (state.status == RegisterStatus.failure) {
             sl<AppFeedbackService>().show(
               resolveAuthMessage(loc, state.errorMessage),

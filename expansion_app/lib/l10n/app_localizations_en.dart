@@ -487,6 +487,34 @@ class AppLocalizationsEn extends AppLocalizations {
       'Periodically reinforce enemy bases with free ships. Pressure enemy bases before drones stack up.';
 
   @override
+  String get battleIntroSmallBaseTitle => 'Small base';
+
+  @override
+  String get battleIntroSmallBaseBody =>
+      'Starts with 20 ships, cap 30. Easiest to capture — good for the first expansions.';
+
+  @override
+  String get battleIntroMineTitle => 'Space mines';
+
+  @override
+  String get battleIntroMineBody =>
+      'Mines sit on fixed cells and detonate when a fleet crosses them. Scout routes before sending a large attack.';
+
+  @override
+  String get battleIntroSolarWindTitle => 'Solar wind';
+
+  @override
+  String get battleIntroSolarWindBody =>
+      'A wave sweeps across a whole row of the grid. Hits every base and fleet on that line — time your launches.';
+
+  @override
+  String get battleIntroWormholeTitle => 'Wormhole';
+
+  @override
+  String get battleIntroWormholeBody =>
+      'Teleports crossing fleets to another point on the field. A shortcut with risk — sometimes a longer path is safer.';
+
+  @override
   String get battleDebrisTutorialTitle => 'Meteor stream!';
 
   @override
@@ -513,6 +541,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpTitle => 'Help';
+
+  @override
+  String get helpTabGame => 'Basics';
+
+  @override
+  String get helpTabObjects => 'Objects';
+
+  @override
+  String get helpSubsectionBases => 'Bases';
+
+  @override
+  String get helpSubsectionSpaceObjects => 'Space objects';
 
   @override
   String get helpBattleTitle => 'Battle';
@@ -585,6 +625,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAccountTitle => 'Account';
+
+  @override
+  String get profileAccountEditTitle => 'Edit account';
+
+  @override
+  String get profileAccountEditHint =>
+      'Change your name, nick, or password. Email cannot be changed.';
+
+  @override
+  String get profileAccountSaved => 'Changes saved';
+
+  @override
+  String get profileEmailReadonlyHint => 'Email cannot be changed';
+
+  @override
+  String get profileChangePasswordSection => 'Password';
+
+  @override
+  String get profileChangePasswordHint =>
+      'Fill in only if you want to change your password.';
+
+  @override
+  String get profileCurrentPassword => 'Current password';
+
+  @override
+  String get profileNewPassword => 'New password';
+
+  @override
+  String get profileCurrentPasswordRequired =>
+      'Current password is required to set a new one.';
+
+  @override
+  String get profileWrongCurrentPassword => 'Wrong current password';
+
+  @override
+  String get profilePasswordChangedRelogin =>
+      'Password changed — please sign in again';
 
   @override
   String get profileLogout => 'Sign out';
@@ -799,7 +876,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donateBody =>
-      'Expansion is an indie project. Repository link and more ways to support coming later.';
+      'Expansion is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.';
 
   @override
   String get donateGithub => 'Project on GitHub';
@@ -809,6 +886,117 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donateOpenFailed => 'Could not open the link';
+
+  @override
+  String donateTier1(String price) {
+    return 'Support · $price';
+  }
+
+  @override
+  String donateTier2(String price) {
+    return 'More support · $price';
+  }
+
+  @override
+  String donateTier3(String price) {
+    return 'Top support · $price';
+  }
+
+  @override
+  String donateRemoveAds(String price) {
+    return 'Remove ads · $price';
+  }
+
+  @override
+  String get donatePriceFallback => 'coming to store';
+
+  @override
+  String get donateStoreUnavailable =>
+      'Purchases work in Google Play or RuStore builds after release.';
+
+  @override
+  String get donateDisabledByAdmin =>
+      'Donations are temporarily disabled by the administrator.';
+
+  @override
+  String get donatePurchaseFailed =>
+      'Could not start purchase. Check the store and connection.';
+
+  @override
+  String get donatePurchasePending =>
+      'Thank you! Purchase is processing — status updates in a few seconds.';
+
+  @override
+  String get donateRestore => 'Restore purchases';
+
+  @override
+  String get donateRestoreDone => 'Restore request sent.';
+
+  @override
+  String donateSupporterStatus(int tier) {
+    return 'Supporter level: $tier';
+  }
+
+  @override
+  String get donateSupporterHint => 'Cosmetic badge only — no battle bonuses.';
+
+  @override
+  String get donateAdsRemoved => 'Ads removed. Thank you!';
+
+  @override
+  String get settingsDonate => 'Support the project';
+
+  @override
+  String get settingsDonateHint => 'Donate and remove ads';
+
+  @override
+  String get settingsFeedback => 'Feedback';
+
+  @override
+  String get settingsFeedbackHint => 'Report a bug or suggest an idea';
+
+  @override
+  String get feedbackAction => 'Feedback';
+
+  @override
+  String get feedbackTitle => 'Feedback';
+
+  @override
+  String get feedbackHintGuest =>
+      'Describe the issue or idea. Add your email so we can reply.';
+
+  @override
+  String get feedbackHintLoggedIn =>
+      'Describe the issue or idea. We will reply to your account email.';
+
+  @override
+  String get feedbackEmailLabel => 'Email';
+
+  @override
+  String get feedbackMessageLabel => 'Message';
+
+  @override
+  String get feedbackSend => 'Send';
+
+  @override
+  String get feedbackSuccess => 'Thank you! Your message was sent.';
+
+  @override
+  String get feedbackFailed => 'Could not send. Please try again later.';
+
+  @override
+  String get feedbackEmailRequired => 'Email is required';
+
+  @override
+  String get feedbackEmailInvalid => 'Invalid email';
+
+  @override
+  String get feedbackMessageTooShort => 'At least 10 characters';
+
+  @override
+  String battleVictoryRewardedAd(int bonus) {
+    return 'Watch ad: +$bonus pts';
+  }
 
   @override
   String battleScenePlaceholder(int sceneId) {

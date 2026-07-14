@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:expansion/core/audio/game_audio_service.dart';
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
@@ -14,7 +13,10 @@ import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/dialogs/game_feedback_dialog.dart';
 import 'package:expansion/presentation/widgets/forms/difficulty_option_tile.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
+import 'package:expansion/presentation/widgets/monetization/game_banner_ad_slot.dart';
 
 /// Настройки (язык, звук, справка).
 class SettingsPage extends StatefulWidget {
@@ -42,11 +44,12 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GameScreenBackBar(title: loc.settingsTitle),
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GameScreenBackBar(title: loc.settingsTitle),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(24, 8, 24, 32),
@@ -180,6 +183,56 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       child: ListTile(
                         leading: const Icon(
+                          Icons.favorite_outline,
+                          color: ExpansionColors.accent,
+                        ),
+                        title: Text(loc.settingsDonate),
+                        subtitle: Text(
+                          loc.settingsDonateHint,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: ExpansionColors.grey,
+                          ),
+                        ),
+                        onTap: () => context.goToDonate(),
+                      ),
+                    ),
+                    const Gap(16),
+                    Card(
+                      color: ExpansionColors.background.withValues(alpha: 0.92),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: ExpansionColors.accent,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.chat_bubble_outline,
+                          color: ExpansionColors.accent,
+                        ),
+                        title: Text(loc.settingsFeedback),
+                        subtitle: Text(
+                          loc.settingsFeedbackHint,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: ExpansionColors.grey,
+                          ),
+                        ),
+                        onTap: () => showGameFeedbackDialog(context),
+                      ),
+                    ),
+                    const Gap(16),
+                    Card(
+                      color: ExpansionColors.background.withValues(alpha: 0.92),
+                      shape: RoundedRectangleBorder(
+                        side: const BorderSide(
+                          color: ExpansionColors.accent,
+                          width: 1.5,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListTile(
+                        leading: const Icon(
                           Icons.help_outline,
                           color: ExpansionColors.accent,
                         ),
@@ -219,7 +272,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ],
                 ),
               ),
+              const GameBannerAdSlot(),
             ],
+          ),
           ),
         ],
       ),

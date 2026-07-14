@@ -38,6 +38,7 @@ abstract final class AppTheme {
         backgroundColor: ExpansionColors.darkGrey,
         contentTextStyle: GoogleFonts.kellySlab(color: ExpansionColors.white),
       ),
+      inputDecorationTheme: _menuInputDecorationTheme(),
     );
 
     return base.copyWith(
@@ -45,6 +46,43 @@ abstract final class AppTheme {
         bodyColor: ExpansionColors.white,
         displayColor: ExpansionColors.white,
       ),
+    );
+  }
+
+  static InputDecorationTheme _menuInputDecorationTheme() {
+    const borderRadius = BorderRadius.all(Radius.circular(10));
+    final idleBorder = BorderSide(
+      color: ExpansionColors.accent.withValues(alpha: 0.35),
+    );
+    const focusedBorder = BorderSide(
+      color: ExpansionColors.accent,
+      width: 1.5,
+    );
+
+    return InputDecorationTheme(
+      filled: true,
+      fillColor: ExpansionColors.background.withValues(alpha: 0.88),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(borderRadius: borderRadius, borderSide: idleBorder),
+      enabledBorder:
+          OutlineInputBorder(borderRadius: borderRadius, borderSide: idleBorder),
+      focusedBorder:
+          OutlineInputBorder(borderRadius: borderRadius, borderSide: focusedBorder),
+      errorBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: ExpansionColors.red),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderRadius: borderRadius,
+        borderSide: BorderSide(color: ExpansionColors.red, width: 1.5),
+      ),
+      labelStyle: GoogleFonts.kellySlab(color: ExpansionColors.white),
+      hintStyle: GoogleFonts.kellySlab(color: ExpansionColors.grey),
+      helperStyle: GoogleFonts.kellySlab(
+        color: ExpansionColors.grey,
+        fontSize: 12,
+      ),
+      floatingLabelStyle: GoogleFonts.kellySlab(color: ExpansionColors.accent),
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/l10n/app_localizations.dart';
@@ -10,6 +9,7 @@ import 'package:expansion/presentation/bloc/leaderboard/leaderboard_cubit.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class LeaderboardPage extends StatefulWidget {
@@ -30,11 +30,12 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                GameScreenBackBar(title: loc.leaderboardTitle),
+            const GameMenuBackdrop(),
+            GameMenuTheme(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  GameScreenBackBar(title: loc.leaderboardTitle),
                 Expanded(
                   child: BlocBuilder<LeaderboardCubit, LeaderboardState>(
                     builder: (context, state) {
@@ -117,6 +118,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                   ),
                 ),
               ],
+            ),
             ),
           ],
         ),

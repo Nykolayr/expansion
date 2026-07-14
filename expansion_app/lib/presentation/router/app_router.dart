@@ -10,6 +10,7 @@ import 'package:expansion/presentation/pages/begin_page.dart';
 import 'package:expansion/presentation/pages/intro_story_page.dart';
 import 'package:expansion/presentation/pages/leaderboard_page.dart';
 import 'package:expansion/presentation/pages/maps_page.dart';
+import 'package:expansion/presentation/pages/profile_account_edit_page.dart';
 import 'package:expansion/presentation/pages/profile_page.dart';
 import 'package:expansion/presentation/pages/progress_page.dart';
 import 'package:expansion/presentation/pages/upgrades_page.dart';
@@ -84,6 +85,23 @@ final GoRouter appRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const ProfilePage();
       },
+      routes: [
+        GoRoute(
+          path: 'account',
+          name: 'profileAccountEdit',
+          builder: (BuildContext context, GoRouterState state) {
+            final extra = state.extra;
+            if (extra is Map<String, dynamic>) {
+              return ProfileAccountEditPage(
+                initialRealName: '${extra['realName'] ?? ''}',
+                initialNick: '${extra['nick'] ?? ''}',
+                initialEmail: '${extra['email'] ?? ''}',
+              );
+            }
+            return const ProfilePage();
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/progress',
@@ -103,7 +121,8 @@ final GoRouter appRouter = GoRouter(
       path: '/auth/login',
       name: 'authLogin',
       builder: (BuildContext context, GoRouterState state) {
-        return const AuthLoginPage();
+        final email = state.uri.queryParameters['email'];
+        return AuthLoginPage(initialEmail: email);
       },
     ),
     GoRoute(

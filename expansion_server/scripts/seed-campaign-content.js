@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(__dirname, '..', '.env') });
 const { getPool } = require('../api/config/database');
 
 async function run() {
-  const defaultPack = path.join(__dirname, '..', 'content', 'campaign-pack-v7.json');
+  const defaultPack = path.join(__dirname, '..', 'content', 'campaign-pack-v11.json');
   const packPath = process.argv[2] || defaultPack;
 
   if (!fs.existsSync(packPath)) {

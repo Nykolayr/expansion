@@ -487,6 +487,34 @@ class AppLocalizationsRu extends AppLocalizations {
       'Периодически подкидывают корабли на базы врага. Давите вражеские базы быстрее, пока дроны их усиливают.';
 
   @override
+  String get battleIntroSmallBaseTitle => 'Малая база';
+
+  @override
+  String get battleIntroSmallBaseBody =>
+      'Старт 20 кораблей, лимит 30. Проще всего захватить — с неё удобно начинать экспансию.';
+
+  @override
+  String get battleIntroMineTitle => 'Космические мины';
+
+  @override
+  String get battleIntroMineBody =>
+      'Стоят на фиксированных клетках и срабатывают, когда флот пересекает линию. Разведывайте маршрут перед атакой.';
+
+  @override
+  String get battleIntroSolarWindTitle => 'Солнечный ветер';
+
+  @override
+  String get battleIntroSolarWindBody =>
+      'Волна проходит по целой строке поля. Бьёт все базы и флоты на линии — считайте тайминг отправки.';
+
+  @override
+  String get battleIntroWormholeTitle => 'Червоточина';
+
+  @override
+  String get battleIntroWormholeBody =>
+      'Телепортирует пересекающий флот в другую точку поля. Короткий путь с риском — иногда безопаснее обойти.';
+
+  @override
   String get battleDebrisTutorialTitle => 'Метеоритный поток!';
 
   @override
@@ -513,6 +541,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get helpTitle => 'Справка';
+
+  @override
+  String get helpTabGame => 'Основное';
+
+  @override
+  String get helpTabObjects => 'Объекты';
+
+  @override
+  String get helpSubsectionBases => 'Базы';
+
+  @override
+  String get helpSubsectionSpaceObjects => 'Космические объекты';
 
   @override
   String get helpBattleTitle => 'Бой';
@@ -585,6 +625,42 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileAccountTitle => 'Аккаунт';
+
+  @override
+  String get profileAccountEditTitle => 'Редактирование аккаунта';
+
+  @override
+  String get profileAccountEditHint =>
+      'Измените имя, ник или пароль. Email изменить нельзя.';
+
+  @override
+  String get profileAccountSaved => 'Изменения сохранены';
+
+  @override
+  String get profileEmailReadonlyHint => 'Email нельзя изменить';
+
+  @override
+  String get profileChangePasswordSection => 'Пароль';
+
+  @override
+  String get profileChangePasswordHint =>
+      'Заполните только если хотите сменить пароль.';
+
+  @override
+  String get profileCurrentPassword => 'Текущий пароль';
+
+  @override
+  String get profileNewPassword => 'Новый пароль';
+
+  @override
+  String get profileCurrentPasswordRequired =>
+      'Для смены пароля нужен текущий пароль.';
+
+  @override
+  String get profileWrongCurrentPassword => 'Неверный текущий пароль';
+
+  @override
+  String get profilePasswordChangedRelogin => 'Пароль изменён — войдите снова';
 
   @override
   String get profileLogout => 'Выйти';
@@ -800,7 +876,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateBody =>
-      'Expansion — инди-проект. Ссылка на репозиторий и будущие способы поддержки.';
+      'Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.';
 
   @override
   String get donateGithub => 'GitHub проекта';
@@ -810,6 +886,117 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateOpenFailed => 'Не удалось открыть ссылку';
+
+  @override
+  String donateTier1(String price) {
+    return 'Поддержать · $price';
+  }
+
+  @override
+  String donateTier2(String price) {
+    return 'Больше поддержки · $price';
+  }
+
+  @override
+  String donateTier3(String price) {
+    return 'Максимальная поддержка · $price';
+  }
+
+  @override
+  String donateRemoveAds(String price) {
+    return 'Убрать рекламу · $price';
+  }
+
+  @override
+  String get donatePriceFallback => 'скоро в сторе';
+
+  @override
+  String get donateStoreUnavailable =>
+      'Покупки доступны в сборке из Google Play или RuStore после публикации.';
+
+  @override
+  String get donateDisabledByAdmin =>
+      'Донаты временно отключены администратором.';
+
+  @override
+  String get donatePurchaseFailed =>
+      'Не удалось начать покупку. Проверьте стор и интернет.';
+
+  @override
+  String get donatePurchasePending =>
+      'Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.';
+
+  @override
+  String get donateRestore => 'Восстановить покупки';
+
+  @override
+  String get donateRestoreDone => 'Запрос на восстановление отправлен.';
+
+  @override
+  String donateSupporterStatus(int tier) {
+    return 'Уровень поддержки: $tier';
+  }
+
+  @override
+  String get donateSupporterHint => 'Косметический значок — без бонусов в бою.';
+
+  @override
+  String get donateAdsRemoved => 'Реклама отключена. Спасибо!';
+
+  @override
+  String get settingsDonate => 'Поддержать проект';
+
+  @override
+  String get settingsDonateHint => 'Донат и отключение рекламы';
+
+  @override
+  String get settingsFeedback => 'Обратная связь';
+
+  @override
+  String get settingsFeedbackHint => 'Сообщить об ошибке или предложить идею';
+
+  @override
+  String get feedbackAction => 'Обратная связь';
+
+  @override
+  String get feedbackTitle => 'Обратная связь';
+
+  @override
+  String get feedbackHintGuest =>
+      'Опишите проблему или идею. Укажите email — мы сможем ответить.';
+
+  @override
+  String get feedbackHintLoggedIn =>
+      'Опишите проблему или идею. Ответ придёт на email вашего аккаунта.';
+
+  @override
+  String get feedbackEmailLabel => 'Email';
+
+  @override
+  String get feedbackMessageLabel => 'Сообщение';
+
+  @override
+  String get feedbackSend => 'Отправить';
+
+  @override
+  String get feedbackSuccess => 'Спасибо! Сообщение отправлено.';
+
+  @override
+  String get feedbackFailed => 'Не удалось отправить. Попробуйте позже.';
+
+  @override
+  String get feedbackEmailRequired => 'Укажите email';
+
+  @override
+  String get feedbackEmailInvalid => 'Некорректный email';
+
+  @override
+  String get feedbackMessageTooShort => 'Минимум 10 символов';
+
+  @override
+  String battleVictoryRewardedAd(int bonus) {
+    return 'Реклама: +$bonus очков';
+  }
 
   @override
   String battleScenePlaceholder(int sceneId) {

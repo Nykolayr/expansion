@@ -40,6 +40,8 @@ abstract final class GuestProfileJsonCodec {
           json['campaignStartedAtMillis'] as int? ?? 0,
       campaignEpilogueSeenForCount:
           json['campaignEpilogueSeenForCount'] as int? ?? 0,
+      adsRemoved: json['adsRemoved'] as bool? ?? false,
+      supporterTier: json['supporterTier'] as int? ?? 0,
       meta: meta,
     );
   }
@@ -65,6 +67,8 @@ abstract final class GuestProfileJsonCodec {
       'seenFeatureIntros': profile.seenFeatureIntros.toList(),
       'campaignStartedAtMillis': profile.campaignStartedAtMillis,
       'campaignEpilogueSeenForCount': profile.campaignEpilogueSeenForCount,
+      'adsRemoved': profile.adsRemoved,
+      'supporterTier': profile.supporterTier,
       'meta': PlayerMetaProgressCodec.toMap(profile.meta),
     };
   }

@@ -1,6 +1,6 @@
 # API Expansion — канонический контракт
 
-> **Статус:** v0.2 — auth, profile, leaderboard (MariaDB).  
+> **Статус:** v0.3 — auth, profile, leaderboard, platform admin, expansion remote config.  
 > Хаб: [`../docs/API.md`](../docs/API.md) · Spec: [`../docs/auth-account-spec.md`](../docs/auth-account-spec.md)
 
 ## Base URL
@@ -23,7 +23,7 @@
 ### `GET /api/health`
 
 ```json
-{ "ok": true, "service": "expansion-api", "version": "0.2.0", "db": true }
+{ "ok": true, "service": "expansion-api", "version": "0.3.0", "db": true, "emailConfigured": true }
 ```
 
 ---
@@ -35,6 +35,8 @@
 ```json
 { "available": true }
 ```
+
+Занятость — **только среди подтверждённых аккаунтов** (`users`). Незавершённые регистрации (ожидание кода) в UI не блокируют ник; при `POST /register` чужая активная верификация по тому же нику всё ещё даёт `409 NICK_TAKEN`.
 
 Коды `reason`: `NICK_LENGTH`, `NICK_FORMAT`, `NICK_RESERVED`.
 
@@ -167,6 +169,21 @@ Bearer. Полное тело прогресса (как prefs). Можно об
 
 Bearer. Удаляет user, profile, refresh tokens (CASCADE).
 
+### `PATCH /api/account`
+
+Bearer. Обновление аккаунта: `realName`, `nick`, опционально `currentPassword` + `newPassword` (мин. 6). Email не меняется. При смене пароля все refresh-токены сбрасываются (`passwordChanged: true` в ответе).
+
+```json
+{
+  "realName": "Иван",
+  "nick": "StarLord",
+  "currentPassword": "oldpass",
+  "newPassword": "newpass12"
+}
+```
+
+Ошибки: `409 NICK_TAKEN`, `401 AUTH` (неверный текущий пароль), коды валидации ника.
+
 ---
 
 ## Рейтинг
@@ -224,9 +241,125 @@ Deprecated alias — scenes + layouts из latest pack.
 
 ---
 
+## Platform (danilagames admin)
+
+### `POST /api/platform/admin/login`
+
+```json
+{ "username": "admin", "password": "..." }
+```
+
+Ответ `200`:
+
+```json
+{ "accessToken": "...", "username": "admin", "expiresIn": "8h" }
+```
+
+Env: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `ADMIN_JWT_TTL`, `CORS_ORIGINS`.
+
+### `GET /api/platform/games`
+
+Bearer **admin** JWT.
+
+```json
+{
+  "games": [
+    { "slug": "expansion", "title": "Expansion", "adminPath": "/admin/expansion/" }
+  ]
+}
+```
+
+---
+
+## Expansion (app + admin)
+
+### `GET /api/expansion/config` (public)
+
+```json
+{ "game": "expansion", "adsEnabled": true, "donationsEnabled": true }
+```
+
+### `POST /api/expansion/guest/sync` (public)
+
+```json
+{
+  "deviceId": "uuid-v4",
+  "profile": { /* GuestProfile fields */ }
+}
+```
+
+### `POST /api/expansion/events/purchase` (public)
+
+```json
+{
+  "deviceId": "uuid",
+  "productId": "com.ryjovs.expansion.donate_tier1",
+  "store": "in_app_purchase",
+  "userId": "optional-if-logged-in",
+  "priceRub": 99
+}
+```
+
+### `POST /api/expansion/events/ad` (public)
+
+```json
+{
+  "deviceId": "uuid",
+  "events": [{ "eventType": "banner" | "interstitial" | "rewarded" }]
+}
+```
+
+### Admin `/api/admin/expansion/*` (Bearer admin JWT)
+
+| Method | Path | Описание |
+|--------|------|----------|
+| GET | `/settings` | adsEnabled, donationsEnabled |
+| PATCH | `/settings` | `{ "adsEnabled": false, "donationsEnabled": true }` |
+| GET | `/players/registered` | users + profile summary |
+| GET | `/players/guests` | guest_devices |
+| GET | `/finance/summary?months=12` | донаты + показы по месяцам |
+| GET | `/finance/purchases` | детализация покупок |
+
+---
+
+## Обратная связь
+
+### `POST /api/feedback`
+
+Публичный endpoint. Если передан валидный `Authorization: Bearer`, email и ник берутся из аккаунта.
+
+**Гость:**
+
+```json
+{
+  "email": "player@example.com",
+  "message": "Текст сообщения (10–2000 символов)"
+}
+```
+
+**Аккаунт** (JWT):
+
+```json
+{
+  "message": "Текст сообщения (10–2000 символов)"
+}
+```
+
+Ответ `201`:
+
+```json
+{ "message": "feedback sent" }
+```
+
+Ошибки: `400 VALIDATION`, `503 EMAIL_SEND_FAILED` / `FEEDBACK_NOT_CONFIGURED`.
+
+Письмо уходит на `FEEDBACK_TO` (или `ADMIN_EMAIL`, иначе `SMTP_USER`), `Reply-To` — email отправителя.
+
+---
+
 ## Env (сервер)
 
-См. `.env.example`: `DB_*`, `JWT_*`, `SMTP_*`, `APP_NAME`, `EMAIL_FROM`.
+См. `.env.example`: `DB_*`, `JWT_*`, `SMTP_*`, `APP_NAME`, `EMAIL_FROM`, `ADMIN_*`, `FEEDBACK_TO`, `CORS_ORIGINS`.
 
 Миграции: `npm run migrate`.
 
@@ -236,6 +369,8 @@ Deprecated alias — scenes + layouts из latest pack.
 
 | Дата | Изменение |
 |------|-----------|
+| 2026-07-12 | v0.3.1: POST `/feedback` — обратная связь по email |
+| 2026-07-12 | v0.3: platform admin, expansion config/events, guest devices |
 | 2026-07-11 | v0.2.1: OTA campaign content (`/content/pack`, MariaDB) |
 | 2026-07-11 | v0.2: MariaDB, email verify, nick, leaderboard, delete account |
 | 2026-07-10 | Черновик структуры монорепо |

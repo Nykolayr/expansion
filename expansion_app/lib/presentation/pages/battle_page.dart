@@ -10,6 +10,8 @@ import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/core/audio/game_audio_service.dart';
+import 'package:expansion/core/monetization/game_ads_service.dart';
+import 'package:expansion/core/monetization/monetization_config.dart';
 import 'package:expansion/core/ui/game_haptic.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
@@ -109,7 +111,10 @@ class _BattlePageState extends State<BattlePage> {
         defeatStreak >= CampaignDifficultyPolicy.defeatHintStreakThreshold &&
         difficultyCubit.state != GameDifficulty.easy;
 
-    Future<void> goToMaps() async {
+    Future<void> goToMaps({bool withInterstitial = true}) async {
+      if (withInterstitial) {
+        await sl<GameAdsService>().maybeShowInterstitialAfterBattle();
+      }
       await cubit.disposeBattle();
       await sl<MapsCubit>().load();
       if (!mounted) return;
@@ -123,6 +128,24 @@ class _BattlePageState extends State<BattlePage> {
     final canUpgrades = won && guest.scoreClassic >= 180;
 
     final extraActions = <BattleOutcomeExtraAction>[
+      if (won && reward != null && sl<GameAdsService>().isReady)
+        (
+          label: loc.battleVictoryRewardedAd(
+            (reward.total * MonetizationConfig.victoryRewardedBonusFactor)
+                .round(),
+          ),
+          onTap: () async {
+            final bonus =
+                (reward!.total * MonetizationConfig.victoryRewardedBonusFactor)
+                    .round();
+            final granted = await sl<GameAdsService>().showVictoryRewardedAd();
+            if (granted && bonus > 0) {
+              await sl<GuestProfileRepository>().addBonusScore(bonus);
+            }
+            if (!mounted) return;
+            await goToMaps(withInterstitial: !granted);
+          },
+        ),
       if (canUpgrades)
         (
           label: loc.battleVictoryToUpgrades,

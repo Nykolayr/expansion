@@ -21,6 +21,8 @@ class GuestProfile extends Equatable {
     Set<String>? seenFeatureIntros,
     this.campaignStartedAtMillis = 0,
     this.campaignEpilogueSeenForCount = 0,
+    this.adsRemoved = false,
+    this.supporterTier = 0,
     PlayerMetaProgress? meta,
   })  : seenFeatureIntros = seenFeatureIntros ?? const {},
         meta = meta ?? PlayerMetaProgress.fresh();
@@ -58,6 +60,12 @@ class GuestProfile extends Equatable {
 
   /// Для скольких миссий кампании уже показан эпилог (0 — ни разу).
   final int campaignEpilogueSeenForCount;
+
+  /// Куплено «убрать рекламу» (IAP).
+  final bool adsRemoved;
+
+  /// Уровень поддержки 0–3 (косметика, без P2W).
+  final int supporterTier;
   final PlayerMetaProgress meta;
 
   /// Есть что терять при «Новой игре» — показываем подтверждение сброса.
@@ -87,6 +95,8 @@ class GuestProfile extends Equatable {
     Set<String>? seenFeatureIntros,
     int? campaignStartedAtMillis,
     int? campaignEpilogueSeenForCount,
+    bool? adsRemoved,
+    int? supporterTier,
     PlayerMetaProgress? meta,
   }) {
     return GuestProfile(
@@ -109,6 +119,8 @@ class GuestProfile extends Equatable {
           campaignStartedAtMillis ?? this.campaignStartedAtMillis,
       campaignEpilogueSeenForCount: campaignEpilogueSeenForCount ??
           this.campaignEpilogueSeenForCount,
+      adsRemoved: adsRemoved ?? this.adsRemoved,
+      supporterTier: supporterTier ?? this.supporterTier,
       meta: meta ?? this.meta,
     );
   }
@@ -130,6 +142,8 @@ class GuestProfile extends Equatable {
         seenFeatureIntros,
         campaignStartedAtMillis,
         campaignEpilogueSeenForCount,
+        adsRemoved,
+        supporterTier,
         meta,
       ];
 }

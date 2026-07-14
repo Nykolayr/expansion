@@ -10,13 +10,16 @@ import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/auth/login_cubit.dart';
 import 'package:expansion/presentation/bloc/auth/login_state.dart';
+import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/services/auth_post_login_service.dart';
 import 'package:expansion/presentation/widgets/auth/auth_messages.dart';
 import 'package:expansion/presentation/widgets/auth/auth_page_shell.dart';
 import 'package:expansion/presentation/widgets/auth/progress_merge_dialog.dart';
 
 class AuthLoginPage extends StatefulWidget {
-  const AuthLoginPage({super.key});
+  const AuthLoginPage({super.key, this.initialEmail});
+
+  final String? initialEmail;
 
   @override
   State<AuthLoginPage> createState() => _AuthLoginPageState();
@@ -25,6 +28,15 @@ class AuthLoginPage extends StatefulWidget {
 class _AuthLoginPageState extends State<AuthLoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final email = widget.initialEmail?.trim();
+    if (email != null && email.isNotEmpty) {
+      _emailController.text = email;
+    }
+  }
 
   @override
   void dispose() {
@@ -50,6 +62,8 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
       await cubit.completeMerge(choice);
     }
 
+    if (!context.mounted) return;
+    await sl<ProfileCubit>().load();
     if (!context.mounted) return;
     sl<AppFeedbackService>().show(
       AppLocalizations.of(context)!.authLoginSuccess,

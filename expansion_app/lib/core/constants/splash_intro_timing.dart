@@ -11,6 +11,6 @@ abstract final class SplashIntroTiming {
   /// Какую долю полосы заполнять во время печати (остальное — в конце).
   static const double typingBarShare = 0.22;
 
-  /// Верхняя граница длительности полосы без вступления, если bootstrap затянулся.
-  static const Duration skipIntroLoadMs = Duration(seconds: 2);
+  /// Верхняя граница анимации полосы до 95%, пока bootstrap не завершится.
+  static const Duration progressAnimationCap = Duration(seconds: 12);
 }

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 enum RegisterStep { credentials, verification }
 
-enum RegisterStatus { initial, loading, success, failure }
+enum RegisterStatus { initial, loading, success, failure, emailExists }
 
 enum NickCheckStatus { idle, checking, available, unavailable }
 

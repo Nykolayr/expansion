@@ -31,4 +31,7 @@ abstract class GuestProfileRepository {
   Future<void> markCampaignEpilogueSeen(int missionCount);
 
   Future<void> ensureCampaignStartedAt();
+
+  /// Дополнительные очки (rewarded после победы).
+  Future<void> addBonusScore(int points);
 }

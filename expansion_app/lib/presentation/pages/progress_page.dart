@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
@@ -13,6 +12,7 @@ import 'package:expansion/presentation/bloc/progress/progress_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/cards/game_stat_card.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
 
 class ProgressPage extends StatefulWidget {
@@ -43,11 +43,12 @@ class _ProgressPageState extends State<ProgressPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              GameScreenBackBar(title: loc.progressTitle),
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                GameScreenBackBar(title: loc.progressTitle),
               Expanded(
                 child: BlocBuilder<ProgressCubit, ProgressState>(
                   bloc: sl<ProgressCubit>(),
@@ -125,6 +126,7 @@ class _ProgressPageState extends State<ProgressPage> {
                 ),
               ),
             ],
+          ),
           ),
         ],
       ),

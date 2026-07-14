@@ -8,7 +8,7 @@ import 'package:expansion/domain/entities/battle_base.dart';
 import 'package:expansion/domain/enums/battle_side.dart';
 import 'package:expansion/presentation/widgets/battle/battle_entity_sprite.dart';
 
-/// База в клетке: крупный спрайт; HUD (корабли/щит) — отдельным слоем поверх флотов.
+/// База в клетке: спрайт почти на всю ширину; HUD — отдельным слоем поверх флотов.
 class BattleBaseView extends StatelessWidget {
   const BattleBaseView({
     required this.base,
@@ -25,35 +25,40 @@ class BattleBaseView extends StatelessWidget {
   final bool showUpgradeHint;
   final bool showHud;
 
+  static const double _sideMargin = 3;
+  static const double _bottomStatBand = 0.20;
+
   static const TextStyle _shadow = TextStyle(
     shadows: [Shadow(color: Colors.black87, blurRadius: 4)],
   );
 
-  /// Щит и ресурсы — золотые, с контрастной подложкой (одинаково у игрока и врага).
   static const Color _statColor = ExpansionColors.accent;
-  static const List<Shadow> _statShadows = [
-    Shadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 1),
-    Shadow(color: Colors.black87, blurRadius: 6),
-  ];
 
   @override
   Widget build(BuildContext context) {
     final minSide = math.min(cellWidth, cellHeight);
-    final spriteSize =
-        minSide * 0.88 * BattleAssets.baseSpriteScaleFactor(base);
+    final spriteWidth = math.max(0, cellWidth - _sideMargin * 2);
+    final statBand = cellHeight * _bottomStatBand;
+    final spriteSize = math.min(spriteWidth, cellHeight - statBand).toDouble();
 
     return SizedBox(
       width: cellWidth,
       height: cellHeight,
       child: Stack(
-        clipBehavior: Clip.none,
+        clipBehavior: Clip.hardEdge,
         fit: StackFit.expand,
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: BattleEntitySprite(
-              assetPath: BattleAssets.baseSprite(base),
-              size: spriteSize,
+          Positioned(
+            left: _sideMargin,
+            right: _sideMargin,
+            top: cellHeight * 0.04,
+            bottom: statBand * 0.55,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: BattleEntitySprite(
+                assetPath: BattleAssets.baseSprite(base),
+                size: spriteSize,
+              ),
             ),
           ),
           if (showHud)
@@ -86,7 +91,7 @@ class BattleBaseView extends StatelessWidget {
   }
 }
 
-/// Цифры кораблей и щита — поверх флотов и hazard'ов.
+/// Цифры кораблей, щита и ресурсов — поверх флотов и hazard'ов.
 class BattleBaseHud extends StatelessWidget {
   const BattleBaseHud({
     required this.base,
@@ -109,7 +114,7 @@ class BattleBaseHud extends StatelessWidget {
 
     final minSide = math.min(cellWidth, cellHeight);
     final shipFont = (minSide * 0.22).clamp(11.0, 18.0);
-    final statFont = (minSide * 0.16).clamp(9.0, 12.0);
+    final statFont = (minSide * 0.14).clamp(8.0, 11.0);
 
     final statLines = <Widget>[
       if (base.shield > 0)
@@ -117,14 +122,12 @@ class BattleBaseHud extends StatelessWidget {
           text: '⛨${base.shield.round()}',
           fontSize: statFont,
           color: BattleBaseView._statColor,
-          shadows: BattleBaseView._statShadows,
         ),
       if (base.side != BattleSide.neutral)
         _HudLine(
           text: '⚙${base.resources.round()}',
           fontSize: statFont,
           color: BattleBaseView._statColor,
-          shadows: BattleBaseView._statShadows,
         ),
     ];
 
@@ -139,15 +142,11 @@ class BattleBaseHud extends StatelessWidget {
           child: Text(
             '${base.ships}',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: BattleBaseView._shadow.copyWith(
               color: hudColor,
               fontSize: shipFont,
               fontWeight: FontWeight.w900,
               height: 1,
-              shadows: const [
-                Shadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 2),
-                Shadow(color: Colors.black87, blurRadius: 4),
-              ],
             ),
           ),
         ),
@@ -156,18 +155,9 @@ class BattleBaseHud extends StatelessWidget {
             left: 0,
             right: 0,
             bottom: 0,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.52),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: statLines,
-                ),
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: statLines,
             ),
           ),
       ],
@@ -180,13 +170,11 @@ class _HudLine extends StatelessWidget {
     required this.text,
     required this.fontSize,
     required this.color,
-    required this.shadows,
   });
 
   final String text;
   final double fontSize;
   final Color color;
-  final List<Shadow> shadows;
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +188,6 @@ class _HudLine extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: FontWeight.w800,
           height: 1.05,
-          shadows: shadows,
         ),
       ),
     );

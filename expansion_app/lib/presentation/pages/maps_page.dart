@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/domain/campaign/campaign_progress.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
@@ -15,6 +14,8 @@ import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart
 import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_epilogue_overlay.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_map_grid.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
+import 'package:expansion/presentation/widgets/monetization/game_banner_ad_slot.dart';
 
 /// Карта кампании Classic.
 class MapsPage extends StatefulWidget {
@@ -108,8 +109,9 @@ class _MapsPageState extends State<MapsPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          BlocBuilder<MapsCubit, MapsState>(
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: BlocBuilder<MapsCubit, MapsState>(
         bloc: sl<MapsCubit>(),
         builder: (context, state) {
           return Column(
@@ -168,12 +170,14 @@ class _MapsPageState extends State<MapsPage> {
                     ),
                     onStart: _onStartBattle,
                   ),
-              ] else
+              ]               else
                 const SizedBox.shrink(),
+              const GameBannerAdSlot(),
             ],
           );
         },
       ),
+          ),
           if (_epilogueVisible && _epilogueText != null)
             Positioned.fill(
               child: CampaignEpilogueOverlay(

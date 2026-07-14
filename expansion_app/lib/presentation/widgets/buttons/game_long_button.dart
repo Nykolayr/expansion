@@ -15,6 +15,7 @@ class GameLongButton extends StatelessWidget {
     this.fontSize = 20,
     this.loading = false,
     this.maxWidth,
+    this.labelColor,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class GameLongButton extends StatelessWidget {
   final double fontSize;
   final bool loading;
   final double? maxWidth;
+  final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,8 @@ class GameLongButton extends StatelessWidget {
                 Text(
                   label,
                   style: ExpansionTextStyles.bodyAccent(context, fontSize).copyWith(
-                    color: onPressed != null ? null : ExpansionColors.grey,
+                    color: labelColor ??
+                        (onPressed != null ? null : ExpansionColors.grey),
                   ),
                 ),
             ],

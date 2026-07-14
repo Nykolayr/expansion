@@ -20,16 +20,16 @@
       "nameEn": "Alaraf",
       "descriptionRu": "Новый портал - новые возможности или новые угрозы?",
       "descriptionEn": "New portal - new opportunities or new threats?",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Два коридора — комета бьёт по срезу. Не ведите флот через центр.",
+      "battleEn": "Two corridors — the comet cuts through the middle. Don't send fleets through the gap."
    },
    {
       "nameRu": "Конопус",
       "nameEn": "Konopus",
       "descriptionRu": "Оставшиеся обломки вражеских кораблей напоминают нам о цене победы в космической схватке.",
       "descriptionEn": "The remaining fragments of enemy ships remind us of the price of victory in a space battle.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Большая база — самая крепкая цель. Захватите соседние узлы, затем бейте по крупной.",
+      "battleEn": "The large base is the toughest target. Take neighboring nodes first, then strike the big one."
    },
    {
       "nameRu": "Пылающая",
@@ -44,80 +44,80 @@
       "nameEn": "Alcyone",
       "descriptionRu": "Сквозь пылающие облака вражеской армады мы увидели новые миры, ждущие своих исследователей.",
       "descriptionEn": "Through the flaming clouds of the enemy armada, we saw new worlds waiting for their explorers.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Щитовые базы держат гарнизон дольше — бейте соседние узлы, чтобы ослабить фланги.",
+      "battleEn": "Shielded bases hold garrisons longer — take neighboring nodes to weaken the flanks."
    },
    {
       "nameRu": "Алиот",
       "nameEn": "Aliot",
       "descriptionRu": "Портал стал символом нашей смелости, ведь мы перешли грань между известным и неизведанным.",
       "descriptionEn": "The portal has become a symbol of our courage, because we have crossed the line between the known and the unknown.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Импульсы бьют по полю — фабрики быстро наращивают флот, захватывайте их раньше врага.",
+      "battleEn": "Pulse waves hit the field — factories ramp up fast; capture them before the enemy does."
    },
    {
       "nameRu": "Электра",
       "nameEn": "Elektra",
       "descriptionRu": "Сражение закончилось, но перед нами открылась новая глава нашей космической эпопеи.",
       "descriptionEn": "The battle is over, but a new chapter of our space epic has opened before us.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Бunker-базы держат линию дольше — прорвите фланги, не бейтесь в лоб по центру.",
+      "battleEn": "Bunker bases hold the line — break the flanks instead of attacking the center head-on."
    },
    {
       "nameRu": "Сеат",
       "nameEn": "Seat",
       "descriptionRu": "Мы покорили вражескую армию и открыли перед собой дорогу к звездам.",
       "descriptionEn": "We have conquered the enemy army and opened the way to the stars in front of us.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Дрон даёт бесплатные корабли захватчику. Богатые базы по углам — ваш приоритет.",
+      "battleEn": "The drone grants free ships to whoever holds it. Grab the rich corner bases first."
    },
    {
       "nameRu": "Интеркрус",
       "nameEn": "Intercrus",
       "descriptionRu": "Переступив порог портала, мы поняли, что наши судьбы теперь неразрывно связаны с бескрайним космосом.",
       "descriptionEn": "Having crossed the threshold of the portal, we realized that our destinies are now inextricably linked with the boundless cosmos.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Три пути наверх — выберите безопасный маршрут и не распыляйте флот.",
+      "battleEn": "Three paths upward — pick a safe route and don't split your fleet too thin."
    },
    {
       "nameRu": "Маркаб",
       "nameEn": "Markab",
       "descriptionRu": "Портал представляет собой мост между нашим прошлым и будущим в галактических просторах.",
       "descriptionEn": "The portal is a bridge between our past and the future in the galactic expanses.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Мины на линиях — сначала разведка, потом массовая отправка. Щитовые базы — крепости.",
+      "battleEn": "Mines on the lanes — probe first, then commit fleets. Shielded bases are fortresses."
    },
    {
       "nameRu": "Алмак",
       "nameEn": "Almak",
       "descriptionRu": "Каждое сражение - это шаг к новым мирам, к новым свершениям.",
       "descriptionEn": "Every battle is a step to new worlds, to new achievements.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Спираль к врагу — длинные линии снабжения. Держите тыл под контролем.",
+      "battleEn": "A spiral toward the enemy — long supply lines. Keep your rear secure."
    },
    {
       "nameRu": "Мусцида",
       "nameEn": "Muscida",
       "descriptionRu": "Светящийся портал напоминает нам, что смелость и решимость открывают дорогу в неизведанные горизонты.",
       "descriptionEn": "The glowing portal reminds us that courage and determination open the way to unexplored horizons.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Солнечный ветер бьёт по открытым маршрутам — считайте тайминг отправки.",
+      "battleEn": "Solar wind punishes open routes — time your fleet launches carefully."
    },
    {
       "nameRu": "Адара",
       "nameEn": "Adhara",
       "descriptionRu": "Сражение за сражением, и мы продолжаем свое великое путешествие к звездам.",
       "descriptionEn": "Battle after battle, and we continue our great journey to the stars.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Все типы баз на одном поле — сведите механики в голове и бейте по слабым звеньям.",
+      "battleEn": "Every base type on one field — know the mechanics and hit the weak links."
    },
    {
       "nameRu": "Алголь",
       "nameEn": "Algol",
       "descriptionRu": "Портал раскрывает перед нами не только новые системы, но и новые возможности для человечества.",
       "descriptionEn": "The portal reveals to us not only new systems, but also new opportunities for humanity.",
-      "battleRu": "",
-      "battleEn": ""
+      "battleRu": "Червоточина — короткий путь с риском. Можно обойти длиннее, но безопаснее.",
+      "battleEn": "The wormhole is a risky shortcut — a longer path may be safer."
    },
    {
       "nameRu": "Пропус",

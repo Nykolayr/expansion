@@ -8,7 +8,7 @@
     "start": "node api/server.js",
     "dev": "node --watch api/server.js",
     "migrate": "node scripts/migrate.js",
-    "load-check": "node -e \"require('./api/routes/auth'); require('./api/routes/profile'); require('./api/routes/leaderboard'); require('./api/routes/account'); require('./api/routes/content'); console.log('ok')\"",
+    "load-check": "node -e \"require('./api/routes/auth'); require('./api/routes/profile'); require('./api/routes/leaderboard'); require('./api/routes/account'); require('./api/routes/content'); require('./api/routes/platform'); require('./api/routes/expansion'); console.log('ok')\"",
     "content:build": "node scripts/build-content-pack.js",
     "content:seed": "node scripts/seed-campaign-content.js",
     "content:gen-missions-16-40": "node scripts/generate-missions-16-40.js",

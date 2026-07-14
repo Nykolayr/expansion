@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-import 'package:expansion/core/constants/game_assets.dart';
 import 'package:expansion/core/di/injection_container.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_cubit.dart';
 import 'package:expansion/presentation/bloc/upgrades/upgrades_state.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
+import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/upgrades/meta_upgrade_tile.dart';
 
 class UpgradesPage extends StatefulWidget {
@@ -33,8 +33,9 @@ class _UpgradesPageState extends State<UpgradesPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(GameAssets.splashBackground, fit: BoxFit.cover),
-          BlocBuilder<UpgradesCubit, UpgradesState>(
+          const GameMenuBackdrop(),
+          GameMenuTheme(
+            child: BlocBuilder<UpgradesCubit, UpgradesState>(
             bloc: sl<UpgradesCubit>(),
             builder: (context, state) {
               final profile = state.profile;
@@ -76,6 +77,7 @@ class _UpgradesPageState extends State<UpgradesPage> {
                 ],
               );
             },
+          ),
           ),
         ],
       ),

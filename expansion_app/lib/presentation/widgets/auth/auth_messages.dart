@@ -11,6 +11,7 @@ String resolveAuthMessage(AppLocalizations loc, String? keyOrMessage) {
     'authErrorEmailSend' => loc.authErrorEmailSend,
     'authErrorInvalidCredentials' => loc.authErrorInvalidCredentials,
     'authErrorInvalidCode' => loc.authErrorInvalidCode,
+    'profileWrongCurrentPassword' => loc.profileWrongCurrentPassword,
     _ => keyOrMessage,
   };
 }
