@@ -9,7 +9,7 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitle => 'Expansion';
+  String get appTitle => 'Экспансия';
 
   @override
   String get splashTitleSpace => 'КОСМИЧЕСКАЯ';
@@ -688,6 +688,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get progressLeaderboard => 'Лучшие результаты';
 
   @override
+  String get progressSupporters => 'Поддержали игру';
+
+  @override
   String get leaderboardTitle => 'Рейтинг';
 
   @override
@@ -697,7 +700,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get leaderboardLoadFailed => 'Не удалось загрузить рейтинг';
 
   @override
-  String get leaderboardGuestHint => 'Можешь быть в таблице — зарегистрируйся';
+  String get leaderboardGuestHint => 'Хочешь быть в таблице — зарегистрируйся';
 
   @override
   String leaderboardMission(int mission) {
@@ -727,6 +730,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authPasswordHint => 'Минимум 6 символов';
+
+  @override
+  String get authPasswordToggleShow => 'Показать пароль';
+
+  @override
+  String get authPasswordToggleHide => 'Скрыть пароль';
 
   @override
   String get authNewPassword => 'Новый пароль';
@@ -875,44 +884,71 @@ class AppLocalizationsRu extends AppLocalizations {
   String get donateTitle => 'Поддержать';
 
   @override
-  String get donateBody =>
-      'Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.';
+  String get supportersTitle => 'Поддержали игру';
 
   @override
-  String get donateGithub => 'GitHub проекта';
+  String get supportersEmpty => 'Пока никого — будь первым!';
+
+  @override
+  String get supportersAnonymous => 'Аноним';
+
+  @override
+  String get supportersLoadFailed => 'Не удалось загрузить список';
+
+  @override
+  String get supportersDonateHint => 'Помоги игре — и твоё имя появится здесь';
+
+  @override
+  String donateBody(String appName) {
+    return '$appName — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.';
+  }
 
   @override
   String get donateThanks => 'Спасибо, что играете!';
 
   @override
-  String get donateOpenFailed => 'Не удалось открыть ссылку';
-
-  @override
   String donateTier1(String price) {
-    return 'Поддержать · $price';
+    return 'Поддержать ($price)';
   }
 
   @override
   String donateTier2(String price) {
-    return 'Больше поддержки · $price';
+    return 'Больше поддержки ($price)';
   }
 
   @override
   String donateTier3(String price) {
-    return 'Максимальная поддержка · $price';
+    return 'Поддержка + Ваша идея ($price)';
   }
 
   @override
   String donateRemoveAds(String price) {
-    return 'Убрать рекламу · $price';
+    return 'Убрать рекламу ($price)';
   }
 
   @override
-  String get donatePriceFallback => 'скоро в сторе';
+  String get donateIdeaHint =>
+      'Опишите идею новой функции — сохраним её перед оплатой. После успешной оплаты идея появится у нас в админке, а вам придёт письмо: спасибо, рассмотрим в ближайшее время.';
 
   @override
-  String get donateStoreUnavailable =>
-      'Покупки доступны в сборке из Google Play или RuStore после публикации.';
+  String get donateIdeaTitle => 'Ваша идея';
+
+  @override
+  String get donateIdeaBody =>
+      'Коротко опишите функцию, которую хотели бы видеть в игре.';
+
+  @override
+  String get donateIdeaLabel => 'Описание идеи';
+
+  @override
+  String get donateIdeaContinue => 'Продолжить к оплате';
+
+  @override
+  String get donateIdeaSaved => 'Идея сохранена. Переходите к оплате.';
+
+  @override
+  String get donateIdeaFailed =>
+      'Не удалось сохранить идею. Проверьте интернет и попробуйте снова.';
 
   @override
   String get donateDisabledByAdmin =>
@@ -920,11 +956,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donatePurchaseFailed =>
-      'Не удалось начать покупку. Проверьте стор и интернет.';
+      'Не удалось начать оплату. Попробуйте позже или проверьте интернет.';
 
   @override
   String get donatePurchasePending =>
-      'Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.';
+      'Спасибо! Оплата обрабатывается — статус обновится через несколько секунд.';
 
   @override
   String get donateRestore => 'Восстановить покупки';
@@ -942,6 +978,70 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get donateAdsRemoved => 'Реклама отключена. Спасибо!';
+
+  @override
+  String get donatePaymentTitle => 'Оплата';
+
+  @override
+  String get donatePaymentLoading => 'Готовим данные для оплаты…';
+
+  @override
+  String donatePaymentAmount(String price) {
+    return 'Сумма: $price';
+  }
+
+  @override
+  String get donatePaymentInstructions =>
+      'Переведите указанную сумму через СБП или QR. В комментарии к платежу обязательно укажите код ниже — так мы сопоставим перевод с вашим аккаунтом.';
+
+  @override
+  String get donatePaymentCommentLabel => 'Комментарий к переводу';
+
+  @override
+  String get donatePaymentCopyCode => 'Скопировать код';
+
+  @override
+  String get donatePaymentCodeCopied => 'Код скопирован';
+
+  @override
+  String get donatePaymentQrHint => 'Отсканируйте QR в приложении банка:';
+
+  @override
+  String get donatePaymentQrMissing => 'QR временно недоступен';
+
+  @override
+  String get donatePaymentOpenSbp => 'Открыть оплату СБП';
+
+  @override
+  String get donatePaymentSbpFailed => 'Не удалось открыть ссылку СБП';
+
+  @override
+  String get donatePaymentLinksPending =>
+      'Ссылки СБП/QR скоро появятся — администратор настраивает реквизиты. Код для перевода уже можно использовать.';
+
+  @override
+  String get donatePaymentAfterPay =>
+      'После поступления денег на счёт мы подтвердим оплату вручную. Реклама отключится при следующем запуске игры (или сразу после входа в аккаунт).';
+
+  @override
+  String get donatePaymentBack => 'Назад к донатам';
+
+  @override
+  String get donatePaymentRetry => 'Повторить';
+
+  @override
+  String get donatePaymentWebViewTitle => 'Оплата СБП';
+
+  @override
+  String get donatePaymentWebViewHint =>
+      'После перевода вернитесь назад — подтверждение придёт вручную.';
+
+  @override
+  String get donatePaymentWebViewFailed =>
+      'Не удалось загрузить страницу оплаты.';
+
+  @override
+  String get donatePaymentWebViewOpenBrowser => 'Открыть в браузере';
 
   @override
   String get settingsDonate => 'Поддержать проект';

@@ -5,6 +5,9 @@ import 'package:expansion/presentation/pages/auth/auth_login_page.dart';
 import 'package:expansion/presentation/pages/auth/auth_register_page.dart';
 import 'package:expansion/presentation/pages/battle_page.dart';
 import 'package:expansion/presentation/pages/donate_page.dart';
+import 'package:expansion/presentation/pages/donate_payment_page.dart';
+import 'package:expansion/presentation/pages/donate_payment_webview_page.dart';
+import 'package:expansion/core/monetization/donate_billing_service.dart';
 import 'package:expansion/presentation/pages/help_page.dart';
 import 'package:expansion/presentation/pages/begin_page.dart';
 import 'package:expansion/presentation/pages/intro_story_page.dart';
@@ -16,6 +19,7 @@ import 'package:expansion/presentation/pages/progress_page.dart';
 import 'package:expansion/presentation/pages/upgrades_page.dart';
 import 'package:expansion/presentation/pages/settings_page.dart';
 import 'package:expansion/presentation/pages/splash_page.dart';
+import 'package:expansion/presentation/pages/supporters_page.dart';
 
 /// Корневой роутер. Новые маршруты добавляй в [routes].
 final GoRouter appRouter = GoRouter(
@@ -40,6 +44,39 @@ final GoRouter appRouter = GoRouter(
       name: 'donate',
       builder: (BuildContext context, GoRouterState state) {
         return const DonatePage();
+      },
+      routes: [
+        GoRoute(
+          path: 'payment',
+          name: 'donatePayment',
+          builder: (BuildContext context, GoRouterState state) {
+            final extra = state.extra;
+            if (extra is DonateSku) {
+              return DonatePaymentPage(sku: extra);
+            }
+            return const DonatePage();
+          },
+          routes: [
+            GoRoute(
+              path: 'webview',
+              name: 'donatePaymentWebView',
+              builder: (BuildContext context, GoRouterState state) {
+                final url = state.extra;
+                if (url is String && url.isNotEmpty) {
+                  return DonatePaymentWebViewPage(url: url);
+                }
+                return const DonatePage();
+              },
+            ),
+          ],
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/supporters',
+      name: 'supporters',
+      builder: (BuildContext context, GoRouterState state) {
+        return const SupportersPage();
       },
     ),
     GoRoute(

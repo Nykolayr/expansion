@@ -78,14 +78,16 @@ flutter run --release `
 
 Product ID **зашиты в коде** (можно переопределить `--dart-define`):
 
-| Product ID | Тип | Рек. цена |
+| Product ID | Тип | Цена (UI) |
 |------------|-----|-----------|
 | `com.ryjovs.expansion.donate_tier1` | consumable | 99 ₽ |
 | `com.ryjovs.expansion.donate_tier2` | consumable | 299 ₽ |
-| `com.ryjovs.expansion.donate_tier3` | consumable | 599 ₽ |
+| `com.ryjovs.expansion.donate_tier3` | consumable + идея | 599 ₽ |
 | `com.ryjovs.expansion.remove_ads` | non-consumable | 199 ₽ |
 
-Экран: **Настройки → Поддержать проект** (`/donate`).
+Экран: **Настройки → Поддержать** (`/donate`).
+
+Tier3 («Поддержка + Ваша идея»): перед оплатой — описание идеи → `POST /expansion/donations/idea`; после оплаты — админка (Финансы) + письмо игроку.
 
 ### Google Play Console
 

@@ -1,6 +1,6 @@
 {
   "@@locale": "ru",
-  "appTitle": "Expansion",
+  "appTitle": "Экспансия",
   "@appTitle": {
     "description": "Название приложения в списке задач ОС"
   },
@@ -265,10 +265,11 @@
   "profileDeleteAccountConfirm": "Удалить",
   "profileDeleteAccountSuccess": "Аккаунт удалён",
   "progressLeaderboard": "Лучшие результаты",
+  "progressSupporters": "Поддержали игру",
   "leaderboardTitle": "Рейтинг",
   "leaderboardEmpty": "Пока никого в таблице — будьте первым!",
   "leaderboardLoadFailed": "Не удалось загрузить рейтинг",
-  "leaderboardGuestHint": "Можешь быть в таблице — зарегистрируйся",
+  "leaderboardGuestHint": "Хочешь быть в таблице — зарегистрируйся",
   "leaderboardMission": "Миссия {mission}",
   "@leaderboardMission": {
     "placeholders": {
@@ -283,6 +284,8 @@
   "authEmail": "Email",
   "authPassword": "Пароль",
   "authPasswordHint": "Минимум 6 символов",
+  "authPasswordToggleShow": "Показать пароль",
+  "authPasswordToggleHide": "Скрыть пароль",
   "authNewPassword": "Новый пароль",
   "authNick": "Ник",
   "authNickHint": "3–20 символов, буквы, цифры, _",
@@ -344,39 +347,52 @@
   "newMissionsBannerAction": "На карту",
   "newMissionsBannerDismiss": "Понятно",
   "donateTitle": "Поддержать",
-  "donateBody": "Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.",
-  "donateGithub": "GitHub проекта",
+  "supportersTitle": "Поддержали игру",
+  "supportersEmpty": "Пока никого — будь первым!",
+  "supportersAnonymous": "Аноним",
+  "supportersLoadFailed": "Не удалось загрузить список",
+  "supportersDonateHint": "Помоги игре — и твоё имя появится здесь",
+  "donateBody": "{appName} — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.",
+  "@donateBody": {
+    "placeholders": {
+      "appName": { "type": "String" }
+    }
+  },
   "donateThanks": "Спасибо, что играете!",
-  "donateOpenFailed": "Не удалось открыть ссылку",
-  "donateTier1": "Поддержать · {price}",
+  "donateTier1": "Поддержать ({price})",
   "@donateTier1": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateTier2": "Больше поддержки · {price}",
+  "donateTier2": "Больше поддержки ({price})",
   "@donateTier2": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateTier3": "Максимальная поддержка · {price}",
+  "donateTier3": "Поддержка + Ваша идея ({price})",
   "@donateTier3": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateRemoveAds": "Убрать рекламу · {price}",
+  "donateRemoveAds": "Убрать рекламу ({price})",
   "@donateRemoveAds": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donatePriceFallback": "скоро в сторе",
-  "donateStoreUnavailable": "Покупки доступны в сборке из Google Play или RuStore после публикации.",
+  "donateIdeaHint": "Опишите идею новой функции — сохраним её перед оплатой. После успешной оплаты идея появится у нас в админке, а вам придёт письмо: спасибо, рассмотрим в ближайшее время.",
+  "donateIdeaTitle": "Ваша идея",
+  "donateIdeaBody": "Коротко опишите функцию, которую хотели бы видеть в игре.",
+  "donateIdeaLabel": "Описание идеи",
+  "donateIdeaContinue": "Продолжить к оплате",
+  "donateIdeaSaved": "Идея сохранена. Переходите к оплате.",
+  "donateIdeaFailed": "Не удалось сохранить идею. Проверьте интернет и попробуйте снова.",
   "donateDisabledByAdmin": "Донаты временно отключены администратором.",
-  "donatePurchaseFailed": "Не удалось начать покупку. Проверьте стор и интернет.",
-  "donatePurchasePending": "Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.",
+  "donatePurchaseFailed": "Не удалось начать оплату. Попробуйте позже или проверьте интернет.",
+  "donatePurchasePending": "Спасибо! Оплата обрабатывается — статус обновится через несколько секунд.",
   "donateRestore": "Восстановить покупки",
   "donateRestoreDone": "Запрос на восстановление отправлен.",
   "donateSupporterStatus": "Уровень поддержки: {tier}",
@@ -387,6 +403,30 @@
   },
   "donateSupporterHint": "Косметический значок — без бонусов в бою.",
   "donateAdsRemoved": "Реклама отключена. Спасибо!",
+  "donatePaymentTitle": "Оплата",
+  "donatePaymentLoading": "Готовим данные для оплаты…",
+  "donatePaymentAmount": "Сумма: {price}",
+  "@donatePaymentAmount": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donatePaymentInstructions": "Переведите указанную сумму через СБП или QR. В комментарии к платежу обязательно укажите код ниже — так мы сопоставим перевод с вашим аккаунтом.",
+  "donatePaymentCommentLabel": "Комментарий к переводу",
+  "donatePaymentCopyCode": "Скопировать код",
+  "donatePaymentCodeCopied": "Код скопирован",
+  "donatePaymentQrHint": "Отсканируйте QR в приложении банка:",
+  "donatePaymentQrMissing": "QR временно недоступен",
+  "donatePaymentOpenSbp": "Открыть оплату СБП",
+  "donatePaymentSbpFailed": "Не удалось открыть ссылку СБП",
+  "donatePaymentLinksPending": "Ссылки СБП/QR скоро появятся — администратор настраивает реквизиты. Код для перевода уже можно использовать.",
+  "donatePaymentAfterPay": "После поступления денег на счёт мы подтвердим оплату вручную. Реклама отключится при следующем запуске игры (или сразу после входа в аккаунт).",
+  "donatePaymentBack": "Назад к донатам",
+  "donatePaymentRetry": "Повторить",
+  "donatePaymentWebViewTitle": "Оплата СБП",
+  "donatePaymentWebViewHint": "После перевода вернитесь назад — подтверждение придёт вручную.",
+  "donatePaymentWebViewFailed": "Не удалось загрузить страницу оплаты.",
+  "donatePaymentWebViewOpenBrowser": "Открыть в браузере",
   "settingsDonate": "Поддержать проект",
   "settingsDonateHint": "Донат и отключение рекламы",
   "settingsFeedback": "Обратная связь",

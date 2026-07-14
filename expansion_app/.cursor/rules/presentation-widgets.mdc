@@ -17,7 +17,8 @@ alwaysApply: true
 
 ## Запрещено без необходимости
 
-- **`FilledButton` / `OutlinedButton` / `ElevatedButton` / Material `TextButton`** на игровых экранах (splash, карта, бой, профиль, прогресс, auth) — только **`GameLongButton`** (основное действие) и **`GameCompactSkewButton`** (вторичное, строки, диалоги).
+- **`FilledButton` / `OutlinedButton` / `ElevatedButton` / Material `TextButton`** на игровых экранах — **запрещены**. Только **`GameLongButton`** на всю ширину.
+- **`GameCompactSkewButton`** — **только** две кнопки в одном `Row` (пополам). Не для отмены, «забыли пароль», вторичных действий.
 - Дублировать разметку кнопок и однотипные поля на нескольких экранах вместо общего виджета.
 - Добавлять «ещё один» почти такой же виджет рядом — лучше параметризовать существующий.
 
@@ -25,9 +26,9 @@ alwaysApply: true
 
 | Вид | Виджет | Когда |
 |-----|--------|-------|
-| Основное действие | `GameLongButton` | «Новая игра», вход, регистрация, сохранить |
-| Вторичное / пара в ряд | `GameCompactSkewButton` | отмена, «забыли пароль?», dismiss в баннерах |
-| Auth-обёртки | `AuthPrimaryButton`, `AuthSecondaryButton` | формы auth — делегируют в game-кнопки |
+| Любое одиночное действие | `GameLongButton` | вход, отмена, «забыли пароль?», отправить, назад |
+| Две кнопки в один ряд | `GameCompactSkewButton` | только пара «да/нет» или две равные по ширине в `Row` |
+| Auth-обёртки | `AuthPrimaryButton`, `AuthSecondaryButton` | делегируют в `GameLongButton` (полная ширина) |
 
 Перед новой кнопкой — **сначала** `WIDGET_INVENTORY.md` → `buttons/`.
 

@@ -125,14 +125,6 @@ class _TutorialCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (showSkip)
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: onSkip,
-                  child: Text(skipLabel),
-                ),
-              ),
             Text(
               title,
               textAlign: TextAlign.center,
@@ -147,6 +139,14 @@ class _TutorialCard extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
+            if (showSkip) ...[
+              const Gap(12),
+              GameLongButton(
+                label: skipLabel,
+                fontSize: 16,
+                onPressed: onSkip,
+              ),
+            ],
             if (showDismiss && onDismiss != null) ...[
               const Gap(12),
               GameLongButton(

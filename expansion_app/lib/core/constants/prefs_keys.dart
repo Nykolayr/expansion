@@ -35,4 +35,5 @@ abstract final class PrefsKeys {
   static const String deviceId = 'device_id';
   static const String adsBattlesSinceInterstitial = 'ads_battles_since_interstitial';
   static const String adsLastInterstitialMillis = 'ads_last_interstitial_millis';
+  static const String pendingDonationIdeaId = 'pending_donation_idea_id';
 }

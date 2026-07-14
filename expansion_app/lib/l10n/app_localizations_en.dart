@@ -689,6 +689,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressLeaderboard => 'Top scores';
 
   @override
+  String get progressSupporters => 'Supported the game';
+
+  @override
   String get leaderboardTitle => 'Leaderboard';
 
   @override
@@ -698,7 +701,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaderboardLoadFailed => 'Could not load leaderboard';
 
   @override
-  String get leaderboardGuestHint => 'You could be on the board — sign up';
+  String get leaderboardGuestHint => 'Want to be on the board — sign up';
 
   @override
   String leaderboardMission(int mission) {
@@ -728,6 +731,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordHint => 'At least 6 characters';
+
+  @override
+  String get authPasswordToggleShow => 'Show password';
+
+  @override
+  String get authPasswordToggleHide => 'Hide password';
 
   @override
   String get authNewPassword => 'New password';
@@ -875,44 +884,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get donateTitle => 'Support';
 
   @override
-  String get donateBody =>
-      'Expansion is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.';
+  String get supportersTitle => 'Supported the game';
 
   @override
-  String get donateGithub => 'Project on GitHub';
+  String get supportersEmpty => 'No one yet — be the first!';
+
+  @override
+  String get supportersAnonymous => 'Anonymous';
+
+  @override
+  String get supportersLoadFailed => 'Could not load the list';
+
+  @override
+  String get supportersDonateHint =>
+      'Support the game — and your name will appear here';
+
+  @override
+  String donateBody(String appName) {
+    return '$appName is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.';
+  }
 
   @override
   String get donateThanks => 'Thanks for playing!';
 
   @override
-  String get donateOpenFailed => 'Could not open the link';
-
-  @override
   String donateTier1(String price) {
-    return 'Support · $price';
+    return 'Support ($price)';
   }
 
   @override
   String donateTier2(String price) {
-    return 'More support · $price';
+    return 'More support ($price)';
   }
 
   @override
   String donateTier3(String price) {
-    return 'Top support · $price';
+    return 'Support + Your idea ($price)';
   }
 
   @override
   String donateRemoveAds(String price) {
-    return 'Remove ads · $price';
+    return 'Remove ads ($price)';
   }
 
   @override
-  String get donatePriceFallback => 'coming to store';
+  String get donateIdeaHint =>
+      'Describe a new feature idea — we save it before payment. After a successful payment the idea goes to our admin panel, and you get an email: thank you, we will review it soon.';
 
   @override
-  String get donateStoreUnavailable =>
-      'Purchases work in Google Play or RuStore builds after release.';
+  String get donateIdeaTitle => 'Your idea';
+
+  @override
+  String get donateIdeaBody =>
+      'Briefly describe a feature you would like in the game.';
+
+  @override
+  String get donateIdeaLabel => 'Idea description';
+
+  @override
+  String get donateIdeaContinue => 'Continue to payment';
+
+  @override
+  String get donateIdeaSaved => 'Idea saved. Continue to payment.';
+
+  @override
+  String get donateIdeaFailed =>
+      'Could not save the idea. Check your connection and try again.';
 
   @override
   String get donateDisabledByAdmin =>
@@ -920,11 +957,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donatePurchaseFailed =>
-      'Could not start purchase. Check the store and connection.';
+      'Could not start payment. Try again later or check your connection.';
 
   @override
   String get donatePurchasePending =>
-      'Thank you! Purchase is processing — status updates in a few seconds.';
+      'Thank you! Payment is processing — status updates in a few seconds.';
 
   @override
   String get donateRestore => 'Restore purchases';
@@ -942,6 +979,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get donateAdsRemoved => 'Ads removed. Thank you!';
+
+  @override
+  String get donatePaymentTitle => 'Payment';
+
+  @override
+  String get donatePaymentLoading => 'Preparing payment details…';
+
+  @override
+  String donatePaymentAmount(String price) {
+    return 'Amount: $price';
+  }
+
+  @override
+  String get donatePaymentInstructions =>
+      'Pay the amount via SBP or QR. Put the code below in the payment comment so we can match your transfer.';
+
+  @override
+  String get donatePaymentCommentLabel => 'Payment comment';
+
+  @override
+  String get donatePaymentCopyCode => 'Copy code';
+
+  @override
+  String get donatePaymentCodeCopied => 'Code copied';
+
+  @override
+  String get donatePaymentQrHint => 'Scan the QR in your banking app:';
+
+  @override
+  String get donatePaymentQrMissing => 'QR temporarily unavailable';
+
+  @override
+  String get donatePaymentOpenSbp => 'Open SBP payment';
+
+  @override
+  String get donatePaymentSbpFailed => 'Could not open SBP link';
+
+  @override
+  String get donatePaymentLinksPending =>
+      'SBP/QR links are being configured. You can already use the transfer code.';
+
+  @override
+  String get donatePaymentAfterPay =>
+      'After we see the transfer, we confirm payment manually. Ads will turn off on the next app launch (or right after login if you have an account).';
+
+  @override
+  String get donatePaymentBack => 'Back to support';
+
+  @override
+  String get donatePaymentRetry => 'Retry';
+
+  @override
+  String get donatePaymentWebViewTitle => 'SBP payment';
+
+  @override
+  String get donatePaymentWebViewHint =>
+      'After paying, go back — we confirm transfers manually.';
+
+  @override
+  String get donatePaymentWebViewFailed => 'Could not load the payment page.';
+
+  @override
+  String get donatePaymentWebViewOpenBrowser => 'Open in browser';
 
   @override
   String get settingsDonate => 'Support the project';

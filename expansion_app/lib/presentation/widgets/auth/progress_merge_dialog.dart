@@ -6,7 +6,6 @@ import 'package:expansion/core/themes/expansion_text_styles.dart';
 import 'package:expansion/domain/entities/guest_profile.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/services/auth_post_login_service.dart';
-import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
 class ProgressMergeDialog extends StatelessWidget {
@@ -80,13 +79,10 @@ class ProgressMergeDialog extends StatelessWidget {
                     Navigator.of(context).pop(ProgressMergeChoice.keepServer),
               ),
               const Gap(16),
-              Center(
-                child: GameCompactSkewButton(
-                  label: loc.beginResetCancel,
-                  fullWidth: true,
-                  fontSize: 15,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
+              GameLongButton(
+                label: loc.beginResetCancel,
+                fontSize: 16,
+                onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
@@ -122,12 +118,10 @@ class _MergeCard extends StatelessWidget {
           const Gap(8),
           Text(loc.authMergeMissionScore(mission, score)),
           const Gap(12),
-          Center(
-            child: GameLongButton(
-              label: title,
-              fontSize: 16,
-              onPressed: onTap,
-            ),
+          GameLongButton(
+            label: title,
+            fontSize: 16,
+            onPressed: onTap,
           ),
         ],
       ),

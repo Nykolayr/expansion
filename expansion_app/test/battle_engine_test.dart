@@ -591,8 +591,8 @@ void main() {
       }
 
       expect(debris, isNotNull);
-      expect(debris!.fromY, BattleMissionHazards.debrisCorridorRow);
-      expect(debris.toY, BattleMissionHazards.debrisCorridorRow);
+      expect(debris!.fromY, BattleMissionHazards.debrisCorridorRow(5));
+      expect(debris.toY, BattleMissionHazards.debrisCorridorRow(5));
     });
 
     test('debris survives base hit and keeps moving', () {
@@ -662,9 +662,14 @@ void main() {
       expect(snap.fleets.first.ships, 5);
     });
 
-    test('mission 5 does not spawn asteroids', () {
-      expect(BattleMissionHazards.asteroidsEnabled(5), isFalse);
+    test('mission 5 spawns debris as primary and asteroids as secondary', () {
+      expect(BattleMissionHazards.asteroidsEnabled(5), isTrue);
       expect(BattleMissionHazards.debrisEnabled(5), isTrue);
+      expect(
+        BattleMissionHazards.asteroidSpawnIntervalTicks(5) >
+            BattleMissionHazards.debrisSpawnIntervalTicks(5),
+        isTrue,
+      );
     });
   });
 }

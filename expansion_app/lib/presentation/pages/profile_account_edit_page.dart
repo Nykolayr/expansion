@@ -12,6 +12,7 @@ import 'package:expansion/presentation/bloc/profile/account_edit_state.dart';
 import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/widgets/auth/auth_messages.dart';
 import 'package:expansion/presentation/widgets/auth/auth_page_shell.dart';
+import 'package:expansion/presentation/widgets/forms/game_password_field.dart';
 
 class ProfileAccountEditPage extends StatefulWidget {
   const ProfileAccountEditPage({
@@ -186,22 +187,16 @@ class _ProfileAccountEditPageState extends State<ProfileAccountEditPage> {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const AuthFormGap(),
-                TextField(
+                GamePasswordField(
                   controller: _currentPasswordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: loc.profileCurrentPassword,
-                  ),
+                  labelText: loc.profileCurrentPassword,
                 ),
                 const AuthFormGap(),
-                TextField(
+                GamePasswordField(
                   controller: _newPasswordController,
-                  obscureText: true,
                   onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    labelText: loc.profileNewPassword,
-                    helperText: loc.authPasswordHint,
-                  ),
+                  labelText: loc.profileNewPassword,
+                  helperText: loc.authPasswordHint,
                 ),
                 if (changingPassword) ...[
                   const AuthFormGap(size: 8),

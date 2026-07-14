@@ -14,6 +14,8 @@ function defaultProfileJson(realName = '') {
     mapTutorialSeen: false,
     seenFeatureIntros: [],
     campaignStartedAtMillis: 0,
+    adsRemoved: false,
+    supporterTier: 0,
     meta: {
       enemyPowerLevel: 0,
       slots: [],

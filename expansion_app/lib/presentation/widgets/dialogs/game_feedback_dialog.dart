@@ -9,7 +9,6 @@ import 'package:expansion/core/ui/app_feedback_service.dart';
 import 'package:expansion/domain/repositories/auth_repository.dart';
 import 'package:expansion/domain/repositories/feedback_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
-import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 
 Future<void> showGameFeedbackDialog(BuildContext context) {
@@ -177,15 +176,12 @@ class _GameFeedbackDialogState extends State<_GameFeedbackDialog> {
                         onPressed: _submitting ? null : _submit,
                       ),
                       const Gap(10),
-                      Center(
-                        child: GameCompactSkewButton(
-                          label: loc.beginResetCancel,
-                          fullWidth: true,
-                          fontSize: 15,
-                          onPressed: _submitting
-                              ? null
-                              : () => Navigator.of(context).pop(),
-                        ),
+                      GameLongButton(
+                        label: loc.beginResetCancel,
+                        fontSize: 16,
+                        onPressed: _submitting
+                            ? null
+                            : () => Navigator.of(context).pop(),
                       ),
                     ],
                   ),

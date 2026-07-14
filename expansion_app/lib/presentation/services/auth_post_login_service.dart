@@ -27,11 +27,14 @@ class AuthPostLoginService {
     }
 
     try {
-      final local = await loadLocalProfile();
+      var local = await loadLocalProfile();
       final server = await fetchServerProfile();
+      local = await _applyServerAdsRemovedIfNeeded(local: local, server: server);
 
       if (needsMergeChoice(local: local, server: server)) {
-        await pushLocalProfile(local);
+        await pushLocalProfile(
+          _profileWithMergedAdsRemoved(local: local, server: server),
+        );
         return;
       }
 
@@ -83,7 +86,10 @@ class AuthPostLoginService {
   }) async {
     switch (choice) {
       case ProgressMergeChoice.keepLocal:
-        await pushLocalProfile(local, realName: realName);
+        await pushLocalProfile(
+          _profileWithMergedAdsRemoved(local: local, server: server),
+          realName: realName,
+        );
         if (realName != null && realName.trim().isNotEmpty) {
           await _saveLocalPaused(local.copyWith(displayName: realName.trim()));
         }
@@ -98,6 +104,7 @@ class AuthPostLoginService {
   }) async {
     var local = await loadLocalProfile();
     final server = await fetchServerProfile();
+    local = await _applyServerAdsRemovedIfNeeded(local: local, server: server);
 
     if (forcedChoice != null &&
         needsMergeChoice(local: local, server: server)) {
@@ -126,9 +133,30 @@ class AuthPostLoginService {
     }
 
     await pushLocalProfile(
-      local,
+      _profileWithMergedAdsRemoved(local: local, server: server),
       realName: trimmedRealName.isEmpty ? null : trimmedRealName,
     );
+  }
+
+  GuestProfile _profileWithMergedAdsRemoved({
+    required GuestProfile local,
+    required GuestProfile server,
+  }) {
+    if (local.adsRemoved || server.adsRemoved) {
+      return local.copyWith(adsRemoved: true);
+    }
+    return local;
+  }
+
+  Future<GuestProfile> _applyServerAdsRemovedIfNeeded({
+    required GuestProfile local,
+    required GuestProfile server,
+  }) async {
+    final merged = _profileWithMergedAdsRemoved(local: local, server: server);
+    if (merged.adsRemoved != local.adsRemoved) {
+      await _saveLocalPaused(merged);
+    }
+    return merged;
   }
 
   Future<void> _saveLocalPaused(GuestProfile profile) async {

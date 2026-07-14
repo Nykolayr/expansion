@@ -146,12 +146,10 @@ class _GuestLeaderboardBanner extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const Gap(12),
-        Center(
-          child: GameLongButton(
-            label: loc.profileRegister,
-            fontSize: 16,
-            onPressed: onRegister,
-          ),
+        GameLongButton(
+          label: loc.profileRegister,
+          fontSize: 16,
+          onPressed: onRegister,
         ),
       ],
     );

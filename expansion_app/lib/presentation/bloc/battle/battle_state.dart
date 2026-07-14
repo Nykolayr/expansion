@@ -29,8 +29,6 @@ class BattleState extends Equatable {
     this.errorMessage,
     this.blockedCellX,
     this.blockedCellY,
-    this.showMeteoriteTutorial = false,
-    this.showDebrisTutorial = false,
     this.missionTutorialStep = MissionTutorialStep.none,
     this.tutorialTargetBaseId,
     this.featureIntro,
@@ -51,19 +49,13 @@ class BattleState extends Equatable {
   final int? blockedCellX;
   final int? blockedCellY;
 
-  /// Пауза при первом астероиде.
-  final bool showMeteoriteTutorial;
-
-  /// Пауза при первых обломках.
-  final bool showDebrisTutorial;
-
   /// Пошаговый туториал миссии 1.
   final MissionTutorialStep missionTutorialStep;
 
   /// Цель свайпа (для подсказки «захват»).
   final int? tutorialTargetBaseId;
 
-  /// Интро новой механики (средняя/большая база…) — пауза в начале миссии.
+  /// Интро новой базы или летающего объекта — пауза в начале миссии.
   final MissionFeatureIntro? featureIntro;
 
   /// Меню паузы — тики остановлены.
@@ -80,25 +72,19 @@ class BattleState extends Equatable {
   bool get tutorialPausesEnemy =>
       missionTutorialActive || featureIntroActive;
 
-  /// Новые астероиды не спавнятся во время туториала / интро.
+  /// Новые hazard'ы не спавнятся во время туториала / интро.
   bool get tutorialPausesAsteroids =>
       missionTutorialActive || featureIntroActive;
 
-  /// Тики боя: пауза на карточках туториала, интро механики и астероиде.
+  /// Тики боя: пауза на карточках туториала и интро новых объектов.
   /// На шагах drag/captureHint тики идут — иначе флот «застревает» в пути.
   bool get tutorialPausesTicks =>
-      showMeteoriteTutorial ||
-      showDebrisTutorial ||
       featureIntroActive ||
       missionTutorialStep == MissionTutorialStep.upgradeOverlay ||
       missionTutorialStep == MissionTutorialStep.goalOverlay;
 
   bool get canInteract =>
-      isPlaying &&
-      !isPaused &&
-      !showMeteoriteTutorial &&
-      !showDebrisTutorial &&
-      !featureIntroActive;
+      isPlaying && !isPaused && !featureIntroActive;
 
   /// Свайп флота — только когда панель статуса базы закрыта.
   bool get canSendFleet => canInteract && selectedBaseId == null;
@@ -121,8 +107,6 @@ class BattleState extends Equatable {
     int? blockedCellX,
     int? blockedCellY,
     bool clearBlocked = false,
-    bool? showMeteoriteTutorial,
-    bool? showDebrisTutorial,
     MissionTutorialStep? missionTutorialStep,
     int? tutorialTargetBaseId,
     bool clearTutorialTarget = false,
@@ -143,9 +127,6 @@ class BattleState extends Equatable {
       errorMessage: errorMessage,
       blockedCellX: clearBlocked ? null : blockedCellX ?? this.blockedCellX,
       blockedCellY: clearBlocked ? null : blockedCellY ?? this.blockedCellY,
-      showMeteoriteTutorial:
-          showMeteoriteTutorial ?? this.showMeteoriteTutorial,
-      showDebrisTutorial: showDebrisTutorial ?? this.showDebrisTutorial,
       missionTutorialStep: missionTutorialStep ?? this.missionTutorialStep,
       tutorialTargetBaseId:
           clearTutorialTarget ? null : tutorialTargetBaseId ?? this.tutorialTargetBaseId,
@@ -168,8 +149,6 @@ class BattleState extends Equatable {
         errorMessage,
         blockedCellX,
         blockedCellY,
-        showMeteoriteTutorial,
-        showDebrisTutorial,
         missionTutorialStep,
         tutorialTargetBaseId,
         featureIntro,

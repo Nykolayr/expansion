@@ -11,6 +11,7 @@ import 'package:expansion/presentation/bloc/auth/forgot_password_cubit.dart';
 import 'package:expansion/presentation/bloc/auth/forgot_password_state.dart';
 import 'package:expansion/presentation/widgets/auth/auth_messages.dart';
 import 'package:expansion/presentation/widgets/auth/auth_page_shell.dart';
+import 'package:expansion/presentation/widgets/forms/game_password_field.dart';
 
 class AuthForgotPage extends StatefulWidget {
   const AuthForgotPage({super.key});
@@ -93,13 +94,10 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
                     ),
                   ),
                   const AuthFormGap(),
-                  TextField(
+                  GamePasswordField(
                     controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: loc.authNewPassword,
-                      helperText: loc.authPasswordHint,
-                    ),
+                    labelText: loc.authNewPassword,
+                    helperText: loc.authPasswordHint,
                   ),
                 ],
               ),
@@ -109,6 +107,7 @@ class _AuthForgotPageState extends State<AuthForgotPage> {
           return AuthPageShell(
             title: loc.authForgotTitle,
             bottomBar: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
                 AuthPrimaryButton(

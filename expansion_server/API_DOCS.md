@@ -276,8 +276,38 @@ Bearer **admin** JWT.
 ### `GET /api/expansion/config` (public)
 
 ```json
-{ "game": "expansion", "adsEnabled": true, "donationsEnabled": true }
+{
+  "game": "expansion",
+  "adsEnabled": true,
+  "donationsEnabled": true,
+  "payment": {
+    "sbpUrl": "https://...",
+    "qrUrl": "https://..."
+  }
+}
 ```
+
+`payment.byProduct` — ссылка СБП по productId; `payment.qrUrl` — опциональная картинка QR.
+
+### `GET /api/expansion/supporters?limit=50` (public)
+
+Список подтверждённых донатов (статус `paid`), агрегированный по аккаунту или устройству.
+
+```json
+{
+  "limit": 50,
+  "entries": [
+    {
+      "rank": 1,
+      "label": "Pilot (Иван)",
+      "totalRub": 598,
+      "donationCount": 2
+    }
+  ]
+}
+```
+
+`label: null` — без ника (клиент показывает «Аноним»). Сортировка: сумма ↓, дата последнего доната ↓.
 
 ### `POST /api/expansion/guest/sync` (public)
 
@@ -288,7 +318,50 @@ Bearer **admin** JWT.
 }
 ```
 
-### `POST /api/expansion/events/purchase` (public)
+Ответ:
+
+```json
+{
+  "ok": true,
+  "benefits": { "adsRemoved": false, "supporterTier": 0 }
+}
+```
+
+Сервер объединяет локальный профиль с оплаченными бенефитами (СБП) по `deviceId`.
+
+### `POST /api/expansion/donations/payment-intent` (public, optional Bearer)
+
+Создаёт намерение оплаты, шлёт уведомление в Telegram. Тело:
+
+```json
+{
+  "deviceId": "uuid",
+  "productId": "com.ryjovs.expansion.remove_ads",
+  "nick": "optional",
+  "email": "optional-for-guest",
+  "ideaId": "optional-for-tier3"
+}
+```
+
+Ответ `201`:
+
+```json
+{
+  "id": "uuid",
+  "paymentCode": "EXP-A1B2C3",
+  "productId": "...",
+  "productLabel": "Убрать рекламу · 199 ₽",
+  "priceRub": 199,
+  "status": "pending",
+  "payment": {
+    "sbpUrl": "https://...",
+    "qrUrl": "https://...",
+    "comment": "EXP-A1B2C3"
+  }
+}
+```
+
+### `POST /api/expansion/events/purchase` (public, legacy IAP)
 
 ```json
 {
@@ -296,9 +369,29 @@ Bearer **admin** JWT.
   "productId": "com.ryjovs.expansion.donate_tier1",
   "store": "in_app_purchase",
   "userId": "optional-if-logged-in",
-  "priceRub": 99
+  "priceRub": 99,
+  "ideaId": "optional-uuid-for-tier3"
 }
 ```
+
+После записи покупки:
+
+- tier1–2 / remove_ads: если есть `userId` с email — письмо «спасибо за поддержку»;
+- tier3 + `ideaId`: статус идеи → `paid`, письмо игроку про идею, уведомление админу (`FEEDBACK_TO`).
+
+### `POST /api/expansion/donations/idea` (public, optional Bearer)
+
+Черновик идеи до оплаты tier3. Для гостя нужен email.
+
+```json
+{
+  "deviceId": "uuid",
+  "ideaText": "Описание идеи (10–2000)",
+  "email": "guest@example.com"
+}
+```
+
+Ответ `201`: `{ "id": "uuid", "status": "draft" }`
 
 ### `POST /api/expansion/events/ad` (public)
 
@@ -313,12 +406,17 @@ Bearer **admin** JWT.
 
 | Method | Path | Описание |
 |--------|------|----------|
-| GET | `/settings` | adsEnabled, donationsEnabled |
-| PATCH | `/settings` | `{ "adsEnabled": false, "donationsEnabled": true }` |
+| GET | `/settings` | ads, donations, paymentSbpUrlTier1..3, paymentSbpUrlRemoveAds, paymentQrUrl |
+| PATCH | `/settings` | флаги + ссылки СБП по тарифам |
+| GET | `/payments?status=pending` | намерения оплаты СБП |
+| PATCH | `/payments/:intentId/mark-paid` | подтвердить оплату вручную |
+| PATCH | `/payments/:intentId/cancel` | отменить намерение |
 | GET | `/players/registered` | users + profile summary |
+| PATCH | `/players/registered/:userId/ads-removed` | `{ "adsRemoved": true }` — без рекламы для аккаунта |
 | GET | `/players/guests` | guest_devices |
 | GET | `/finance/summary?months=12` | донаты + показы по месяцам |
 | GET | `/finance/purchases` | детализация покупок |
+| GET | `/finance/ideas?status=paid` | идеи к донату tier3 |
 
 ---
 
@@ -355,6 +453,8 @@ Bearer **admin** JWT.
 
 Письмо уходит на `FEEDBACK_TO` (или `ADMIN_EMAIL`, иначе `SMTP_USER`), `Reply-To` — email отправителя.
 
+Дублирование в **Telegram** (тот же чат RedMobi), если заданы `EXPANSION_TELEGRAM_*` или `CALCULATOR_LEAD_TELEGRAM_*`. Сбой TG не меняет ответ `201`.
+
 ---
 
 ## Env (сервер)
@@ -369,6 +469,8 @@ Bearer **admin** JWT.
 
 | Дата | Изменение |
 |------|-----------|
+| 2026-07-14 | v0.3.3: СБП/QR payment intents, Telegram, admin «Оплаты», guest/sync benefits |
+| 2026-07-14 | v0.3.2: donate ideas tier3, thank-you emails, admin finance/ideas |
 | 2026-07-12 | v0.3.1: POST `/feedback` — обратная связь по email |
 | 2026-07-12 | v0.3: platform admin, expansion config/events, guest devices |
 | 2026-07-11 | v0.2.1: OTA campaign content (`/content/pack`, MariaDB) |

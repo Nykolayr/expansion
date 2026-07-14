@@ -25,11 +25,9 @@ import 'package:expansion/presentation/bloc/maps/maps_cubit.dart';
 import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/battle/battle_field_grid.dart';
-import 'package:expansion/presentation/widgets/battle/battle_debris_tutorial.dart';
 import 'package:expansion/presentation/widgets/battle/battle_feature_intro_overlay.dart';
 import 'package:expansion/presentation/widgets/battle/battle_mission_tutorial.dart';
 import 'package:expansion/presentation/widgets/battle/battle_tutorial_drag_hint.dart';
-import 'package:expansion/presentation/widgets/battle/battle_meteorite_tutorial.dart';
 import 'package:expansion/presentation/widgets/battle/battle_pause_button.dart';
 import 'package:expansion/presentation/widgets/battle/battle_tactical_bar.dart';
 import 'package:expansion/presentation/widgets/dialogs/battle_outcome_dialog.dart';
@@ -316,14 +314,6 @@ class _BattlePageState extends State<BattlePage> {
                               BattleFeatureIntroOverlay(
                                 feature: state.featureIntro!,
                                 onDismiss: cubit.dismissFeatureIntro,
-                              ),
-                            if (state.showMeteoriteTutorial)
-                              BattleMeteoriteTutorial(
-                                onDismiss: cubit.dismissMeteoriteTutorial,
-                              ),
-                            if (state.showDebrisTutorial)
-                              BattleDebrisTutorial(
-                                onDismiss: cubit.dismissDebrisTutorial,
                               ),
                             if (state.missionTutorialStep ==
                                     MissionTutorialStep.drag ||

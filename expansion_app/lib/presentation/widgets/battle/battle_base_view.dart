@@ -28,10 +28,6 @@ class BattleBaseView extends StatelessWidget {
   static const double _sideMargin = 3;
   static const double _bottomStatBand = 0.20;
 
-  static const TextStyle _shadow = TextStyle(
-    shadows: [Shadow(color: Colors.black87, blurRadius: 4)],
-  );
-
   static const Color _statColor = ExpansionColors.accent;
 
   @override
@@ -69,20 +65,12 @@ class BattleBaseView extends StatelessWidget {
             ),
           if (showUpgradeHint)
             Positioned(
-              top: 2,
-              right: 2,
-              child: Text(
-                '▲',
-                style: TextStyle(
-                  color: Colors.amber,
-                  fontSize: (minSide * 0.30).clamp(20.0, 30.0),
-                  fontWeight: FontWeight.w900,
-                  height: 1,
-                  shadows: const [
-                    Shadow(color: Colors.black87, blurRadius: 2),
-                    Shadow(color: Colors.black54, blurRadius: 6),
-                  ],
-                ),
+              top: 0,
+              right: 0,
+              child: Icon(
+                Icons.arrow_drop_up,
+                color: Colors.amber,
+                size: (minSide * 0.34).clamp(22.0, 32.0),
               ),
             ),
         ],
@@ -115,17 +103,22 @@ class BattleBaseHud extends StatelessWidget {
     final minSide = math.min(cellWidth, cellHeight);
     final shipFont = (minSide * 0.22).clamp(11.0, 18.0);
     final statFont = (minSide * 0.14).clamp(8.0, 11.0);
+    final iconSize = statFont + 1;
 
     final statLines = <Widget>[
       if (base.shield > 0)
-        _HudLine(
-          text: '⛨${base.shield.round()}',
+        _HudStatRow(
+          icon: Icons.shield_outlined,
+          value: '${base.shield.round()}',
+          iconSize: iconSize,
           fontSize: statFont,
           color: BattleBaseView._statColor,
         ),
       if (base.side != BattleSide.neutral)
-        _HudLine(
-          text: '⚙${base.resources.round()}',
+        _HudStatRow(
+          icon: Icons.settings_outlined,
+          value: '${base.resources.round()}',
+          iconSize: iconSize,
           fontSize: statFont,
           color: BattleBaseView._statColor,
         ),
@@ -142,7 +135,7 @@ class BattleBaseHud extends StatelessWidget {
           child: Text(
             '${base.ships}',
             textAlign: TextAlign.center,
-            style: BattleBaseView._shadow.copyWith(
+            style: TextStyle(
               color: hudColor,
               fontSize: shipFont,
               fontWeight: FontWeight.w900,
@@ -165,14 +158,18 @@ class BattleBaseHud extends StatelessWidget {
   }
 }
 
-class _HudLine extends StatelessWidget {
-  const _HudLine({
-    required this.text,
+class _HudStatRow extends StatelessWidget {
+  const _HudStatRow({
+    required this.icon,
+    required this.value,
+    required this.iconSize,
     required this.fontSize,
     required this.color,
   });
 
-  final String text;
+  final IconData icon;
+  final String value;
+  final double iconSize;
   final double fontSize;
   final Color color;
 
@@ -180,15 +177,20 @@ class _HudLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return FittedBox(
       fit: BoxFit.scaleDown,
-      child: Text(
-        text,
-        maxLines: 1,
-        style: BattleBaseView._shadow.copyWith(
-          color: color,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w800,
-          height: 1.05,
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: iconSize, color: color),
+          Text(
+            value,
+            style: TextStyle(
+              color: color,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w800,
+              height: 1.05,
+            ),
+          ),
+        ],
       ),
     );
   }

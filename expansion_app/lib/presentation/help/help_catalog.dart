@@ -100,7 +100,7 @@ abstract final class HelpCatalog {
       HelpArticle(
         title: loc.battleMeteoriteTutorialTitle,
         body: loc.battleMeteoriteTutorialBody,
-        imageAsset: BattleAssets.asteroid(1),
+        imageAsset: paths[BattleVisualId.hazardAsteroid],
         imageScale: 0.9,
       ),
       HelpArticle(

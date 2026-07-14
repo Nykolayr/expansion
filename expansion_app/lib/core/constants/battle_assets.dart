@@ -72,7 +72,8 @@ abstract final class BattleAssets {
   static String hazardSprite(BattleAsteroid hazard) {
     return switch (hazard.kind) {
       BattleHazardKind.debris => _placeholderPath(BattleVisualId.hazardDebris),
-      BattleHazardKind.asteroid => asteroid(hazard.visualIndex),
+      BattleHazardKind.asteroid =>
+        _placeholderPath(BattleVisualId.hazardAsteroid),
       BattleHazardKind.comet => _placeholderPath(BattleVisualId.hazardComet),
       BattleHazardKind.pulse => _placeholderPath(BattleVisualId.hazardPulse),
       BattleHazardKind.mine => _placeholderPath(BattleVisualId.hazardMine),

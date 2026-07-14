@@ -14,6 +14,7 @@ import 'package:expansion/presentation/bloc/profile/profile_cubit.dart';
 import 'package:expansion/presentation/services/auth_post_login_service.dart';
 import 'package:expansion/presentation/widgets/auth/auth_messages.dart';
 import 'package:expansion/presentation/widgets/auth/auth_page_shell.dart';
+import 'package:expansion/presentation/widgets/forms/game_password_field.dart';
 import 'package:expansion/presentation/widgets/auth/progress_merge_dialog.dart';
 
 class AuthRegisterPage extends StatefulWidget {
@@ -165,6 +166,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
           return AuthPageShell(
             title: loc.authRegisterTitle,
             bottomBar: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
                 AuthPrimaryButton(
@@ -199,14 +201,11 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
                   decoration: InputDecoration(labelText: loc.authEmail),
                 ),
                 const AuthFormGap(),
-                TextField(
+                GamePasswordField(
                   controller: _passwordController,
-                  obscureText: true,
                   onChanged: cubit.updatePassword,
-                  decoration: InputDecoration(
-                    labelText: loc.authPassword,
-                    helperText: loc.authPasswordHint,
-                  ),
+                  labelText: loc.authPassword,
+                  helperText: loc.authPasswordHint,
                 ),
                 const AuthFormGap(),
                 TextField(

@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// Название приложения в списке задач ОС
   ///
   /// In ru, this message translates to:
-  /// **'Expansion'**
+  /// **'Экспансия'**
   String get appTitle;
 
   /// Первая строка заголовка на splash
@@ -1322,6 +1322,12 @@ abstract class AppLocalizations {
   /// **'Лучшие результаты'**
   String get progressLeaderboard;
 
+  /// No description provided for @progressSupporters.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержали игру'**
+  String get progressSupporters;
+
   /// No description provided for @leaderboardTitle.
   ///
   /// In ru, this message translates to:
@@ -1343,7 +1349,7 @@ abstract class AppLocalizations {
   /// No description provided for @leaderboardGuestHint.
   ///
   /// In ru, this message translates to:
-  /// **'Можешь быть в таблице — зарегистрируйся'**
+  /// **'Хочешь быть в таблице — зарегистрируйся'**
   String get leaderboardGuestHint;
 
   /// No description provided for @leaderboardMission.
@@ -1399,6 +1405,18 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Минимум 6 символов'**
   String get authPasswordHint;
+
+  /// No description provided for @authPasswordToggleShow.
+  ///
+  /// In ru, this message translates to:
+  /// **'Показать пароль'**
+  String get authPasswordToggleShow;
+
+  /// No description provided for @authPasswordToggleHide.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скрыть пароль'**
+  String get authPasswordToggleHide;
 
   /// No description provided for @authNewPassword.
   ///
@@ -1670,17 +1688,41 @@ abstract class AppLocalizations {
   /// **'Поддержать'**
   String get donateTitle;
 
+  /// No description provided for @supportersTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поддержали игру'**
+  String get supportersTitle;
+
+  /// No description provided for @supportersEmpty.
+  ///
+  /// In ru, this message translates to:
+  /// **'Пока никого — будь первым!'**
+  String get supportersEmpty;
+
+  /// No description provided for @supportersAnonymous.
+  ///
+  /// In ru, this message translates to:
+  /// **'Аноним'**
+  String get supportersAnonymous;
+
+  /// No description provided for @supportersLoadFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить список'**
+  String get supportersLoadFailed;
+
+  /// No description provided for @supportersDonateHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Помоги игре — и твоё имя появится здесь'**
+  String get supportersDonateHint;
+
   /// No description provided for @donateBody.
   ///
   /// In ru, this message translates to:
-  /// **'Expansion — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Реклама можно отключить отдельной покупкой.'**
-  String get donateBody;
-
-  /// No description provided for @donateGithub.
-  ///
-  /// In ru, this message translates to:
-  /// **'GitHub проекта'**
-  String get donateGithub;
+  /// **'{appName} — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.'**
+  String donateBody(String appName);
 
   /// No description provided for @donateThanks.
   ///
@@ -1688,47 +1730,71 @@ abstract class AppLocalizations {
   /// **'Спасибо, что играете!'**
   String get donateThanks;
 
-  /// No description provided for @donateOpenFailed.
-  ///
-  /// In ru, this message translates to:
-  /// **'Не удалось открыть ссылку'**
-  String get donateOpenFailed;
-
   /// No description provided for @donateTier1.
   ///
   /// In ru, this message translates to:
-  /// **'Поддержать · {price}'**
+  /// **'Поддержать ({price})'**
   String donateTier1(String price);
 
   /// No description provided for @donateTier2.
   ///
   /// In ru, this message translates to:
-  /// **'Больше поддержки · {price}'**
+  /// **'Больше поддержки ({price})'**
   String donateTier2(String price);
 
   /// No description provided for @donateTier3.
   ///
   /// In ru, this message translates to:
-  /// **'Максимальная поддержка · {price}'**
+  /// **'Поддержка + Ваша идея ({price})'**
   String donateTier3(String price);
 
   /// No description provided for @donateRemoveAds.
   ///
   /// In ru, this message translates to:
-  /// **'Убрать рекламу · {price}'**
+  /// **'Убрать рекламу ({price})'**
   String donateRemoveAds(String price);
 
-  /// No description provided for @donatePriceFallback.
+  /// No description provided for @donateIdeaHint.
   ///
   /// In ru, this message translates to:
-  /// **'скоро в сторе'**
-  String get donatePriceFallback;
+  /// **'Опишите идею новой функции — сохраним её перед оплатой. После успешной оплаты идея появится у нас в админке, а вам придёт письмо: спасибо, рассмотрим в ближайшее время.'**
+  String get donateIdeaHint;
 
-  /// No description provided for @donateStoreUnavailable.
+  /// No description provided for @donateIdeaTitle.
   ///
   /// In ru, this message translates to:
-  /// **'Покупки доступны в сборке из Google Play или RuStore после публикации.'**
-  String get donateStoreUnavailable;
+  /// **'Ваша идея'**
+  String get donateIdeaTitle;
+
+  /// No description provided for @donateIdeaBody.
+  ///
+  /// In ru, this message translates to:
+  /// **'Коротко опишите функцию, которую хотели бы видеть в игре.'**
+  String get donateIdeaBody;
+
+  /// No description provided for @donateIdeaLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Описание идеи'**
+  String get donateIdeaLabel;
+
+  /// No description provided for @donateIdeaContinue.
+  ///
+  /// In ru, this message translates to:
+  /// **'Продолжить к оплате'**
+  String get donateIdeaContinue;
+
+  /// No description provided for @donateIdeaSaved.
+  ///
+  /// In ru, this message translates to:
+  /// **'Идея сохранена. Переходите к оплате.'**
+  String get donateIdeaSaved;
+
+  /// No description provided for @donateIdeaFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось сохранить идею. Проверьте интернет и попробуйте снова.'**
+  String get donateIdeaFailed;
 
   /// No description provided for @donateDisabledByAdmin.
   ///
@@ -1739,13 +1805,13 @@ abstract class AppLocalizations {
   /// No description provided for @donatePurchaseFailed.
   ///
   /// In ru, this message translates to:
-  /// **'Не удалось начать покупку. Проверьте стор и интернет.'**
+  /// **'Не удалось начать оплату. Попробуйте позже или проверьте интернет.'**
   String get donatePurchaseFailed;
 
   /// No description provided for @donatePurchasePending.
   ///
   /// In ru, this message translates to:
-  /// **'Спасибо! Покупка обрабатывается — статус обновится через несколько секунд.'**
+  /// **'Спасибо! Оплата обрабатывается — статус обновится через несколько секунд.'**
   String get donatePurchasePending;
 
   /// No description provided for @donateRestore.
@@ -1777,6 +1843,120 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Реклама отключена. Спасибо!'**
   String get donateAdsRemoved;
+
+  /// No description provided for @donatePaymentTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата'**
+  String get donatePaymentTitle;
+
+  /// No description provided for @donatePaymentLoading.
+  ///
+  /// In ru, this message translates to:
+  /// **'Готовим данные для оплаты…'**
+  String get donatePaymentLoading;
+
+  /// No description provided for @donatePaymentAmount.
+  ///
+  /// In ru, this message translates to:
+  /// **'Сумма: {price}'**
+  String donatePaymentAmount(String price);
+
+  /// No description provided for @donatePaymentInstructions.
+  ///
+  /// In ru, this message translates to:
+  /// **'Переведите указанную сумму через СБП или QR. В комментарии к платежу обязательно укажите код ниже — так мы сопоставим перевод с вашим аккаунтом.'**
+  String get donatePaymentInstructions;
+
+  /// No description provided for @donatePaymentCommentLabel.
+  ///
+  /// In ru, this message translates to:
+  /// **'Комментарий к переводу'**
+  String get donatePaymentCommentLabel;
+
+  /// No description provided for @donatePaymentCopyCode.
+  ///
+  /// In ru, this message translates to:
+  /// **'Скопировать код'**
+  String get donatePaymentCopyCode;
+
+  /// No description provided for @donatePaymentCodeCopied.
+  ///
+  /// In ru, this message translates to:
+  /// **'Код скопирован'**
+  String get donatePaymentCodeCopied;
+
+  /// No description provided for @donatePaymentQrHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'Отсканируйте QR в приложении банка:'**
+  String get donatePaymentQrHint;
+
+  /// No description provided for @donatePaymentQrMissing.
+  ///
+  /// In ru, this message translates to:
+  /// **'QR временно недоступен'**
+  String get donatePaymentQrMissing;
+
+  /// No description provided for @donatePaymentOpenSbp.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть оплату СБП'**
+  String get donatePaymentOpenSbp;
+
+  /// No description provided for @donatePaymentSbpFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось открыть ссылку СБП'**
+  String get donatePaymentSbpFailed;
+
+  /// No description provided for @donatePaymentLinksPending.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ссылки СБП/QR скоро появятся — администратор настраивает реквизиты. Код для перевода уже можно использовать.'**
+  String get donatePaymentLinksPending;
+
+  /// No description provided for @donatePaymentAfterPay.
+  ///
+  /// In ru, this message translates to:
+  /// **'После поступления денег на счёт мы подтвердим оплату вручную. Реклама отключится при следующем запуске игры (или сразу после входа в аккаунт).'**
+  String get donatePaymentAfterPay;
+
+  /// No description provided for @donatePaymentBack.
+  ///
+  /// In ru, this message translates to:
+  /// **'Назад к донатам'**
+  String get donatePaymentBack;
+
+  /// No description provided for @donatePaymentRetry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get donatePaymentRetry;
+
+  /// No description provided for @donatePaymentWebViewTitle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Оплата СБП'**
+  String get donatePaymentWebViewTitle;
+
+  /// No description provided for @donatePaymentWebViewHint.
+  ///
+  /// In ru, this message translates to:
+  /// **'После перевода вернитесь назад — подтверждение придёт вручную.'**
+  String get donatePaymentWebViewHint;
+
+  /// No description provided for @donatePaymentWebViewFailed.
+  ///
+  /// In ru, this message translates to:
+  /// **'Не удалось загрузить страницу оплаты.'**
+  String get donatePaymentWebViewFailed;
+
+  /// No description provided for @donatePaymentWebViewOpenBrowser.
+  ///
+  /// In ru, this message translates to:
+  /// **'Открыть в браузере'**
+  String get donatePaymentWebViewOpenBrowser;
 
   /// No description provided for @settingsDonate.
   ///

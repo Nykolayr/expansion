@@ -207,6 +207,10 @@ button, .btn {
 }
 
 button.primary { background: #234878; border-color: var(--accent); }
+button.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
 button:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .tabs {

@@ -12,8 +12,8 @@ class GameStickyBottomBar extends StatelessWidget {
   final Widget child;
 
   /// Нижний отступ для [ListView]/[SingleChildScrollView] под панель.
-  static double scrollPadding(BuildContext context) {
-    return _baseHeight + MediaQuery.viewInsetsOf(context).bottom;
+  static double scrollPadding(BuildContext context, {double extra = 0}) {
+    return _baseHeight + extra + MediaQuery.viewInsetsOf(context).bottom;
   }
 
   static const double _baseHeight = 220;
@@ -28,7 +28,11 @@ class GameStickyBottomBar extends StatelessWidget {
         top: false,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 10, 16, 10),
-          child: child,
+          child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [child],
+        ),
         ),
       ),
     );

@@ -61,4 +61,6 @@ extension AppNavigationX on BuildContext {
   void goToAuthForgot() => push('/auth/forgot');
 
   void goToLeaderboard() => push('/leaderboard');
+
+  void goToSupporters() => push('/supporters');
 }

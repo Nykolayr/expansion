@@ -18,6 +18,7 @@ import 'package:expansion/data/datasources/remote/campaign_content_remote_dataso
 import 'package:expansion/data/datasources/remote/auth_remote_datasource.dart';
 import 'package:expansion/data/datasources/remote/feedback_remote_datasource.dart';
 import 'package:expansion/data/datasources/remote/leaderboard_remote_datasource.dart';
+import 'package:expansion/data/datasources/remote/supporters_remote_datasource.dart';
 import 'package:expansion/data/datasources/remote/profile_remote_datasource.dart';
 import 'package:expansion/data/repositories/auth_repository_impl.dart';
 import 'package:expansion/data/repositories/battle_session_factory_impl.dart';
@@ -25,14 +26,17 @@ import 'package:expansion/data/repositories/campaign_repository_impl.dart';
 import 'package:expansion/data/repositories/feedback_repository_impl.dart';
 import 'package:expansion/data/repositories/guest_profile_repository_impl.dart';
 import 'package:expansion/data/repositories/leaderboard_repository_impl.dart';
+import 'package:expansion/data/repositories/supporters_repository_impl.dart';
 import 'package:expansion/data/seed/campaign_content_seeder.dart';
 import 'package:expansion/domain/repositories/auth_repository.dart';
 import 'package:expansion/domain/repositories/campaign_repository.dart';
 import 'package:expansion/domain/repositories/feedback_repository.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/domain/repositories/leaderboard_repository.dart';
+import 'package:expansion/domain/repositories/supporters_repository.dart';
 import 'package:expansion/presentation/bloc/auth/forgot_password_cubit.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_cubit.dart';
+import 'package:expansion/presentation/bloc/supporters/supporters_cubit.dart';
 import 'package:expansion/presentation/bloc/auth/login_cubit.dart';
 import 'package:expansion/presentation/bloc/auth/register_cubit.dart';
 import 'package:expansion/presentation/bloc/battle/battle_cubit.dart';
@@ -158,6 +162,7 @@ Future<void> initDependencies() async {
       sl<GuestProfileRepository>(),
       sl<AuthRepository>(),
       sl<RemoteMonetizationService>(),
+      sl<SharedPreferences>(),
     ),
   );
 
@@ -212,6 +217,18 @@ Future<void> initDependencies() async {
 
   sl.registerFactory<LeaderboardCubit>(
     () => LeaderboardCubit(sl<LeaderboardRepository>(), sl<AuthRepository>()),
+  );
+
+  sl.registerLazySingleton<SupportersRemoteDataSource>(
+    () => SupportersRemoteDataSource(sl<Dio>()),
+  );
+
+  sl.registerLazySingleton<SupportersRepository>(
+    () => SupportersRepositoryImpl(sl<SupportersRemoteDataSource>()),
+  );
+
+  sl.registerFactory<SupportersCubit>(
+    () => SupportersCubit(sl<SupportersRepository>()),
   );
 
   sl.registerSingleton<GameDifficultyCubit>(

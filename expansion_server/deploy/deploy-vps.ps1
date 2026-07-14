@@ -59,10 +59,10 @@ if (Test-Path $secrets) {
   $joyHost = 'root@45.84.225.22'
   $smtpFragment = Join-Path $env:TEMP 'expansion-smtp-fragment.env'
   if (Test-Path $joyKey) {
-    $smtpLines = & ssh -o ConnectTimeout=30 -i $joyKey $joyHost "grep -E '^(SMTP_|EMAIL_FROM=)' /opt/joypick/.env 2>/dev/null || true"
+    $smtpLines = & ssh -o ConnectTimeout=30 -i $joyKey $joyHost "grep -E '^(SMTP_|EMAIL_FROM=|CALCULATOR_LEAD_TELEGRAM_|EXPANSION_TELEGRAM_)' /opt/joypick/.env 2>/dev/null || true"
   } else {
     Write-Host 'Joy Pick key missing — fallback to Beget danilagames .env'
-    $smtpLines = & ssh @scpArgs $beget.SshHost "grep -E '^(SMTP_|EMAIL_FROM=)' $($beget.DanilagamesRoot)/.env 2>/dev/null || true"
+    $smtpLines = & ssh @scpArgs $beget.SshHost "grep -E '^(SMTP_|EMAIL_FROM=|CALCULATOR_LEAD_TELEGRAM_|EXPANSION_TELEGRAM_)' $($beget.DanilagamesRoot)/.env 2>/dev/null || true"
   }
   $smtpText = ($smtpLines | ForEach-Object { $_.TrimEnd("`r") }) -join "`n"
   if ($smtpText.Trim().Length -gt 0) {
@@ -90,15 +90,47 @@ rm -f /tmp/expansion-smtp-fragment.env
 }
 
 # --- install, migrate, pm2 ---
-$remote = @"
+$remote = @'
 set -e
-cd $remoteDir
+cd REMOTE_DIR
 npm install --omit=dev
 node scripts/migrate.js
+ENV=REMOTE_DIR/.env
+for SRC in /opt/redmobi/freelancer-radar/.env /opt/redmobi/lead-bot/.env; do
+  if [ -f "$SRC" ] && [ -f "$ENV" ]; then
+    grep -E '^(TELEGRAM_BOT_TOKEN|TELEGRAM_CHAT_ID|CALCULATOR_LEAD_TELEGRAM_|EXPANSION_TELEGRAM_)=' "$SRC" 2>/dev/null || true
+  fi
+done | sort -u > /tmp/expansion-tg-fragment.env || true
+if [ -s /tmp/expansion-tg-fragment.env ] && [ -f "$ENV" ]; then
+  while IFS= read -r line || [ -n "$line" ]; do
+    key="${line%%=*}"
+    val="${line#*=}"
+    [ -z "$key" ] || [ -z "$val" ] && continue
+    if grep -q "^${key}=" "$ENV"; then
+      sed -i "s|^${key}=.*|${line}|" "$ENV"
+    else
+      echo "$line" >> "$ENV"
+    fi
+  done < /tmp/expansion-tg-fragment.env
+  rm -f /tmp/expansion-tg-fragment.env
+fi
+if [ -f "$ENV" ] && ! grep -qE '^TELEGRAM_CHAT_ID=.+' "$ENV"; then
+  for CHATFILE in /opt/redmobi/kwork-radar/data/chat_id.txt /opt/redmobi/freelancer-radar/data/chat_id.txt /opt/redmobi/fl-radar/data/chat_id.txt; do
+    if [ -s "$CHATFILE" ]; then
+      CHAT_ID="$(tr -d '\r\n' < "$CHATFILE")"
+      if grep -q '^TELEGRAM_CHAT_ID=' "$ENV"; then
+        sed -i "s|^TELEGRAM_CHAT_ID=.*|TELEGRAM_CHAT_ID=${CHAT_ID}|" "$ENV"
+      else
+        echo "TELEGRAM_CHAT_ID=${CHAT_ID}" >> "$ENV"
+      fi
+      break
+    fi
+  done
+fi
 pm2 delete expansion-api 2>/dev/null || true
 pm2 start ecosystem.config.cjs
 pm2 save
-"@
+'@ -replace 'REMOTE_DIR', $remoteDir
 
 Invoke-RemoteBash -Script $remote
 

@@ -73,7 +73,7 @@ class _ProgressPageState extends State<ProgressPage> {
                             24,
                             24,
                             24,
-                            GameStickyBottomBar.scrollPadding(context),
+                            GameStickyBottomBar.scrollPadding(context, extra: 72),
                           ),
                           children: [
                             GameStatCard(
@@ -112,11 +112,20 @@ class _ProgressPageState extends State<ProgressPage> {
                           right: 0,
                           bottom: 0,
                           child: GameStickyBottomBar(
-                            child: Center(
-                              child: GameLongButton(
-                                label: loc.progressLeaderboard,
-                                onPressed: () => context.goToLeaderboard(),
-                              ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GameLongButton(
+                                  label: loc.progressLeaderboard,
+                                  onPressed: () => context.goToLeaderboard(),
+                                ),
+                                const Gap(12),
+                                GameLongButton(
+                                  label: loc.progressSupporters,
+                                  onPressed: () => context.goToSupporters(),
+                                ),
+                              ],
                             ),
                           ),
                         ),

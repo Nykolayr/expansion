@@ -121,7 +121,7 @@ class BattleFeatureIntroOverlay extends StatelessWidget {
       MissionFeatureIntro.asteroid => (
           loc.battleMeteoriteTutorialTitle,
           loc.battleMeteoriteTutorialBody,
-          BattleAssets.asteroid(1),
+          paths[BattleVisualId.hazardAsteroid]!,
           0.9,
         ),
       MissionFeatureIntro.comet => (

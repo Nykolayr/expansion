@@ -4,7 +4,7 @@
         android:name="android.permission.INTERNET"/>
     <!-- Камера/галерея и др. обычно подтягиваются merge из плагинов — дублировать без нужды не стоит. -->
     <application
-        android:label="Expansion"
+        android:label="@string/app_name"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"

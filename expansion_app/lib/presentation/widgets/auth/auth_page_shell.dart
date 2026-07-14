@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
-import 'package:expansion/presentation/widgets/buttons/game_compact_skew_button.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/layout/game_sticky_bottom_bar.dart';
@@ -87,12 +86,10 @@ class AuthLinkRow extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         const Gap(8),
-        Center(
-          child: GameLongButton(
-            label: actionLabel,
-            fontSize: 16,
-            onPressed: onPressed,
-          ),
+        GameLongButton(
+          label: actionLabel,
+          fontSize: 16,
+          onPressed: onPressed,
         ),
       ],
     );
@@ -113,12 +110,10 @@ class AuthPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GameLongButton(
-        label: label,
-        loading: loading,
-        onPressed: onPressed,
-      ),
+    return GameLongButton(
+      label: label,
+      loading: loading,
+      onPressed: onPressed,
     );
   }
 }
@@ -137,14 +132,11 @@ class AuthSecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GameCompactSkewButton(
-        label: label,
-        fullWidth: true,
-        fontSize: 15,
-        labelColor: labelColor,
-        onPressed: onPressed,
-      ),
+    return GameLongButton(
+      label: label,
+      fontSize: 16,
+      labelColor: labelColor,
+      onPressed: onPressed,
     );
   }
 }

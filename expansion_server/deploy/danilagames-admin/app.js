@@ -224,6 +224,7 @@
   async function renderExpansion(tab) {
     const sections = [
       ['settings', 'Настройки'],
+      ['payments', 'Оплаты'],
       ['players', 'Игроки'],
       ['finance', 'Финансы'],
     ];
@@ -257,12 +258,14 @@
 
     const body = document.getElementById('tab-body');
     if (tab === 'settings') body.innerHTML = await settingsView();
+    else if (tab === 'payments') body.innerHTML = await paymentsView();
     else if (tab === 'players') body.innerHTML = await playersView();
     else if (tab === 'finance') body.innerHTML = await financeView();
     else body.innerHTML = '<div class="card">Неизвестная вкладка</div>';
 
     bindSettingsHandlers();
     bindPlayerTabs();
+    bindPaymentHandlers();
   }
 
   async function settingsView() {
@@ -275,10 +278,26 @@
           <label class="switch"><input type="checkbox" id="ads-enabled" ${s.adsEnabled ? 'checked' : ''}><span class="slider"></span></label>
         </div>
         <div class="toggle-row">
-          <div><strong>Донаты</strong><br><span class="hint">IAP на экране «Поддержать»</span></div>
+          <div><strong>Донаты</strong><br><span class="hint">СБП/QR на экране «Поддержать»</span></div>
           <label class="switch"><input type="checkbox" id="donations-enabled" ${s.donationsEnabled ? 'checked' : ''}><span class="slider"></span></label>
         </div>
         <p class="hint" id="settings-status">Обновлено: ${fmtDate(s.updatedAt)}</p>
+      </div>
+      <div class="card">
+        <h2>Оплата СБП (Т‑Банк)</h2>
+        <p class="hint">Отдельная ссылка на фиксированную сумму. Игрок открывает нужный тариф.</p>
+        <label for="payment-sbp-tier1">99 ₽ — Поддержать</label>
+        <input id="payment-sbp-tier1" type="url" placeholder="https://www.tbank.ru/cf/..." value="${esc(s.paymentSbpUrlTier1 || '')}" style="width:100%;margin-bottom:12px">
+        <label for="payment-sbp-remove-ads">199 ₽ — Убрать рекламу</label>
+        <input id="payment-sbp-remove-ads" type="url" placeholder="https://www.tbank.ru/cf/..." value="${esc(s.paymentSbpUrlRemoveAds || '')}" style="width:100%;margin-bottom:12px">
+        <label for="payment-sbp-tier2">299 ₽ — Больше поддержки</label>
+        <input id="payment-sbp-tier2" type="url" placeholder="https://www.tbank.ru/cf/..." value="${esc(s.paymentSbpUrlTier2 || '')}" style="width:100%;margin-bottom:12px">
+        <label for="payment-sbp-tier3">599 ₽ — Поддержка + идея</label>
+        <input id="payment-sbp-tier3" type="url" placeholder="https://www.tbank.ru/cf/..." value="${esc(s.paymentSbpUrlTier3 || '')}" style="width:100%;margin-bottom:12px">
+        <label for="payment-qr-url">URL картинки QR (опционально)</label>
+        <input id="payment-qr-url" type="url" placeholder="https://..." value="${esc(s.paymentQrUrl || '')}" style="width:100%;margin-bottom:12px">
+        <button type="button" class="primary" id="save-payment-urls">Сохранить ссылки</button>
+        <p class="hint" id="payment-urls-status"></p>
       </div>`;
   }
 
@@ -288,23 +307,129 @@
     const status = document.getElementById('settings-status');
     if (!ads || !don) return;
 
-    async function patch() {
+    async function patch(flagsOnly) {
       try {
+        const body = flagsOnly
+          ? { adsEnabled: ads.checked, donationsEnabled: don.checked }
+          : {
+              adsEnabled: ads.checked,
+              donationsEnabled: don.checked,
+              paymentSbpUrlTier1: document.getElementById('payment-sbp-tier1')?.value || '',
+              paymentSbpUrlTier2: document.getElementById('payment-sbp-tier2')?.value || '',
+              paymentSbpUrlTier3: document.getElementById('payment-sbp-tier3')?.value || '',
+              paymentSbpUrlRemoveAds: document.getElementById('payment-sbp-remove-ads')?.value || '',
+              paymentQrUrl: document.getElementById('payment-qr-url')?.value || '',
+            };
         const data = await api('/admin/expansion/settings', {
           method: 'PATCH',
-          body: JSON.stringify({
-            adsEnabled: ads.checked,
-            donationsEnabled: don.checked,
-          }),
+          body: JSON.stringify(body),
         });
-        status.textContent = `Сохранено · ${fmtDate(data.updatedAt)}`;
+        if (status) status.textContent = `Сохранено · ${fmtDate(data.updatedAt)}`;
+        const payStatus = document.getElementById('payment-urls-status');
+        if (payStatus && !flagsOnly) payStatus.textContent = `Ссылки сохранены · ${fmtDate(data.updatedAt)}`;
       } catch (e) {
-        status.textContent = `Ошибка: ${e.message}`;
+        if (status) status.textContent = `Ошибка: ${e.message}`;
+        const payStatus = document.getElementById('payment-urls-status');
+        if (payStatus && !flagsOnly) payStatus.textContent = `Ошибка: ${e.message}`;
       }
     }
 
-    ads.onchange = patch;
-    don.onchange = patch;
+    ads.onchange = () => patch(true);
+    don.onchange = () => patch(true);
+
+    const savePay = document.getElementById('save-payment-urls');
+    if (savePay) savePay.onclick = () => patch(false);
+  }
+
+  async function paymentsView() {
+    const pending = await api('/admin/expansion/payments?status=pending&limit=200');
+    const rows = (pending.intents || [])
+      .map(
+        (p) => `<tr>
+          <td>${fmtDate(p.createdAt)}</td>
+          <td><code>${esc(p.paymentCode)}</code></td>
+          <td>${esc(p.productLabel)}</td>
+          <td>${p.priceRub} ₽</td>
+          <td>${esc(p.nick || shortId(p.deviceId))}</td>
+          <td>${esc(p.email || '—')}</td>
+          <td>${p.userId ? esc(shortId(p.userId)) : 'гость'}</td>
+          <td>
+            <button type="button" class="btn-sm pay-mark" data-pay-id="${esc(p.id)}">Оплачено</button>
+            <button type="button" class="btn-sm pay-cancel" data-pay-id="${esc(p.id)}">Отмена</button>
+          </td>
+        </tr>`,
+      )
+      .join('');
+
+    const paid = await api('/admin/expansion/payments?status=paid&limit=50');
+    const paidRows = (paid.intents || [])
+      .map(
+        (p) => `<tr>
+          <td>${fmtDate(p.paidAt || p.createdAt)}</td>
+          <td><code>${esc(p.paymentCode)}</code></td>
+          <td>${esc(p.productLabel)}</td>
+          <td>${p.priceRub} ₽</td>
+          <td>${esc(p.nick || shortId(p.deviceId))}</td>
+          <td>${esc(p.email || '—')}</td>
+        </tr>`,
+      )
+      .join('');
+
+    return `
+      <div class="card">
+        <h2>Ожидают оплаты (${pending.total})</h2>
+        <p class="hint">Игрок нажал «Оплатить» — проверьте банк по коду в комментарии, затем «Оплачено».</p>
+        <table>
+          <thead><tr><th>Создано</th><th>Код</th><th>Продукт</th><th>Сумма</th><th>Игрок</th><th>Email</th><th>Аккаунт</th><th></th></tr></thead>
+          <tbody>${rows || '<tr><td colspan="8">Нет ожидающих</td></tr>'}</tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Недавно оплачено</h2>
+        <table>
+          <thead><tr><th>Дата</th><th>Код</th><th>Продукт</th><th>Сумма</th><th>Игрок</th><th>Email</th></tr></thead>
+          <tbody>${paidRows || '<tr><td colspan="6">Пусто</td></tr>'}</tbody>
+        </table>
+      </div>`;
+  }
+
+  function bindPaymentHandlers() {
+    document.querySelectorAll('.pay-mark').forEach((btn) => {
+      btn.onclick = async () => {
+        const id = btn.dataset.payId;
+        if (!confirm('Подтвердить оплату? Игроку уйдёт благодарность (если есть email).')) return;
+        btn.disabled = true;
+        try {
+          await api(`/admin/expansion/payments/${id}/mark-paid`, { method: 'PATCH', body: '{}' });
+          const body = document.getElementById('tab-body');
+          if (body) {
+            body.innerHTML = await paymentsView();
+            bindPaymentHandlers();
+          }
+        } catch (e) {
+          alert(e.message || 'Ошибка');
+          btn.disabled = false;
+        }
+      };
+    });
+    document.querySelectorAll('.pay-cancel').forEach((btn) => {
+      btn.onclick = async () => {
+        const id = btn.dataset.payId;
+        if (!confirm('Отменить намерение оплаты?')) return;
+        btn.disabled = true;
+        try {
+          await api(`/admin/expansion/payments/${id}/cancel`, { method: 'PATCH', body: '{}' });
+          const body = document.getElementById('tab-body');
+          if (body) {
+            body.innerHTML = await paymentsView();
+            bindPaymentHandlers();
+          }
+        } catch (e) {
+          alert(e.message || 'Ошибка');
+          btn.disabled = false;
+        }
+      };
+    });
   }
 
   async function playersView() {
@@ -331,13 +456,18 @@
           <td>${p.scoreClassic}</td>
           <td>${p.supporterTier}</td>
           <td>${p.adsRemoved ? 'да' : '—'}</td>
+          <td>
+            <button type="button" class="btn-sm ads-toggle" data-ads-user="${esc(p.id)}" data-ads-removed="${p.adsRemoved ? 'true' : 'false'}">
+              ${p.adsRemoved ? 'Снять без рекл.' : 'Без рекламы'}
+            </button>
+          </td>
           <td>${fmtDate(p.createdAt)}</td>
         </tr>`,
       )
       .join('');
-    return `<div class="card"><table>
-      <thead><tr><th>Nick</th><th>Email</th><th>Миссия</th><th>Очки</th><th>Tier</th><th>Без рекл.</th><th>Регистрация</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="7">Пусто</td></tr>'}</tbody>
+    return `<div class="card"><p class="hint">Только для зарегистрированных: флаг сохраняется в профиле на сервере и подтягивается при входе. У гостей — только на устройстве.</p><table>
+      <thead><tr><th>Nick</th><th>Email</th><th>Миссия</th><th>Очки</th><th>Tier</th><th>Без рекл.</th><th>Действие</th><th>Регистрация</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="8">Пусто</td></tr>'}</tbody>
     </table></div>`;
   }
 
@@ -373,6 +503,8 @@
       cachedGuests = await api('/admin/expansion/players/guests?limit=200');
     }
 
+    bindRegisteredAdsHandlers();
+
     subtabs.querySelectorAll('[data-ptab]').forEach((btn) => {
       btn.onclick = () => {
         subtabs.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
@@ -381,14 +513,43 @@
           btn.dataset.ptab === 'guest'
             ? guestsTable(cachedGuests)
             : registeredTable(cachedReg);
+        if (btn.dataset.ptab !== 'guest') {
+          bindRegisteredAdsHandlers();
+        }
+      };
+    });
+  }
+
+  function bindRegisteredAdsHandlers() {
+    document.querySelectorAll('.ads-toggle').forEach((btn) => {
+      btn.onclick = async () => {
+        const userId = btn.dataset.adsUser;
+        const next = btn.dataset.adsRemoved !== 'true';
+        btn.disabled = true;
+        try {
+          await api(`/admin/expansion/players/registered/${userId}/ads-removed`, {
+            method: 'PATCH',
+            body: JSON.stringify({ adsRemoved: next }),
+          });
+          cachedReg = await api('/admin/expansion/players/registered?limit=200');
+          const table = document.getElementById('player-table');
+          if (table) {
+            table.innerHTML = registeredTable(cachedReg);
+            bindRegisteredAdsHandlers();
+          }
+        } catch (e) {
+          alert(e.message || 'Ошибка');
+          btn.disabled = false;
+        }
       };
     });
   }
 
   async function financeView() {
-    const [summary, purchases] = await Promise.all([
+    const [summary, purchases, ideas] = await Promise.all([
       api('/admin/expansion/finance/summary?months=12'),
       api('/admin/expansion/finance/purchases?limit=100'),
+      api('/admin/expansion/finance/ideas?status=paid&limit=100'),
     ]);
 
     const monthRows = (summary.months || [])
@@ -416,6 +577,17 @@
       )
       .join('');
 
+    const ideaRows = (ideas.ideas || [])
+      .map(
+        (i) => `<tr>
+          <td>${fmtDate(i.paidAt || i.createdAt)}</td>
+          <td>${esc(i.nick || shortId(i.deviceId))}</td>
+          <td>${esc(i.email || '—')}</td>
+          <td style="white-space:pre-wrap;max-width:420px">${esc(i.ideaText)}</td>
+        </tr>`,
+      )
+      .join('');
+
     return `
       <div class="card">
         <h2>Сводка по месяцам</h2>
@@ -430,6 +602,13 @@
         <table>
           <thead><tr><th>Дата</th><th>Product</th><th>Сумма</th><th>Store</th><th>Игрок</th></tr></thead>
           <tbody>${purchaseRows || '<tr><td colspan="5">Нет покупок</td></tr>'}</tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Идеи к донату (оплаченные)</h2>
+        <table>
+          <thead><tr><th>Дата</th><th>Игрок</th><th>Email</th><th>Идея</th></tr></thead>
+          <tbody>${ideaRows || '<tr><td colspan="4">Нет идей</td></tr>'}</tbody>
         </table>
       </div>`;
   }

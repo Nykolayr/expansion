@@ -7,7 +7,7 @@ import 'package:expansion/core/constants/asset_paths.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 
-/// Широкая кнопка со скосом (`bottom_long.svg`) — стиль меню splash.
+/// Широкая кнопка со скосом (`bottom_long.svg`) — единственный вид одиночных действий.
 class GameLongButton extends StatelessWidget {
   const GameLongButton({
     required this.label,
@@ -26,43 +26,64 @@ class GameLongButton extends StatelessWidget {
   final double? maxWidth;
   final Color? labelColor;
 
+  static const double _svgAspect = 1109.81 / 8527.74;
+
   @override
   Widget build(BuildContext context) {
-    final width = maxWidth ?? MediaQuery.sizeOf(context).width - 30;
     final enabled = onPressed != null && !loading;
 
-    return Opacity(
-      opacity: enabled ? 1 : 0.45,
-      child: GestureDetector(
-        onTap: enabled ? () => _onTap(onPressed!) : null,
-        child: SizedBox(
-          width: width,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              SvgPicture.asset(
-                AssetPaths.svg('bottom_long.svg'),
-                width: width,
-                fit: BoxFit.fitWidth,
-              ),
-              if (loading)
-                const SizedBox(
-                  height: 22,
-                  width: 22,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              else
-                Text(
-                  label,
-                  style: ExpansionTextStyles.bodyAccent(context, fontSize).copyWith(
-                    color: labelColor ??
-                        (onPressed != null ? null : ExpansionColors.grey),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final fallback = MediaQuery.sizeOf(context).width - 30;
+        final width = maxWidth ??
+            (constraints.maxWidth.isFinite && constraints.maxWidth > 0
+                ? constraints.maxWidth
+                : fallback);
+        final height = (width * _svgAspect).clamp(44.0, 72.0);
+
+        return Opacity(
+          opacity: enabled ? 1 : 0.45,
+          child: GestureDetector(
+            onTap: enabled ? () => _onTap(onPressed!) : null,
+            child: SizedBox(
+              width: width,
+              height: height,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SvgPicture.asset(
+                    AssetPaths.svg('bottom_long.svg'),
+                    width: width,
+                    height: height,
+                    fit: BoxFit.fill,
                   ),
-                ),
-            ],
+                  if (loading)
+                    const SizedBox(
+                      height: 22,
+                      width: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        label,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: ExpansionTextStyles.bodyAccent(context, fontSize)
+                            .copyWith(
+                          color: labelColor ??
+                              (onPressed != null ? null : ExpansionColors.grey),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

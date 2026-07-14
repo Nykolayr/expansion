@@ -7,7 +7,8 @@ import 'package:expansion/core/constants/asset_paths.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/core/themes/expansion_text_styles.dart';
 
-/// Компактная кнопка со скосом (`bottom_middle_in.svg`) для строк и диалогов.
+/// Компактная кнопка — **только** пара в одном [Row] (две кнопки рядом).
+/// Одиночные действия — всегда [GameLongButton] на всю ширину.
 class GameCompactSkewButton extends StatelessWidget {
   const GameCompactSkewButton({
     required this.label,

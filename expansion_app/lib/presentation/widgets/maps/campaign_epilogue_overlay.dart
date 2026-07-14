@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/splash/splash_pretext_typer.dart';
 
 /// Эпилог кампании — печать текста как во вступлении на splash.
@@ -58,19 +59,10 @@ class CampaignEpilogueOverlay extends StatelessWidget {
                 ),
               ),
               const Gap(8),
-              TextButton(
+              GameLongButton(
+                label: loc.campaignEpilogueDismiss,
+                fontSize: 16,
                 onPressed: onDismiss,
-                style: TextButton.styleFrom(
-                  foregroundColor: ExpansionColors.accent,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
-                child: Text(
-                  loc.campaignEpilogueDismiss,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: ExpansionColors.accent,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
               ),
             ],
           ),

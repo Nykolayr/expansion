@@ -256,10 +256,11 @@
   "profileDeleteAccountConfirm": "Delete",
   "profileDeleteAccountSuccess": "Account deleted",
   "progressLeaderboard": "Top scores",
+  "progressSupporters": "Supported the game",
   "leaderboardTitle": "Leaderboard",
   "leaderboardEmpty": "No entries yet — be the first!",
   "leaderboardLoadFailed": "Could not load leaderboard",
-  "leaderboardGuestHint": "You could be on the board — sign up",
+  "leaderboardGuestHint": "Want to be on the board — sign up",
   "leaderboardMission": "Mission {mission}",
   "@leaderboardMission": {
     "placeholders": {
@@ -274,6 +275,8 @@
   "authEmail": "Email",
   "authPassword": "Password",
   "authPasswordHint": "At least 6 characters",
+  "authPasswordToggleShow": "Show password",
+  "authPasswordToggleHide": "Hide password",
   "authNewPassword": "New password",
   "authNick": "Nickname",
   "authNickHint": "3–20 chars: letters, digits, _",
@@ -335,39 +338,52 @@
   "newMissionsBannerAction": "Open map",
   "newMissionsBannerDismiss": "Got it",
   "donateTitle": "Support",
-  "donateBody": "Expansion is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.",
-  "donateGithub": "Project on GitHub",
+  "supportersTitle": "Supported the game",
+  "supportersEmpty": "No one yet — be the first!",
+  "supportersAnonymous": "Anonymous",
+  "supportersLoadFailed": "Could not load the list",
+  "supportersDonateHint": "Support the game — and your name will appear here",
+  "donateBody": "{appName} is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.",
+  "@donateBody": {
+    "placeholders": {
+      "appName": { "type": "String" }
+    }
+  },
   "donateThanks": "Thanks for playing!",
-  "donateOpenFailed": "Could not open the link",
-  "donateTier1": "Support · {price}",
+  "donateTier1": "Support ({price})",
   "@donateTier1": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateTier2": "More support · {price}",
+  "donateTier2": "More support ({price})",
   "@donateTier2": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateTier3": "Top support · {price}",
+  "donateTier3": "Support + Your idea ({price})",
   "@donateTier3": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donateRemoveAds": "Remove ads · {price}",
+  "donateRemoveAds": "Remove ads ({price})",
   "@donateRemoveAds": {
     "placeholders": {
       "price": { "type": "String" }
     }
   },
-  "donatePriceFallback": "coming to store",
-  "donateStoreUnavailable": "Purchases work in Google Play or RuStore builds after release.",
+  "donateIdeaHint": "Describe a new feature idea — we save it before payment. After a successful payment the idea goes to our admin panel, and you get an email: thank you, we will review it soon.",
+  "donateIdeaTitle": "Your idea",
+  "donateIdeaBody": "Briefly describe a feature you would like in the game.",
+  "donateIdeaLabel": "Idea description",
+  "donateIdeaContinue": "Continue to payment",
+  "donateIdeaSaved": "Idea saved. Continue to payment.",
+  "donateIdeaFailed": "Could not save the idea. Check your connection and try again.",
   "donateDisabledByAdmin": "Donations are temporarily disabled by the administrator.",
-  "donatePurchaseFailed": "Could not start purchase. Check the store and connection.",
-  "donatePurchasePending": "Thank you! Purchase is processing — status updates in a few seconds.",
+  "donatePurchaseFailed": "Could not start payment. Try again later or check your connection.",
+  "donatePurchasePending": "Thank you! Payment is processing — status updates in a few seconds.",
   "donateRestore": "Restore purchases",
   "donateRestoreDone": "Restore request sent.",
   "donateSupporterStatus": "Supporter level: {tier}",
@@ -378,6 +394,30 @@
   },
   "donateSupporterHint": "Cosmetic badge only — no battle bonuses.",
   "donateAdsRemoved": "Ads removed. Thank you!",
+  "donatePaymentTitle": "Payment",
+  "donatePaymentLoading": "Preparing payment details…",
+  "donatePaymentAmount": "Amount: {price}",
+  "@donatePaymentAmount": {
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "donatePaymentInstructions": "Pay the amount via SBP or QR. Put the code below in the payment comment so we can match your transfer.",
+  "donatePaymentCommentLabel": "Payment comment",
+  "donatePaymentCopyCode": "Copy code",
+  "donatePaymentCodeCopied": "Code copied",
+  "donatePaymentQrHint": "Scan the QR in your banking app:",
+  "donatePaymentQrMissing": "QR temporarily unavailable",
+  "donatePaymentOpenSbp": "Open SBP payment",
+  "donatePaymentSbpFailed": "Could not open SBP link",
+  "donatePaymentLinksPending": "SBP/QR links are being configured. You can already use the transfer code.",
+  "donatePaymentAfterPay": "After we see the transfer, we confirm payment manually. Ads will turn off on the next app launch (or right after login if you have an account).",
+  "donatePaymentBack": "Back to support",
+  "donatePaymentRetry": "Retry",
+  "donatePaymentWebViewTitle": "SBP payment",
+  "donatePaymentWebViewHint": "After paying, go back — we confirm transfers manually.",
+  "donatePaymentWebViewFailed": "Could not load the payment page.",
+  "donatePaymentWebViewOpenBrowser": "Open in browser",
   "settingsDonate": "Support the project",
   "settingsDonateHint": "Donate and remove ads",
   "settingsFeedback": "Feedback",

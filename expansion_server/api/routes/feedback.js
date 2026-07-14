@@ -4,6 +4,7 @@ const { getPool } = require('../config/database');
 const { sendUserFeedback } = require('../config/email');
 const { verifyAccessToken } = require('../utils/tokens');
 const { parseProfileRow } = require('../utils/profile');
+const { notifyTelegramHtml, formatFeedbackMessage } = require('../utils/telegram');
 
 const router = express.Router();
 
@@ -74,6 +75,12 @@ router.post('/', async (req, res) => {
     clientMeta: {
       userAgent: req.headers['user-agent'] || '',
     },
+  });
+
+  notifyTelegramHtml(
+    formatFeedbackMessage({ message, fromEmail: email, nick, userId }),
+  ).catch((error) => {
+    console.error('telegram feedback notify failed:', error.message);
   });
 
   if (!result.success) {

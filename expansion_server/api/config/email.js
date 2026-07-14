@@ -243,10 +243,100 @@ async function sendUserFeedback({
   });
 }
 
+async function sendDonationThanks({ toEmail, nick, productLabel }) {
+  if (!toEmail) {
+    return { success: false, error: 'No recipient', code: 'NO_EMAIL' };
+  }
+
+  const name = nick || 'командир';
+  const subject = `[${appName()}] Спасибо за поддержку!`;
+  const text = [
+    `Здравствуйте, ${name}!`,
+    '',
+    `Спасибо за поддержку проекта ${appName()}${productLabel ? ` (${productLabel})` : ''}.`,
+    'Ваш вклад помогает развивать игру.',
+    '',
+    'С уважением,',
+    `команда ${appName()}`,
+  ].join('\n');
+
+  const html = `<p>Здравствуйте, ${escapeHtml(name)}!</p>
+<p>Спасибо за поддержку проекта <strong>${escapeHtml(appName())}</strong>${
+    productLabel ? ` (${escapeHtml(productLabel)})` : ''
+  }.</p>
+<p>Ваш вклад помогает развивать игру.</p>
+<p>С уважением,<br>команда ${escapeHtml(appName())}</p>`;
+
+  return sendMail({ to: toEmail, subject, text, html });
+}
+
+async function sendDonationIdeaThanks({ toEmail, nick, ideaText }) {
+  if (!toEmail) {
+    return { success: false, error: 'No recipient', code: 'NO_EMAIL' };
+  }
+
+  const name = nick || 'командир';
+  const subject = `[${appName()}] Спасибо за оплату и идею!`;
+  const text = [
+    `Здравствуйте, ${name}!`,
+    '',
+    `Спасибо за оплату и идею для ${appName()}.`,
+    'Мы рассмотрим ваше предложение и при необходимости вернёмся с ответом.',
+    '',
+    'Ваша идея:',
+    ideaText,
+    '',
+    'С уважением,',
+    `команда ${appName()}`,
+  ].join('\n');
+
+  const html = `<p>Здравствуйте, ${escapeHtml(name)}!</p>
+<p>Спасибо за оплату и идею для <strong>${escapeHtml(appName())}</strong>.</p>
+<p>Мы рассмотрим ваше предложение и при необходимости вернёмся с ответом.</p>
+<p><strong>Ваша идея:</strong></p>
+<pre style="font-family:Arial,sans-serif;white-space:pre-wrap;line-height:1.5;">${escapeHtml(ideaText)}</pre>
+<p>С уважением,<br>команда ${escapeHtml(appName())}</p>`;
+
+  return sendMail({ to: toEmail, subject, text, html });
+}
+
+async function notifyAdminDonationIdea({ ideaText, fromEmail, nick, userId }) {
+  const to = feedbackRecipient();
+  if (!to) {
+    return {
+      success: false,
+      error: 'Feedback recipient not configured',
+      code: 'FEEDBACK_NOT_CONFIGURED',
+    };
+  }
+
+  const lines = [
+    'Новая идея к донату «Поддержка + Ваша идея» (оплачено).',
+    `From: ${fromEmail || '—'}`,
+    nick ? `Nick: ${nick}` : null,
+    userId ? `User ID: ${userId}` : 'Guest / device',
+    '',
+    ideaText,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
+  return sendMail({
+    to,
+    replyTo: fromEmail || undefined,
+    subject: `[${appName()}] Идея от доната${nick ? ` — ${nick}` : ''}`,
+    text: lines,
+    html: `<pre style="font-family:Arial,sans-serif;white-space:pre-wrap;line-height:1.5;">${escapeHtml(lines)}</pre>`,
+  });
+}
+
 module.exports = {
   sendVerificationCode,
   sendPasswordResetCode,
   sendUserFeedback,
+  sendDonationThanks,
+  sendDonationIdeaThanks,
+  notifyAdminDonationIdea,
   transporter,
   verifyTransporter,
 };

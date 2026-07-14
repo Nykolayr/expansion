@@ -152,39 +152,32 @@ class _ProfilePageState extends State<ProfilePage> {
     final loc = AppLocalizations.of(context)!;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (state.isLoggedIn) ...[
-          Center(
-            child: GameLongButton(
-              label: loc.profileLogout,
-              fontSize: 16,
-              onPressed: () => _logout(context),
-            ),
+          GameLongButton(
+            label: loc.profileLogout,
+            fontSize: 16,
+            onPressed: () => _logout(context),
           ),
           const Gap(8),
-          Center(
-            child: GameLongButton(
-              label: loc.profileDeleteAccount,
-              fontSize: 16,
-              labelColor: ExpansionColors.red,
-              onPressed: () => _confirmDeleteAccount(context),
-            ),
+          GameLongButton(
+            label: loc.profileDeleteAccount,
+            fontSize: 16,
+            labelColor: ExpansionColors.red,
+            onPressed: () => _confirmDeleteAccount(context),
           ),
         ] else if (!state.accountLoading) ...[
-          Center(
-            child: GameLongButton(
-              label: loc.profileRegister,
-              onPressed: () => context.goToAuthRegister(),
-            ),
+          GameLongButton(
+            label: loc.profileRegister,
+            onPressed: () => context.goToAuthRegister(),
           ),
           const Gap(8),
-          Center(
-            child: GameLongButton(
-              label: loc.profileLogin,
-              fontSize: 16,
-              onPressed: () => context.goToAuthLogin(),
-            ),
+          GameLongButton(
+            label: loc.profileLogin,
+            fontSize: 16,
+            onPressed: () => context.goToAuthLogin(),
           ),
         ],
       ],
