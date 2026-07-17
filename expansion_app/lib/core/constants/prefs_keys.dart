@@ -36,4 +36,9 @@ abstract final class PrefsKeys {
   static const String adsBattlesSinceInterstitial = 'ads_battles_since_interstitial';
   static const String adsLastInterstitialMillis = 'ads_last_interstitial_millis';
   static const String pendingDonationIdeaId = 'pending_donation_idea_id';
+
+  /// Кэш remote monetization (после успешного GET /expansion/config).
+  static const String remoteMonetizationCached = 'remote_monetization_cached';
+  static const String remoteAdsEnabled = 'remote_ads_enabled';
+  static const String remoteDonationsEnabled = 'remote_donations_enabled';
 }

@@ -166,6 +166,41 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mapsUnknownSystem => '???????';
 
   @override
+  String get mapsNebulaOrion => 'Туманность Ориона';
+
+  @override
+  String get mapsNebulaAndromeda => 'Туманность Андромеды';
+
+  @override
+  String get mapsNebulaHorsehead => 'Туманность Конская Голова';
+
+  @override
+  String get mapsNebulaCrab => 'Туманность Краба';
+
+  @override
+  String get mapsNebulaEagle => 'Туманность Орла';
+
+  @override
+  String get mapsNebulaLagoon => 'Туманность Лагуна';
+
+  @override
+  String get mapsNebulaVeil => 'Туманность Вуаль';
+
+  @override
+  String get mapsNebulaCarina => 'Туманность Карины';
+
+  @override
+  String get mapsNebulaTarantula => 'Туманность Тарантул';
+
+  @override
+  String get mapsNebulaVirgo => 'Туманность Девы';
+
+  @override
+  String mapsNebulaRange(int from, int to) {
+    return 'Миссии $from–$to';
+  }
+
+  @override
   String get beginDifficultyHint =>
       'Выберите сложность. От неё зависит темп и непредсказуемость чужих.';
 
@@ -188,7 +223,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get beginUniverClassic => 'Классическая';
 
   @override
-  String get beginUniverClassicHint => '40 миссий кампании';
+  String get beginUniverClassicHint => 'Кампания Classic';
 
   @override
   String get beginUniverGenerated => 'Случайная';
@@ -361,7 +396,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get progressScore => 'Очки';
 
   @override
-  String get progressEnemyPower => 'Сила чужих (кампания)';
+  String get progressEnemyPower => 'Темп чужих (туманность)';
 
   @override
   String get battleDefeatTitle => 'Поражение';
@@ -531,7 +566,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mapTutorialBody =>
-      'Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.';
+      'Выберите систему и нажмите «Экспансия». Туманности листаются свайпом; пройденные миссии можно переигрывать.';
 
   @override
   String get mapTutorialDismiss => 'Вперёд';
@@ -566,7 +601,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get helpMapBody =>
-      '40 миссий Classic. Текущая отмечена мишенью. После победы открывается следующая система.';
+      'Миссии Classic по туманностям. Текущая отмечена мишенью. После победы открывается следующая система.';
 
   @override
   String get helpUpgradesTitle => 'Апгрейды';
@@ -789,19 +824,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String authVerifyBody(String email) {
-    return 'Код отправлен на $email. Введите его ниже.';
+    return 'Код отправлен на $email. Введите его ниже.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».';
   }
 
   @override
   String authResetBody(String email) {
-    return 'Код отправлен на $email. Придумайте новый пароль.';
+    return 'Код отправлен на $email. Придумайте новый пароль.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».';
   }
 
   @override
-  String get authVerifySent => 'Код отправлен на почту';
+  String get authVerifySent => 'Код отправлен на почту (проверьте «Спам»)';
 
   @override
-  String get authResetSent => 'Код для сброса отправлен';
+  String get authResetSent => 'Код для сброса отправлен (проверьте «Спам»)';
 
   @override
   String get authLoginSuccess => 'Вы вошли в аккаунт';
@@ -900,7 +935,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String donateBody(String appName) {
-    return '$appName — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.';
+    return '$appName — бесплатная кампания Classic. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.';
   }
 
   @override

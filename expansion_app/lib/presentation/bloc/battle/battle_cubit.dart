@@ -81,7 +81,7 @@ class BattleCubit extends Cubit<BattleState> {
       _difficulty = guest.difficulty;
       _battleRng = Random(sceneId * 9973 + guest.mapClassic);
 
-      _bonuses = MetaBattleBonuses.fromProgress(guest.meta);
+      _bonuses = MetaBattleBonuses.fromProgress(guest.meta, sceneId: sceneId);
       final engine = await _sessionFactory.createEngine(
         sceneId,
         bonuses: _bonuses,

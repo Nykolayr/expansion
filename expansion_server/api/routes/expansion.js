@@ -707,6 +707,193 @@ adminRouter.get('/players/guests', async (req, res) => {
   }
 });
 
+adminRouter.delete('/players/guests', async (_req, res) => {
+  try {
+    const [result] = await getPool().query(
+      `DELETE FROM guest_devices WHERE game_slug = ?`,
+      [GAME_SLUG],
+    );
+    return res.json({
+      deleted: result.affectedRows ?? 0,
+      game: GAME_SLUG,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'database error', code: 'INTERNAL' });
+  }
+});
+
+adminRouter.get('/stats', async (_req, res) => {
+  try {
+    const pool = getPool();
+    const days = 14;
+
+    const [[usersCount]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM users`,
+    );
+    const [[guestsCount]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM guest_devices WHERE game_slug = ?`,
+      [GAME_SLUG],
+    );
+    const [[guestsActive24h]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM guest_devices
+       WHERE game_slug = ? AND last_seen >= UTC_TIMESTAMP() - INTERVAL 1 DAY`,
+      [GAME_SLUG],
+    );
+    const [[guestsActive7d]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM guest_devices
+       WHERE game_slug = ? AND last_seen >= UTC_TIMESTAMP() - INTERVAL 7 DAY`,
+      [GAME_SLUG],
+    );
+    const [[usersActive7d]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM user_profiles
+       WHERE updated_at >= UTC_TIMESTAMP() - INTERVAL 7 DAY`,
+    );
+    const [[ads7d]] = await pool.query(
+      `SELECT COUNT(*) AS c FROM ad_events
+       WHERE game_slug = ? AND created_at >= UTC_TIMESTAMP() - INTERVAL 7 DAY`,
+      [GAME_SLUG],
+    );
+    const [[paid7d]] = await pool.query(
+      `SELECT COUNT(*) AS cnt, COALESCE(SUM(price_rub), 0) AS sumRub
+       FROM payment_intents
+       WHERE game_slug = ? AND status = 'paid'
+         AND COALESCE(paid_at, created_at) >= UTC_TIMESTAMP() - INTERVAL 7 DAY`,
+      [GAME_SLUG],
+    );
+
+    const [guestActivityRows] = await pool.query(
+      `SELECT DATE(last_seen) AS day, COUNT(*) AS c
+       FROM guest_devices
+       WHERE game_slug = ?
+         AND last_seen >= UTC_DATE() - INTERVAL ? DAY
+       GROUP BY DATE(last_seen)
+       ORDER BY day ASC`,
+      [GAME_SLUG, days - 1],
+    );
+    const [regActivityRows] = await pool.query(
+      `SELECT DATE(created_at) AS day, COUNT(*) AS c
+       FROM users
+       WHERE created_at >= UTC_DATE() - INTERVAL ? DAY
+       GROUP BY DATE(created_at)
+       ORDER BY day ASC`,
+      [days - 1],
+    );
+    const [adDayRows] = await pool.query(
+      `SELECT DATE(created_at) AS day, COUNT(*) AS c
+       FROM ad_events
+       WHERE game_slug = ?
+         AND created_at >= UTC_DATE() - INTERVAL ? DAY
+       GROUP BY DATE(created_at)
+       ORDER BY day ASC`,
+      [GAME_SLUG, days - 1],
+    );
+    const [paidDayRows] = await pool.query(
+      `SELECT DATE(COALESCE(paid_at, created_at)) AS day,
+              COUNT(*) AS cnt,
+              COALESCE(SUM(price_rub), 0) AS sumRub
+       FROM payment_intents
+       WHERE game_slug = ? AND status = 'paid'
+         AND COALESCE(paid_at, created_at) >= UTC_DATE() - INTERVAL ? DAY
+       GROUP BY DATE(COALESCE(paid_at, created_at))
+       ORDER BY day ASC`,
+      [GAME_SLUG, days - 1],
+    );
+
+    const [guestProfiles] = await pool.query(
+      `SELECT profile_json FROM guest_devices WHERE game_slug = ?`,
+      [GAME_SLUG],
+    );
+    const [userProfiles] = await pool.query(
+      `SELECT profile_json FROM user_profiles`,
+    );
+
+    const missionMap = new Map();
+    function addMission(raw) {
+      let profile = {};
+      try {
+        profile = typeof raw === 'string' ? JSON.parse(raw) : raw || {};
+      } catch {
+        profile = {};
+      }
+      const m = Number(profile.mapClassic) || 1;
+      missionMap.set(m, (missionMap.get(m) || 0) + 1);
+    }
+    for (const row of guestProfiles) addMission(row.profile_json);
+    for (const row of userProfiles) addMission(row.profile_json);
+
+    const dayKeys = [];
+    const today = new Date();
+    for (let i = days - 1; i >= 0; i -= 1) {
+      const d = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+      d.setUTCDate(d.getUTCDate() - i);
+      dayKeys.push(d.toISOString().slice(0, 10));
+    }
+
+    function fillSeries(rows, valueKey = 'c') {
+      const map = new Map(
+        rows.map((r) => {
+          const day = r.day instanceof Date
+            ? r.day.toISOString().slice(0, 10)
+            : String(r.day).slice(0, 10);
+          return [day, Number(r[valueKey]) || 0];
+        }),
+      );
+      return dayKeys.map((day) => ({ day, value: map.get(day) || 0 }));
+    }
+
+    const guestByDay = fillSeries(guestActivityRows);
+    const regByDay = fillSeries(regActivityRows);
+    const activityByDay = dayKeys.map((day, i) => ({
+      day,
+      value: guestByDay[i].value + regByDay[i].value,
+      guests: guestByDay[i].value,
+      registrations: regByDay[i].value,
+    }));
+
+    const adsByDay = fillSeries(adDayRows);
+    const paymentsByDay = dayKeys.map((day) => {
+      const row = paidDayRows.find((r) => {
+        const d = r.day instanceof Date
+          ? r.day.toISOString().slice(0, 10)
+          : String(r.day).slice(0, 10);
+        return d === day;
+      });
+      return {
+        day,
+        count: row ? Number(row.cnt) || 0 : 0,
+        sumRub: row ? Number(row.sumRub) || 0 : 0,
+      };
+    });
+
+    const missions = [...missionMap.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([mission, count]) => ({ mission, count }));
+
+    return res.json({
+      kpi: {
+        registered: Number(usersCount.c) || 0,
+        guests: Number(guestsCount.c) || 0,
+        guestsActive24h: Number(guestsActive24h.c) || 0,
+        guestsActive7d: Number(guestsActive7d.c) || 0,
+        usersActive7d: Number(usersActive7d.c) || 0,
+        adShows7d: Number(ads7d.c) || 0,
+        paidCount7d: Number(paid7d.cnt) || 0,
+        paidSumRub7d: Number(paid7d.sumRub) || 0,
+      },
+      charts: {
+        activity14d: activityByDay,
+        ads14d: adsByDay,
+        payments14d: paymentsByDay,
+        missions,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'database error', code: 'INTERNAL' });
+  }
+});
+
 adminRouter.get('/payments', async (req, res) => {
   const status = String(req.query.status || 'pending').trim();
   const allowed = new Set(['pending', 'paid', 'cancelled', 'all']);

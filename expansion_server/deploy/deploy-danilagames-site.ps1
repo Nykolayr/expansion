@@ -23,6 +23,29 @@ if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Send-File (Join-Path $placeholder 'index.html') "$remoteRoot/index.html"
 Send-File (Join-Path $placeholder '.htaccess') "$remoteRoot/.htaccess"
+Send-File (Join-Path $placeholder 'site.css') "$remoteRoot/site.css"
+
+foreach ($file in @('favicon.ico', 'favicon.svg', 'favicon-32.png', 'favicon-192.png', 'apple-touch-icon.png')) {
+  Send-File (Join-Path $placeholder $file) "$remoteRoot/$file"
+}
+
+& ssh @sshArgs "mkdir -p $remoteRoot/expansion/screens"
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+foreach ($file in @(
+  'index.html', 'en.html', 'icon.jpg', 'carousel.js',
+  'favicon.ico', 'favicon-32.png', 'favicon-192.png', 'apple-touch-icon.png'
+)) {
+  Send-File (Join-Path $placeholder "expansion\$file") "$remoteRoot/expansion/$file"
+}
+
+foreach ($file in Get-ChildItem (Join-Path $placeholder 'expansion\screens\*.jpg')) {
+  Send-File $file.FullName "$remoteRoot/expansion/screens/$($file.Name)"
+}
+
+foreach ($file in @('legal.css', 'privacy-ru.html', 'privacy-en.html', 'support-ru.html', 'support-en.html', 'account-deletion-ru.html', 'account-deletion-en.html')) {
+  Send-File (Join-Path $placeholder $file) "$remoteRoot/$file"
+}
 
 foreach ($file in @('index.html', 'app.js', 'styles.css', 'config.js', 'api-proxy.php', '.php-version')) {
   Send-File (Join-Path $admin $file) "$remoteAdmin/$file"

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:expansion/core/di/injection_container.dart';
-import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_cubit.dart';
 import 'package:expansion/presentation/bloc/leaderboard/leaderboard_state.dart';
@@ -108,7 +108,13 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                               bottom: 0,
                               child: GameStickyBottomBar(
                                 child: _GuestLeaderboardBanner(
-                                  onRegister: () => context.goToAuthRegister(),
+                                  onRegister: () async {
+                                    await context.push('/auth/register');
+                                    if (!context.mounted) return;
+                                    await context
+                                        .read<LeaderboardCubit>()
+                                        .load();
+                                  },
                                 ),
                               ),
                             ),

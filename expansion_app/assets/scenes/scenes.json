@@ -320,84 +320,84 @@
       "battleEn": ""
    },
    {
-      "nameRu": "Алудра",
-      "nameEn": "Aludra",
-      "descriptionRu": "Перед нами открылась череда порталов, ведущих в неисследованные системы и галактики.",
-      "descriptionEn": "A series of portals leading to unexplored systems and galaxies opened before us.",
-      "battleRu": "",
-      "battleEn": ""
+      "nameRu": "Сириус",
+      "nameEn": "Sirius",
+      "descriptionRu": "Туманность Андромеды. После штурма опорного кластера флот выходит на спокойные фланги — время выбрать путь.",
+      "descriptionEn": "Andromeda Nebula. After the core assault, the fleet reaches quieter flanks — time to choose a path.",
+      "battleRu": "Два широких фланга, центр пуст. Выберите левый или правый путь и не распыляйте флот.",
+      "battleEn": "Two wide flanks, empty center. Pick left or right and do not split your fleet."
    },
    {
-      "nameRu": "Алькафрах",
-      "nameEn": "Alkaphrah",
-      "descriptionRu": "Мы доказали, что даже в самых отчаянных схватках можем найти путь к новым звездам.",
-      "descriptionEn": "We have proved that even in the most desperate battles we can find a way to new stars.",
-      "battleRu": "",
-      "battleEn": ""
+      "nameRu": "Регул",
+      "nameEn": "Regulus",
+      "descriptionRu": "Зигзаг маршрутов и комета на срезе — терпение важнее лобовой атаки.",
+      "descriptionEn": "Zigzag routes and a comet on the cut — patience beats a head-on rush.",
+      "battleRu": "Комета режет поле. Ждите окно и ведите флот зигзагом по узлам.",
+      "battleEn": "The comet cuts the field. Wait for a window and advance zigzag along the nodes."
    },
    {
-      "nameRu": "Альферац",
-      "nameEn": "Alferats",
-      "descriptionRu": "Победа за победой, и каждый портал становится нашим следующим шагом к галактическому величию.",
-      "descriptionEn": "Victory after victory, and each portal becomes our next step to galactic greatness.",
-      "battleRu": "",
-      "battleEn": ""
-   },
-   {
-      "nameRu": "Мебсута",
-      "nameEn": "Mebsuta",
-      "descriptionRu": "Следующий портал ожидает нас, как новая глава нашего захватывающего путешествия.",
-      "descriptionEn": "The next portal awaits us as a new chapter of our exciting journey.",
-      "battleRu": "",
-      "battleEn": ""
-   },
-   {
-      "nameRu": "Аламак",
-      "nameEn": "Almach",
-      "descriptionRu": "В каждом портале заложены надежды и мечты о новых открытиях и покорении космоса.",
-      "descriptionEn": "Each portal contains hopes and dreams of new discoveries and the conquest of space.",
-      "battleRu": "",
-      "battleEn": ""
-   },
-   {
-      "nameRu": "Альфарад",
-      "nameEn": "Alfarad",
-      "descriptionRu": "Портал открывает перед нами не только пути к звездам, но и к своим собственным границам.",
-      "descriptionEn": "The portal opens before us not only the way to the stars, but also to its own borders.",
-      "battleRu": "",
-      "battleEn": ""
-   },
-   {
-      "nameRu": "Альмааз",
-      "nameEn": "Almaaz",
-      "descriptionRu": "Победы оставляют следы на полях битвы, но порталы оставляют следы наших успехов во вселенной.",
-      "descriptionEn": "Victories leave traces on the battlefields, but portals leave traces of our successes in the universe.",
-      "battleRu": "",
-      "battleEn": ""
-   },
-   {
-      "nameRu": "Меропа",
-      "nameEn": "Merope",
-      "descriptionRu": "Взглянув на каждый новый портал, мы видим предел лишь начала нашего космического путешествия.",
-      "descriptionEn": "Looking at each new portal, we see the limit only of the beginning of our space journey.",
-      "battleRu": "",
-      "battleEn": ""
+      "nameRu": "Вега",
+      "nameEn": "Vega",
+      "descriptionRu": "Горизонтальные «полки» баз. Обломки бьют по ряду — не копите весь флот на одной линии.",
+      "descriptionEn": "Horizontal shelves of bases. Debris hits a row — do not park your whole fleet on one line.",
+      "battleRu": "Обломки летят по среднему ряду. Распределяйте флот по полкам.",
+      "battleEn": "Debris flies along the middle row. Spread your fleet across the shelves."
    },
    {
       "nameRu": "Антарес",
       "nameEn": "Antares",
-      "descriptionRu": "С каждой победой мы покоряем новый портал и продвигаемся дальше в глубины космоса.",
-      "descriptionEn": "With each victory, we conquer a new portal and move further into the depths of space.",
-      "battleRu": "",
-      "battleEn": ""
+      "descriptionRu": "Вы в углу системы. Дрон кормит захватчика — богатые узлы в тылу критичны.",
+      "descriptionEn": "You start in a corner. The drone feeds the invader — rich rear nodes matter.",
+      "battleRu": "Дрон даёт корабли врагу. Быстро заберите rich и не дайте дрону разогнаться.",
+      "battleEn": "The drone grants ships to the enemy. Grab rich bases fast before it snowballs."
    },
    {
-      "nameRu": "Мегрец",
-      "nameEn": "Megrez",
-      "descriptionRu": "Порталы становятся мостами между нами и новыми мирами, где наши мечты обретают реальность.",
-      "descriptionEn": "Portals become bridges between us and new worlds where our dreams become reality.",
-      "battleRu": "",
-      "battleEn": ""
+      "nameRu": "Спика",
+      "nameEn": "Spica",
+      "descriptionRu": "Редкая сетка и мины на ключевых клетках. Щитовые узлы держат дольше.",
+      "descriptionEn": "Sparse grid and mines on key cells. Shielded nodes hold longer.",
+      "battleRu": "Мины блокируют короткие пути. Обходите через фланги, shielded берите вторыми.",
+      "battleEn": "Mines block short paths. Flank around them; take shielded bases second."
+   },
+   {
+      "nameRu": "Альфард",
+      "nameEn": "Alphard",
+      "descriptionRu": "Кольцо баз вокруг пустого центра. Импульс бьёт из середины — фабрики на ободе.",
+      "descriptionEn": "A ring of bases around an empty core. Pulse hits from the middle — factories on the rim.",
+      "battleRu": "Импульс из центра. Захватывайте factory на кольце, не стойте в эпицентре.",
+      "battleEn": "Pulse from the center. Capture ring factories; do not linger in the epicenter."
+   },
+   {
+      "nameRu": "Денеб",
+      "nameEn": "Deneb",
+      "descriptionRu": "Три вертикальных коридора. Солнечный ветер сильнее бьёт по среднему пути.",
+      "descriptionEn": "Three vertical corridors. Solar wind hits the middle path hardest.",
+      "battleRu": "Средний коридор опасен. Боковые пути безопаснее для длинных перебросок.",
+      "battleEn": "The middle corridor is dangerous. Side paths are safer for long transfers."
+   },
+   {
+      "nameRu": "Фомальгаут",
+      "nameEn": "Fomalhaut",
+      "descriptionRu": "Два острова без моста. Червоточина — короткий, но рискованный переход.",
+      "descriptionEn": "Two islands with no bridge. The wormhole is a short but risky crossing.",
+      "battleRu": "Без червоточины путь долгий. Решите: рискнуть мостом или идти вокруг.",
+      "battleEn": "Without the wormhole the route is long. Risk the bridge or go the long way."
+   },
+   {
+      "nameRu": "Альнитак",
+      "nameEn": "Alnitak",
+      "descriptionRu": "Диагональ к штабу врага. Комета и мины вместе — двойная угроза на маршруте.",
+      "descriptionEn": "A diagonal toward the enemy HQ. Comet and mines together — dual threat on the route.",
+      "battleRu": "Комета и мины на диагонали. Меняйте маршрут, не шлифуйте один коридор.",
+      "battleEn": "Comet and mines on the diagonal. Switch routes — do not grind one corridor."
+   },
+   {
+      "nameRu": "Ригель",
+      "nameEn": "Rigel",
+      "descriptionRu": "Верхняя линия врага укреплена бункерами, дрон подпитывает фронт. Рубеж туманности Андромеды.",
+      "descriptionEn": "The enemy top line is bunkered, the drone feeds the front. Andromeda Nebula checkpoint.",
+      "battleRu": "Дрон и бункеры на верхней линии. Ломайте фланги, не бейтесь в лоб по бункерам.",
+      "battleEn": "Drone plus bunkers on the top line. Break the flanks — do not smash bunkers head-on."
    },
    {
       "nameRu": "Ригель",

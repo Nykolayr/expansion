@@ -17,9 +17,10 @@ Subagent/Task — на усмотрение исполнителя.
 |------|------------|
 | `expansion-platform-workspace.mdc` | Структура workspace, порядок end-to-end |
 | `feature-delivery-workflow.mdc` | План → утверждение → код |
-| `agent-invariants-never-break.mdc` | commit/push/релиз только по просьбе |
+| `agent-invariants-never-break.mdc` | commit/push/релиз/VPS только по просьбе |
+| `danilagames-site-auto-deploy.mdc` | сайт Beget — деплой сразу после правок |
 | `agent-does-setup-never-user-chores.mdc` | Агент сам: analyze, setup |
-| `mandatory-verify-after-code-changes.mdc` | analyze перед «готово» |
+| `mandatory-verify-after-code-changes.mdc` | analyze / деплой сайта перед «готово» |
 | `project-concept.mdc` | Клиент ↔ сервер ↔ админка |
 | `monorepo-scope.mdc` | Границы по задаче |
 

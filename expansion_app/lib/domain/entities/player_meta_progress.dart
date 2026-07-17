@@ -34,7 +34,8 @@ class PlayerMetaProgress extends Equatable {
 
   final List<MetaUpgradeSlot> slots;
 
-  /// Растёт после побед игрока — усиливает чужих (аналог legacy `toAllUpgrade`).
+  /// Счётчик побед (статистика / sync). Темп AI в бою — по туманности миссии
+  /// ([CampaignSectors.enemyTurnDividerForMission]), не от этого поля.
   final int enemyPowerLevel;
 
   MetaUpgradeSlot slotOf(MetaUpgradeType type) =>

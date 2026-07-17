@@ -56,6 +56,23 @@
   "mapsLoadFailed": "Could not load the campaign map.",
   "mapsMissionCompleted": "Done",
   "mapsUnknownSystem": "???????",
+  "mapsNebulaOrion": "Orion Nebula",
+  "mapsNebulaAndromeda": "Andromeda Nebula",
+  "mapsNebulaHorsehead": "Horsehead Nebula",
+  "mapsNebulaCrab": "Crab Nebula",
+  "mapsNebulaEagle": "Eagle Nebula",
+  "mapsNebulaLagoon": "Lagoon Nebula",
+  "mapsNebulaVeil": "Veil Nebula",
+  "mapsNebulaCarina": "Carina Nebula",
+  "mapsNebulaTarantula": "Tarantula Nebula",
+  "mapsNebulaVirgo": "Virgo Nebula",
+  "mapsNebulaRange": "Missions {from}–{to}",
+  "@mapsNebulaRange": {
+    "placeholders": {
+      "from": { "type": "int" },
+      "to": { "type": "int" }
+    }
+  },
   "beginDifficultyHint": "Choose difficulty. It affects alien pace and unpredictability.",
   "beginDifficultyEasy": "Easy",
   "beginDifficultyAverage": "Average",
@@ -63,7 +80,7 @@
   "beginStartMission": "Save humanity",
   "beginUniverHint": "Universe (campaign mode)",
   "beginUniverClassic": "Classic",
-  "beginUniverClassicHint": "40-mission campaign",
+  "beginUniverClassicHint": "Classic campaign",
   "beginUniverGenerated": "Random",
   "beginUniverStrategic": "Strategic",
   "beginUniverComingSoon": "Coming soon",
@@ -144,7 +161,7 @@
   "progressCurrentMission": "Current mission",
   "progressCompleted": "Missions completed",
   "progressScore": "Points",
-  "progressEnemyPower": "Alien pressure (campaign)",
+  "progressEnemyPower": "Alien pace (nebula)",
   "battleDefeatTitle": "Defeat",
   "battleDefeatBody": "Fleet lost. Try again or lower the difficulty.",
   "battleContinue": "Continue",
@@ -207,7 +224,7 @@
     }
   },
   "mapTutorialTitle": "Campaign map",
-  "mapTutorialBody": "Pick a system and tap Expansion to fight. Completed missions can be replayed.",
+  "mapTutorialBody": "Pick a system and tap Expansion. Swipe between nebulae; completed missions can be replayed.",
   "mapTutorialDismiss": "Let's go",
   "mapTutorialLater": "Later",
   "helpTitle": "Help",
@@ -218,7 +235,7 @@
   "helpBattleTitle": "Battle",
   "helpBattleBody": "Swipe between bases to send fleets in a straight line when the path is clear. Capture all enemy bases. Asteroids damage shields and ships.",
   "helpMapTitle": "Map",
-  "helpMapBody": "40 Classic missions. The current one is marked. Winning unlocks the next system.",
+  "helpMapBody": "Classic missions across nebulae. The current one is marked. Winning unlocks the next system.",
   "helpUpgradesTitle": "Upgrades",
   "helpUpgradesBody": "Meta upgrades cost points between battles and persist. Tactical upgrades cost base resources and reset each battle.",
   "helpDifficultyTitle": "Difficulty",
@@ -293,20 +310,20 @@
   "authBackToLogin": "Back to sign in",
   "authRegisterHint": "Nickname appears on the leaderboard. Name is shown in parentheses.",
   "authForgotBody": "Enter your email — we'll send a reset code.",
-  "authVerifyBody": "Code sent to {email}. Enter it below.",
+  "authVerifyBody": "Code sent to {email}. Enter it below.\nIf you don’t see it in Inbox, check Spam.",
   "@authVerifyBody": {
     "placeholders": {
       "email": { "type": "String" }
     }
   },
-  "authResetBody": "Code sent to {email}. Choose a new password.",
+  "authResetBody": "Code sent to {email}. Choose a new password.\nIf you don’t see it in Inbox, check Spam.",
   "@authResetBody": {
     "placeholders": {
       "email": { "type": "String" }
     }
   },
-  "authVerifySent": "Verification code sent",
-  "authResetSent": "Reset code sent",
+  "authVerifySent": "Verification code sent (check Spam)",
+  "authResetSent": "Reset code sent (check Spam)",
   "authLoginSuccess": "Signed in",
   "authRegisterSuccess": "Account created",
   "authResetSuccess": "Password updated — sign in with the new one",
@@ -343,7 +360,7 @@
   "supportersAnonymous": "Anonymous",
   "supportersLoadFailed": "Could not load the list",
   "supportersDonateHint": "Support the game — and your name will appear here",
-  "donateBody": "{appName} is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.",
+  "donateBody": "{appName} is free — the Classic campaign. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.",
   "@donateBody": {
     "placeholders": {
       "appName": { "type": "String" }

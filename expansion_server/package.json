@@ -11,6 +11,7 @@
     "load-check": "node -e \"require('./api/routes/auth'); require('./api/routes/profile'); require('./api/routes/leaderboard'); require('./api/routes/account'); require('./api/routes/content'); require('./api/routes/platform'); require('./api/routes/expansion'); console.log('ok')\"",
     "content:build": "node scripts/build-content-pack.js",
     "content:seed": "node scripts/seed-campaign-content.js",
+    "users:seed-review": "node scripts/seed-review-users.js",
     "content:gen-missions-16-40": "node scripts/generate-missions-16-40.js",
     "audio:stubs": "node scripts/generate-audio-stubs.js"
   },

@@ -106,6 +106,16 @@ class _SplashPageState extends State<SplashPage> {
         BlocListener<SplashCubit, SplashState>(
           bloc: sl<SplashCubit>(),
           listenWhen: (previous, current) =>
+              previous.isSuccess && !current.isSuccess && current.showIntro,
+          listener: (context, state) {
+            // Повтор вступления из настроек: сбросить флаг и снова вызвать start().
+            _splashStartScheduled = false;
+            _scheduleSplashStart();
+          },
+        ),
+        BlocListener<SplashCubit, SplashState>(
+          bloc: sl<SplashCubit>(),
+          listenWhen: (previous, current) =>
               !previous.isSuccess && current.isSuccess,
           listener: (context, state) => _onIntroFinished(state),
         ),
@@ -184,6 +194,7 @@ class _SplashPageState extends State<SplashPage> {
               ),
               if (showLoader && state.showIntro)
                 SplashIntroOverlay(
+                  key: ValueKey('intro-${state.introSessionId}'),
                   onSkip: _onSkipIntro,
                 ),
               BlocBuilder<AppBootstrapCubit, AppBootstrapState>(

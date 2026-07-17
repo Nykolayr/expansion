@@ -14,6 +14,7 @@ import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart
 import 'package:expansion/presentation/widgets/dialogs/game_confirm_dialog.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_epilogue_overlay.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_map_grid.dart';
+import 'package:expansion/presentation/widgets/maps/campaign_map_sectors_view.dart';
 import 'package:expansion/presentation/widgets/layout/game_menu_backdrop.dart';
 import 'package:expansion/presentation/widgets/monetization/game_banner_ad_slot.dart';
 
@@ -148,7 +149,7 @@ class _MapsPageState extends State<MapsPage> {
                       });
                     });
                     return Expanded(
-                      child: CampaignMapGrid(
+                      child: CampaignMapSectorsView(
                         scenes: state.scenes,
                         currentMissionId: state.currentMissionId,
                         selectedSceneId: state.selectedSceneId,

@@ -5,12 +5,12 @@ abstract final class BattleMissionHazards {
   /// Основной «эксклюзивный» hazard миссии (если есть). `null` — обычные астероиды.
   static BattleHazardKind? exclusiveKind(int sceneId) {
     return switch (sceneId) {
-      3 || 17 || 23 || 29 || 36 => BattleHazardKind.comet,
-      5 || 19 || 27 || 35 => BattleHazardKind.debris,
-      7 || 22 || 28 || 34 || 38 => BattleHazardKind.pulse,
-      11 || 21 || 26 || 31 || 37 => BattleHazardKind.mine,
-      13 || 24 || 33 || 39 => BattleHazardKind.solarWind,
-      15 || 25 || 32 || 40 => BattleHazardKind.wormhole,
+      3 || 17 || 23 || 29 || 36 || 42 || 49 => BattleHazardKind.comet,
+      5 || 19 || 27 || 35 || 43 => BattleHazardKind.debris,
+      7 || 22 || 28 || 34 || 38 || 46 => BattleHazardKind.pulse,
+      11 || 21 || 26 || 31 || 37 || 45 => BattleHazardKind.mine,
+      13 || 24 || 33 || 39 || 47 => BattleHazardKind.solarWind,
+      15 || 25 || 32 || 40 || 48 => BattleHazardKind.wormhole,
       _ => null,
     };
   }
@@ -47,7 +47,13 @@ abstract final class BattleMissionHazards {
   }
 
   static bool asteroidsEnabled(int sceneId) {
-    if (sceneId == 9 || sceneId == 20 || sceneId == 30) return false;
+    if (sceneId == 9 ||
+        sceneId == 20 ||
+        sceneId == 30 ||
+        sceneId == 44 ||
+        sceneId == 50) {
+      return false;
+    }
     return _hazardActive(sceneId, BattleHazardKind.asteroid);
   }
 
@@ -61,7 +67,11 @@ abstract final class BattleMissionHazards {
       _hazardActive(sceneId, BattleHazardKind.pulse);
 
   static bool droneEnabled(int sceneId) =>
-      sceneId == 9 || sceneId == 20 || sceneId == 30;
+      sceneId == 9 ||
+      sceneId == 20 ||
+      sceneId == 30 ||
+      sceneId == 44 ||
+      sceneId == 50;
 
   static bool mineEnabled(int sceneId) =>
       _hazardActive(sceneId, BattleHazardKind.mine);
@@ -85,6 +95,7 @@ abstract final class BattleMissionHazards {
       <= 25 => 850,
       <= 35 => 780,
       40 => 650,
+      41 => 1100,
       _ => 720,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.asteroid)) {
@@ -96,7 +107,7 @@ abstract final class BattleMissionHazards {
   static int debrisSpawnIntervalTicks(int sceneId) {
     final primary = switch (sceneId) {
       5 => 1100,
-      19 || 27 || 35 => 950,
+      19 || 27 || 35 || 43 => 950,
       _ => 1200,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.debris)) {
@@ -109,7 +120,8 @@ abstract final class BattleMissionHazards {
     final primary = switch (sceneId) {
       3 => 1000,
       17 || 23 || 29 => 920,
-      36 => 880,
+      36 || 42 => 880,
+      49 => 860,
       _ => 1200,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.comet)) {
@@ -122,7 +134,7 @@ abstract final class BattleMissionHazards {
     final primary = switch (sceneId) {
       7 => 950,
       22 || 28 || 34 => 880,
-      38 => 820,
+      38 || 46 => 820,
       _ => 1200,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.pulse)) {
@@ -136,6 +148,8 @@ abstract final class BattleMissionHazards {
       9 => 380,
       20 => 420,
       30 => 360,
+      44 => 400,
+      50 => 340,
       _ => 1200,
     };
   }
@@ -145,6 +159,8 @@ abstract final class BattleMissionHazards {
       9 => 10,
       20 => 12,
       30 => 14,
+      44 => 12,
+      50 => 15,
       _ => 0,
     };
   }
@@ -153,10 +169,12 @@ abstract final class BattleMissionHazards {
     final primary = switch (sceneId) {
       11 => 1400,
       21 || 26 || 31 => 1200,
-      37 => 1050,
+      37 || 45 => 1050,
+      49 => 1000,
       _ => 1200,
     };
-    if (_appearsAsSecondary(sceneId, BattleHazardKind.mine)) {
+    if (_appearsAsSecondary(sceneId, BattleHazardKind.mine) &&
+        sceneId != 49) {
       return _secondaryInterval(primary);
     }
     return primary;
@@ -166,7 +184,7 @@ abstract final class BattleMissionHazards {
     final primary = switch (sceneId) {
       13 => 900,
       24 || 33 => 820,
-      39 => 760,
+      39 || 47 => 760,
       _ => 1200,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.solarWind)) {
@@ -179,7 +197,7 @@ abstract final class BattleMissionHazards {
     final primary = switch (sceneId) {
       15 => 1100,
       25 || 32 => 980,
-      40 => 900,
+      40 || 48 => 900,
       _ => 1200,
     };
     if (_appearsAsSecondary(sceneId, BattleHazardKind.wormhole)) {
@@ -194,7 +212,7 @@ abstract final class BattleMissionHazards {
       5 => 4,
       19 => 3,
       27 => 5,
-      35 => 4,
+      35 || 43 => 4,
       _ => 4,
     };
   }
@@ -214,7 +232,7 @@ abstract final class BattleMissionHazards {
   static int pulseOriginY(int sceneId) {
     return switch (sceneId) {
       7 || 22 || 28 => 4,
-      34 || 38 => 3,
+      34 || 38 || 46 => 3,
       _ => 4,
     };
   }
@@ -226,6 +244,8 @@ abstract final class BattleMissionHazards {
       26 => [(3, 3), (3, 5)],
       31 => [(1, 4), (5, 4)],
       37 => [(2, 3), (4, 5)],
+      45 => [(2, 3), (4, 5)],
+      49 => [(2, 4), (3, 3), (4, 5)],
       _ => [(2, 3), (4, 3)],
     };
   }

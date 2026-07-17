@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/constants/game_database_constants.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/ui/app_feedback_kind.dart';
 import 'package:expansion/core/ui/app_feedback_service.dart';
@@ -252,7 +253,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Gap(24),
                             GameStatCard(
                               title: loc.profileMission,
-                              value: '${profile.mapClassic} / 40',
+                              value:
+                                  '${profile.mapClassic} / ${GameDatabaseConstants.campaignMissionCount}',
                             ),
                             const Gap(12),
                             GameStatCard(

@@ -226,6 +226,7 @@
       ['settings', 'Настройки'],
       ['payments', 'Оплаты'],
       ['players', 'Игроки'],
+      ['stats', 'Статистика'],
       ['finance', 'Финансы'],
     ];
 
@@ -260,12 +261,14 @@
     if (tab === 'settings') body.innerHTML = await settingsView();
     else if (tab === 'payments') body.innerHTML = await paymentsView();
     else if (tab === 'players') body.innerHTML = await playersView();
+    else if (tab === 'stats') body.innerHTML = await statsView();
     else if (tab === 'finance') body.innerHTML = await financeView();
     else body.innerHTML = '<div class="card">Неизвестная вкладка</div>';
 
     bindSettingsHandlers();
     bindPlayerTabs();
     bindPaymentHandlers();
+    bindGuestClearHandler();
   }
 
   async function settingsView() {
@@ -484,10 +487,45 @@
         </tr>`,
       )
       .join('');
-    return `<div class="card"><table>
+    return `<div class="card">
+      <div class="card-head">
+        <div>
+          <h2>Гости</h2>
+          <p class="hint">Всего: ${data.total ?? 0}. После очистки записи снова появятся при sync с телефона.</p>
+        </div>
+        <button type="button" class="btn danger" id="clear-guests">Очистить всех гостей</button>
+      </div>
+      <table>
       <thead><tr><th>Device ID</th><th>Миссия</th><th>Очки</th><th>Tier</th><th>Без рекл.</th><th>Был онлайн</th></tr></thead>
       <tbody>${rows || '<tr><td colspan="6">Пусто</td></tr>'}</tbody>
     </table></div>`;
+  }
+
+  function bindGuestClearHandler() {
+    const btn = document.getElementById('clear-guests');
+    if (!btn) return;
+    btn.onclick = async () => {
+      const ok = confirm(
+        'Удалить всех гостей из БД?\nУстройства снова появятся после следующего sync из приложения.',
+      );
+      if (!ok) return;
+      btn.disabled = true;
+      try {
+        const result = await api('/admin/expansion/players/guests', {
+          method: 'DELETE',
+        });
+        cachedGuests = await api('/admin/expansion/players/guests?limit=200');
+        const table = document.getElementById('player-table');
+        if (table) table.innerHTML = guestsTable(cachedGuests);
+        bindGuestClearHandler();
+        const sub = document.querySelector('#player-subtabs [data-ptab="guest"]');
+        if (sub) sub.textContent = `Гости (${cachedGuests.total})`;
+        alert(`Удалено: ${result.deleted ?? 0}`);
+      } catch (e) {
+        alert(e.message || 'Ошибка');
+        btn.disabled = false;
+      }
+    };
   }
 
   let cachedGuests = null;
@@ -513,7 +551,9 @@
           btn.dataset.ptab === 'guest'
             ? guestsTable(cachedGuests)
             : registeredTable(cachedReg);
-        if (btn.dataset.ptab !== 'guest') {
+        if (btn.dataset.ptab === 'guest') {
+          bindGuestClearHandler();
+        } else {
           bindRegisteredAdsHandlers();
         }
       };
@@ -543,6 +583,62 @@
         }
       };
     });
+  }
+
+  async function statsView() {
+    const s = await api('/admin/expansion/stats');
+    const k = s.kpi || {};
+    const charts = s.charts || {};
+
+    function barChart(series, getValue, labelFn) {
+      const items = series || [];
+      const max = Math.max(1, ...items.map((row) => Number(getValue(row)) || 0));
+      return `<div class="bar-chart">${items
+        .map((row) => {
+          const v = Number(getValue(row)) || 0;
+          const pct = Math.round((v / max) * 100);
+          const label = labelFn(row);
+          return `<div class="bar-row" title="${esc(label)}: ${v}">
+            <span class="bar-label">${esc(label)}</span>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+            <span class="bar-value">${v}</span>
+          </div>`;
+        })
+        .join('')}</div>`;
+    }
+
+    const shortDay = (d) => String(d || '').slice(5);
+
+    return `
+      <div class="kpi-grid">
+        <div class="kpi"><div class="kpi-label">Аккаунты</div><div class="kpi-value">${k.registered ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Гости</div><div class="kpi-value">${k.guests ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Гости 24ч</div><div class="kpi-value">${k.guestsActive24h ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Гости 7д</div><div class="kpi-value">${k.guestsActive7d ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Профили 7д</div><div class="kpi-value">${k.usersActive7d ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Реклама 7д</div><div class="kpi-value">${k.adShows7d ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Оплаты 7д</div><div class="kpi-value">${k.paidCount7d ?? 0}</div></div>
+        <div class="kpi"><div class="kpi-label">Сумма 7д</div><div class="kpi-value">${k.paidSumRub7d ?? 0} ₽</div></div>
+      </div>
+      <div class="card">
+        <h2>Активность · 14 дней</h2>
+        <p class="hint">Гости по last_seen + новые регистрации по дням</p>
+        ${barChart(charts.activity14d, (r) => r.value, (r) => shortDay(r.day))}
+      </div>
+      <div class="card">
+        <h2>Показы рекламы · 14 дней</h2>
+        ${barChart(charts.ads14d, (r) => r.value, (r) => shortDay(r.day))}
+      </div>
+      <div class="card">
+        <h2>Оплаты · 14 дней</h2>
+        <p class="hint">Число оплаченных intents (не сумма)</p>
+        ${barChart(charts.payments14d, (r) => r.count, (r) => shortDay(r.day))}
+      </div>
+      <div class="card">
+        <h2>Распределение по миссиям</h2>
+        <p class="hint">Гости + зарегистрированные (mapClassic)</p>
+        ${barChart(charts.missions, (r) => r.count, (r) => `м${r.mission}`)}
+      </div>`;
   }
 
   async function financeView() {

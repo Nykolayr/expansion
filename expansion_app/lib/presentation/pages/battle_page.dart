@@ -124,27 +124,32 @@ class _BattlePageState extends State<BattlePage> {
         nextMissionId <= missionCount &&
         nextMissionId <= guest.mapClassic;
     final canUpgrades = won && guest.scoreClassic >= 180;
+    final victoryReward = reward;
+    final adsOk = await sl<GameAdsService>().shouldShowAds();
+    if (!mounted) return;
+    final showRewardedAd = won && victoryReward != null && adsOk;
 
-    final extraActions = <BattleOutcomeExtraAction>[
-      if (won && reward != null && sl<GameAdsService>().isReady)
+    final extraActions = <BattleOutcomeExtraAction>[];
+    if (victoryReward != null && showRewardedAd) {
+      final bonusPoints =
+          (victoryReward.total * MonetizationConfig.victoryRewardedBonusFactor)
+              .round();
+      extraActions.add(
         (
-          label: loc.battleVictoryRewardedAd(
-            (reward.total * MonetizationConfig.victoryRewardedBonusFactor)
-                .round(),
-          ),
+          label: loc.battleVictoryRewardedAd(bonusPoints),
           onTap: () async {
-            final bonus =
-                (reward!.total * MonetizationConfig.victoryRewardedBonusFactor)
-                    .round();
             final granted = await sl<GameAdsService>().showVictoryRewardedAd();
-            if (granted && bonus > 0) {
-              await sl<GuestProfileRepository>().addBonusScore(bonus);
+            if (granted && bonusPoints > 0) {
+              await sl<GuestProfileRepository>().addBonusScore(bonusPoints);
             }
             if (!mounted) return;
             await goToMaps(withInterstitial: !granted);
           },
         ),
-      if (canUpgrades)
+      );
+    }
+    if (canUpgrades) {
+      extraActions.add(
         (
           label: loc.battleVictoryToUpgrades,
           onTap: () async {
@@ -153,7 +158,10 @@ class _BattlePageState extends State<BattlePage> {
             context.goToUpgrades();
           },
         ),
-      if (canNextMission)
+      );
+    }
+    if (canNextMission) {
+      extraActions.add(
         (
           label: loc.battleVictoryNextMission(nextMissionId),
           onTap: () async {
@@ -162,7 +170,8 @@ class _BattlePageState extends State<BattlePage> {
             context.goToBattle(sceneId: nextMissionId);
           },
         ),
-    ];
+      );
+    }
 
     if (!mounted) return;
 

@@ -11,7 +11,9 @@ alwaysApply: true
 |----------|-----------------------------------|
 | `flutter build apk` / `appbundle` / release / копирование артефактов | явный запрос на релиз |
 | `git commit` / `git push` | «закоммить», «запушь» |
-| Деплой API / админки на прод | «задеплой», «на прод» |
+| Деплой **API на VPS** (`deploy-vps.ps1`) | «задеплой», «на прод» |
+
+**Исключение — сайт danilagames.ru (Beget):** после правок `danilagames-placeholder` / `danilagames-admin` деплой **сразу**, без просьбы. Канон: `danilagames-site-auto-deploy.mdc`.
 
 **Release-сборки — никогда «заодно».** Сначала `flutter run`.
 

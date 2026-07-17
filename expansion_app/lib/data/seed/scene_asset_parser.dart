@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:expansion/core/constants/game_database_constants.dart';
 import 'package:expansion/core/constants/game_layout.dart';
 import 'package:expansion/data/models/battle_placement_row.dart';
 import 'package:expansion/data/models/campaign_scene_row.dart';
@@ -13,9 +14,11 @@ import 'package:expansion/game_core/battle/neutral_base_balance.dart';
 /// Парсинг bundled `scenes.json` и `objects_N.json` (camelCase legacy).
 abstract final class SceneAssetParser {
   static List<CampaignSceneRow> parseScenesFromJsonList(
-    List<dynamic> rawList,
-  ) {
-    final count = rawList.length > 40 ? 40 : rawList.length;
+    List<dynamic> rawList, {
+    int? maxMissions,
+  }) {
+    final cap = maxMissions ?? GameDatabaseConstants.campaignMissionCount;
+    final count = rawList.length > cap ? cap : rawList.length;
     final snake = CampaignSnakeOrder.buildJsonIndices(count);
     final rows = <CampaignSceneRow>[];
 

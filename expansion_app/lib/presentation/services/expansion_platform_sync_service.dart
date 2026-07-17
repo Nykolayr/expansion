@@ -46,8 +46,8 @@ class ExpansionPlatformSyncService {
         tag: 'Platform',
       );
     } catch (e, st) {
-      _remoteMonetization.resetToDefaults();
-      AppLog.trace('remote config fallback (offline)', tag: 'Platform');
+      _remoteMonetization.keepCachedOrDefaults();
+      AppLog.trace('remote config fallback (cached/offline)', tag: 'Platform');
       AppLog.error('remote config failed', error: e, stackTrace: st, tag: 'Platform');
     }
   }

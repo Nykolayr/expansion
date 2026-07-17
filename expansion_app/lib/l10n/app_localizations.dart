@@ -392,6 +392,72 @@ abstract class AppLocalizations {
   /// **'???????'**
   String get mapsUnknownSystem;
 
+  /// No description provided for @mapsNebulaOrion.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Ориона'**
+  String get mapsNebulaOrion;
+
+  /// No description provided for @mapsNebulaAndromeda.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Андромеды'**
+  String get mapsNebulaAndromeda;
+
+  /// No description provided for @mapsNebulaHorsehead.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Конская Голова'**
+  String get mapsNebulaHorsehead;
+
+  /// No description provided for @mapsNebulaCrab.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Краба'**
+  String get mapsNebulaCrab;
+
+  /// No description provided for @mapsNebulaEagle.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Орла'**
+  String get mapsNebulaEagle;
+
+  /// No description provided for @mapsNebulaLagoon.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Лагуна'**
+  String get mapsNebulaLagoon;
+
+  /// No description provided for @mapsNebulaVeil.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Вуаль'**
+  String get mapsNebulaVeil;
+
+  /// No description provided for @mapsNebulaCarina.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Карины'**
+  String get mapsNebulaCarina;
+
+  /// No description provided for @mapsNebulaTarantula.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Тарантул'**
+  String get mapsNebulaTarantula;
+
+  /// No description provided for @mapsNebulaVirgo.
+  ///
+  /// In ru, this message translates to:
+  /// **'Туманность Девы'**
+  String get mapsNebulaVirgo;
+
+  /// No description provided for @mapsNebulaRange.
+  ///
+  /// In ru, this message translates to:
+  /// **'Миссии {from}–{to}'**
+  String mapsNebulaRange(int from, int to);
+
   /// No description provided for @beginDifficultyHint.
   ///
   /// In ru, this message translates to:
@@ -437,7 +503,7 @@ abstract class AppLocalizations {
   /// No description provided for @beginUniverClassicHint.
   ///
   /// In ru, this message translates to:
-  /// **'40 миссий кампании'**
+  /// **'Кампания Classic'**
   String get beginUniverClassicHint;
 
   /// No description provided for @beginUniverGenerated.
@@ -743,7 +809,7 @@ abstract class AppLocalizations {
   /// No description provided for @progressEnemyPower.
   ///
   /// In ru, this message translates to:
-  /// **'Сила чужих (кампания)'**
+  /// **'Темп чужих (туманность)'**
   String get progressEnemyPower;
 
   /// No description provided for @battleDefeatTitle.
@@ -1031,7 +1097,7 @@ abstract class AppLocalizations {
   /// No description provided for @mapTutorialBody.
   ///
   /// In ru, this message translates to:
-  /// **'Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.'**
+  /// **'Выберите систему и нажмите «Экспансия». Туманности листаются свайпом; пройденные миссии можно переигрывать.'**
   String get mapTutorialBody;
 
   /// No description provided for @mapTutorialDismiss.
@@ -1097,7 +1163,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpMapBody.
   ///
   /// In ru, this message translates to:
-  /// **'40 миссий Classic. Текущая отмечена мишенью. После победы открывается следующая система.'**
+  /// **'Миссии Classic по туманностям. Текущая отмечена мишенью. После победы открывается следующая система.'**
   String get helpMapBody;
 
   /// No description provided for @helpUpgradesTitle.
@@ -1517,25 +1583,25 @@ abstract class AppLocalizations {
   /// No description provided for @authVerifyBody.
   ///
   /// In ru, this message translates to:
-  /// **'Код отправлен на {email}. Введите его ниже.'**
+  /// **'Код отправлен на {email}. Введите его ниже.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».'**
   String authVerifyBody(String email);
 
   /// No description provided for @authResetBody.
   ///
   /// In ru, this message translates to:
-  /// **'Код отправлен на {email}. Придумайте новый пароль.'**
+  /// **'Код отправлен на {email}. Придумайте новый пароль.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».'**
   String authResetBody(String email);
 
   /// No description provided for @authVerifySent.
   ///
   /// In ru, this message translates to:
-  /// **'Код отправлен на почту'**
+  /// **'Код отправлен на почту (проверьте «Спам»)'**
   String get authVerifySent;
 
   /// No description provided for @authResetSent.
   ///
   /// In ru, this message translates to:
-  /// **'Код для сброса отправлен'**
+  /// **'Код для сброса отправлен (проверьте «Спам»)'**
   String get authResetSent;
 
   /// No description provided for @authLoginSuccess.
@@ -1721,7 +1787,7 @@ abstract class AppLocalizations {
   /// No description provided for @donateBody.
   ///
   /// In ru, this message translates to:
-  /// **'{appName} — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.'**
+  /// **'{appName} — бесплатная кампания Classic. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.'**
   String donateBody(String appName);
 
   /// No description provided for @donateThanks.

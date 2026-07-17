@@ -27,6 +27,7 @@ class _GameBannerAdSlotState extends State<GameBannerAdSlot> {
   }
 
   Future<void> _initBanner() async {
+    await sl<ExpansionPlatformSyncService>().refreshRemoteConfig();
     final ads = sl<GameAdsService>();
     if (!await ads.shouldShowAds() || !ads.isReady) return;
     if (!mounted) return;

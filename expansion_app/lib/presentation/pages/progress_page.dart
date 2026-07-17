@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import 'package:expansion/core/di/injection_container.dart';
+import 'package:expansion/core/constants/game_database_constants.dart';
+import 'package:expansion/core/extensions/campaign_nebula_l10n.dart';
 import 'package:expansion/core/extensions/game_difficulty_l10n.dart';
 import 'package:expansion/core/extensions/navigation_context.dart';
 import 'package:expansion/core/extensions/univer_kind_l10n.dart';
+import 'package:expansion/domain/campaign/campaign_sectors.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/progress/progress_cubit.dart';
 import 'package:expansion/presentation/bloc/progress/progress_state.dart';
@@ -78,7 +81,8 @@ class _ProgressPageState extends State<ProgressPage> {
                           children: [
                             GameStatCard(
                               title: loc.progressCurrentMission,
-                              value: '${state.currentMission} / 40',
+                              value:
+                                  '${state.currentMission} / ${GameDatabaseConstants.campaignMissionCount}',
                             ),
                             const Gap(12),
                             GameStatCard(
@@ -103,7 +107,8 @@ class _ProgressPageState extends State<ProgressPage> {
                             const Gap(12),
                             GameStatCard(
                               title: loc.progressEnemyPower,
-                              value: '${state.enemyPower}',
+                              value:
+                                  '${CampaignSectors.nebulaIdForIndex(state.nebulaIndex).label(loc)} · ×${state.enemyTurnDivider.toStringAsFixed(2)}',
                             ),
                           ],
                         ),

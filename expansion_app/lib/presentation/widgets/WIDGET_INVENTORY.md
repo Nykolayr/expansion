@@ -29,7 +29,8 @@
 | `layout/game_screen_scaffold.dart` | Фон + back bar + тело или `placeholderMessage` |
 | `layout/game_sticky_bottom_bar.dart` | Закреплённая панель кнопок поверх скролла |
 | `maps/map_scene_tile.dart` | Узел миссии на карте кампании |
-| `maps/campaign_map_grid.dart` | Сетка 5×N + панель описания миссии |
+| `maps/campaign_map_grid.dart` | Сетка туманности 5×N + панель описания миссии |
+| `maps/campaign_map_sectors_view.dart` | PageView туманностей карты + имя/диапазон |
 | `battle/battle_field_grid.dart` | Поле 5×8: свайп отправки, тап — улучшения |
 | `battle/battle_drag_line_painter.dart` | Линия жеста свайпа по полю |
 | `battle/battle_base_overlay_panel.dart` | Панель улучшений поверх поля, свайп/закрытие |
@@ -39,7 +40,6 @@
 | `battle/battle_entity_sprite.dart` | PNG спрайт базы/астероида |
 | `battle/battle_fleet_sprite.dart` | SVG летящего отряда (our_ship / enemy_ship), поворот |
 | `battle/battle_explosion_sprite.dart` | Анимация взрыва при столкновении отрядов |
-| `maps/campaign_map_path_painter.dart` | Красный путь 1→2→… по карте кампании |
 | `battle/battle_base_view.dart` | Спрайт базы + HUD корабли/щит/ресурсы |
 | `battle/battle_tactical_panel.dart` | (legacy) Панель улучшений — заменена на `battle_tactical_bar` |
 | `battle/battle_tactical_bar.dart` | Компактная панель базы внизу боя |

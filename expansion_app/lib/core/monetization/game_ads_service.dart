@@ -79,7 +79,7 @@ class GameAdsService {
   }
 
   Future<void> preloadRewarded() async {
-    if (!_initialized || _rewardedLoading || _rewarded != null) {
+    if (!await shouldShowAds() || _rewardedLoading || _rewarded != null) {
       return;
     }
     _rewardedLoading = true;
@@ -147,7 +147,7 @@ class GameAdsService {
 
   /// Rewarded за +50% очков после победы. `true` — награда выдана.
   Future<bool> showVictoryRewardedAd() async {
-    if (!_initialized) return false;
+    if (!await shouldShowAds()) return false;
 
     if (_rewarded == null) {
       await preloadRewarded();

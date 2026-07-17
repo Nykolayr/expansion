@@ -25,14 +25,26 @@ class SplashCubit extends Cubit<SplashState> {
 
   Completer<void>? _typingDoneCompleter;
   bool _startInProgress = false;
+  bool _typingFinishedEarly = false;
+  int _introSessionId = 0;
 
   /// Сброс splash для повторного показа вступления (из настроек).
   Future<void> requestIntroReplay() async {
     await _prefs.setBool(PrefsKeys.splashShowIntro, true);
     _typingDoneCompleter = null;
     _startInProgress = false;
-    emit(SplashState.initial(showIntro: true));
-    AppLog.trace('splash intro replay requested', tag: 'Splash');
+    _typingFinishedEarly = false;
+    _introSessionId += 1;
+    emit(
+      SplashState.initial(
+        showIntro: true,
+        introSessionId: _introSessionId,
+      ),
+    );
+    AppLog.trace(
+      'splash intro replay requested session=$_introSessionId',
+      tag: 'Splash',
+    );
   }
 
   Future<void> start({required int introTextLength}) async {
@@ -41,7 +53,16 @@ class SplashCubit extends Cubit<SplashState> {
     try {
       final showIntro = _prefs.getBool(PrefsKeys.splashShowIntro) ?? true;
       _typingDoneCompleter = Completer<void>();
-      emit(SplashState.initial(showIntro: showIntro));
+      if (_typingFinishedEarly) {
+        _typingDoneCompleter!.complete();
+        _typingFinishedEarly = false;
+      }
+      emit(
+        SplashState.initial(
+          showIntro: showIntro,
+          introSessionId: _introSessionId,
+        ),
+      );
       AppLog.trace('splash load start intro=$showIntro', tag: 'Splash');
 
       final bootstrapFuture = _runBootstrap();
@@ -115,6 +136,9 @@ class SplashCubit extends Cubit<SplashState> {
   void markIntroTypingComplete() {
     if (_typingDoneCompleter != null && !_typingDoneCompleter!.isCompleted) {
       _typingDoneCompleter!.complete();
+    } else {
+      // Typer закончил до start() (replay под push settings).
+      _typingFinishedEarly = true;
     }
     AppLog.trace('splash intro typing complete', tag: 'Splash');
   }

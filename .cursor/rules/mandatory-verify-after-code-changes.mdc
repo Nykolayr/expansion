@@ -37,9 +37,20 @@ node -e "require('./api/routes'); console.log('ok')"
 - Подставить изменённые модули в `require`.
 - После правок API — обновить `API_DOCS.md`.
 
+## Сайт danilagames.ru (Beget)
+
+После правок `deploy/danilagames-placeholder/` или `deploy/danilagames-admin/`:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\deploy\deploy-danilagames-site.ps1
+```
+
+**До** «готово». Без ожидания «задеплой». См. `danilagames-site-auto-deploy.mdc`.
+
 ## Запрещено
 
 - Писать «готово» без analyze (Flutter) или load-check (server).
+- Писать «готово» после правок сайта без деплоя Beget.
 - Менять контракт API без `expansion_server/API_DOCS.md`.
 
 ## Если analyze не запускался

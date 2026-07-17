@@ -166,6 +166,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mapsUnknownSystem => '???????';
 
   @override
+  String get mapsNebulaOrion => 'Orion Nebula';
+
+  @override
+  String get mapsNebulaAndromeda => 'Andromeda Nebula';
+
+  @override
+  String get mapsNebulaHorsehead => 'Horsehead Nebula';
+
+  @override
+  String get mapsNebulaCrab => 'Crab Nebula';
+
+  @override
+  String get mapsNebulaEagle => 'Eagle Nebula';
+
+  @override
+  String get mapsNebulaLagoon => 'Lagoon Nebula';
+
+  @override
+  String get mapsNebulaVeil => 'Veil Nebula';
+
+  @override
+  String get mapsNebulaCarina => 'Carina Nebula';
+
+  @override
+  String get mapsNebulaTarantula => 'Tarantula Nebula';
+
+  @override
+  String get mapsNebulaVirgo => 'Virgo Nebula';
+
+  @override
+  String mapsNebulaRange(int from, int to) {
+    return 'Missions $from–$to';
+  }
+
+  @override
   String get beginDifficultyHint =>
       'Choose difficulty. It affects alien pace and unpredictability.';
 
@@ -188,7 +223,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get beginUniverClassic => 'Classic';
 
   @override
-  String get beginUniverClassicHint => '40-mission campaign';
+  String get beginUniverClassicHint => 'Classic campaign';
 
   @override
   String get beginUniverGenerated => 'Random';
@@ -361,7 +396,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progressScore => 'Points';
 
   @override
-  String get progressEnemyPower => 'Alien pressure (campaign)';
+  String get progressEnemyPower => 'Alien pace (nebula)';
 
   @override
   String get battleDefeatTitle => 'Defeat';
@@ -531,7 +566,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapTutorialBody =>
-      'Pick a system and tap Expansion to fight. Completed missions can be replayed.';
+      'Pick a system and tap Expansion. Swipe between nebulae; completed missions can be replayed.';
 
   @override
   String get mapTutorialDismiss => 'Let\'s go';
@@ -566,7 +601,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpMapBody =>
-      '40 Classic missions. The current one is marked. Winning unlocks the next system.';
+      'Classic missions across nebulae. The current one is marked. Winning unlocks the next system.';
 
   @override
   String get helpUpgradesTitle => 'Upgrades';
@@ -789,19 +824,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String authVerifyBody(String email) {
-    return 'Code sent to $email. Enter it below.';
+    return 'Code sent to $email. Enter it below.\nIf you don’t see it in Inbox, check Spam.';
   }
 
   @override
   String authResetBody(String email) {
-    return 'Code sent to $email. Choose a new password.';
+    return 'Code sent to $email. Choose a new password.\nIf you don’t see it in Inbox, check Spam.';
   }
 
   @override
-  String get authVerifySent => 'Verification code sent';
+  String get authVerifySent => 'Verification code sent (check Spam)';
 
   @override
-  String get authResetSent => 'Reset code sent';
+  String get authResetSent => 'Reset code sent (check Spam)';
 
   @override
   String get authLoginSuccess => 'Signed in';
@@ -901,7 +936,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String donateBody(String appName) {
-    return '$appName is free — all 40 campaign missions. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.';
+    return '$appName is free — the Classic campaign. Donations unlock a cosmetic supporter badge with no battle advantage. Ads can be removed separately.';
   }
 
   @override

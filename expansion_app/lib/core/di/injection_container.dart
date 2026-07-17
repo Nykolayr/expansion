@@ -74,7 +74,9 @@ Future<void> initDependencies() async {
     () => DeviceIdService(sl<SharedPreferences>()),
   );
 
-  sl.registerLazySingleton<RemoteMonetizationService>(RemoteMonetizationService.new);
+  sl.registerLazySingleton<RemoteMonetizationService>(
+    () => RemoteMonetizationService(sl<SharedPreferences>()),
+  );
 
   sl.registerLazySingleton<GameAudioService>(
     () => GameAudioService(sl<SharedPreferences>()),

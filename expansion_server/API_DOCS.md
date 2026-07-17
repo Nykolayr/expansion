@@ -414,6 +414,8 @@ Bearer **admin** JWT.
 | GET | `/players/registered` | users + profile summary |
 | PATCH | `/players/registered/:userId/ads-removed` | `{ "adsRemoved": true }` — без рекламы для аккаунта |
 | GET | `/players/guests` | guest_devices |
+| DELETE | `/players/guests` | очистить всех гостей `expansion` (устройства снова появятся после `/guest/sync`) |
+| GET | `/stats` | KPI + ряды за 14 дней (активность, реклама, оплаты) + распределение миссий |
 | GET | `/finance/summary?months=12` | донаты + показы по месяцам |
 | GET | `/finance/purchases` | детализация покупок |
 | GET | `/finance/ideas?status=paid` | идеи к донату tier3 |

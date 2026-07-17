@@ -8,6 +8,7 @@ import 'package:expansion/core/monetization/monetization_config.dart';
 import 'package:expansion/core/themes/expansion_colors.dart';
 import 'package:expansion/domain/repositories/guest_profile_repository.dart';
 import 'package:expansion/l10n/app_localizations.dart';
+import 'package:expansion/presentation/services/expansion_platform_sync_service.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/dialogs/donate_idea_dialog.dart';
@@ -34,6 +35,7 @@ class _DonatePageState extends State<DonatePage> {
   }
 
   Future<void> _reload() async {
+    await sl<ExpansionPlatformSyncService>().refreshRemoteConfig();
     final guest = await sl<GuestProfileRepository>().load();
     final billing = sl<DonateBillingService>();
     if (!mounted) return;

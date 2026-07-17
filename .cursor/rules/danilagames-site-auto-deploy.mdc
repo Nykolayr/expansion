@@ -1,0 +1,41 @@
+---
+description: После правок сайта danilagames.ru — сразу деплой на Beget
+alwaysApply: true
+---
+
+# Сайт danilagames.ru — автодеплой
+
+## ЖЁСТКО
+
+После **любых** правок в:
+
+- `expansion_server/deploy/danilagames-placeholder/`
+- `expansion_server/deploy/danilagames-admin/`
+- `expansion_server/deploy/deploy-danilagames-site.ps1`
+
+агент **сразу** (в той же сессии, до «готово») выполняет:
+
+```powershell
+cd expansion_server
+powershell -ExecutionPolicy Bypass -File .\deploy\deploy-danilagames-site.ps1
+```
+
+Слово «задеплой» / «на прод» **не ждать**. Не писать «скажи задеплой». Не оставлять правки только локально.
+
+## Перед «готово»
+
+1. Деплой прошёл (exit 0).
+2. При необходимости — быстрая проверка URL (страница / favicon / изменённый файл).
+3. В ответе — **факт**: задеплоено, не рецепт.
+
+## Не путать
+
+| Что | Когда деплой |
+|-----|----------------|
+| Сайт + admin SPA на **Beget** (`deploy-danilagames-site.ps1`) | **Всегда** после правок (это правило) |
+| API на **VPS** (`deploy-vps.ps1`) | Только по явной просьбе («задеплой», «на прод») |
+
+## Запрещено
+
+- «Готово» / «можно смотреть на сайте» без фактического деплоя Beget.
+- Спрашивать пользователя, нужно ли выкатить сайт после своих правок.

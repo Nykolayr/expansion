@@ -11,7 +11,8 @@ class ProgressState extends Equatable {
     this.currentMission = 1,
     this.completedMissions = 0,
     this.score = 0,
-    this.enemyPower = 0,
+    this.nebulaIndex = 0,
+    this.enemyTurnDivider = 1,
     this.difficulty = GameDifficulty.average,
     this.univer = UniverKind.classic,
   });
@@ -20,7 +21,8 @@ class ProgressState extends Equatable {
   final int currentMission;
   final int completedMissions;
   final int score;
-  final int enemyPower;
+  final int nebulaIndex;
+  final double enemyTurnDivider;
   final GameDifficulty difficulty;
   final UniverKind univer;
 
@@ -29,7 +31,8 @@ class ProgressState extends Equatable {
     int? currentMission,
     int? completedMissions,
     int? score,
-    int? enemyPower,
+    int? nebulaIndex,
+    double? enemyTurnDivider,
     GameDifficulty? difficulty,
     UniverKind? univer,
   }) {
@@ -38,7 +41,8 @@ class ProgressState extends Equatable {
       currentMission: currentMission ?? this.currentMission,
       completedMissions: completedMissions ?? this.completedMissions,
       score: score ?? this.score,
-      enemyPower: enemyPower ?? this.enemyPower,
+      nebulaIndex: nebulaIndex ?? this.nebulaIndex,
+      enemyTurnDivider: enemyTurnDivider ?? this.enemyTurnDivider,
       difficulty: difficulty ?? this.difficulty,
       univer: univer ?? this.univer,
     );
@@ -50,7 +54,8 @@ class ProgressState extends Equatable {
         currentMission,
         completedMissions,
         score,
-        enemyPower,
+        nebulaIndex,
+        enemyTurnDivider,
         difficulty,
         univer,
       ];

@@ -65,6 +65,23 @@
   "mapsLoadFailed": "Не удалось загрузить карту кампании.",
   "mapsMissionCompleted": "Пройдено",
   "mapsUnknownSystem": "???????",
+  "mapsNebulaOrion": "Туманность Ориона",
+  "mapsNebulaAndromeda": "Туманность Андромеды",
+  "mapsNebulaHorsehead": "Туманность Конская Голова",
+  "mapsNebulaCrab": "Туманность Краба",
+  "mapsNebulaEagle": "Туманность Орла",
+  "mapsNebulaLagoon": "Туманность Лагуна",
+  "mapsNebulaVeil": "Туманность Вуаль",
+  "mapsNebulaCarina": "Туманность Карины",
+  "mapsNebulaTarantula": "Туманность Тарантул",
+  "mapsNebulaVirgo": "Туманность Девы",
+  "mapsNebulaRange": "Миссии {from}–{to}",
+  "@mapsNebulaRange": {
+    "placeholders": {
+      "from": { "type": "int" },
+      "to": { "type": "int" }
+    }
+  },
   "beginDifficultyHint": "Выберите сложность. От неё зависит темп и непредсказуемость чужих.",
   "beginDifficultyEasy": "Лёгкая",
   "beginDifficultyAverage": "Средняя",
@@ -72,7 +89,7 @@
   "beginStartMission": "Спасти человечество",
   "beginUniverHint": "Вселенная (режим кампании)",
   "beginUniverClassic": "Классическая",
-  "beginUniverClassicHint": "40 миссий кампании",
+  "beginUniverClassicHint": "Кампания Classic",
   "beginUniverGenerated": "Случайная",
   "beginUniverStrategic": "Стратегическая",
   "beginUniverComingSoon": "Скоро",
@@ -153,7 +170,7 @@
   "progressCurrentMission": "Текущая миссия",
   "progressCompleted": "Пройдено миссий",
   "progressScore": "Очки",
-  "progressEnemyPower": "Сила чужих (кампания)",
+  "progressEnemyPower": "Темп чужих (туманность)",
   "battleDefeatTitle": "Поражение",
   "battleDefeatBody": "Флот разбит. Попробуйте снова или снизьте сложность.",
   "battleContinue": "Продолжить",
@@ -216,7 +233,7 @@
     }
   },
   "mapTutorialTitle": "Карта кампании",
-  "mapTutorialBody": "Выберите систему и нажмите «Экспансия», чтобы начать бой. Пройденные миссии можно переигрывать.",
+  "mapTutorialBody": "Выберите систему и нажмите «Экспансия». Туманности листаются свайпом; пройденные миссии можно переигрывать.",
   "mapTutorialDismiss": "Вперёд",
   "mapTutorialLater": "Позже",
   "helpTitle": "Справка",
@@ -227,7 +244,7 @@
   "helpBattleTitle": "Бой",
   "helpBattleBody": "Свайп между базами отправляет флот по прямой, если путь свободен. Захватите все вражеские базы. Астероиды бьют по щиту и кораблям.",
   "helpMapTitle": "Карта",
-  "helpMapBody": "40 миссий Classic. Текущая отмечена мишенью. После победы открывается следующая система.",
+  "helpMapBody": "Миссии Classic по туманностям. Текущая отмечена мишенью. После победы открывается следующая система.",
   "helpUpgradesTitle": "Апгрейды",
   "helpUpgradesBody": "Мета-апгрейды покупаются за очки между боями и сохраняются. Тактические — только внутри боя за ресурсы базы.",
   "helpDifficultyTitle": "Сложность",
@@ -302,20 +319,20 @@
   "authBackToLogin": "К входу",
   "authRegisterHint": "Ник виден в рейтинге. Имя — в скобках рядом с ником.",
   "authForgotBody": "Введите email — отправим код для сброса пароля.",
-  "authVerifyBody": "Код отправлен на {email}. Введите его ниже.",
+  "authVerifyBody": "Код отправлен на {email}. Введите его ниже.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».",
   "@authVerifyBody": {
     "placeholders": {
       "email": { "type": "String" }
     }
   },
-  "authResetBody": "Код отправлен на {email}. Придумайте новый пароль.",
+  "authResetBody": "Код отправлен на {email}. Придумайте новый пароль.\nЕсли письма нет во «Входящих» — проверьте папку «Спам».",
   "@authResetBody": {
     "placeholders": {
       "email": { "type": "String" }
     }
   },
-  "authVerifySent": "Код отправлен на почту",
-  "authResetSent": "Код для сброса отправлен",
+  "authVerifySent": "Код отправлен на почту (проверьте «Спам»)",
+  "authResetSent": "Код для сброса отправлен (проверьте «Спам»)",
   "authLoginSuccess": "Вы вошли в аккаунт",
   "authRegisterSuccess": "Аккаунт создан",
   "authResetSuccess": "Пароль обновлён — войдите с новым",
@@ -352,7 +369,7 @@
   "supportersAnonymous": "Аноним",
   "supportersLoadFailed": "Не удалось загрузить список",
   "supportersDonateHint": "Помоги игре — и твоё имя появится здесь",
-  "donateBody": "{appName} — бесплатная кампания на 40 миссий. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.",
+  "donateBody": "{appName} — бесплатная кампания Classic. Донат — косметический значок поддержки, без преимуществ в бою. Рекламу можно отключить отдельной покупкой.",
   "@donateBody": {
     "placeholders": {
       "appName": { "type": "String" }

@@ -295,6 +295,92 @@ th { color: var(--muted); font-weight: 500; }
 
 .mono { font-family: ui-monospace, monospace; font-size: 0.8rem; }
 
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.card-head h2 { margin-bottom: 4px; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kpi {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.kpi-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 40px;
+  gap: 8px;
+  align-items: center;
+}
+
+.bar-label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.bar-track {
+  height: 10px;
+  background: #0f1520;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3d7ab8, var(--accent));
+  border-radius: 999px;
+  min-width: 0;
+}
+
+.bar-value {
+  font-size: 0.8rem;
+  color: var(--text);
+  text-align: right;
+}
+
+.btn.danger {
+  border-color: rgba(255, 107, 107, 0.45);
+  color: #ffb4b4;
+}
+
+.btn.danger:hover {
+  background: rgba(255, 107, 107, 0.12);
+}
+
 @media (max-width: 768px) {
   .admin-layout {
     flex-direction: column;

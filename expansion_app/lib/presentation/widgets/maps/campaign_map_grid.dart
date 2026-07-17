@@ -6,10 +6,10 @@ import 'package:expansion/domain/entities/campaign_scene.dart';
 import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/widgets/buttons/game_long_button.dart';
 import 'package:expansion/presentation/widgets/maps/campaign_map_layout.dart';
-import 'package:expansion/presentation/widgets/maps/campaign_map_path_painter.dart';
 import 'package:expansion/presentation/widgets/maps/map_scene_tile.dart';
 
-class CampaignMapGrid extends StatefulWidget {
+/// Сетка миссий одной туманности (без линий между узлами).
+class CampaignMapGrid extends StatelessWidget {
   const CampaignMapGrid({
     required this.scenes,
     required this.currentMissionId,
@@ -26,110 +26,44 @@ class CampaignMapGrid extends StatefulWidget {
   final void Function(CampaignScene scene) onSceneTap;
 
   @override
-  State<CampaignMapGrid> createState() => _CampaignMapGridState();
-}
-
-class _CampaignMapGridState extends State<CampaignMapGrid> {
-  final ScrollController _scrollController = ScrollController();
-  int? _lastScrolledMission;
-
-  @override
-  void didUpdateWidget(covariant CampaignMapGrid oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentMissionId != widget.currentMissionId) {
-      _scheduleScroll(widget.currentMissionId);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scheduleScroll(widget.currentMissionId);
-  }
-
-  void _scheduleScroll(int missionId) {
-    if (_lastScrolledMission == missionId) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      _scrollToMission(missionId);
-    });
-  }
-
-  void _scrollToMission(int missionId) {
-    if (!_scrollController.hasClients) return;
-    final row = (missionId - 1) ~/ CampaignMapLayout.columns;
-    final target = row * (CampaignMapLayout.cellExtent + CampaignMapLayout.mainAxisSpacing);
-    final max = _scrollController.position.maxScrollExtent;
-    final offset = target.clamp(0.0, max);
-    _scrollController.animateTo(
-      offset,
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeOutCubic,
-    );
-    _lastScrolledMission = missionId;
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)!;
-    final ordered = List<CampaignScene>.from(widget.scenes)
+    final ordered = List<CampaignScene>.from(scenes)
       ..sort((a, b) => a.id.compareTo(b.id));
 
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            child: CustomPaint(
-              painter: CampaignMapPathPainter(
-                missionCount: ordered.length,
-                currentMissionId: widget.currentMissionId,
-              ),
-            ),
-          ),
-        ),
-        GridView.builder(
-          controller: _scrollController,
-          padding: CampaignMapLayout.padding,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: CampaignMapLayout.columns,
-            mainAxisExtent: CampaignMapLayout.cellExtent,
-            crossAxisSpacing: CampaignMapLayout.crossSpacing,
-            mainAxisSpacing: CampaignMapLayout.mainAxisSpacing,
-          ),
-          itemCount: ordered.length,
-          itemBuilder: (context, index) {
-            final scene = ordered[index];
-            final locked = scene.id > widget.currentMissionId;
-            final selected = scene.id == widget.selectedSceneId;
-            final showTarget = selected;
-            final targetOnOtherMission =
-                widget.selectedSceneId != null &&
-                widget.selectedSceneId != widget.currentMissionId;
-            final showCurrentGoal =
-                scene.id == widget.currentMissionId && targetOnOtherMission;
-            final completed = scene.id < widget.currentMissionId &&
-                !showTarget &&
-                !showCurrentGoal;
+    return GridView.builder(
+      padding: CampaignMapLayout.padding,
+      physics: const BouncingScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: CampaignMapLayout.columns,
+        mainAxisExtent: CampaignMapLayout.cellExtent,
+        crossAxisSpacing: CampaignMapLayout.crossSpacing,
+        mainAxisSpacing: CampaignMapLayout.mainAxisSpacing,
+      ),
+      itemCount: ordered.length,
+      itemBuilder: (context, index) {
+        final scene = ordered[index];
+        final locked = scene.id > currentMissionId;
+        final selected = scene.id == selectedSceneId;
+        final showTarget = selected;
+        final targetOnOtherMission =
+            selectedSceneId != null && selectedSceneId != currentMissionId;
+        final showCurrentGoal =
+            scene.id == currentMissionId && targetOnOtherMission;
+        final completed =
+            scene.id < currentMissionId && !showTarget && !showCurrentGoal;
 
-            return MapSceneTile(
-              scene: scene,
-              title: widget.resolveTitle(scene),
-              unknownTitle: loc.mapsUnknownSystem,
-              isLocked: locked,
-              showTarget: showTarget,
-              showCurrentGoal: showCurrentGoal,
-              isCompleted: completed,
-              onTap: locked ? null : () => widget.onSceneTap(scene),
-            );
-          },
-        ),
-      ],
+        return MapSceneTile(
+          scene: scene,
+          title: resolveTitle(scene),
+          unknownTitle: loc.mapsUnknownSystem,
+          isLocked: locked,
+          showTarget: showTarget,
+          showCurrentGoal: showCurrentGoal,
+          isCompleted: completed,
+          onTap: locked ? null : () => onSceneTap(scene),
+        );
+      },
     );
   }
 }

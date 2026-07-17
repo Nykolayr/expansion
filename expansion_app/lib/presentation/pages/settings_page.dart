@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -12,6 +14,7 @@ import 'package:expansion/l10n/app_localizations.dart';
 import 'package:expansion/presentation/bloc/settings/app_locale_cubit.dart';
 import 'package:expansion/presentation/bloc/settings/game_difficulty_cubit.dart';
 import 'package:expansion/presentation/bloc/splash/splash_cubit.dart';
+import 'package:expansion/presentation/services/expansion_platform_sync_service.dart';
 import 'package:expansion/presentation/widgets/app_bar/game_screen_back_bar.dart';
 import 'package:expansion/presentation/widgets/dialogs/game_feedback_dialog.dart';
 import 'package:expansion/presentation/widgets/forms/difficulty_option_tile.dart';
@@ -33,6 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _soundEnabled = sl<GameAudioService>().soundEnabled;
+    unawaited(sl<ExpansionPlatformSyncService>().refreshRemoteConfig());
   }
 
   @override

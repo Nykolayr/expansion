@@ -1,0 +1,159 @@
+{
+   "mainShipEnemy": {
+      "coordinates": {
+         "x": 3,
+         "y": 1
+      },
+      "shild": 100,
+      "ships": 100,
+      "speedBuild": 0.1,
+      "inicialShips": 100,
+      "speedResources": 0.1,
+      "maxShips": 200,
+      "typeStatus": "enemy"
+   },
+   "mainShipOur": {
+      "coordinates": {
+         "x": 3,
+         "y": 7
+      },
+      "shild": 100,
+      "ships": 100,
+      "speedBuild": 0.1,
+      "inicialShips": 100,
+      "speedResources": 0.1,
+      "maxShips": 200,
+      "typeStatus": "our"
+   },
+   "neutral": [
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 2
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral",
+         "variant": "bunker"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 2
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "bunker"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 2
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "factory"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 2
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "bunker"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 2
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral",
+         "variant": "bunker"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 3
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 3
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 4
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 4
+         },
+         "typeNeutral": "base",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 4
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "rich"
+      },
+      {
+         "coordinates": {
+            "x": 1,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "shielded"
+      },
+      {
+         "coordinates": {
+            "x": 5,
+            "y": 5
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral",
+         "variant": "shielded"
+      },
+      {
+         "coordinates": {
+            "x": 2,
+            "y": 6
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 3,
+            "y": 6
+         },
+         "typeNeutral": "midleBase",
+         "typeStatus": "neutral"
+      },
+      {
+         "coordinates": {
+            "x": 4,
+            "y": 6
+         },
+         "typeNeutral": "smallBase",
+         "typeStatus": "neutral"
+      }
+   ]
+}

@@ -1,7 +1,8 @@
+import 'package:expansion/domain/campaign/campaign_sectors.dart';
 import 'package:expansion/domain/entities/player_meta_progress.dart';
 import 'package:expansion/domain/enums/meta_upgrade_type.dart';
 
-/// Множители игрока в бою из мета-апгрейдов.
+/// Множители игрока в бою из мета-апгрейдов + темп AI по туманности миссии.
 class MetaBattleBonuses {
   const MetaBattleBonuses({
     required this.fleetSpeed,
@@ -13,10 +14,10 @@ class MetaBattleBonuses {
     required this.enemyTurnDivider,
   });
 
-  factory MetaBattleBonuses.fromProgress(PlayerMetaProgress progress) {
-    final enemyDivider =
-        1 + progress.enemyPowerLevel * 0.03; // мягкий рост темпа AI по кампании
-
+  factory MetaBattleBonuses.fromProgress(
+    PlayerMetaProgress progress, {
+    required int sceneId,
+  }) {
     return MetaBattleBonuses(
       fleetSpeed: progress.multiplierFor(MetaUpgradeType.shipSpeed),
       attackPower: progress.multiplierFor(MetaUpgradeType.shipDurability),
@@ -25,7 +26,7 @@ class MetaBattleBonuses {
           progress.multiplierFor(MetaUpgradeType.resourceIncomeSpeed),
       shieldDefense: progress.multiplierFor(MetaUpgradeType.shieldDurability),
       beginShipsBonus: progress.slotOf(MetaUpgradeType.beginShips).percentBonus,
-      enemyTurnDivider: enemyDivider,
+      enemyTurnDivider: CampaignSectors.enemyTurnDividerForMission(sceneId),
     );
   }
 
